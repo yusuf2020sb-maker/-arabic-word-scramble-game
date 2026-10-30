@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;800&family=Reem+Kufi:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#d6bcac; --cream:#f7efe6; --ink:#4a2412; --accent:#8c2f1f; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:#999; font-family:'Tajawal',sans-serif; color:var(--ink); }
+  .ad { position:relative; overflow:hidden; background:var(--bg); display:flex; flex-direction:column; align-items:center; text-align:center; margin:20px; }
+  .sq { width:1080px; height:1350px; padding:70px 60px; }
+  .st { width:1080px; height:1920px; padding:150px 60px 170px; }
+  h1 { font-family:'Reem Kufi',sans-serif; font-weight:700; font-size:92px; line-height:1.15; }
+  h2 { font-weight:800; font-size:46px; line-height:1.3; }
+  p.sub { font-weight:500; font-size:38px; line-height:1.45; opacity:.85; margin-top:18px; }
+  .rule { width:220px; height:4px; background:var(--ink); opacity:.6; margin:28px auto; border-radius:2px; }
+  .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; width:100%; margin:34px 0; }
+  .grid img { width:100%; aspect-ratio:1; object-fit:cover; border-radius:22px; background:#cdb09e; }
+  .hero { width:100%; flex:1; min-height:0; object-fit:contain; margin:30px 0; }
+  .cta { margin-top:auto; background:var(--ink); color:var(--cream); font-weight:800; font-size:42px; padding:24px 70px; border-radius:60px; }
+  .chip { display:inline-block; background:var(--cream); font-weight:800; font-size:34px; padding:12px 32px; border-radius:40px; margin:0 8px; }
+  .cream { background:var(--cream); }
+  .note { position:absolute; top:44px; left:44px; background:var(--accent); color:#fff; font-weight:800; font-size:32px; padding:14px 26px; border-radius:16px; transform:rotate(-6deg); }
+</style>
+</head>
+<body>
+
+<!-- 1. Bundle -->
+<section class="ad sq" id="ad1_bundle">
+  <h1>783 ستيكر فنتج</h1>
+  <p class="sub">11 مجموعة جاهزة للطباعة على ورق A4<br>تحمّلينها الحين وتطبعينها في بيتك</p>
+  <div class="grid">
+    <img src="cozyhome_body.png"><img src="journal_body.png"><img src="heritage_body.png">
+    <img src="roses_body.png"><img src="stamps_body.png"><img src="cozyautumn_body.png">
+  </div>
+  <div><span class="chip">جورنال</span><span class="chip">تراث</span><span class="chip">ورود</span><span class="chip">خريف</span></div>
+  <div class="cta">احصلي على الباقة كاملة</div>
+</section>
+
+<!-- 2. Autumn story -->
+<section class="ad st" id="ad2_autumn_story">
+  <h1>خريفك<br>في دفترك</h1>
+  <div class="rule"></div>
+  <p class="sub">شاي، كتب، ورق شجر، وبطاقات قديمة<br>أكثر من 290 ستيكر خريفي</p>
+  <img class="hero" src="cozyautumn_body.png">
+  <img class="hero" src="autumn_ar_body.png" style="margin-top:0">
+  <div class="cta">اطبعيها اليوم</div>
+</section>
+
+<!-- 3. Heritage -->
+<section class="ad sq cream" id="ad3_heritage">
+  <h1>تراثنا<br>على ستيكر</h1>
+  <p class="sub">دلّة، فانوس، رمان، ومساجد بطابع عتيق<br>50 تصميم جاهز للطباعة</p>
+  <img class="hero" src="heritage_body.png">
+  <div class="cta">شوفي المجموعة</div>
+</section>
+
+<!-- 4. Use cases (mockup) -->
+<section class="ad sq" id="ad4_usecases">
+  <h1>زيّني كل شي</h1>
+  <p class="sub">كوبك، كفر جوالك، تغليف طلباتك وهداياك</p>
+  <img class="hero" src="mockup.png" style="border-radius:24px">
+  <div class="cta">اختاري تصاميمك</div>
+</section>
+
+<!-- 5. Journal -->
+<section class="ad sq" id="ad5_journal">
+  <div class="note">ملف رقمي PDF</div>
+  <h1>صفحة جورنالك<br>ناقصها شي؟</h1>
+  <p class="sub">آلة كاتبة، شموع، فراشات، وورق عتيق<br>68 تصميم بطابع فنتج</p>
+  <img class="hero" src="journal_body.png">
+  <div class="cta">حمّليها الحين</div>
+</section>
+
+</body>
+</html>
