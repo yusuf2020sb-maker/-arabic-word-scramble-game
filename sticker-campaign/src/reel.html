@@ -74,7 +74,7 @@ const outCubic = (x) => 1 - Math.pow(1 - x, 3);
 const inOut = (x) => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
 const $ = (id) => document.getElementById(id);
 
-const SCENES = [['s1', 0, 2.6], ['s2', 2.6, 6.4], ['s3', 6.4, 9.9], ['s4', 9.9, 12.6], ['s5', 12.6, 14.8], ['s6', 14.8, 18.5]];
+const SCENES = [['s1', 0, 2.1], ['s2', 2.1, 8.4], ['s3', 8.4, 13.9], ['s4', 13.9, 17.8], ['s5', 17.8, 20.8], ['s6', 20.8, 25.5]];
 const FADE = 0.3;
 
 // S2 stickers placed on the journal page
@@ -87,7 +87,7 @@ const S2 = [
   el.src = `cut/${src}.png`; el.className = 'stk';
   Object.assign(el.style, { left: x + 'px', top: y + 'px', width: w + 'px' });
   $('s2').appendChild(el);
-  return { el, r, at: 3.0 + i * 0.32 };
+  return { el, r, at: 2.4 + i * 0.6 };
 });
 
 // S3 covers
@@ -119,7 +119,7 @@ window.render = (t) => {
   $('s1a').style.transform = `scale(${1.8 - 0.8 * outCubic(a)}) rotate(${-14 + 10 * outCubic(a) + Math.sin(t * 2) * 2}deg)`;
 
   // S2
-  [['w1', 2.8], ['w2', 3.5], ['w3', 4.2]].forEach(([id, at]) => {
+  [['w1', 3.85], ['w2', 4.6], ['w3', 5.25]].forEach(([id, at]) => {
     const k = p(t, at, at + 0.35);
     $(id).style.opacity = k; $(id).style.transform = `translateY(${(1 - outCubic(k)) * 40}px)`;
   });
@@ -130,7 +130,7 @@ window.render = (t) => {
   });
 
   // S3
-  const s = Math.max(0, (t - 6.5) / 0.3);
+  const s = Math.max(0, (t - 8.5) / 0.48);
   const k = Math.min(COVERS.length - 1, Math.floor(s) + inOut(s % 1));
   COVERS.forEach((el, i) => {
     const d = Math.max(-2.5, Math.min(2.5, i - k));
@@ -141,17 +141,17 @@ window.render = (t) => {
   $('cnt').textContent = Math.min(COVERS.length, Math.round(k) + 1);
 
   // S4
-  $('mock').style.transform = `scale(${1.02 + 0.12 * p(t, 9.9, 12.9)})`;
+  $('mock').style.transform = `scale(${1.02 + 0.12 * p(t, 13.9, 18.1)})`;
 
   // S5
   S5.forEach((el, i) => {
-    const k = p(t, 12.8 + i * 0.08, 13.2 + i * 0.08);
+    const k = p(t, 18.0 + i * 0.08, 18.4 + i * 0.08);
     el.style.opacity = 0.9 * (k > 0 ? 1 : 0);
     el.style.transform = `scale(${0.3 + 0.7 * back(k)}) rotate(${(i % 2 ? 6 : -6) + Math.sin(t * 3 + i) * 2}deg)`;
   });
-  const pulse = 1 + 0.04 * Math.sin(Math.max(0, t - 13.4) * 6);
-  $('btn').style.transform = `translateX(-50%) scale(${back(p(t, 13.2, 13.6)) * pulse})`;
-  $('qrcard').style.transform = `scale(${0.4 + 0.6 * back(p(t, 14.9, 15.4))})`;
+  const pulse = 1 + 0.04 * Math.sin(Math.max(0, t - 18.6) * 6);
+  $('btn').style.transform = `translateX(-50%) scale(${back(p(t, 18.4, 18.8)) * pulse})`;
+  $('qrcard').style.transform = `scale(${0.4 + 0.6 * back(p(t, 20.9, 21.4))})`;
 };
 render(0);
 </script>
