@@ -35,39 +35,41 @@
 
 <!-- S1: hook -->
 <div class="scene" id="s1">
-  <div class="big abs" id="hook" style="top:700px; font-size:260px">لين متى<span class="hl">؟</span></div>
+  <div class="big abs" id="hook" style="top:620px; font-size:170px">قبل لا تشتري<br>ستيكرات<span class="hl">…</span></div>
+  <div class="cap abs hl" id="hook2" style="top:1060px; font-size:90px">اسمع هذا</div>
 </div>
 
 <!-- S2: empty journal + stamp -->
 <div class="scene" id="s2">
-  <div class="cap abs" style="top:330px; font-size:78px"><span id="q1">دفترك</span> <span id="q2" class="hl">فاضي؟</span></div>
+  <div class="cap abs" style="top:330px; font-size:78px"><span id="q1">ليه ورقة وحدة</span> <span id="q2" class="hl">وتخلص؟</span></div>
   <div class="page" id="emptyPage"></div>
-  <div class="stamp" id="stamp">لهنا وبس</div>
+  <div class="stamp" id="stamp">خلصت!</div>
 </div>
 
 <!-- S3: the method -->
 <div class="scene" id="s3">
-  <div class="big abs" id="how" style="top:300px; font-size:150px">الطريقة<span class="hl">؟</span></div>
-  <div class="step" id="st1" style="top:620px"><div class="n">١</div><div class="t">ملف PDF من المتجر</div></div>
-  <div class="step" id="st2" style="top:880px"><div class="n">٢</div><div class="t">طابعة البيت</div></div>
-  <div class="step" id="st3" style="top:1140px"><div class="n">٣</div><div class="t">ورق ستيكر ومقص</div></div>
+  <div class="big abs" id="how" style="top:300px; font-size:150px">الفرق<span class="hl">؟</span></div>
+  <div class="step" id="st1" style="top:620px"><div class="n">١</div><div class="t">الملف عندك</div></div>
+  <div class="step" id="st2" style="top:880px"><div class="n">٢</div><div class="t">تطبعه من البيت</div></div>
+  <div class="step" id="st3" style="top:1140px"><div class="n">٣</div><div class="t">خلص؟ طباعة من جديد</div></div>
 </div>
 
 <!-- S4: sheet montage -->
 <div class="scene" id="s4">
   <div class="pill" style="top:250px">11 مجموعة فنتج</div>
+  <div class="pill" style="top:1735px; z-index:5; background:var(--cream)">كل وحدة ملف لحالها</div>
 </div>
 
 <!-- S5: filled journal -->
 <div class="scene" id="s5">
-  <div class="cap abs" style="top:330px; font-size:78px"><span class="hl">والنتيجة؟</span></div>
+  <div class="cap abs" style="top:330px; font-size:78px"><span class="hl">وهذي النتيجة</span></div>
   <div class="page" id="fullPage"></div>
 </div>
 
 <!-- S6: store -->
 <div class="scene" id="s6">
   <div class="big abs" style="top:270px; font-size:170px">المتجر<span class="hl">.</span></div>
-  <div class="cap abs" style="top:480px; font-size:46px; opacity:.85">كل مجموعة ملف مستقل · تحميل فوري</div>
+  <div class="cap abs" style="top:480px; font-size:60px">الكود قدامك</div>
   <div class="abs" id="qrcard" style="left:250px; top:640px; width:580px; height:580px; background:#fff; border-radius:36px; padding:28px; box-shadow:0 30px 80px rgba(0,0,0,.6)">
     <img src="qr_store.png" style="width:100%; height:100%">
   </div>
@@ -117,6 +119,8 @@ window.render = (t) => {
   const h = p(t, 0.0, 0.22);
   $('hook').style.transform = `scale(${3 - 2 * outCubic(h)})`;
   $('hook').style.opacity = h;
+  $('hook2').style.opacity = p(t, 0.8, 0.95);
+  $('hook2').style.transform = `scale(${0.6 + 0.4 * back(p(t, 0.8, 1.05))})`;
 
   // S2
   $('q1').style.opacity = p(t, 1.8, 2.0);
