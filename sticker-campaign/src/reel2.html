@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Lalezar&family=IBM+Plex+Sans+Arabic:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#1c130e; --cream:#f4e9dc; --mustard:#e3a83b; --rust:#c4532d; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:var(--bg); color:var(--cream); font-family:'IBM Plex Sans Arabic',sans-serif; }
+  #stage { position:absolute; inset:0; overflow:clip; }
+  .scene { position:absolute; inset:0; opacity:0; overflow:clip; }
+  .abs { position:absolute; }
+  .big { font-family:'Lalezar',sans-serif; text-align:center; width:100%; line-height:1.05; }
+  .cap { font-weight:700; font-size:58px; text-align:center; width:100%; }
+  .hl { color:var(--mustard); }
+  .page { position:absolute; left:140px; top:640px; width:800px; height:900px; background:var(--cream); border-radius:10px;
+          box-shadow:0 30px 80px rgba(0,0,0,.55);
+          background-image:repeating-linear-gradient(to bottom, transparent 0 62px, rgba(60,30,15,.13) 62px 64px); }
+  .stamp { position:absolute; left:230px; top:930px; width:620px; padding:26px 0; border:12px solid var(--rust); border-radius:22px; color:var(--rust);
+           font-family:'Lalezar'; font-size:140px; text-align:center; mix-blend-mode:multiply; }
+  .step { position:absolute; right:90px; width:900px; height:220px; background:#2a1d15; border-radius:30px; display:flex; align-items:center; gap:40px; padding:0 50px; }
+  .step .n { font-family:'Lalezar'; font-size:150px; color:var(--mustard); line-height:1; width:110px; text-align:center; }
+  .step .t { font-weight:700; font-size:64px; }
+  .sheet { position:absolute; left:90px; top:420px; width:900px; border-radius:14px; box-shadow:0 30px 80px rgba(0,0,0,.6); }
+  .pill { position:absolute; left:50%; transform:translateX(-50%); background:var(--mustard); color:var(--bg); font-weight:700; font-size:50px; padding:16px 50px; border-radius:60px; white-space:nowrap; }
+  .stk { position:absolute; filter:drop-shadow(0 10px 12px rgba(0,0,0,.35)); }
+  #grain { position:absolute; inset:0; pointer-events:none; opacity:.12; mix-blend-mode:overlay;
+           background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+  #vig { position:absolute; inset:0; pointer-events:none; background:radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.55) 100%); }
+  #flash { position:absolute; inset:0; background:var(--cream); opacity:0; pointer-events:none; }
+</style>
+</head>
+<body>
+<div id="stage">
+
+<!-- S1: hook -->
+<div class="scene" id="s1">
+  <div class="big abs" id="hook" style="top:700px; font-size:260px">لين متى<span class="hl">؟</span></div>
+</div>
+
+<!-- S2: empty journal + stamp -->
+<div class="scene" id="s2">
+  <div class="cap abs" style="top:330px; font-size:78px"><span id="q1">دفترك</span> <span id="q2" class="hl">فاضي؟</span></div>
+  <div class="page" id="emptyPage"></div>
+  <div class="stamp" id="stamp">لهنا وبس</div>
+</div>
+
+<!-- S3: the method -->
+<div class="scene" id="s3">
+  <div class="big abs" id="how" style="top:300px; font-size:150px">الطريقة<span class="hl">؟</span></div>
+  <div class="step" id="st1" style="top:620px"><div class="n">١</div><div class="t">ملف PDF من المتجر</div></div>
+  <div class="step" id="st2" style="top:880px"><div class="n">٢</div><div class="t">طابعة البيت</div></div>
+  <div class="step" id="st3" style="top:1140px"><div class="n">٣</div><div class="t">ورق ستيكر ومقص</div></div>
+</div>
+
+<!-- S4: sheet montage -->
+<div class="scene" id="s4">
+  <div class="pill" style="top:250px">11 مجموعة فنتج</div>
+</div>
+
+<!-- S5: filled journal -->
+<div class="scene" id="s5">
+  <div class="cap abs" style="top:330px; font-size:78px"><span class="hl">والنتيجة؟</span></div>
+  <div class="page" id="fullPage"></div>
+</div>
+
+<!-- S6: store -->
+<div class="scene" id="s6">
+  <div class="big abs" style="top:270px; font-size:170px">المتجر<span class="hl">.</span></div>
+  <div class="cap abs" style="top:480px; font-size:46px; opacity:.85">كل مجموعة ملف مستقل · تحميل فوري</div>
+  <div class="abs" id="qrcard" style="left:250px; top:640px; width:580px; height:580px; background:#fff; border-radius:36px; padding:28px; box-shadow:0 30px 80px rgba(0,0,0,.6)">
+    <img src="qr_store.png" style="width:100%; height:100%">
+  </div>
+  <div class="cap abs hl" style="top:1290px; font-size:56px; direction:ltr">planme.zaher.io</div>
+</div>
+
+<div id="flash"></div>
+<div id="vig"></div>
+<div id="grain"></div>
+</div>
+
+<script>
+const clamp = (x) => Math.min(1, Math.max(0, x));
+const p = (t, a, b) => clamp((t - a) / (b - a));
+const back = (x) => { const c1 = 2.2, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+const outCubic = (x) => 1 - Math.pow(1 - x, 3);
+const shake = (t, at, dur, amp) => { const k = 1 - p(t, at, at + dur); return t < at ? 0 : amp * k * Math.sin((t - at) * 95); };
+const $ = (id) => document.getElementById(id);
+
+const SCENES = [['s1', 0, 1.7], ['s2', 1.7, 5.4], ['s3', 5.4, 9.4], ['s4', 9.4, 13.0], ['s5', 13.0, 16.6], ['s6', 16.6, 21.0]];
+const CUTS = [1.7, 5.4, 9.4, 13.0, 16.6];
+
+const SHEETS = ['cozyhome', 'journal', 'heritage', 'roses', 'cozyautumn', 'stamps', 'ephemera', 'autumn_ar', 'vintage', 'botanical']
+  .map((n) => { const el = document.createElement('img'); el.src = `sheets/${n}.jpg`; el.className = 'sheet'; $('s4').appendChild(el); return el; });
+
+const FILL = [
+  ['cozyautumn_0', 170, 680, 290, -8], ['heritage_4', 600, 660, 250, 7], ['roses_2', 380, 820, 320, -3],
+  ['journal_4', 160, 1000, 330, 5], ['cozyhome_1', 610, 980, 270, -6], ['ephemera_1', 400, 1150, 260, 4],
+  ['autumn_ar_5', 170, 1270, 250, -5], ['vintage_0', 650, 1260, 240, 8], ['journal_2', 420, 1340, 230, -9], ['heritage_1', 780, 830, 180, 10],
+].map(([src, x, y, w, r], i) => {
+  const el = document.createElement('img'); el.src = `cut/${src}.png`; el.className = 'stk';
+  Object.assign(el.style, { left: x + 'px', top: y + 'px', width: w + 'px' });
+  $('s5').appendChild(el); return { el, r, at: 13.6 + i * 0.22 };
+});
+
+window.render = (t) => {
+  // hard cuts between scenes
+  SCENES.forEach(([id, a, b]) => { const on = t >= a && t < b; $(id).style.opacity = on ? 1 : 0; $(id).style.display = on ? '' : 'none'; });
+  // white flash on each cut
+  $('flash').style.opacity = Math.max(0, ...CUTS.map((c) => (t >= c ? 0.55 * (1 - p(t, c, c + 0.12)) : 0)));
+  // stage shake (stamp slam + sticker slaps)
+  let sx = shake(t, 0.05, 0.35, 18) + shake(t, 3.75, 0.35, 22);
+  FILL.forEach(({ at }) => { sx += shake(t, at, 0.15, 6); });
+  $('stage').style.transform = `translate(${sx}px, ${sx * 0.6}px)`;
+
+  // S1 hook slam
+  const h = p(t, 0.0, 0.22);
+  $('hook').style.transform = `scale(${3 - 2 * outCubic(h)})`;
+  $('hook').style.opacity = h;
+
+  // S2
+  $('q1').style.opacity = p(t, 1.8, 2.0);
+  $('q2').style.opacity = p(t, 2.3, 2.5);
+  $('emptyPage').style.transform = `rotate(${-2 + p(t, 1.7, 5.4) * 1.5}deg) scale(${1 + 0.04 * p(t, 1.7, 5.4)})`;
+  const s = p(t, 3.6, 3.78);
+  $('stamp').style.opacity = s > 0 ? 0.92 : 0;
+  $('stamp').style.transform = `rotate(-12deg) scale(${2.4 - 1.4 * outCubic(s)})`;
+
+  // S3 steps slide in
+  $('how').style.transform = `scale(${0.5 + 0.5 * back(p(t, 5.4, 5.7))})`;
+  [['st1', 6.0], ['st2', 7.0], ['st3', 8.0]].forEach(([id, at]) => {
+    const k = p(t, at, at + 0.3);
+    $(id).style.opacity = k;
+    $(id).style.transform = `translateX(${(1 - outCubic(k)) * -700}px)`;
+  });
+
+  // S4 montage: one sheet every 0.36s, slow push-in
+  const idx = Math.min(SHEETS.length - 1, Math.floor(Math.max(0, t - 9.4) / 0.36));
+  const local = ((t - 9.4) % 0.36) / 0.36;
+  SHEETS.forEach((el, i) => {
+    el.style.display = i === idx ? '' : 'none';
+    el.style.transform = `scale(${1 + 0.06 * local}) rotate(${i % 2 ? 1.5 : -1.5}deg)`;
+  });
+
+  // S5 stickers slap onto the page
+  $('fullPage').style.transform = 'rotate(-0.5deg)';
+  FILL.forEach(({ el, r, at }) => {
+    const k = p(t, at, at + 0.14);
+    el.style.opacity = k > 0 ? 1 : 0;
+    el.style.transform = `scale(${1.9 - 0.9 * outCubic(k)}) rotate(${r}deg)`;
+  });
+
+  // S6 QR card
+  $('qrcard').style.transform = `rotate(${-3 + 3 * outCubic(p(t, 16.7, 17.2))}deg) scale(${0.5 + 0.5 * back(p(t, 16.7, 17.2))})`;
+};
+render(0);
+</script>
+</body>
+</html>
