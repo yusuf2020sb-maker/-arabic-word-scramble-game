@@ -4,102 +4,78 @@
 <meta charset="utf-8">
 <link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@600;700&family=Amiri:wght@700&family=Changa:wght@600;700&display=swap" rel="stylesheet">
 <style>
-  :root { --navy:#13203a; --navy-d:#0b1426; --gold:#e9c46a; --gold-d:#b8913a; --cream:#f6efe0; --velvet:#8f1d22; }
+  :root { --navy:#13203a; --navy-d:#0b1426; --gold:#e9c46a; --gold-d:#b8913a; --cream:#f6efe0; }
   * { box-sizing:border-box; margin:0; padding:0; }
   html, body { width:1080px; height:1920px; overflow:clip; background:var(--navy-d); color:var(--cream); font-family:'Changa',sans-serif; }
   #stage { position:absolute; inset:0; overflow:clip; background:radial-gradient(ellipse at 50% 40%, #1d2f52 0%, var(--navy) 45%, var(--navy-d) 100%); }
   .scene { position:absolute; inset:0; overflow:clip; display:none; }
   .abs { position:absolute; }
+  .center { width:100%; text-align:center; }
   .messiri { font-family:'El Messiri',serif; font-weight:700; }
   .amiri { font-family:'Amiri',serif; font-weight:700; }
-  .gold { color:var(--gold); text-shadow:0 0 30px rgba(233,196,106,.45); }
-  .center { width:100%; text-align:center; }
-  /* countdown leader */
-  #leader { position:absolute; left:140px; top:560px; width:800px; height:800px; border-radius:50%; border:10px solid var(--cream); }
-  #leader::before, #leader::after { content:''; position:absolute; background:var(--cream); opacity:.7; }
-  #leader::before { left:50%; top:-80px; bottom:-80px; width:4px; margin-left:-2px; }
-  #leader::after { top:50%; left:-80px; right:-80px; height:4px; margin-top:-2px; }
-  #sweep { position:absolute; inset:0; border-radius:50%; }
-  #num { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:'El Messiri'; font-weight:700; font-size:460px; color:var(--cream); }
-  /* curtains */
-  .curtain { position:absolute; top:0; width:560px; height:1920px; z-index:20;
-    background:repeating-linear-gradient(90deg, #6e1418 0 40px, var(--velvet) 40px 85px, #a8262c 85px 110px, var(--velvet) 110px 140px); box-shadow:0 0 60px rgba(0,0,0,.7); }
-  #cl { left:0; } #cr { right:0; }
-  .valance { position:absolute; left:0; right:0; top:0; height:150px; z-index:21; background:linear-gradient(#5a0f13, var(--velvet)); border-bottom:8px solid var(--gold-d); }
-  /* deco frame */
-  .deco { position:absolute; left:110px; right:110px; border:6px solid var(--gold); border-radius:8px; padding:50px 40px; background:rgba(11,20,38,.6); }
-  .deco::before { content:''; position:absolute; inset:14px; border:2px solid var(--gold-d); border-radius:4px; pointer-events:none; }
-  .act { font-size:46px; color:var(--gold); letter-spacing:2px; }
-  /* film strip */
-  .strip { position:absolute; top:-200px; bottom:-200px; width:120px; background:#050a14;
-    background-image:repeating-linear-gradient(to bottom, transparent 0 30px, var(--cream) 30px 70px, transparent 70px 100px);
-    background-size:44px 100px; background-repeat:repeat-y; background-position:center top; opacity:.9; }
-  .reel { position:absolute; left:180px; width:720px; background:#050a14; padding:30px 60px; }
-  .reel img { display:block; width:100%; margin-bottom:30px; border:4px solid #050a14; }
-  .stk { position:absolute; filter:drop-shadow(0 12px 18px rgba(0,0,0,.55)); }
-  /* ticket */
-  #ticket { position:absolute; left:130px; top:560px; width:820px; height:1000px; background:var(--cream); color:var(--navy); border-radius:28px;
-    -webkit-mask:radial-gradient(circle at 0 62%, transparent 46px, #000 47px) left/51% 100% no-repeat, radial-gradient(circle at 100% 62%, transparent 46px, #000 47px) right/51% 100% no-repeat; }
-  #ticket .perf { position:absolute; left:60px; right:60px; top:62%; border-top:6px dashed rgba(19,32,58,.35); }
-  /* overlays */
-  #spot { position:absolute; inset:-300px; pointer-events:none; mix-blend-mode:screen; background:radial-gradient(circle at 50% 50%, rgba(255,236,190,.28) 0, transparent 22%); }
-  #flicker { position:absolute; inset:0; pointer-events:none; background:#fff; mix-blend-mode:overlay; }
-  #scratches { position:absolute; inset:0; pointer-events:none; }
-  #scratches i { position:absolute; top:0; bottom:0; width:2px; background:rgba(255,255,255,.35); }
-  #scratches b { position:absolute; border-radius:50%; background:rgba(255,255,255,.5); }
-  #vig { position:absolute; inset:0; pointer-events:none; background:radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,.7) 100%); }
-  #grain { position:absolute; inset:0; pointer-events:none; opacity:.14; mix-blend-mode:overlay;
-    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+  .gold { color:var(--gold); }
+  /* gold shine sweep over text */
+  .shine { background:linear-gradient(100deg, var(--gold) 0%, var(--gold) 40%, #fff6d8 50%, var(--gold) 60%, var(--gold) 100%);
+           background-size:300% 100%; -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .word { display:inline-block; margin:0 14px; }
+  /* 3D flip card */
+  .flipwrap { position:absolute; left:140px; top:560px; width:800px; height:900px; perspective:2200px; }
+  .card { position:absolute; inset:0; transform-style:preserve-3d; }
+  .face { position:absolute; inset:0; backface-visibility:hidden; border-radius:36px; overflow:hidden;
+          border:5px solid var(--gold); box-shadow:0 40px 90px rgba(0,0,0,.55); }
+  .front { background:linear-gradient(160deg, #22355c, var(--navy-d)); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px; }
+  .front .n { font-family:'El Messiri'; font-size:220px; line-height:1; }
+  .front .w { font-family:'El Messiri'; font-weight:700; font-size:92px; text-align:center; line-height:1.2; }
+  .back { transform:rotateY(180deg); background:#d6bcac; }
+  .back img { width:100%; height:100%; object-fit:cover; }
+  .stk { position:absolute; filter:drop-shadow(0 16px 20px rgba(0,0,0,.5)); }
+  /* mosaic wall */
+  .tile { position:absolute; width:300px; height:424px; object-fit:cover; border-radius:16px; border:3px solid var(--gold-d); box-shadow:0 12px 30px rgba(0,0,0,.5); }
+  /* QR */
+  #qrcard { position:absolute; left:240px; top:620px; width:600px; height:600px; background:#fff; border-radius:40px; padding:34px; overflow:hidden; box-shadow:0 30px 80px rgba(0,0,0,.6); }
+  #qrshine { position:absolute; top:-50%; width:140px; height:200%; background:linear-gradient(90deg, transparent, rgba(255,255,255,.85), transparent); transform:rotate(20deg); }
+  .ring { position:absolute; left:540px; top:920px; width:600px; height:600px; margin:-300px 0 0 -300px; border:5px solid var(--gold); border-radius:50px; }
+  #bokeh { position:absolute; inset:0; pointer-events:none; }
+  .bokeh { position:absolute; left:0; top:0; border-radius:50%; background:radial-gradient(circle, rgba(255,226,150,.9), rgba(233,196,106,.25) 55%, transparent 70%); pointer-events:none; }
+  #vig { position:absolute; inset:0; pointer-events:none; background:radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.6) 100%); }
 </style>
 </head>
 <body>
 <div id="stage">
+<div id="bokeh"></div>
 
-<!-- S1: countdown leader -->
+<!-- S1: title, words blur in, gold shine sweeps across -->
 <div class="scene" id="s1">
-  <div id="leader"><div id="sweep"></div><div id="num">3</div></div>
-</div>
-
-<!-- S2: curtains open on the title -->
-<div class="scene" id="s2">
-  <div class="abs center amiri gold" id="now" style="top:520px; font-size:90px">يُعرض الآن</div>
-  <div class="abs center messiri" id="ttl" style="top:700px; font-size:200px; line-height:1.1">ستيكرات<br><span class="gold">فنتج</span></div>
-  <div class="abs center" id="ttlsub" style="top:1220px; font-size:52px; opacity:.85">لكل واحد فيها مشهد</div>
-  <div class="valance"></div>
-  <div class="curtain" id="cl"></div><div class="curtain" id="cr"></div>
-</div>
-
-<!-- S3: three acts, one per audience -->
-<div class="scene" id="s3">
-  <div class="strip" style="right:0" id="stripR"></div><div class="strip" style="left:0" id="stripL"></div>
-</div>
-
-<!-- S4: film reel of sticker sheets -->
-<div class="scene" id="s4">
-  <div class="reel" id="reel"></div>
-  <div class="deco" id="s4cap" style="top:1500px; padding:34px 30px; text-align:center; background:var(--navy-d)">
-    <div class="messiri gold" style="font-size:70px">11 مجموعة</div>
-    <div style="font-size:46px; margin-top:6px">ملف PDF · تطبع كل ما احتجت</div>
+  <div class="abs center messiri" style="top:600px; font-size:190px; line-height:1.15">
+    <span class="word" id="w1">ستيكرات</span><br><span class="word shine" id="w2">فنتج</span>
   </div>
+  <div class="abs center amiri gold" id="w3" style="top:1130px; font-size:84px">لكل واحد استخدام</div>
 </div>
 
-<!-- S5: ticket with QR -->
+<!-- S2-S4: flip cards per audience -->
+<div class="scene" id="s2"></div>
+<div class="scene" id="s3"></div>
+<div class="scene" id="s4"></div>
+
+<!-- S5: mosaic wall zooms out -->
 <div class="scene" id="s5">
-  <div class="abs center messiri gold" id="tkhd" style="top:300px; font-size:130px">التذاكر من هنا</div>
-  <div id="ticket">
-    <div class="center messiri" style="position:absolute; top:40px; font-size:64px">المتجر</div>
-    <img src="qr_store.png" style="position:absolute; left:210px; top:140px; width:400px; height:400px">
-    <div class="perf"></div>
-    <div class="center" style="position:absolute; top:690px; font-size:52px; font-weight:700; direction:ltr">planme.zaher.io</div>
-    <div class="center amiri" style="position:absolute; top:790px; font-size:44px; color:var(--velvet)">دخول مجاني للمتجر · كل مجموعة ملف مستقل</div>
+  <div class="abs" id="wall" style="left:0; top:0; width:1080px; height:1920px; transform-origin:540px 960px"></div>
+  <div class="abs" id="s5cap" style="left:90px; right:90px; top:1460px; padding:34px; text-align:center; background:rgba(11,20,38,.88); border:4px solid var(--gold); border-radius:30px">
+    <div class="messiri shine" id="s5t" style="font-size:96px">11 مجموعة</div>
+    <div style="font-size:48px">ملف PDF · تطبع كل ما احتجت</div>
   </div>
 </div>
 
-<div id="spot"></div>
-<div id="scratches"></div>
-<div id="flicker"></div>
+<!-- S6: store QR -->
+<div class="scene" id="s6">
+  <div class="abs center messiri shine" id="sh" style="top:300px; font-size:160px">المتجر</div>
+  <div class="abs center amiri" style="top:500px; font-size:66px">الكود يوصلك على طول</div>
+  <div class="ring" id="r1"></div><div class="ring" id="r2"></div>
+  <div id="qrcard"><img src="qr_store.png" style="width:100%; height:100%"><div id="qrshine"></div></div>
+  <div class="abs center gold" style="top:1300px; font-size:58px; font-weight:700; direction:ltr">planme.zaher.io</div>
+</div>
+
 <div id="vig"></div>
-<div id="grain"></div>
 </div>
 
 <script>
@@ -109,103 +85,104 @@ const back = (x) => { const c1 = 1.8, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 
 const outCubic = (x) => 1 - Math.pow(1 - x, 3);
 const inOut = (x) => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
 const $ = (id) => document.getElementById(id);
-// deterministic per-frame randomness so renders are repeatable
 const rnd = (seed) => { const x = Math.sin(seed * 12.9898) * 43758.5453; return x - Math.floor(x); };
 
-const SCENES = [['s1', 0, 2.4], ['s2', 2.4, 5.2], ['s3', 5.2, 12.4], ['s4', 12.4, 16.4], ['s5', 16.4, 21.0]];
+const SCENES = [['s1', 0, 3.2], ['s2', 3.2, 6.4], ['s3', 6.4, 9.6], ['s4', 9.6, 12.8], ['s5', 12.8, 16.6], ['s6', 16.6, 21.0]];
 
-// S3 acts
-const ACTS = [
-  ['المشهد الأول', 'أصحاب المشاريع', 'تغليف يخلي طلبك ينحفظ', ['stamps_body', 'roses_0', 'vintage_3'], 5.2],
-  ['المشهد الثاني', 'المعلمين والمعلمات', 'تحفيز للطلاب وتزيين للدفاتر', ['botanical_body', 'cozyhome_1', 'heritage_2'], 7.6],
-  ['المشهد الثالث', 'محبين الجورنال', 'صفحات ما تكون فاضية', ['journal_body', 'journal_0', 'ephemera_1'], 10.0],
-].map(([act, who, line, imgs, at]) => {
-  const wrap = document.createElement('div'); wrap.className = 'abs'; wrap.style.inset = '0';
-  wrap.innerHTML = `
-    <div class="deco" style="top:300px; text-align:center">
-      <div class="act">${act}</div>
-      <div class="messiri" style="font-size:96px; line-height:1.2">${who}</div>
-    </div>
-    <img src="${imgs[0]}.png" class="stk" style="left:210px; top:740px; width:660px; border-radius:18px; border:6px solid var(--gold)">
-    <img src="cut/${imgs[1]}.png" class="stk s1" style="left:110px; top:1260px; width:260px">
-    <img src="cut/${imgs[2]}.png" class="stk s2" style="left:720px; top:660px; width:230px">
-    <div class="abs center amiri gold" style="top:1580px; font-size:70px">${line}</div>`;
-  $('s3').appendChild(wrap);
-  return { wrap, at, end: at + 2.4 };
+// floating gold bokeh across the whole video
+const BOKEH = [...Array(16)].map((_, i) => {
+  const el = document.createElement('div'); el.className = 'bokeh';
+  const s = 40 + rnd(i + 1) * 140; Object.assign(el.style, { width: s + 'px', height: s + 'px' });
+  $('bokeh').appendChild(el);
+  return { el, x: rnd(i + 7) * 1080, y: rnd(i + 13) * 1920, sp: 30 + rnd(i + 3) * 70, ph: rnd(i + 5) * 6 };
 });
 
-// S4 reel: sheets stacked vertically and scrolled like film through a gate
-['cozyhome', 'journal', 'heritage', 'roses', 'cozyautumn', 'stamps', 'ephemera', 'autumn_ar', 'vintage', 'botanical']
-  .forEach((n) => { const im = document.createElement('img'); im.src = `sheets/${n}.jpg`; $('reel').appendChild(im); });
+// flip cards: front = number + audience, back = their sticker sheet; side stickers float in
+const CARDS = [
+  ['s2', '١', 'أصحاب<br>المشاريع', 'تغليف يخلي طلبك ينحفظ', 'stamps_body', ['roses_0', 'vintage_3'], 3.2],
+  ['s3', '٢', 'المعلمين<br>والمعلمات', 'تحفيز للطلاب وتزيين للدفاتر', 'botanical_body', ['cozyhome_1', 'heritage_2'], 6.4],
+  ['s4', '٣', 'محبين<br>الجورنال', 'صفحات ما تكون فاضية', 'journal_body', ['journal_0', 'ephemera_1'], 9.6],
+].map(([scene, n, who, line, img, side, at]) => {
+  $(scene).innerHTML = `
+    <div class="flipwrap"><div class="card">
+      <div class="face front"><div class="n shine">${n}</div><div class="w">${who}</div></div>
+      <div class="face back"><img src="${img}.png"></div>
+    </div></div>
+    <img class="stk" src="cut/${side[0]}.png" style="left:40px; top:430px; width:250px">
+    <img class="stk" src="cut/${side[1]}.png" style="left:790px; top:1330px; width:250px">
+    <div class="abs center amiri gold" style="top:1560px; font-size:72px">${line}</div>`;
+  const el = $(scene);
+  return { card: el.querySelector('.card'), wrap: el.querySelector('.flipwrap'), a: el.children[1], b: el.children[2], line: el.children[3], at };
+});
 
-// scratches + dust
-const SCR = [...Array(3)].map(() => { const el = document.createElement('i'); $('scratches').appendChild(el); return el; });
-const DUST = [...Array(6)].map(() => { const el = document.createElement('b'); $('scratches').appendChild(el); return el; });
+// mosaic wall of sheet thumbnails (5 x 5), centred tile is the hero
+const SHEETS = ['cozyhome', 'journal', 'heritage', 'roses', 'cozyautumn', 'stamps', 'ephemera', 'autumn_ar', 'vintage', 'botanical'];
+const TILES = [];
+for (let r = 0; r < 5; r++) for (let c = 0; c < 5; c++) {
+  const el = document.createElement('img'); el.className = 'tile';
+  el.src = `sheets/${SHEETS[(r * 5 + c * 3) % SHEETS.length]}.jpg`;
+  const x = 540 - 150 + (c - 2) * 330, y = 960 - 212 + (r - 2) * 454;
+  Object.assign(el.style, { left: x + 'px', top: y + 'px' });
+  $('wall').appendChild(el); TILES.push({ el, d: Math.hypot(r - 2, c - 2) });
+}
 
 window.render = (t) => {
   SCENES.forEach(([id, a, b]) => { $(id).style.display = t >= a && t < b ? 'block' : 'none'; });
-  const frame = Math.floor(t * 24);
 
-  // projector flicker, scratches, dust, gate weave
-  $('flicker').style.opacity = 0.03 + rnd(frame) * 0.07;
-  SCR.forEach((el, i) => {
-    const on = rnd(frame * 3 + i) > 0.55;
-    el.style.display = on ? '' : 'none';
-    el.style.left = (rnd(frame * 7 + i) * 1080) + 'px';
-    el.style.opacity = 0.3 + rnd(frame + i * 11) * 0.6;
-  });
-  DUST.forEach((el, i) => {
-    const on = rnd(frame * 5 + i * 3) > 0.6, s = 3 + rnd(frame + i) * 9;
-    Object.assign(el.style, { display: on ? '' : 'none', left: rnd(frame * 13 + i) * 1080 + 'px', top: rnd(frame * 17 + i) * 1920 + 'px', width: s + 'px', height: s + 'px' });
-  });
-  const weave = (rnd(frame * 19) - 0.5) * 4;
-  $('stage').style.transform = `translate(${weave}px, ${(rnd(frame * 23) - 0.5) * 6}px)`;
-  $('spot').style.transform = `translate(${Math.sin(t * 0.7) * 380}px, ${Math.cos(t * 0.5) * 600}px)`;
-
-  // S1 countdown 3-2-1 with rotating sweep
-  if (t < 2.4) {
-    const k = Math.min(2, Math.floor(t / 0.8)), f = (t % 0.8) / 0.8;
-    $('num').textContent = 3 - k;
-    $('sweep').style.background = `conic-gradient(rgba(246,239,224,.35) ${f * 360}deg, transparent 0)`;
-    $('leader').style.transform = `scale(${1 + 0.03 * Math.sin(t * 40)})`;
-  }
-
-  // S2 curtains part, then title rises
-  const c = inOut(p(t, 2.5, 3.5));
-  $('cl').style.transform = `translateX(${-c * 580}px)`;
-  $('cr').style.transform = `translateX(${c * 580}px)`;
-  $('now').style.opacity = p(t, 3.2, 3.5);
-  $('ttl').style.opacity = p(t, 3.4, 3.7);
-  $('ttl').style.transform = `scale(${0.7 + 0.3 * back(p(t, 3.4, 3.9))})`;
-  $('ttlsub').style.opacity = p(t, 4.1, 4.4);
-
-  // S3 acts + rolling film strips on both edges
-  const roll = (t * 520) % 100;
-  $('stripL').style.backgroundPositionY = roll + 'px';
-  $('stripR').style.backgroundPositionY = -roll + 'px';
-  ACTS.forEach(({ wrap, at, end }) => {
-    const on = t >= at && t < end;
-    wrap.style.display = on ? '' : 'none';
-    if (!on) return;
-    const k = p(t, at, at + 0.35);
-    wrap.style.opacity = Math.min(k, 1 - p(t, end - 0.2, end));
-    const [deco, photo, a, b, line] = wrap.children;
-    deco.style.transform = `translateY(${(1 - outCubic(k)) * -260}px)`;
-    photo.style.transform = `scale(${0.8 + 0.2 * back(p(t, at + 0.1, at + 0.5))}) rotate(${-2 + Math.sin(t * 1.4)}deg)`;
-    a.style.transform = `scale(${back(p(t, at + 0.5, at + 0.8))}) rotate(-10deg)`;
-    b.style.transform = `scale(${back(p(t, at + 0.65, at + 0.95))}) rotate(12deg)`;
-    line.style.opacity = p(t, at + 0.8, at + 1.1);
+  BOKEH.forEach(({ el, x, y, sp, ph }) => {
+    const yy = ((y - t * sp) % 2100 + 2100) % 2100 - 150;
+    el.style.transform = `translate(${x + Math.sin(t * 0.8 + ph) * 40}px, ${yy}px)`;
+    el.style.opacity = 0.25 + 0.35 * (0.5 + 0.5 * Math.sin(t * 1.3 + ph));
   });
 
-  // S4 reel scrolls up through the gate, speeding up
-  const r = inOut(p(t, 12.4, 16.2));
-  $('reel').style.top = (180 - r * 7500) + 'px';
-  $('s4cap').style.transform = `translateY(${(1 - back(p(t, 12.6, 13.0))) * 400}px)`;
+  // S1: words blur in one by one, then the shine sweeps
+  [['w1', 0.2], ['w2', 0.7], ['w3', 1.4]].forEach(([id, at]) => {
+    const k = p(t, at, at + 0.45);
+    $(id).style.opacity = k;
+    $(id).style.filter = `blur(${(1 - k) * 24}px)`;
+    $(id).style.transform = `translateY(${(1 - outCubic(k)) * 50}px) scale(${1.15 - 0.15 * outCubic(k)})`;
+  });
+  document.querySelectorAll('.shine').forEach((el) => { el.style.backgroundPosition = `${100 - ((t * 45) % 200)}% 0`; });
 
-  // S5 ticket slides up, headline glows
-  $('ticket').style.transform = `translateY(${(1 - back(p(t, 16.5, 17.0))) * 1500}px) rotate(${-2 + 2 * p(t, 16.5, 17.2)}deg)`;
-  $('tkhd').style.opacity = p(t, 16.9, 17.2);
-  $('tkhd').style.textShadow = `0 0 ${30 + 25 * Math.sin(t * 4)}px rgba(233,196,106,.6)`;
+  // S2-S4: card rises, flips to reveal the stickers, side stickers drift in
+  CARDS.forEach(({ card, wrap, a, b, line, at }) => {
+    if (t < at || t >= at + 3.2) return;
+    const rise = back(p(t, at, at + 0.45));
+    wrap.style.transform = `translateY(${(1 - rise) * 500}px) scale(${0.85 + 0.15 * rise})`;
+    const flip = inOut(p(t, at + 1.0, at + 1.6));
+    card.style.transform = `rotateY(${flip * 180}deg) rotateX(${Math.sin(t * 1.6) * 4}deg)`;
+    [a, b].forEach((el, i) => {
+      const k = p(t, at + 1.5 + i * 0.15, at + 1.9 + i * 0.15);
+      el.style.opacity = k;
+      el.style.transform = `translate(${(1 - outCubic(k)) * (i ? 300 : -300)}px, ${Math.sin(t * 2 + i) * 12}px) rotate(${(i ? 12 : -12) + Math.sin(t * 1.5 + i) * 4}deg)`;
+    });
+    line.style.opacity = p(t, at + 1.7, at + 2.0);
+    line.style.filter = `blur(${(1 - p(t, at + 1.7, at + 2.0)) * 16}px)`;
+  });
+
+  // S5: start zoomed into the centre tile, pull back to the full wall, tiles ripple in
+  const z = inOut(p(t, 12.9, 14.6));
+  $('wall').style.transform = `scale(${3.2 - 2.55 * z}) rotate(${-6 + 6 * z}deg)`;
+  TILES.forEach(({ el, d }) => {
+    const k = p(t, 12.9 + d * 0.12, 13.3 + d * 0.12);
+    el.style.opacity = d === 0 ? 1 : k;
+    el.style.transform = `scale(${d === 0 ? 1 : 0.6 + 0.4 * back(k)})`;
+  });
+  $('s5cap').style.opacity = p(t, 14.3, 14.6);
+  $('s5cap').style.transform = `translateY(${(1 - back(p(t, 14.3, 14.8))) * 200}px)`;
+
+  // S6: QR pops, shine sweeps across it, rings pulse outward
+  const q = p(t, 16.7, 17.15);
+  $('qrcard').style.transform = `scale(${0.3 + 0.7 * back(q)})`;
+  $('qrshine').style.left = (-200 + ((t - 17.2) % 1.6) / 1.6 * 1000) + 'px';
+  $('qrshine').style.display = t > 17.2 ? '' : 'none';
+  [['r1', 0], ['r2', 0.8]].forEach(([id, off]) => {
+    const k = ((t - 17.2 - off) % 1.6 + 1.6) % 1.6 / 1.6;
+    $(id).style.display = t > 17.2 + off ? '' : 'none';
+    $(id).style.transform = `scale(${1 + k * 0.45})`;
+    $(id).style.opacity = 1 - k;
+  });
+  $('sh').style.opacity = p(t, 16.6, 16.9);
 };
 render(0);
 </script>
