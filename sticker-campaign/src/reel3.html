@@ -27,6 +27,7 @@
   .conf { position:absolute; width:150px; filter:drop-shadow(0 8px 10px rgba(0,0,0,.25)); }
   #leak { position:absolute; inset:-400px; pointer-events:none; mix-blend-mode:screen;
           background:radial-gradient(circle at 50% 50%, rgba(255,190,120,.55), rgba(255,140,90,.25) 25%, transparent 55%); }
+  #iris { position:absolute; inset:0; pointer-events:none; background:var(--paper); display:none; }
   #grain { position:absolute; inset:0; pointer-events:none; opacity:.10; mix-blend-mode:multiply;
            background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
 </style>
@@ -71,6 +72,7 @@
 </div>
 
 <div id="leak"></div>
+<div id="iris"></div>
 <div id="grain"></div>
 </div>
 
@@ -82,78 +84,120 @@ const outCubic = (x) => 1 - Math.pow(1 - x, 3);
 const inCubic = (x) => x * x * x;
 const $ = (id) => document.getElementById(id);
 
-const SCENES = [['s1', 0, 2.6], ['s2', 2.6, 6.4], ['s3', 6.4, 10.2], ['s4', 10.2, 14.0], ['s5', 14.0, 18.0], ['s6', 18.0, 22.5]];
+// Timeline matches tools/mix_reel3.py output (voice clips with effects in the gaps).
+const SCENES = [['s1', 0, 2.75], ['s2', 2.75, 6.11], ['s3', 6.11, 9.99], ['s4', 9.99, 14.01], ['s5', 14.01, 21.15], ['s6', 21.15, 24.67]];
+const CUTS = [2.75, 6.11, 9.99, 14.01, 21.15];
+
+function spark(parent, x, y, size) {
+  const el = document.createElement('div'); el.className = 'spark';
+  Object.assign(el.style, { left: x + 'px', top: y + 'px', width: size + 'px', height: size + 'px' });
+  parent.appendChild(el); return el;
+}
 
 // sparkles around the hook
-const SPARKS = [[160, 520, 0.2], [880, 600, 0.5], [120, 1250, 0.9], [900, 1180, 1.2], [520, 470, 1.5], [300, 1500, 1.8], [800, 1480, 0.7]]
-  .map(([x, y, d]) => { const el = document.createElement('div'); el.className = 'spark'; Object.assign(el.style, { left: x + 'px', top: y + 'px' }); $('s1').appendChild(el); return { el, d }; });
+const SPARKS = [[160, 520, 0.0], [880, 600, 0.15], [120, 1250, 0.3], [900, 1180, 0.45], [520, 470, 0.6], [300, 1500, 0.9], [800, 1480, 1.2]]
+  .map(([x, y, d]) => ({ el: spark($('s1'), x, y, 60), d }));
+
+// sparkle bursts: when a polaroid lands, on "الكل!", and on the final chime
+const BURSTS = [['s1', 1.88, 540, 1180], ['s2', 3.05, 540, 980], ['s3', 6.41, 540, 980], ['s4', 10.29, 540, 980], ['s6', 23.52, 540, 930]]
+  .map(([scene, at, cx, cy]) => ({ at, cx, cy, els: [...Array(10).keys()].map(() => spark($(scene), cx, cy, 70)) }));
+
+// mini stickers that pop onto each polaroid's corners after it lands
+const CORNERS = [['s2', 'p1', 3.3, ['roses_0', 'vintage_3']], ['s3', 'p2', 6.7, ['cozyhome_1', 'heritage_2']], ['s4', 'p3', 10.6, ['journal_0', 'ephemera_1']]]
+  .flatMap(([scene, , at, names]) => names.map((n, i) => {
+    const el = document.createElement('img'); el.src = `cut/${n}.png`; el.className = 'conf';
+    Object.assign(el.style, { width: '190px', left: i ? '110px' : '780px', top: i ? '1290px' : '520px' });
+    $(scene).appendChild(el); return { el, at: at + i * 0.18, r: i ? -12 : 14 };
+  }));
 
 // S5: three polaroids fanned + falling sticker confetti
 const FAN = [['stamps_body', -14, -230], ['botanical_body', 0, 0], ['journal_body', 14, 230]].map(([src, r, x], i) => {
   const el = document.createElement('div'); el.className = 'polaroid';
   el.innerHTML = `<div class="tape"></div><img class="ph" src="${src}.png" style="height:420px">`;
   Object.assign(el.style, { left: '290px', top: '560px', width: '500px', padding: '24px 24px 90px' });
-  $('s5').appendChild(el); return { el, r, x, at: 14.1 + i * 0.2 };
+  $('s5').appendChild(el); return { el, r, x, at: 14.05 + i * 0.15 };
 });
-const CONF = ['heritage_2', 'roses_0', 'cozyhome_1', 'journal_0', 'cozyautumn_2', 'autumn_ar_3', 'ephemera_1', 'vintage_3', 'heritage_4', 'cozyhome_4']
+const CONF = ['heritage_2', 'roses_0', 'cozyhome_1', 'journal_0', 'cozyautumn_2', 'autumn_ar_3', 'ephemera_1', 'vintage_3', 'heritage_4', 'cozyhome_4',
+  'roses_2', 'journal_4', 'cozyautumn_0', 'ephemera_4', 'vintage_0', 'heritage_1']
   .map((n, i) => {
     const el = document.createElement('img'); el.src = `cut/${n}.png`; el.className = 'conf';
     el.style.left = (i % 2 ? 20 + (i * 37) % 110 : 900 - (i * 41) % 110) + 'px'; $('s5').appendChild(el);
-    return { el, at: 14.6 + i * 0.22, spin: (i % 2 ? 1 : -1) * (120 + i * 20), drift: (i % 3 - 1) * 60 };
+    return { el, at: 14.3 + i * 0.36, spin: (i % 2 ? 1 : -1) * (120 + i * 20), drift: (i % 3 - 1) * 60 };
   });
 const TW = 'ملف PDF · تحميل فوري\nتطبع كل ما احتجت';
 
 function polaroid(el, t, a, b) {
-  // drop in with a swing, then slide out to the side at the end of the scene
-  const k = p(t, a, a + 0.55);
+  // fast drop with a swing (lands with the whoosh), then slides out at the end of the scene
+  const k = p(t, a, a + 0.3);
   const y = (1 - outCubic(k)) * -1400;
-  const swing = Math.sin((t - a) * 5) * 7 * Math.exp(-(t - a) * 1.6);
-  const out = inCubic(p(t, b - 0.35, b));
+  const swing = Math.sin((t - a) * 6) * 8 * Math.exp(-(t - a) * 1.8);
+  const out = inCubic(p(t, b - 0.3, b));
   el.style.transform = `translate(${out * 1300}px, ${y}px) rotate(${-3 + swing + out * 18}deg)`;
 }
 
 window.render = (t) => {
   SCENES.forEach(([id, a, b]) => { $(id).style.display = t >= a && t < b ? 'block' : 'none'; });
 
+  // iris reveal on every cut + a soft zoom punch
+  const c = CUTS.filter((x) => t >= x).pop();
+  const ir = c === undefined ? 1 : outCubic(p(t, c, c + 0.4));
+  const R = ir * 1250;
+  $('iris').style.webkitMaskImage = $('iris').style.maskImage = `radial-gradient(circle at 50% 50%, transparent ${R}px, #000 ${R + 3}px)`;
+  $('iris').style.display = ir < 1 ? 'block' : 'none';
+  const punch = c === undefined ? 0 : 0.05 * Math.exp(-(t - c) * 6);
+  $('stage').style.transform = `scale(${1.0 + punch + 0.012 * Math.sin(t * 0.8)})`;
+
   // light leak drifts across the whole video
   $('leak').style.transform = `translate(${Math.sin(t * 0.45) * 520}px, ${Math.cos(t * 0.31) * 760}px)`;
   $('leak').style.opacity = 0.55 + 0.25 * Math.sin(t * 0.9);
 
   // S1
-  $('h1').style.transform = `translateY(${(1 - back(p(t, 0, 0.5))) * 120}px)`;
-  $('h1').style.opacity = p(t, 0, 0.25);
-  const h2 = p(t, 1.1, 1.45);
+  $('h1').style.transform = `translateY(${(1 - back(p(t, 0.3, 0.75))) * 120}px)`;
+  $('h1').style.opacity = p(t, 0.3, 0.5);
+  const h2 = p(t, 1.88, 2.15);
   $('h2').style.opacity = h2 > 0 ? 1 : 0;
   $('h2').style.transform = `scale(${0.2 + 0.8 * back(h2)}) rotate(${-6 + 6 * h2}deg)`;
   SPARKS.forEach(({ el, d }) => {
     const s = Math.max(0, Math.sin((t - d) * 4));
     el.style.opacity = t > d ? s : 0; el.style.transform = `scale(${0.4 + s}) rotate(${t * 90}deg)`;
   });
+  BURSTS.forEach(({ at, els }) => els.forEach((el, i) => {
+    const k = p(t, at, at + 0.7);
+    const ang = (i / els.length) * Math.PI * 2;
+    const r = outCubic(k) * (260 + (i % 3) * 70);
+    el.style.opacity = k > 0 && k < 1 ? 1 - k : 0;
+    el.style.transform = `translate(${Math.cos(ang) * r}px, ${Math.sin(ang) * r}px) scale(${1.2 - k}) rotate(${k * 180}deg)`;
+  }));
 
   // S2-S4
-  polaroid($('p1'), t, 2.6, 6.4);
-  polaroid($('p2'), t, 6.4, 10.2);
-  polaroid($('p3'), t, 10.2, 14.0);
+  polaroid($('p1'), t, 2.75, 6.11);
+  polaroid($('p2'), t, 6.11, 9.99);
+  polaroid($('p3'), t, 9.99, 14.01);
+  CORNERS.forEach(({ el, at, r }) => {
+    const k = p(t, at, at + 0.3);
+    el.style.opacity = k > 0 ? 1 : 0;
+    el.style.transform = `scale(${back(k)}) rotate(${r + Math.sin(t * 2) * 3}deg)`;
+  });
 
   // S5
   FAN.forEach(({ el, r, x, at }) => {
-    const k = back(p(t, at, at + 0.45));
-    el.style.transform = `translate(${x * k}px, ${(1 - k) * 300}px) rotate(${r * k}deg) scale(${0.6 + 0.4 * k})`;
+    const k = back(p(t, at, at + 0.4));
+    el.style.transform = `translate(${x * k}px, ${(1 - k) * 300}px) rotate(${r * k + Math.sin(t * 1.5) * 1.5}deg) scale(${0.6 + 0.4 * k})`;
     el.style.opacity = p(t, at, at + 0.1);
   });
   CONF.forEach(({ el, at, spin, drift }) => {
-    const k = p(t, at, at + 2.4);
+    const k = p(t, at, at + 2.6);
     el.style.display = k > 0 && k < 1 ? '' : 'none';
     el.style.top = (-220 + k * 2300) + 'px';
     el.style.transform = `translateX(${Math.sin(k * 6) * drift}px) rotate(${k * spin}deg)`;
   });
-  const n = Math.floor(p(t, 15.0, 16.6) * TW.length);
-  $('tw').textContent = TW.slice(0, n) + (n < TW.length && t > 15 ? '|' : '');
+  const n = Math.floor(p(t, 16.3, 19.6) * TW.length);
+  $('tw').textContent = TW.slice(0, n) + (n < TW.length && t > 16.3 ? '|' : '');
 
-  // S6
-  const q = p(t, 18.1, 18.7);
-  const qs = Math.sin((t - 18.1) * 5) * 6 * Math.exp(-(t - 18.1) * 1.5);
-  $('qr').style.transform = `translateY(${(1 - outCubic(q)) * -1400}px) rotate(${t > 18.1 ? qs : 0}deg)`;
+  // S6: QR slams down with the stamp sound
+  const q = p(t, 21.15, 21.33);
+  const qs = Math.sin((t - 21.33) * 6) * 5 * Math.exp(-(t - 21.33) * 2);
+  $('qr').style.transform = `translateY(${(1 - q) * -1400}px) rotate(${t > 21.33 ? qs : 0}deg) scale(${1 + (t > 21.33 ? 0.04 * Math.exp(-(t - 21.33) * 8) : 0)})`;
 };
 render(0);
 </script>
