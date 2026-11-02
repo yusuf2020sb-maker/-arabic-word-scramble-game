@@ -87,7 +87,8 @@ const inOut = (x) => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
 const $ = (id) => document.getElementById(id);
 const rnd = (seed) => { const x = Math.sin(seed * 12.9898) * 43758.5453; return x - Math.floor(x); };
 
-const SCENES = [['s1', 0, 3.2], ['s2', 3.2, 6.4], ['s3', 6.4, 9.6], ['s4', 9.6, 12.8], ['s5', 12.8, 16.6], ['s6', 16.6, 21.0]];
+// Timeline matches tools/mix_reel4.py output (voice clips with effects in the gaps).
+const SCENES = [['s1', 0, 4.19], ['s2', 4.19, 8.44], ['s3', 8.44, 13.57], ['s4', 13.57, 17.55], ['s5', 17.55, 22.65], ['s6', 22.65, 28.0]];
 
 // floating gold bokeh across the whole video
 const BOKEH = [...Array(16)].map((_, i) => {
@@ -99,10 +100,10 @@ const BOKEH = [...Array(16)].map((_, i) => {
 
 // flip cards: front = number + audience, back = their sticker sheet; side stickers float in
 const CARDS = [
-  ['s2', '١', 'أصحاب<br>المشاريع', 'تغليف يخلي طلبك ينحفظ', 'stamps_body', ['roses_0', 'vintage_3'], 3.2],
-  ['s3', '٢', 'المعلمين<br>والمعلمات', 'تحفيز للطلاب وتزيين للدفاتر', 'botanical_body', ['cozyhome_1', 'heritage_2'], 6.4],
-  ['s4', '٣', 'محبين<br>الجورنال', 'صفحات ما تكون فاضية', 'journal_body', ['journal_0', 'ephemera_1'], 9.6],
-].map(([scene, n, who, line, img, side, at]) => {
+  ['s2', '١', 'أصحاب<br>المشاريع', 'تغليف يخلي طلبك ينحفظ', 'stamps_body', ['roses_0', 'vintage_3'], 4.19, 5.82, 6.18, 8.44],
+  ['s3', '٢', 'المعلمين<br>والمعلمات', 'تحفيز للطلاب وتزيين للدفاتر', 'botanical_body', ['cozyhome_1', 'heritage_2'], 8.44, 10.64, 11.00, 13.57],
+  ['s4', '٣', 'محبين<br>الجورنال', 'صفحات ما تكون فاضية', 'journal_body', ['journal_0', 'ephemera_1'], 13.57, 15.24, 15.60, 17.55],
+].map(([scene, n, who, line, img, side, at, flipAt, lineAt, end]) => {
   $(scene).innerHTML = `
     <div class="flipwrap"><div class="card">
       <div class="face front"><div class="n shine">${n}</div><div class="w">${who}</div></div>
@@ -112,7 +113,7 @@ const CARDS = [
     <img class="stk" src="cut/${side[1]}.png" style="left:790px; top:1330px; width:250px">
     <div class="abs center amiri gold" style="top:1560px; font-size:72px">${line}</div>`;
   const el = $(scene);
-  return { card: el.querySelector('.card'), wrap: el.querySelector('.flipwrap'), a: el.children[1], b: el.children[2], line: el.children[3], at };
+  return { card: el.querySelector('.card'), wrap: el.querySelector('.flipwrap'), a: el.children[1], b: el.children[2], line: el.children[3], at, flipAt, lineAt, end };
 });
 
 // mosaic wall of sheet thumbnails (5 x 5), centred tile is the hero
@@ -136,7 +137,7 @@ window.render = (t) => {
   });
 
   // S1: words blur in one by one, then the shine sweeps
-  [['w1', 0.2], ['w2', 0.7], ['w3', 1.4]].forEach(([id, at]) => {
+  [['w1', 0.6], ['w2', 1.2], ['w3', 2.4]].forEach(([id, at]) => {
     const k = p(t, at, at + 0.45);
     $(id).style.opacity = k;
     $(id).style.filter = `blur(${(1 - k) * 24}px)`;
@@ -145,44 +146,44 @@ window.render = (t) => {
   document.querySelectorAll('.shine').forEach((el) => { el.style.backgroundPosition = `${100 - ((t * 45) % 200)}% 0`; });
 
   // S2-S4: card rises, flips to reveal the stickers, side stickers drift in
-  CARDS.forEach(({ card, wrap, a, b, line, at }) => {
-    if (t < at || t >= at + 3.2) return;
+  CARDS.forEach(({ card, wrap, a, b, line, at, flipAt, lineAt, end }) => {
+    if (t < at || t >= end) return;
     const rise = back(p(t, at, at + 0.45));
     wrap.style.transform = `translateY(${(1 - rise) * 500}px) scale(${0.85 + 0.15 * rise})`;
-    const flip = inOut(p(t, at + 1.0, at + 1.6));
+    const flip = inOut(p(t, flipAt, flipAt + 0.3));
     card.style.transform = `rotateY(${flip * 180}deg) rotateX(${Math.sin(t * 1.6) * 4}deg)`;
     [a, b].forEach((el, i) => {
-      const k = p(t, at + 1.5 + i * 0.15, at + 1.9 + i * 0.15);
+      const k = p(t, flipAt + 0.3 + i * 0.15, flipAt + 0.7 + i * 0.15);
       el.style.opacity = k;
       el.style.transform = `translate(${(1 - outCubic(k)) * (i ? 300 : -300)}px, ${Math.sin(t * 2 + i) * 12}px) rotate(${(i ? 12 : -12) + Math.sin(t * 1.5 + i) * 4}deg)`;
     });
-    line.style.opacity = p(t, at + 1.7, at + 2.0);
-    line.style.filter = `blur(${(1 - p(t, at + 1.7, at + 2.0)) * 16}px)`;
+    line.style.opacity = p(t, lineAt, lineAt + 0.3);
+    line.style.filter = `blur(${(1 - p(t, lineAt, lineAt + 0.3)) * 16}px)`;
   });
 
   // S5: start zoomed into the centre tile, pull back to the full wall, tiles ripple in
-  const z = inOut(p(t, 12.9, 14.6));
+  const z = inOut(p(t, 17.6, 19.3));
   $('wall').style.transform = `scale(${3.2 - 2.55 * z}) rotate(${-6 + 6 * z}deg)`;
   TILES.forEach(({ el, d }) => {
-    const k = p(t, 12.9 + d * 0.12, 13.3 + d * 0.12);
+    const k = p(t, 17.6 + d * 0.12, 18.0 + d * 0.12);
     el.style.opacity = d === 0 ? 1 : k;
     el.style.transform = `scale(${d === 0 ? 1 : 0.6 + 0.4 * back(k)})`;
   });
-  $('s5cap').style.opacity = p(t, 14.3, 14.6);
-  $('s5cap').style.transform = `translateY(${(1 - back(p(t, 14.3, 14.8))) * 200}px)`;
+  $('s5cap').style.opacity = p(t, 18.2, 18.5);
+  $('s5cap').style.transform = `translateY(${(1 - back(p(t, 18.2, 18.7))) * 200}px)`;
 
   // S6: QR pops, shine sweeps across it, rings pulse outward
-  const q = p(t, 16.7, 17.15);
+  const q = p(t, 22.65, 23.0);
   $('qrcard').style.transform = `scale(${0.3 + 0.7 * back(q)})`;
-  $('qrshine').style.left = (-200 + ((t - 17.2) % 1.6) / 1.6 * 1000) + 'px';
-  $('qrshine').style.display = t > 17.2 ? '' : 'none';
+  $('qrshine').style.left = (-200 + ((t - 23.2) % 1.6) / 1.6 * 1000) + 'px';
+  $('qrshine').style.display = t > 23.2 ? '' : 'none';
   [['r1', 0], ['r2', 0.8]].forEach(([id, off]) => {
-    const k = ((t - 17.2 - off) % 1.6 + 1.6) % 1.6 / 1.6;
-    $(id).style.display = t > 17.2 + off ? '' : 'none';
+    const k = ((t - 23.2 - off) % 1.6 + 1.6) % 1.6 / 1.6;
+    $(id).style.display = t > 23.2 + off ? '' : 'none';
     $(id).style.transform = `scale(${1 + k * 0.45})`;
     $(id).style.opacity = 1 - k;
   });
-  $('sh').style.opacity = p(t, 16.6, 16.9);
+  $('sh').style.opacity = p(t, 22.65, 22.95);
 };
 render(0);
 </script>
