@@ -89,8 +89,8 @@ const outCubic = (x) => 1 - Math.pow(1 - x, 3);
 const shake = (t, at, dur, amp) => { const k = 1 - p(t, at, at + dur); return t < at ? 0 : amp * k * Math.sin((t - at) * 95); };
 const $ = (id) => document.getElementById(id);
 
-const SCENES = [['s1', 0, 1.7], ['s2', 1.7, 5.4], ['s3', 5.4, 9.4], ['s4', 9.4, 13.0], ['s5', 13.0, 16.6], ['s6', 16.6, 21.0]];
-const CUTS = [1.7, 5.4, 9.4, 13.0, 16.6];
+const SCENES = [['s1', 0, 2.9], ['s2', 2.9, 5.2], ['s3', 5.2, 9.9], ['s4', 9.9, 13.6], ['s5', 13.6, 15.1], ['s6', 15.1, 19.5]];
+const CUTS = [2.9, 5.2, 9.9, 13.6, 15.1];
 
 const SHEETS = ['cozyhome', 'journal', 'heritage', 'roses', 'cozyautumn', 'stamps', 'ephemera', 'autumn_ar', 'vintage', 'botanical']
   .map((n) => { const el = document.createElement('img'); el.src = `sheets/${n}.jpg`; el.className = 'sheet'; $('s4').appendChild(el); return el; });
@@ -102,7 +102,7 @@ const FILL = [
 ].map(([src, x, y, w, r], i) => {
   const el = document.createElement('img'); el.src = `cut/${src}.png`; el.className = 'stk';
   Object.assign(el.style, { left: x + 'px', top: y + 'px', width: w + 'px' });
-  $('s5').appendChild(el); return { el, r, at: 13.6 + i * 0.22 };
+  $('s5').appendChild(el); return { el, r, at: 13.7 + i * 0.12 };
 });
 
 window.render = (t) => {
@@ -111,7 +111,7 @@ window.render = (t) => {
   // white flash on each cut
   $('flash').style.opacity = Math.max(0, ...CUTS.map((c) => (t >= c ? 0.55 * (1 - p(t, c, c + 0.12)) : 0)));
   // stage shake (stamp slam + sticker slaps)
-  let sx = shake(t, 0.05, 0.35, 18) + shake(t, 3.75, 0.35, 22);
+  let sx = shake(t, 0.05, 0.35, 18) + shake(t, 4.68, 0.35, 22);
   FILL.forEach(({ at }) => { sx += shake(t, at, 0.15, 6); });
   $('stage').style.transform = `translate(${sx}px, ${sx * 0.6}px)`;
 
@@ -119,28 +119,28 @@ window.render = (t) => {
   const h = p(t, 0.0, 0.22);
   $('hook').style.transform = `scale(${3 - 2 * outCubic(h)})`;
   $('hook').style.opacity = h;
-  $('hook2').style.opacity = p(t, 0.8, 0.95);
-  $('hook2').style.transform = `scale(${0.6 + 0.4 * back(p(t, 0.8, 1.05))})`;
+  $('hook2').style.opacity = p(t, 1.9, 2.05);
+  $('hook2').style.transform = `scale(${0.6 + 0.4 * back(p(t, 1.9, 2.15))})`;
 
   // S2
-  $('q1').style.opacity = p(t, 1.8, 2.0);
-  $('q2').style.opacity = p(t, 2.3, 2.5);
-  $('emptyPage').style.transform = `rotate(${-2 + p(t, 1.7, 5.4) * 1.5}deg) scale(${1 + 0.04 * p(t, 1.7, 5.4)})`;
-  const s = p(t, 3.6, 3.78);
+  $('q1').style.opacity = p(t, 3.1, 3.3);
+  $('q2').style.opacity = p(t, 4.0, 4.2);
+  $('emptyPage').style.transform = `rotate(${-2 + p(t, 2.9, 5.2) * 1.5}deg) scale(${1 + 0.04 * p(t, 2.9, 5.2)})`;
+  const s = p(t, 4.5, 4.68);
   $('stamp').style.opacity = s > 0 ? 0.92 : 0;
   $('stamp').style.transform = `rotate(-12deg) scale(${2.4 - 1.4 * outCubic(s)})`;
 
   // S3 steps slide in
-  $('how').style.transform = `scale(${0.5 + 0.5 * back(p(t, 5.4, 5.7))})`;
-  [['st1', 6.0], ['st2', 7.0], ['st3', 8.0]].forEach(([id, at]) => {
+  $('how').style.transform = `scale(${0.5 + 0.5 * back(p(t, 5.2, 5.5))})`;
+  [['st1', 5.35], ['st2', 6.6], ['st3', 8.2]].forEach(([id, at]) => {
     const k = p(t, at, at + 0.3);
     $(id).style.opacity = k;
     $(id).style.transform = `translateX(${(1 - outCubic(k)) * -700}px)`;
   });
 
   // S4 montage: one sheet every 0.36s, slow push-in
-  const idx = Math.min(SHEETS.length - 1, Math.floor(Math.max(0, t - 9.4) / 0.36));
-  const local = ((t - 9.4) % 0.36) / 0.36;
+  const idx = Math.min(SHEETS.length - 1, Math.floor(Math.max(0, t - 9.9) / 0.36));
+  const local = ((t - 9.9) % 0.36) / 0.36;
   SHEETS.forEach((el, i) => {
     el.style.display = i === idx ? '' : 'none';
     el.style.transform = `scale(${1 + 0.06 * local}) rotate(${i % 2 ? 1.5 : -1.5}deg)`;
@@ -155,7 +155,7 @@ window.render = (t) => {
   });
 
   // S6 QR card
-  $('qrcard').style.transform = `rotate(${-3 + 3 * outCubic(p(t, 16.7, 17.2))}deg) scale(${0.5 + 0.5 * back(p(t, 16.7, 17.2))})`;
+  $('qrcard').style.transform = `rotate(${-3 + 3 * outCubic(p(t, 15.2, 15.7))}deg) scale(${0.5 + 0.5 * back(p(t, 15.2, 15.7))})`;
 };
 render(0);
 </script>
