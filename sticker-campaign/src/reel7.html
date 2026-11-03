@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700;800&family=Kufam:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#ece6dc; --me:#dcefd2; --them:#ffffff; --ink:#1d1d1b; --muted:#8a8478; --accent:#4f7c5a; --head:#3f6a4b; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html, body { width:1080px; height:1920px; overflow:clip; font-family:'Almarai',sans-serif; color:var(--ink); background:#2a2520; }
+  #stage { position:absolute; inset:0; overflow:clip; }
+  #phone { position:absolute; left:0; top:0; width:1080px; height:1920px; transform-origin:540px 960px; overflow:hidden; background:var(--bg);
+    background-image:radial-gradient(rgba(79,124,90,.10) 3px, transparent 4px), radial-gradient(rgba(176,141,87,.10) 2px, transparent 3px);
+    background-size:90px 90px, 60px 60px; background-position:0 0, 30px 40px; }
+  #head { position:absolute; left:0; right:0; top:0; height:230px; background:var(--head); color:#fff; display:flex; align-items:flex-end; padding:0 50px 34px; gap:28px; z-index:5; }
+  #head .av { width:110px; height:110px; border-radius:50%; background:#fff; display:flex; align-items:center; justify-content:center; font-size:64px; }
+  #head .nm { font-family:'Kufam'; font-weight:800; font-size:54px; }
+  #head .st { font-size:34px; opacity:.85; margin-top:4px; }
+  #list { position:absolute; left:0; right:0; top:230px; bottom:210px; display:flex; flex-direction:column; justify-content:flex-end; padding:0 36px 20px; gap:22px; overflow:hidden; }
+  .msg { max-width:780px; padding:24px 34px 18px; border-radius:38px; font-size:50px; line-height:1.4; box-shadow:0 3px 0 rgba(0,0,0,.08); position:relative; transform-origin:bottom right; }
+  .them { align-self:flex-start; background:var(--them); border-top-right-radius:10px; }
+  .me { align-self:flex-end; background:var(--me); border-top-left-radius:10px; transform-origin:bottom left; }
+  .msg .tm { display:block; text-align:left; font-size:26px; color:var(--muted); margin-top:4px; }
+  .img { padding:16px; }
+  .img img { display:block; width:340px; height:340px; object-fit:contain; background:#f4efe6; border-radius:26px; }
+  .row { display:flex; gap:14px; }
+  .row img { width:200px; height:200px; }
+  .react { position:absolute; bottom:-30px; left:30px; background:#fff; border-radius:30px; padding:4px 14px; font-size:40px; box-shadow:0 3px 8px rgba(0,0,0,.15); }
+  .typing { align-self:flex-start; background:#fff; border-radius:38px; border-top-right-radius:10px; padding:30px 40px; display:flex; gap:14px; }
+  .typing i { width:20px; height:20px; border-radius:50%; background:var(--muted); display:block; }
+  .link { padding:16px; width:640px; }
+  .link .card { background:#f4efe6; border-radius:26px; overflow:hidden; }
+  .link .qr { background:#fff; padding:30px; display:flex; justify-content:center; }
+  .link .qr img { width:380px; height:380px; }
+  .link .meta { padding:22px 28px; }
+  .link .meta b { display:block; font-size:44px; }
+  .link .meta span { font-size:34px; color:var(--accent); direction:ltr; display:block; text-align:right; }
+  #bar { position:absolute; left:0; right:0; bottom:0; height:210px; background:#f6f2ea; display:flex; align-items:center; padding:0 36px 40px; gap:24px; z-index:5; }
+  #field { flex:1; height:110px; background:#fff; border-radius:55px; font-size:44px; display:flex; align-items:center; padding:0 40px; color:var(--muted); }
+  #send { width:110px; height:110px; border-radius:50%; background:var(--accent); color:#fff; display:flex; align-items:center; justify-content:center; font-size:56px; }
+  #end { position:absolute; left:0; right:0; top:120px; text-align:center; color:#f6f2ea; opacity:0; }
+  #end .a { font-family:'Kufam'; font-weight:800; font-size:110px; }
+  #end .b { font-size:52px; margin-top:10px; color:#d9c9a8; direction:ltr; }
+  #hearts span { position:absolute; left:0; top:0; font-size:70px; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="end"><div class="a">المتجر بالكود</div><div class="b">planme.zaher.io</div></div>
+  <div id="phone">
+    <div id="head"><div class="av">🌿</div><div><div class="nm">الشلة</div><div class="st" id="status">متصل</div></div></div>
+    <div id="list"></div>
+    <div id="bar"><div id="field"></div><div id="send">➤</div></div>
+    <div id="hearts"></div>
+  </div>
+</div>
+
+<script>
+const clamp = (x) => Math.min(1, Math.max(0, x));
+const p = (t, a, b) => clamp((t - a) / (b - a));
+const back = (x) => { const c1 = 1.9, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+const inOut = (x) => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const $ = (id) => document.getElementById(id);
+
+// [time, who, kind, content] — 'me' messages are typed into the field first
+const CHAT = [
+  [0.9, 'them', 'text', 'شفتوا دفتري الجديد؟ 😍'],
+  [1.9, 'them', 'img', 'vases_p7'],
+  [3.4, 'me', 'text', 'وش هالستيكرات!! من وين؟'],
+  [5.0, 'them', 'text', 'أطبعها من البيت 🖨️'],
+  [6.0, 'them', 'text', 'ملف PDF، وكل ما خلص أطبع من جديد'],
+  [7.6, 'me', 'text', 'طيب وش فيه أشكال؟'],
+  [8.8, 'them', 'row', ['stamps_p14', 'roses_p10', 'heritage_p29']],
+  [9.6, 'them', 'row', ['cozyautumn_p91', 'botanical_p47', 'vintage_p9']],
+  [10.6, 'them', 'text', 'ورود، طوابع، تراث، خريف… 11 مجموعة'],
+  [12.2, 'me', 'text', 'أبيها لتغليف طلباتي 📦'],
+  [13.2, 'them', 'text', 'وفيه للمدرسة وللجورنال بعد ✏️'],
+  [14.9, 'me', 'text', 'أرسل الرابط بسرعة!!'],
+  [16.3, 'them', 'link', ''],
+];
+// typing indicator windows before "them" messages
+const TYPING = [[0.3, 0.9], [4.3, 5.0], [8.2, 8.8], [12.7, 13.2], [15.6, 16.3]];
+// 'me' messages: text types into the field during the window before they are sent
+const TYPE_LEAD = 1.0;
+
+const list = $('list');
+const typing = document.createElement('div'); typing.className = 'typing'; typing.innerHTML = '<i></i><i></i><i></i>';
+const ELS = CHAT.map(([at, who, kind, c], i) => {
+  const el = document.createElement('div'); el.className = `msg ${who}`;
+  const tm = `<span class="tm">9:4${Math.min(9, 1 + Math.floor(i / 2))} م${who === 'me' ? ' ✓✓' : ''}</span>`;
+  if (kind === 'text') el.innerHTML = c + tm;
+  if (kind === 'img') { el.classList.add('img'); el.innerHTML = `<img src="cut4/${c}.png">${tm}`; }
+  if (kind === 'row') { el.classList.add('img'); el.innerHTML = `<div class="row">${c.map((s) => `<img src="cut4/${s}.png">`).join('')}</div>${tm}`; }
+  if (kind === 'link') { el.classList.add('link'); el.innerHTML = `<div class="card"><div class="qr"><img src="qr_store.png"></div><div class="meta"><b>المتجر · ستيكرات فنتج</b><span>planme.zaher.io</span></div></div>${tm}`; }
+  el.style.display = 'none'; list.appendChild(el);
+  return { el, at, who, kind, c };
+});
+list.appendChild(typing);
+
+// reactions that pop onto earlier messages
+const REACTS = [[2, 4.0, '❤️'], [4, 6.6, '😮'], [6, 10.0, '😍'], [8, 11.2, '🔥'], [10, 13.8, '👍']].map(([idx, at, e]) => {
+  const r = document.createElement('div'); r.className = 'react'; r.textContent = e; r.style.display = 'none';
+  ELS[idx].el.appendChild(r); return { r, at };
+});
+// floating hearts when the link arrives
+const HEARTS = [...Array(10)].map((_, i) => { const s = document.createElement('span'); s.textContent = ['❤️', '💚', '🤍'][i % 3]; $('hearts').appendChild(s); return { s, x: 120 + (i * 97) % 840, d: i * 0.12 }; });
+
+window.render = (t) => {
+  // messages appear with a springy pop
+  ELS.forEach(({ el, at }) => {
+    el.style.display = t >= at ? '' : 'none';
+    const k = p(t, at, at + 0.35);
+    el.style.transform = `scale(${0.55 + 0.45 * back(k)})`;
+    el.style.opacity = Math.min(1, k * 3);
+  });
+  const ty = TYPING.find(([a, b]) => t >= a && t < b);
+  typing.style.display = ty ? 'flex' : 'none';
+  [...typing.children].forEach((d, i) => { d.style.transform = `translateY(${Math.sin(t * 12 - i * 0.9) * -10}px)`; });
+  $('status').textContent = ty ? 'يكتب…' : 'متصل';
+  REACTS.forEach(({ r, at }) => { r.style.display = t >= at ? '' : 'none'; r.style.transform = `scale(${back(p(t, at, at + 0.3))})`; });
+
+  // the input field types out each of my messages, then sends
+  const mine = ELS.find(({ who, at }) => who === 'me' && t >= at - TYPE_LEAD && t < at);
+  if (mine) {
+    const txt = mine.c, n = Math.floor(p(t, mine.at - TYPE_LEAD, mine.at - 0.15) * txt.length);
+    $('field').textContent = txt.slice(0, n); $('field').style.color = 'var(--ink)';
+  } else { $('field').textContent = 'رسالة'; $('field').style.color = 'var(--muted)'; }
+  const sent = ELS.find(({ who, at }) => who === 'me' && t >= at && t < at + 0.25);
+  $('send').style.transform = `scale(${sent ? 0.85 : 1})`;
+
+  // shake on the excited message
+  const sh = t > 14.9 && t < 15.3 ? Math.sin(t * 90) * 10 * (1 - p(t, 14.9, 15.3)) : 0;
+
+  // hearts float up when the link lands
+  HEARTS.forEach(({ s, x, d }) => {
+    const k = p(t, 16.7 + d, 18.2 + d);
+    s.style.display = k > 0 && k < 1 ? '' : 'none';
+    s.style.transform = `translate(${x + Math.sin(k * 8 + d) * 40}px, ${1700 - k * 1100}px) scale(${0.6 + k * 0.6})`;
+    s.style.opacity = 1 - k;
+  });
+
+  // pull back to reveal the phone, then the end title
+  const z = inOut(p(t, 18.4, 19.4));
+  $('phone').style.transform = `translate(${sh}px, ${z * 240}px) scale(${1 - z * 0.36}) rotate(${z * -3}deg)`;
+  $('phone').style.borderRadius = (z * 80) + 'px';
+  $('phone').style.boxShadow = `0 0 0 ${z * 22}px #111, 0 40px 80px rgba(0,0,0,${0.5 * z})`;
+  $('end').style.opacity = p(t, 19.2, 19.6);
+  $('end').style.transform = `translateY(${(1 - p(t, 19.2, 19.7)) * 40}px)`;
+};
+render(0);
+</script>
+</body>
+</html>
