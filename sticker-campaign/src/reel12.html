@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@600;800;900&family=Vazirmatn:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --p1:#5b2a86; --p2:#2d1b69; --yel:#ffe066; --pink:#ff5d8f; --green:#2ec27e; --white:#fff; --ink:#1c1240; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html, body { width:1080px; height:1920px; overflow:clip; font-family:'Vazirmatn',sans-serif; color:var(--white); }
+  #stage { position:absolute; inset:0; overflow:clip; background:linear-gradient(160deg, var(--p1), var(--p2)); }
+  #pattern { position:absolute; inset:-200px; opacity:.10; background-image:radial-gradient(#fff 3px, transparent 4px), radial-gradient(#fff 2px, transparent 3px); background-size:120px 120px, 60px 60px; background-position:0 0, 30px 30px; }
+  .scene { position:absolute; inset:0; overflow:clip; display:none; }
+  .abs { position:absolute; }
+  .center { width:100%; text-align:center; }
+  .al { font-family:'Alexandria',sans-serif; font-weight:900; }
+  .round { position:absolute; left:50%; top:170px; transform:translateX(-50%); background:var(--yel); color:var(--ink); font-family:'Alexandria'; font-weight:900; font-size:50px; padding:10px 44px; border-radius:40px; white-space:nowrap; }
+  .q { position:absolute; left:0; right:0; top:280px; text-align:center; font-family:'Alexandria'; font-weight:800; font-size:76px; }
+  .frame { position:absolute; left:190px; top:440px; width:700px; height:700px; border-radius:50px; background:#fff; box-shadow:0 0 0 14px rgba(255,255,255,.18), 0 30px 60px rgba(0,0,0,.35); overflow:hidden; }
+  .frame canvas, .frame .pz { position:absolute; inset:0; }
+  .timer { position:absolute; left:190px; top:1180px; width:700px; height:34px; border-radius:17px; background:rgba(255,255,255,.2); overflow:hidden; }
+  .timer i { position:absolute; left:0; top:0; bottom:0; width:100%; background:var(--yel); display:block; transform-origin:left; }
+  .opts { position:absolute; left:110px; right:110px; top:1270px; display:flex; flex-direction:column; gap:26px; }
+  .opt { height:130px; border-radius:30px; background:var(--white); color:var(--ink); font-family:'Alexandria'; font-weight:800; font-size:58px; display:flex; align-items:center; padding:0 46px; gap:30px; box-shadow:0 10px 0 rgba(0,0,0,.25); }
+  .opt b { width:80px; height:80px; border-radius:50%; background:var(--p1); color:#fff; display:flex; align-items:center; justify-content:center; font-size:44px; }
+  .opt.ok { background:var(--green); color:#fff; }
+  .opt.ok b { background:#fff; color:var(--green); }
+  #dark { position:absolute; inset:0; background:#0c0820; }
+  .piece { position:absolute; left:0; top:0; width:233.34px; height:233.34px; background-repeat:no-repeat; background-color:#fff; box-shadow:inset 0 0 0 2px rgba(28,18,64,.12); }
+  /* 3D carousel */
+  #ring { position:absolute; left:540px; top:900px; width:0; height:0; transform-style:preserve-3d; }
+  #ringwrap { position:absolute; inset:0; perspective:1600px; }
+  .car { position:absolute; left:-170px; top:-170px; width:340px; height:340px; background:#fff; border-radius:40px; display:flex; align-items:center; justify-content:center; box-shadow:0 20px 40px rgba(0,0,0,.35); }
+  .car img { width:80%; height:80%; object-fit:contain; }
+  .star { position:absolute; top:520px; width:220px; height:220px; clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%); background:rgba(255,255,255,.2); }
+  .star i { position:absolute; inset:0; background:var(--yel); transform-origin:bottom; display:block; }
+  #qr { position:absolute; left:290px; top:920px; width:500px; height:500px; background:#fff; border-radius:44px; padding:34px; box-shadow:0 0 0 14px rgba(255,224,102,.5), 0 30px 60px rgba(0,0,0,.4); }
+  .ring2 { position:absolute; left:540px; top:1170px; width:540px; height:540px; margin:-270px 0 0 -270px; border-radius:60px; border:6px solid var(--yel); }
+</style>
+</head>
+<body>
+<div id="stage">
+<div id="pattern"></div>
+
+<!-- S1: hook -->
+<div class="scene" id="s1">
+  <div class="abs center al" id="h1" style="top:600px; font-size:110px; line-height:1.2">تحدّي سريع…</div>
+  <div class="abs center al" id="h2" style="top:800px; font-size:130px; line-height:1.2; color:var(--yel)">تعرف<br>وش هذا؟ 👀</div>
+  <div class="abs center" id="h3" style="top:1240px; font-size:56px; font-weight:700">٣ جولات · جاوب قبل الوقت</div>
+</div>
+
+<!-- rounds are built in JS -->
+<div class="scene" id="r1"></div>
+<div class="scene" id="r2"></div>
+<div class="scene" id="r3"></div>
+
+<!-- S5: the answer: they're all stickers -->
+<div class="scene" id="s5">
+  <div class="abs center al" id="a1" style="top:260px; font-size:84px">الإجابة الصحيحة؟</div>
+  <div class="abs center al" id="a2" style="top:400px; font-size:76px; color:var(--yel); line-height:1.3">كلها ستيكرات<br>تطبعها في بيتك</div>
+  <div id="ringwrap"><div id="ring"></div></div>
+  <div class="abs center" id="a3" style="top:1400px; font-size:56px; font-weight:700; line-height:1.5">11 مجموعة فنتج<br>كل مجموعة ملف PDF مستقل</div>
+</div>
+
+<!-- S6: score + store -->
+<div class="scene" id="s6">
+  <div class="abs center al" style="top:260px; font-size:96px">نتيجتك ٣/٣</div>
+  <div class="star" style="left:150px"><i></i></div><div class="star" style="left:430px"><i></i></div><div class="star" style="left:710px"><i></i></div>
+  <div class="abs center al" id="prize" style="top:780px; font-size:66px; color:var(--yel)">جائزتك: المتجر 🎁</div>
+  <div class="ring2" id="rg"></div>
+  <div id="qr"><img src="qr_store.png" style="width:100%; height:100%"></div>
+  <div class="abs center al" id="url" style="top:1500px; font-size:60px; direction:ltr">planme.zaher.io</div>
+</div>
+</div>
+
+<script>
+const clamp = (x) => Math.min(1, Math.max(0, x));
+const p = (t, a, b) => clamp((t - a) / (b - a));
+const back = (x) => { const c1 = 1.8, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+const outCubic = (x) => 1 - Math.pow(1 - x, 3);
+const inOut = (x) => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const $ = (id) => document.getElementById(id);
+const rnd = (s) => { const x = Math.sin(s * 12.9898 + 78.233) * 43758.5453; return x - Math.floor(x); };
+
+const SCENES = [['s1', 0, 2.6], ['r1', 2.6, 7.8], ['r2', 7.8, 13.0], ['r3', 13.0, 18.2], ['s5', 18.2, 21.6], ['s6', 21.6, 26.0]];
+
+// each round: start, options, correct index, sticker, reveal style
+const ROUNDS = [
+  { id: 'r1', a: 2.6, src: 'cut5/vases_p3', opts: ['طابع بريد', 'مزهرية', 'كوب قهوة'], ok: 1, mode: 'pixel' },
+  { id: 'r2', a: 7.8, src: 'cut3/heritage_p18', opts: ['ساعة', 'إسطرلاب', 'بوصلة'], ok: 1, mode: 'light' },
+  { id: 'r3', a: 13.0, src: 'cut3/stamps_p38', opts: ['بطاقة', 'صورة', 'طابع ورد'], ok: 2, mode: 'puzzle' },
+].map((r, i) => {
+  const root = $(r.id);
+  root.innerHTML = `
+    <div class="round">الجولة ${['١', '٢', '٣'][i]}</div>
+    <div class="q">وش هذا؟</div>
+    <div class="frame"></div>
+    <div class="timer"><i></i></div>
+    <div class="opts">${r.opts.map((o, k) => `<div class="opt"><b>${['أ', 'ب', 'ج'][k]}</b>${o}</div>`).join('')}</div>`;
+  const frame = root.querySelector('.frame');
+  const img = new Image(); img.src = `${r.src}.png`;
+  const o = { ...r, root, frame, img, bar: root.querySelector('.timer i'), opts: [...root.querySelectorAll('.opt')] };
+  if (r.mode === 'pixel' || r.mode === 'light') {
+    o.cv = document.createElement('canvas'); o.cv.width = 700; o.cv.height = 700; frame.appendChild(o.cv); o.ctx = o.cv.getContext('2d');
+  }
+  if (r.mode === 'light') { o.dark = document.createElement('div'); o.dark.id = 'dark'; o.dark.style.position = 'absolute'; frame.appendChild(o.dark); }
+  if (r.mode === 'puzzle') {
+    o.pieces = [...Array(9)].map((_, k) => {
+      const el = document.createElement('div'); el.className = 'piece';
+      el.style.backgroundImage = `url(${r.src}.png)`;
+      frame.appendChild(el); return { el, c: k % 3, r: Math.floor(k / 3), k };
+    });
+  }
+  // timeline inside a round
+  o.show = r.a + 0.2; o.optsAt = r.a + 0.6; o.timerA = r.a + 1.0; o.timerB = r.a + 3.4; o.reveal = r.a + 3.4; o.okAt = r.a + 3.9;
+  return o;
+});
+
+// draw a sticker centred and contained in a 700x700 box
+function drawContain(ctx, img, size) {
+  const s = Math.min(560 / img.naturalWidth, 560 / img.naturalHeight) || 1;
+  const w = img.naturalWidth * s, h = img.naturalHeight * s;
+  return [(size - w) / 2, (size - h) / 2, w, h];
+}
+
+// carousel
+const CAR = ['cut5/vases_p3', 'cut3/heritage_p18', 'cut3/stamps_p38', 'cut4/cozyhome_p50', 'cut2/journal_p46', 'cut5/autumn_ar_p41'].map((src) => {
+  const el = document.createElement('div'); el.className = 'car'; el.innerHTML = `<img src="${src}.png">`; $('ring').appendChild(el); return el;
+});
+
+window.render = (t) => {
+  SCENES.forEach(([id, a, b]) => { $(id).style.display = t >= a && t < b ? 'block' : 'none'; });
+  $('pattern').style.transform = `translate(${(t * 25) % 120}px, ${(t * 40) % 120}px)`;
+
+  // S1
+  $('h1').style.opacity = p(t, 0.1, 0.3); $('h1').style.transform = `translateY(${(1 - back(p(t, 0.1, 0.5))) * 80}px)`;
+  $('h2').style.opacity = p(t, 0.8, 1.0); $('h2').style.transform = `scale(${0.4 + 0.6 * back(p(t, 0.8, 1.25))}) rotate(${Math.sin(t * 3) * 2}deg)`;
+  $('h3').style.opacity = p(t, 1.6, 1.9);
+
+  ROUNDS.forEach((o) => {
+    if (t < o.a || t >= o.a + 5.2) return;
+    o.root.querySelector('.round').style.transform = `translateX(-50%) scale(${back(p(t, o.a, o.a + 0.35))})`;
+    o.frame.style.transform = `scale(${0.6 + 0.4 * back(p(t, o.show, o.show + 0.4))})`;
+    o.opts.forEach((el, k) => {
+      const kk = outCubic(p(t, o.optsAt + k * 0.12, o.optsAt + 0.4 + k * 0.12));
+      el.style.transform = `translateX(${(1 - kk) * 1100}px) scale(${k === o.ok && t > o.okAt ? 1 + 0.06 * Math.sin((t - o.okAt) * 14) * (1 - p(t, o.okAt, o.okAt + 0.8)) : 1})`;
+      el.classList.toggle('ok', k === o.ok && t > o.okAt);
+      el.style.opacity = t > o.okAt && k !== o.ok ? 0.35 : 1;
+    });
+    o.bar.style.transform = `scaleX(${1 - p(t, o.timerA, o.timerB)})`;
+    o.bar.style.background = p(t, o.timerA, o.timerB) > 0.7 ? 'var(--pink)' : 'var(--yel)';
+    if (!o.img.complete) return;
+    const [x, y, w, h] = drawContain(null, o.img, 700);
+
+    if (o.mode === 'pixel') {
+      // mosaic that gets finer, then snaps sharp on reveal
+      const steps = [10, 14, 20, 28, 40];
+      const lvl = Math.min(steps.length - 1, Math.floor(p(t, o.timerA, o.timerB) * steps.length));
+      const n = t >= o.reveal ? 0 : steps[lvl];
+      const c = o.ctx; c.clearRect(0, 0, 700, 700); c.fillStyle = '#fff'; c.fillRect(0, 0, 700, 700);
+      if (n === 0) { c.imageSmoothingEnabled = true; c.drawImage(o.img, x, y, w, h); }
+      else {
+        const tmp = o.tmp || (o.tmp = document.createElement('canvas')); tmp.width = n; tmp.height = n;
+        const tc = tmp.getContext('2d'); tc.fillStyle = '#fff'; tc.fillRect(0, 0, n, n); tc.drawImage(o.img, x / 700 * n, y / 700 * n, w / 700 * n, h / 700 * n);
+        c.imageSmoothingEnabled = false; c.drawImage(tmp, 0, 0, 700, 700);
+      }
+    }
+    if (o.mode === 'light') {
+      // a torch beam wanders in the dark, then the lights come on
+      const c = o.ctx; c.fillStyle = '#fff'; c.fillRect(0, 0, 700, 700); c.drawImage(o.img, x, y, w, h);
+      const u = p(t, o.show, o.reveal);
+      const lx = 350 + Math.sin(u * 7) * 200, ly = 350 + Math.cos(u * 5.3) * 190;
+      const on = p(t, o.reveal, o.reveal + 0.25);
+      o.dark.style.webkitMaskImage = o.dark.style.maskImage = `radial-gradient(circle ${150 + on * 900}px at ${lx}px ${ly}px, transparent 60%, #000 100%)`;
+      o.dark.style.opacity = 1 - on;
+    }
+    if (o.mode === 'puzzle') {
+      // pieces start scattered and fly into place one by one
+      o.pieces.forEach(({ el, c, r, k }) => {
+        el.style.backgroundSize = `${w}px ${h}px`;
+        el.style.backgroundPosition = `${x - c * 233.34}px ${y - r * 233.34}px`;
+        const order = [4, 0, 8, 2, 6, 1, 7, 3, 5].indexOf(k);
+        const kk = inOut(p(t, o.timerA + order * 0.24, o.timerA + 0.4 + order * 0.24));
+        const sx = (rnd(k) - 0.5) * 1100, sy = (rnd(k + 9) - 0.5) * 1100, sr = (rnd(k + 3) - 0.5) * 140;
+        el.style.transform = `translate(${c * 233.34 + sx * (1 - kk)}px, ${r * 233.34 + sy * (1 - kk)}px) rotate(${sr * (1 - kk)}deg)`;
+        el.style.opacity = kk > 0 ? 1 : 0;
+        el.style.boxShadow = t >= o.reveal ? 'none' : 'inset 0 0 0 2px rgba(28,18,64,.15)';
+      });
+    }
+  });
+
+  // S5: carousel spins
+  $('a1').style.opacity = p(t, 18.3, 18.5);
+  $('a2').style.opacity = p(t, 18.7, 19.0); $('a2').style.transform = `scale(${0.7 + 0.3 * back(p(t, 18.7, 19.1))})`;
+  $('a3').style.opacity = p(t, 19.8, 20.1);
+  const spin = (t - 18.2) * 70 + 200 * (1 - outCubic(p(t, 18.2, 19.2)));
+  $('ring').style.transform = `translateZ(-200px) rotateX(-10deg) rotateY(${spin}deg)`;
+  CAR.forEach((el, i) => {
+    el.style.transform = `rotateY(${i * 60}deg) translateZ(420px)`;
+    const ang = ((i * 60 + spin) % 360 + 360) % 360, front = Math.cos(ang * Math.PI / 180);
+    el.style.filter = `brightness(${0.55 + 0.45 * (front + 1) / 2})`;
+  });
+
+  // S6: stars fill one by one, then the store QR
+  [...$('s6').querySelectorAll('.star i')].forEach((s, i) => { const k = back(p(t, 21.8 + i * 0.3, 22.15 + i * 0.3)); s.style.transform = `scaleY(${clamp(k)})`; s.parentElement.style.transform = `scale(${0.8 + 0.2 * k})`; });
+  $('prize').style.opacity = p(t, 22.8, 23.1);
+  const q = back(p(t, 23.0, 23.5));
+  $('qr').style.transform = `scale(${0.3 + 0.7 * q})`; $('qr').style.opacity = p(t, 23.0, 23.1);
+  const pr = ((t - 23.5) % 1.2) / 1.2;
+  $('rg').style.display = t > 23.5 ? '' : 'none'; $('rg').style.transform = `scale(${1 + pr * 0.4})`; $('rg').style.opacity = 1 - pr;
+  $('url').style.opacity = p(t, 23.4, 23.7);
+};
+render(0);
+</script>
+</body>
+</html>
