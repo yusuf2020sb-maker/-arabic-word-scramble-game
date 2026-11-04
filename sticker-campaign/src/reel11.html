@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Mirza:wght@700&family=Noto+Sans+Arabic:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --red:#c8102e; --red-d:#8e0b20; --char:#1b1f2a; --char-l:#2a3040; --white:#f7f7f5; --yel:#ffd23f; --paper:#f1ede4; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html, body { width:1080px; height:1920px; overflow:clip; font-family:'Noto Sans Arabic',sans-serif; color:var(--white); }
+  #stage { position:absolute; inset:0; overflow:clip; background:radial-gradient(ellipse at 50% 35%, #3a4560, var(--char) 60%); }
+  #grid { position:absolute; inset:0; opacity:.12; background-image:linear-gradient(rgba(255,255,255,.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.5) 1px, transparent 1px); background-size:90px 90px; }
+  .scene { position:absolute; inset:0; overflow:clip; display:none; }
+  .abs { position:absolute; }
+  .center { width:100%; text-align:center; }
+  .bar { position:absolute; left:-300px; width:1700px; height:120px; transform:rotate(-12deg); }
+  #logo { position:absolute; left:290px; top:700px; width:500px; height:500px; border-radius:50%; border:16px solid var(--white); display:flex; align-items:center; justify-content:center; text-align:center; font-weight:900; font-size:70px; line-height:1.2; background:var(--red); }
+  #logo::before { content:''; position:absolute; inset:30px; border-radius:50%; border:6px dashed rgba(255,255,255,.6); }
+  #breaking { position:absolute; left:0; right:0; top:1300px; height:170px; background:var(--red); display:flex; align-items:center; justify-content:center; font-weight:900; font-size:110px; letter-spacing:4px; }
+  /* newspaper */
+  #paper { position:absolute; left:110px; top:430px; width:860px; height:1080px; background:var(--paper); color:#1a1a1a; padding:40px 46px; box-shadow:0 40px 80px rgba(0,0,0,.6); }
+  #paper .mast { font-family:'Mirza'; font-size:96px; text-align:center; border-bottom:6px double #1a1a1a; padding-bottom:6px; }
+  #paper .date { display:flex; justify-content:space-between; font-size:28px; border-bottom:2px solid #1a1a1a; padding:6px 0; margin-bottom:22px; }
+  #paper h1 { font-family:'Mirza'; font-size:84px; line-height:1.15; text-align:center; }
+  #paper .photo { margin:24px auto 18px; width:560px; height:380px; background:url(sheets/ephemera.jpg) center 30% / cover; filter:grayscale(.25) contrast(1.05); border:3px solid #1a1a1a; }
+  #paper .cols { columns:3; column-gap:26px; font-size:24px; line-height:1.55; color:#333; text-align:justify; }
+  /* report windows */
+  .feed { position:absolute; left:80px; top:360px; width:920px; height:1060px; border:10px solid var(--white); background:#000; overflow:hidden; box-shadow:0 30px 60px rgba(0,0,0,.5); }
+  .feed .bg { position:absolute; inset:0; background-size:cover; background-position:center; }
+  .feed .rec { position:absolute; right:30px; top:26px; display:flex; align-items:center; gap:14px; font-weight:900; font-size:40px; background:rgba(0,0,0,.55); padding:6px 22px; border-radius:10px; }
+  .feed .rec i { width:28px; height:28px; border-radius:50%; background:var(--red); display:block; }
+  .feed .stk { position:absolute; filter:drop-shadow(0 14px 18px rgba(0,0,0,.5)); }
+  .lower { position:absolute; left:40px; right:40px; top:1300px; height:230px; }
+  .lower .a { position:absolute; right:0; top:0; height:120px; background:var(--red); font-weight:900; font-size:66px; padding:10px 40px; white-space:nowrap; }
+  .lower .b { position:absolute; right:0; top:120px; height:100px; background:var(--white); color:var(--char); font-weight:700; font-size:52px; padding:12px 40px; white-space:nowrap; }
+  /* stats */
+  .stat { position:absolute; left:110px; right:110px; height:300px; background:var(--char-l); border-right:20px solid var(--red); display:flex; align-items:center; gap:40px; padding:0 50px; }
+  .odo { display:flex; font-weight:900; font-size:170px; color:var(--yel); height:200px; overflow:hidden; direction:ltr; line-height:200px; }
+  .odo .d { position:relative; width:105px; height:200px; overflow:hidden; }
+  .odo .d .col { position:absolute; left:0; top:0; width:100%; text-align:center; }
+  .stat .lbl { font-weight:700; font-size:58px; line-height:1.3; }
+  /* end */
+  #tv { position:absolute; left:190px; top:520px; width:700px; height:760px; background:#000; border:18px solid var(--char-l); border-radius:40px; box-shadow:0 0 0 8px var(--white), 0 40px 80px rgba(0,0,0,.6); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px; }
+  #tv img { width:440px; height:440px; background:#fff; padding:24px; border-radius:20px; }
+  /* ticker */
+  #ticker { position:absolute; left:0; right:0; top:1700px; height:110px; background:var(--white); color:var(--char); overflow:clip; display:none; }
+  #ticker .tag { position:absolute; right:0; top:0; bottom:0; width:220px; background:var(--red); color:#fff; font-weight:900; font-size:52px; display:flex; align-items:center; justify-content:center; z-index:2; }
+  #ticker .run { position:absolute; left:0; top:18px; white-space:nowrap; font-weight:700; font-size:54px; }
+  #live { position:absolute; left:50px; top:90px; background:var(--red); font-weight:900; font-size:44px; padding:8px 26px; border-radius:8px; display:none; }
+  #clock { position:absolute; right:50px; top:90px; font-weight:700; font-size:44px; background:rgba(0,0,0,.4); padding:8px 22px; border-radius:8px; direction:ltr; display:none; }
+  /* channel switch */
+  #static { position:absolute; inset:0; pointer-events:none; display:none; }
+  #static i { position:absolute; left:0; right:0; display:block; }
+</style>
+</head>
+<body>
+<div id="stage">
+<div id="grid"></div>
+
+<!-- S1: news intro -->
+<div class="scene" id="s1">
+  <div class="bar" style="top:300px; background:var(--red)"></div>
+  <div class="bar" style="top:460px; background:var(--white); opacity:.85"></div>
+  <div class="bar" style="top:1500px; background:var(--red-d)"></div>
+  <div id="logo">نشرة<br>الستيكرات</div>
+  <div id="breaking">🚨 خبر عاجل</div>
+</div>
+
+<!-- S2: spinning newspaper -->
+<div class="scene" id="s2">
+  <div id="paper">
+    <div class="mast">جريدة الستيكرات</div>
+    <div class="date"><span>العدد ١١</span><span>طبعة خاصة</span><span>ملف PDF</span></div>
+    <h1>الطابعة اللي في بيتك… صارت مصنع ستيكرات!</h1>
+    <div class="photo"></div>
+    <div class="cols">في خبر مفرح لمحبين القرطاسية، صارت مجموعات ستيكرات الفنتج متوفرة كملفات PDF جاهزة للطباعة على ورق A4. كل مجموعة ملف مستقل، تنزل فوراً بعد الطلب، وتنطبع في البيت كل ما احتاجها صاحبها. وتشمل المجموعات الورود والطوابع والتراث والخريف والجورنال، وتناسب التغليف والمدرسة والدفاتر.</div>
+  </div>
+</div>
+
+<!-- S3: three reports, built in JS -->
+<div class="scene" id="s3"></div>
+
+<!-- S4: the numbers -->
+<div class="scene" id="s4">
+  <div class="abs center" style="top:230px; font-weight:900; font-size:96px">بالأرقام</div>
+  <div class="stat" id="st0" style="top:460px"><div class="odo" id="o0"></div><div class="lbl">مجموعة<br>فنتج</div></div>
+  <div class="stat" id="st1" style="top:820px"><div class="odo" id="o1"></div><div class="lbl">تصميم<br>وأكثر</div></div>
+  <div class="stat" id="st2" style="top:1180px"><div class="odo" id="o2"></div><div class="lbl">ملف PDF<br>لكل مجموعة</div></div>
+</div>
+
+<!-- S5: end -->
+<div class="scene" id="s5">
+  <div class="abs center" style="top:250px; font-weight:900; font-size:84px">للتفاصيل… المتجر</div>
+  <div id="tv"><img src="qr_store.png"><div style="font-weight:900; font-size:54px; direction:ltr">planme.zaher.io</div></div>
+</div>
+
+<div id="live">● مباشر</div>
+<div id="clock">09:41</div>
+<div id="ticker"><div class="tag">عاجل</div><div class="run" id="run"></div></div>
+<div id="static"></div>
+</div>
+
+<script>
+const clamp = (x) => Math.min(1, Math.max(0, x));
+const p = (t, a, b) => clamp((t - a) / (b - a));
+const back = (x) => { const c1 = 1.8, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+const outCubic = (x) => 1 - Math.pow(1 - x, 3);
+const inOut = (x) => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const $ = (id) => document.getElementById(id);
+const rnd = (s) => { const x = Math.sin(s * 12.9898 + 78.233) * 43758.5453; return x - Math.floor(x); };
+
+const SCENES = [['s1', 0, 2.8], ['s2', 2.8, 6.6], ['s3', 6.6, 14.4], ['s4', 14.4, 18.2], ['s5', 18.2, 23.5]];
+const SWITCHES = [6.6, 9.2, 11.8, 14.4, 18.2];   // channel-switch static on these cuts
+
+// ticker text crawls right-to-left across the bottom
+$('run').textContent = ('ستيكرات فنتج جاهزة للطباعة  •  كل مجموعة ملف PDF مستقل  •  تحميل فوري  •  ورود · طوابع · تراث · خريف · جورنال  •  المتجر: planme.zaher.io  •  ').repeat(3);
+
+// S3 reports
+const REPORTS = [
+  ['sheets/stamps.jpg', ['cut2/stamps_p26', 'cut5/vintage_p49'], 'أصحاب المشاريع', 'تغليف الطلبات صار أحلى 📦', 6.6],
+  ['sheets/botanical.jpg', ['cut3/botanical_p17', 'cut2/vases_p9'], 'المعلمين والمعلمات', 'مكافآت ملونة للطلاب ✏️', 9.2],
+  ['sheets/journal.jpg', ['cut2/journal_p32', 'cut2/journal_p46'], 'محبين الجورنال', 'صفحات مليانة حياة 📒', 11.8],
+].map(([bg, stk, who, line, at]) => {
+  const wrap = document.createElement('div'); wrap.className = 'abs'; wrap.style.inset = '0';
+  wrap.innerHTML = `
+    <div class="feed"><div class="bg" style="background-image:url(${bg})"></div><div class="rec"><i></i>تقرير</div>
+      <img class="stk" src="${stk[0]}.png" style="left:90px; top:520px; width:340px">
+      <img class="stk" src="${stk[1]}.png" style="left:500px; top:600px; width:320px"></div>
+    <div class="lower"><div class="a">${who}</div><div class="b">${line}</div></div>`;
+  $('s3').appendChild(wrap);
+  return { wrap, at, end: at + 2.6, bg: wrap.querySelector('.bg'), stk: [...wrap.querySelectorAll('.stk')], a: wrap.querySelector('.a'), b: wrap.querySelector('.b'), rec: wrap.querySelector('.rec i') };
+});
+
+// odometers: each digit is a column 0-9 that rolls to its target
+const ODOS = [['11', 14.7], ['780', 15.4], ['1', 16.1]].map(([num, at], i) => {
+  const el = $('o' + i);
+  el.innerHTML = [...num].map(() => `<div class="d"><div class="col">${[...Array(30).keys()].map((k) => `<div>${k % 10}</div>`).join('')}</div></div>`).join('');
+  return { cols: [...el.querySelectorAll('.col')], num, at, card: $('st' + i) };
+});
+
+// channel-switch static bars
+const STATIC = [...Array(18)].map(() => { const b = document.createElement('i'); $('static').appendChild(b); return b; });
+
+window.render = (t) => {
+  SCENES.forEach(([id, a, b]) => { $(id).style.display = t >= a && t < b ? 'block' : 'none'; });
+  const inNews = t >= 2.8;
+  $('ticker').style.display = inNews ? 'block' : 'none';
+  $('live').style.display = inNews && t < 18.2 ? 'block' : 'none';
+  $('clock').style.display = inNews ? 'block' : 'none';
+  $('live').style.opacity = Math.floor(t * 2) % 2 ? 1 : 0.55;
+  $('run').style.transform = `translateX(${-((t - 2.8) * 230) % 3200}px)`;
+  $('ticker').style.transform = `translateY(${(1 - outCubic(p(t, 2.8, 3.2))) * 200}px)`;
+  $('grid').style.transform = `translate(${(t * 30) % 90}px, ${(t * 18) % 90}px)`;
+
+  // S1: light bars sweep across, logo spins in, "breaking" banner flashes
+  [...$('s1').querySelectorAll('.bar')].forEach((b, i) => {
+    const k = inOut(p(t, 0.05 + i * 0.12, 0.7 + i * 0.12));
+    b.style.transform = `rotate(-12deg) translateX(${(i % 2 ? -1 : 1) * (1 - k) * 2200}px)`;
+  });
+  const lg = back(p(t, 0.5, 1.1));
+  $('logo').style.transform = `scale(${lg}) rotate(${(1 - lg) * -360 + Math.sin(t * 2) * 2}deg)`;
+  const br = p(t, 1.4, 1.6);
+  $('breaking').style.transform = `scaleY(${br})`;
+  $('breaking').style.background = Math.floor(t * 5) % 2 ? 'var(--red)' : 'var(--red-d)';
+
+  // S2: the newspaper spins in and lands, then slowly pushes in
+  const sp = outCubic(p(t, 2.8, 3.8));
+  $('paper').style.transform = `scale(${0.05 + 0.95 * sp + 0.05 * p(t, 3.8, 6.6)}) rotate(${(1 - sp) * 1080 - 3}deg)`;
+  $('stage').style.transform = t > 3.8 && t < 4.0 ? `translateY(${Math.sin(t * 90) * 8}px)` : '';
+
+  // S3: each report: feed zooms slowly, stickers pop, lower third slides in
+  REPORTS.forEach(({ wrap, at, end, bg, stk, a, b, rec }) => {
+    const on = t >= at && t < end;
+    wrap.style.display = on ? '' : 'none'; if (!on) return;
+    bg.style.transform = `scale(${1.15 + 0.1 * p(t, at, end)})`; bg.style.filter = 'brightness(.75)';
+    stk.forEach((s, i) => { const k = back(p(t, at + 0.4 + i * 0.2, at + 0.8 + i * 0.2)); s.style.transform = `scale(${k}) rotate(${(i ? 8 : -8) + Math.sin(t * 2 + i) * 2}deg)`; });
+    a.style.transform = `translateX(${(1 - outCubic(p(t, at + 0.6, at + 0.95))) * 1100}px)`;
+    b.style.transform = `translateX(${(1 - outCubic(p(t, at + 0.8, at + 1.15))) * 1100}px)`;
+    rec.style.opacity = Math.floor(t * 2.5) % 2 ? 1 : 0.2;
+  });
+
+  // S4: odometers roll up to their numbers
+  ODOS.forEach(({ cols, num, at, card }) => {
+    card.style.transform = `translateX(${(1 - outCubic(p(t, at - 0.2, at + 0.2))) * -1200}px)`;
+    cols.forEach((c, i) => {
+      const target = 20 + Number(num[i]);
+      const k = outCubic(p(t, at + i * 0.12, at + 0.9 + i * 0.12));
+      c.style.transform = `translateY(${-(k * target) * 200}px)`;
+    });
+  });
+
+  // S5: QR on the TV
+  const tv = back(p(t, 18.3, 18.8));
+  $('tv').style.transform = `scale(${0.4 + 0.6 * tv})`;
+  $('tv').style.filter = t < 18.7 ? `brightness(${2 - p(t, 18.3, 18.7)})` : 'none';
+
+  // channel switch: horizontal static bars for 0.25s around each cut
+  const sw = SWITCHES.find((c) => t >= c - 0.1 && t < c + 0.18);
+  $('static').style.display = sw ? 'block' : 'none';
+  if (sw) {
+    const f = Math.floor(t * 30);
+    STATIC.forEach((b, i) => {
+      const h = 20 + rnd(f * 3 + i) * 140;
+      Object.assign(b.style, { top: rnd(f * 7 + i) * 1920 + 'px', height: h + 'px', background: `rgba(${rnd(f + i) > 0.5 ? '255,255,255' : '20,20,30'},${0.4 + rnd(f * 11 + i) * 0.5})`, transform: `translateX(${(rnd(f * 5 + i) - 0.5) * 160}px)` });
+    });
+    $('stage').style.transform = `translateX(${(rnd(f) - 0.5) * 40}px)`;
+  }
+};
+render(0);
+</script>
+</body>
+</html>
