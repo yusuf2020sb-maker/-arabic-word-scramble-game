@@ -84,6 +84,7 @@
 </div>
 </div>
 
+<script src="reel13_timeline.js"></script>
 <script>
 const clamp = (x) => Math.min(1, Math.max(0, x));
 const p = (t, a, b) => clamp((t - a) / (b - a));
@@ -93,7 +94,9 @@ const inOut = (x) => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
 const $ = (id) => document.getElementById(id);
 const rnd = (s) => { const x = Math.sin(s * 12.9898 + 78.233) * 43758.5453; return x - Math.floor(x); };
 
-const SCENES = [['s1', 0, 3.0], ['s2', 3.0, 19.4], ['s3', 19.4, 24.0]];
+// Timings come from reel13_timeline.js (tools/mix_reel13.py): effects sit between the voice lines.
+const SCENES = [['s1', 0, TL.board], ['s2', TL.board, TL.pull], ['s3', TL.pull, TL.end_all]];
+const CRASH = TL.pan1 + 1.75;
 
 // split-flap words: each tile cycles through random glyphs before landing on its word
 const GLYPHS = ['ع', 'ب', 'ك', 'س', 'م', 'ر', 'ق', 'ف', '٧', '٤', 'ل', 'ط'];
@@ -101,11 +104,11 @@ const ROWS = [['row1', ['٣', 'أشياء']], ['row2', ['محد', 'يقولها'
 let FL = [];
 ROWS.forEach(([id, words], r) => words.forEach((w, i) => {
   const el = document.createElement('div'); el.className = 'flap'; el.innerHTML = `<span>${w}</span><div class="lead"></div>`;
-  $(id).appendChild(el); FL.push({ el, span: el.querySelector('span'), lead: el.querySelector('.lead'), w, stop: 0.35 + FL.length * 0.22 });
+  $(id).appendChild(el); FL.push({ el, span: el.querySelector('span'), lead: el.querySelector('.lead'), w, stop: TL.flaps + 0.35 + FL.length * 0.22 });
 }));
 
 // camera keyframes over the board: [time, centre x, centre y, zoom]
-const CAM = [[3.0, 710, 900, 1.0], [7.4, 710, 940, 1.0], [8.4, 1700, 1840, 1.0], [12.0, 1700, 1860, 1.0], [13.0, 700, 2780, 1.0], [16.4, 700, 2800, 1.0], [17.4, 1200, 2000, 0.42], [19.4, 1200, 2000, 0.45]];
+const CAM = [[TL.board, 710, 900, 1.0], [TL.pan2, 710, 940, 1.0], [TL.pan2 + 1.0, 1700, 1840, 1.0], [TL.pan1, 1700, 1860, 1.0], [TL.pan1 + 1.0, 700, 2780, 1.0], [TL.zoom, 700, 2800, 1.0], [TL.zoom + 0.9, 1200, 2000, 0.42], [TL.pull, 1200, 2000, 0.45]];
 const cam = (t) => {
   for (let i = 0; i < CAM.length - 1; i++) {
     const [a, ax, ay, az] = CAM[i], [b, bx, by, bz] = CAM[i + 1];
@@ -113,9 +116,9 @@ const cam = (t) => {
   }
   return CAM[CAM.length - 1].slice(1);
 };
-const PINS = [['p3', 3.3], ['p2', 8.5], ['p1', 13.1], ['pb', 17.0]];
-const CARDS = [['c3', 3.1], ['c2', 8.3], ['c1', 12.9]];
-const CAPS = [[3.0, ''], [16.6, 'وتنفع للتغليف، والمدرسة، والجورنال']];
+const PINS = [['p3', TL.board + 0.3], ['p2', TL.pan2 + 0.95], ['p1', CRASH], ['pb', TL.zoom + 0.55]];
+const CARDS = [['c3', TL.board + 0.1], ['c2', TL.pan2 + 0.85], ['c1', CRASH - 0.05]];
+const CAPS = [[0, ''], [TL.uses, 'وتنفع للتغليف، والمدرسة، والجورنال']];
 let YL = null;
 
 window.render = (t) => {
@@ -130,7 +133,7 @@ window.render = (t) => {
     f.lead.style.opacity = flipping ? 0.9 : 0;
     f.el.style.color = flipping ? '#9a978f' : (f.w === '٣' ? '#ffcf5c' : '#f4f1e8');
   });
-  $('arrow').style.opacity = p(t, 2.2, 2.4);
+  $('arrow').style.opacity = p(t, TL.arrow, TL.arrow + 0.15);
   $('arrow').style.transform = `translateY(${Math.sin(t * 8) * 18}px)`;
 
   // S2: camera moves over the board
@@ -148,21 +151,21 @@ window.render = (t) => {
   });
   // red yarn is drawn as the camera travels from card to card
   if (!YL) { YL = $('yp').getTotalLength(); $('yp').style.strokeDasharray = YL; }
-  const yarnK = [[7.4, 0], [8.4, 0.36], [12.0, 0.36], [13.0, 0.72], [16.4, 0.72], [17.2, 1]];
+  const yarnK = [[TL.pan2, 0], [TL.pan2 + 1.0, 0.36], [TL.pan1, 0.36], [TL.pan1 + 1.0, 0.72], [TL.zoom, 0.72], [TL.zoom + 0.8, 1]];
   let yk = 0;
   for (let i = 0; i < yarnK.length - 1; i++) if (t >= yarnK[i][0]) yk = yarnK[i][1] + (yarnK[i + 1][1] - yarnK[i][1]) * inOut(p(t, yarnK[i][0], yarnK[i + 1][0]));
   $('yp').style.strokeDashoffset = YL * (1 - yk);
-  ['b1', 'b2', 'b3'].forEach((id, i) => { const k = back(p(t, 16.5 + i * 0.2, 16.9 + i * 0.2)); $(id).style.opacity = t > 16.5 + i * 0.2 ? 1 : 0; $(id).style.scale = `${k}`; });
+  ['b1', 'b2', 'b3'].forEach((id, i) => { const at = TL.zoom + 0.15 + i * 0.2, k = back(p(t, at, at + 0.4)); $(id).style.opacity = t > at ? 1 : 0; $(id).style.scale = `${k}`; });
   const cap = CAPS.filter(([a]) => t >= a).pop();
   $('cap2').textContent = cap ? cap[1] : '';
-  $('cap2').style.opacity = p(t, 16.6, 16.9);
+  $('cap2').style.opacity = p(t, TL.uses, TL.uses + 0.3);
   // drum-roll shake before number one
-  $('world').style.translate = t > 12.2 && t < 12.95 ? `${Math.sin(t * 70) * 4}px 0` : '0 0';
+  $('world').style.translate = t > TL.pan1 + 1.0 && t < CRASH ? `${Math.sin(t * 70) * 4}px 0` : '0 0';
 
   // S3: the end card is pulled off the board toward the camera
-  const pull = outCubic(p(t, 19.4, 20.1));
+  const pull = outCubic(p(t, TL.pull, TL.pull + 0.7));
   $('endcard').style.transform = `perspective(1400px) translateZ(${-600 + pull * 600}px) rotateX(${(1 - pull) * 30}deg) rotate(${(1 - pull) * -6}deg)`;
-  const pd = p(t, 20.2, 20.6);
+  const pd = p(t, TL.drop, TL.drop + 0.42);
   $('pend').style.transform = `translate(${pd * 120}px, ${pd * pd * 1700}px) rotate(${pd * 300}deg)`;
 };
 render(0);
