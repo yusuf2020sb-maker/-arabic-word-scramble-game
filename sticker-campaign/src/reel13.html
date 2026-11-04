@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Handjet:wght@600;800&family=Mada:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --cork:#a8774a; --cork-d:#7d5531; --card:#fdfbf6; --red:#c62f2f; --yel:#ffe58a; --ink:#24201b; --flap:#1e1e22; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html, body { width:1080px; height:1920px; overflow:clip; font-family:'Mada',sans-serif; color:var(--ink); background:#111; }
+  #stage { position:absolute; inset:0; overflow:clip; }
+  .scene { position:absolute; inset:0; overflow:clip; display:none; }
+  .abs { position:absolute; }
+  .center { width:100%; text-align:center; }
+  /* split-flap */
+  #s1 { background:#141417; }
+  .flaprow { position:absolute; left:0; right:0; display:flex; justify-content:center; gap:22px; flex-direction:row-reverse; }
+  .flap { position:relative; min-width:150px; height:200px; background:var(--flap); border-radius:16px; color:#f4f1e8; font-family:'Handjet'; font-weight:800; font-size:150px; line-height:200px; text-align:center; padding:0 28px; box-shadow:0 8px 0 #000; perspective:600px; }
+  .flap::after { content:''; position:absolute; left:0; right:0; top:50%; height:4px; background:#000; }
+  .flap .lead { position:absolute; left:0; right:0; top:0; height:50%; background:#2a2a30; border-radius:16px 16px 0 0; transform-origin:bottom; backface-visibility:hidden; }
+  /* corkboard world */
+  #world { position:absolute; left:0; top:0; width:2400px; height:3800px; transform-origin:0 0;
+           background:var(--cork); background-image:radial-gradient(rgba(60,35,15,.35) 2px, transparent 2.5px), radial-gradient(rgba(255,230,190,.25) 1.5px, transparent 2px); background-size:23px 23px, 31px 31px; background-position:0 0, 11px 7px;
+           box-shadow:inset 0 0 0 40px var(--cork-d); }
+  .card { position:absolute; background:var(--card); border-radius:8px; box-shadow:0 16px 30px rgba(0,0,0,.35); padding:50px 56px; background-image:repeating-linear-gradient(0deg, transparent 0 58px, rgba(80,120,200,.18) 58px 60px); }
+  .card::before { content:''; position:absolute; left:0; right:0; top:110px; height:4px; background:rgba(198,47,47,.55); }
+  .card .num { font-family:'Handjet'; font-weight:800; font-size:200px; line-height:1; color:var(--red); }
+  .card h2 { font-weight:900; font-size:84px; line-height:1.25; margin-top:20px; }
+  .card p { font-weight:700; font-size:50px; line-height:1.4; color:#5a5247; margin-top:16px; }
+  .note { position:absolute; background:var(--yel); padding:30px 36px; font-weight:900; font-size:56px; box-shadow:0 14px 24px rgba(0,0,0,.3); }
+  .pin { position:absolute; width:60px; height:60px; border-radius:50%; background:radial-gradient(circle at 35% 35%, #ff8a8a, var(--red) 55%, #7a1414); box-shadow:6px 10px 8px rgba(0,0,0,.4); z-index:5; }
+  .pstk { position:absolute; filter:drop-shadow(0 12px 14px rgba(0,0,0,.35)); }
+  svg#yarn { position:absolute; left:0; top:0; overflow:visible; z-index:4; }
+  /* end card */
+  #endcard { position:absolute; left:160px; top:420px; width:760px; height:1080px; background:var(--card); border-radius:14px; box-shadow:0 50px 90px rgba(0,0,0,.6); display:flex; flex-direction:column; align-items:center; padding-top:60px; gap:30px; }
+  #endcard img { width:520px; height:520px; }
+  #blur { position:absolute; inset:0; }
+</style>
+</head>
+<body>
+<div id="stage">
+
+<!-- S1: split-flap hook -->
+<div class="scene" id="s1">
+  <div class="flaprow" id="row1" style="top:560px"></div>
+  <div class="flaprow" id="row2" style="top:800px"></div>
+  <div class="flaprow" id="row3" style="top:1040px"></div>
+  <div class="abs center" id="arrow" style="top:1330px; font-size:120px">👇</div>
+</div>
+
+<!-- S2: the corkboard -->
+<div class="scene" id="s2">
+  <div id="world">
+    <div class="card" id="c3" style="left:260px; top:420px; width:900px; height:1040px; transform:rotate(-2deg)">
+      <div class="num">٣</div><h2>تطبعها<br>كل ما خلصت</h2><p>ملف PDF يبقى عندك، والطابعة تسوي الباقي.</p>
+      <img class="pstk" src="sheets/roses.jpg" style="left:470px; top:560px; width:360px; transform:rotate(5deg); border-radius:6px">
+    </div>
+    <div class="card" id="c2" style="left:1250px; top:1300px; width:900px; height:1080px; transform:rotate(2deg)">
+      <div class="num">٢</div><h2>لكل ستايل<br>مجموعة</h2>
+      <img class="pstk" src="cut4/cozyhome_p50.png" style="left:60px; top:560px; width:240px">
+      <img class="pstk" src="cut5/stamps_p30.png" style="left:330px; top:600px; width:220px">
+      <img class="pstk" src="cut4/heritage_p8.png" style="left:590px; top:560px; width:230px">
+      <p style="position:absolute; left:56px; right:56px; top:880px; text-align:center">ورود · طوابع · تراث · خريف</p>
+    </div>
+    <div class="card" id="c1" style="left:250px; top:2280px; width:900px; height:1000px; transform:rotate(-1.5deg)">
+      <div class="num">١</div><h2>بدون شحن…<br>تحميل فوري</h2><p>تطلب، تحمّل، وتطبع في نفس اللحظة.</p>
+      <div class="note" style="left:500px; top:640px; transform:rotate(6deg)">PDF ⚡</div>
+    </div>
+    <div class="note" id="b1" style="left:1300px; top:2700px; transform:rotate(-5deg)">📦 للتغليف</div>
+    <div class="note" id="b2" style="left:1760px; top:2860px; transform:rotate(4deg); background:#b9e4c9">✏️ للمدرسة</div>
+    <div class="note" id="b3" style="left:1420px; top:3120px; transform:rotate(-2deg); background:#f6c6d0">📒 للجورنال</div>
+    <div class="pin" id="p3" style="left:680px; top:400px"></div>
+    <div class="pin" id="p2" style="left:1670px; top:1280px"></div>
+    <div class="pin" id="p1" style="left:670px; top:2260px"></div>
+    <div class="pin" id="pb" style="left:1500px; top:2690px"></div>
+    <svg id="yarn" width="2400" height="3800"><path id="yp" d="M 710 430 C 1000 700, 1500 900, 1700 1310 S 900 1900, 700 2290 S 1300 2500, 1530 2720" fill="none" stroke="#c62f2f" stroke-width="10" stroke-linecap="round"/></svg>
+  </div>
+  <div class="abs center" id="cap2" style="top:1640px; font-weight:900; font-size:64px; color:#fff; text-shadow:0 4px 14px rgba(0,0,0,.6)"></div>
+</div>
+
+<!-- S3: end card pulled off the board -->
+<div class="scene" id="s3" style="background:#2a1d12">
+  <div id="endcard"><div style="font-weight:900; font-size:84px">المتجر</div><img src="qr_store.png"><div style="font-weight:900; font-size:56px; direction:ltr">planme.zaher.io</div><div style="font-weight:700; font-size:44px; color:#5a5247">الكود يوصلك على طول</div></div>
+  <div class="pin" id="pend" style="left:510px; top:380px"></div>
+</div>
+</div>
+
+<script>
+const clamp = (x) => Math.min(1, Math.max(0, x));
+const p = (t, a, b) => clamp((t - a) / (b - a));
+const back = (x) => { const c1 = 1.8, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+const outCubic = (x) => 1 - Math.pow(1 - x, 3);
+const inOut = (x) => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const $ = (id) => document.getElementById(id);
+const rnd = (s) => { const x = Math.sin(s * 12.9898 + 78.233) * 43758.5453; return x - Math.floor(x); };
+
+const SCENES = [['s1', 0, 3.0], ['s2', 3.0, 19.4], ['s3', 19.4, 24.0]];
+
+// split-flap words: each tile cycles through random glyphs before landing on its word
+const GLYPHS = ['ع', 'ب', 'ك', 'س', 'م', 'ر', 'ق', 'ف', '٧', '٤', 'ل', 'ط'];
+const ROWS = [['row1', ['٣', 'أشياء']], ['row2', ['محد', 'يقولها', 'لك']], ['row3', ['عن', 'الستيكرات']]];
+let FL = [];
+ROWS.forEach(([id, words], r) => words.forEach((w, i) => {
+  const el = document.createElement('div'); el.className = 'flap'; el.innerHTML = `<span>${w}</span><div class="lead"></div>`;
+  $(id).appendChild(el); FL.push({ el, span: el.querySelector('span'), lead: el.querySelector('.lead'), w, stop: 0.35 + FL.length * 0.22 });
+}));
+
+// camera keyframes over the board: [time, centre x, centre y, zoom]
+const CAM = [[3.0, 710, 900, 1.0], [7.4, 710, 940, 1.0], [8.4, 1700, 1840, 1.0], [12.0, 1700, 1860, 1.0], [13.0, 700, 2780, 1.0], [16.4, 700, 2800, 1.0], [17.4, 1200, 2000, 0.42], [19.4, 1200, 2000, 0.45]];
+const cam = (t) => {
+  for (let i = 0; i < CAM.length - 1; i++) {
+    const [a, ax, ay, az] = CAM[i], [b, bx, by, bz] = CAM[i + 1];
+    if (t <= b) { const k = inOut(p(t, a, b)); return [ax + (bx - ax) * k, ay + (by - ay) * k, az + (bz - az) * k]; }
+  }
+  return CAM[CAM.length - 1].slice(1);
+};
+const PINS = [['p3', 3.3], ['p2', 8.5], ['p1', 13.1], ['pb', 17.0]];
+const CARDS = [['c3', 3.1], ['c2', 8.3], ['c1', 12.9]];
+const CAPS = [[3.0, ''], [16.6, 'وتنفع للتغليف، والمدرسة، والجورنال']];
+let YL = null;
+
+window.render = (t) => {
+  SCENES.forEach(([id, a, b]) => { $(id).style.display = t >= a && t < b ? 'block' : 'none'; });
+
+  // S1: flaps clatter through glyphs, then land one by one
+  FL.forEach((f, i) => {
+    const flipping = t < f.stop;
+    const fr = Math.floor(t * 18 + i * 3);
+    f.span.textContent = flipping ? GLYPHS[fr % GLYPHS.length].repeat(Math.max(1, Math.min(4, f.w.length))) : f.w;
+    f.lead.style.transform = `rotateX(${flipping ? (t * 18 * 180) % 180 : 0}deg)`;
+    f.lead.style.opacity = flipping ? 0.9 : 0;
+    f.el.style.color = flipping ? '#9a978f' : (f.w === '٣' ? '#ffcf5c' : '#f4f1e8');
+  });
+  $('arrow').style.opacity = p(t, 2.2, 2.4);
+  $('arrow').style.transform = `translateY(${Math.sin(t * 8) * 18}px)`;
+
+  // S2: camera moves over the board
+  const [cx, cy, z] = cam(t);
+  $('world').style.transform = `translate(${540 - cx * z}px, ${960 - cy * z}px) scale(${z})`;
+  CARDS.forEach(([id, at]) => {
+    const k = back(p(t, at, at + 0.5));
+    $(id).style.opacity = t >= at ? 1 : 0;
+    $(id).style.scale = `${0.85 + 0.15 * k}`;
+  });
+  PINS.forEach(([id, at]) => {
+    const k = p(t, at, at + 0.2);
+    $(id).style.opacity = t >= at ? 1 : 0;
+    $(id).style.transform = `translateY(${(1 - k) * -120}px) scale(${1.6 - 0.6 * k})`;
+  });
+  // red yarn is drawn as the camera travels from card to card
+  if (!YL) { YL = $('yp').getTotalLength(); $('yp').style.strokeDasharray = YL; }
+  const yarnK = [[7.4, 0], [8.4, 0.36], [12.0, 0.36], [13.0, 0.72], [16.4, 0.72], [17.2, 1]];
+  let yk = 0;
+  for (let i = 0; i < yarnK.length - 1; i++) if (t >= yarnK[i][0]) yk = yarnK[i][1] + (yarnK[i + 1][1] - yarnK[i][1]) * inOut(p(t, yarnK[i][0], yarnK[i + 1][0]));
+  $('yp').style.strokeDashoffset = YL * (1 - yk);
+  ['b1', 'b2', 'b3'].forEach((id, i) => { const k = back(p(t, 16.5 + i * 0.2, 16.9 + i * 0.2)); $(id).style.opacity = t > 16.5 + i * 0.2 ? 1 : 0; $(id).style.scale = `${k}`; });
+  const cap = CAPS.filter(([a]) => t >= a).pop();
+  $('cap2').textContent = cap ? cap[1] : '';
+  $('cap2').style.opacity = p(t, 16.6, 16.9);
+  // drum-roll shake before number one
+  $('world').style.translate = t > 12.2 && t < 12.95 ? `${Math.sin(t * 70) * 4}px 0` : '0 0';
+
+  // S3: the end card is pulled off the board toward the camera
+  const pull = outCubic(p(t, 19.4, 20.1));
+  $('endcard').style.transform = `perspective(1400px) translateZ(${-600 + pull * 600}px) rotateX(${(1 - pull) * 30}deg) rotate(${(1 - pull) * -6}deg)`;
+  const pd = p(t, 20.2, 20.6);
+  $('pend').style.transform = `translate(${pd * 120}px, ${pd * pd * 1700}px) rotate(${pd * 300}deg)`;
+};
+render(0);
+</script>
+</body>
+</html>
