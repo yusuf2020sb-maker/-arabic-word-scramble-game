@@ -99,6 +99,7 @@
 <div id="static"></div>
 </div>
 
+<script src="reel11_timeline.js"></script>
 <script>
 const clamp = (x) => Math.min(1, Math.max(0, x));
 const p = (t, a, b) => clamp((t - a) / (b - a));
@@ -108,18 +109,21 @@ const inOut = (x) => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
 const $ = (id) => document.getElementById(id);
 const rnd = (s) => { const x = Math.sin(s * 12.9898 + 78.233) * 43758.5453; return x - Math.floor(x); };
 
-const SCENES = [['s1', 0, 2.8], ['s2', 2.8, 6.6], ['s3', 6.6, 14.4], ['s4', 14.4, 18.2], ['s5', 18.2, 23.5]];
-const SWITCHES = [6.6, 9.2, 11.8, 14.4, 18.2];   // channel-switch static on these cuts
+// Timings come from reel11_timeline.js (tools/mix_reel11.py): effects sit between the voice lines.
+const SWITCHES = [0, 1, 2, 3, 4].map((i) => TL['cut' + i] + 0.1);   // channel-switch static on these cuts
+const SCENES = [['s1', 0, TL.paper], ['s2', TL.paper, SWITCHES[0]], ['s3', SWITCHES[0], SWITCHES[3]], ['s4', SWITCHES[3], SWITCHES[4]], ['s5', SWITCHES[4], TL.end_all]];
 
 // ticker text crawls right-to-left across the bottom
 $('run').textContent = ('ستيكرات فنتج جاهزة للطباعة  •  كل مجموعة ملف PDF مستقل  •  تحميل فوري  •  ورود · طوابع · تراث · خريف · جورنال  •  المتجر: planme.zaher.io  •  ').repeat(3);
 
 // S3 reports
 const REPORTS = [
-  ['sheets/stamps.jpg', ['cut2/stamps_p26', 'cut5/vintage_p49'], 'أصحاب المشاريع', 'تغليف الطلبات صار أحلى 📦', 6.6],
-  ['sheets/botanical.jpg', ['cut3/botanical_p17', 'cut2/vases_p9'], 'المعلمين والمعلمات', 'مكافآت ملونة للطلاب ✏️', 9.2],
-  ['sheets/journal.jpg', ['cut2/journal_p32', 'cut2/journal_p46'], 'محبين الجورنال', 'صفحات مليانة حياة 📒', 11.8],
-].map(([bg, stk, who, line, at]) => {
+  ['sheets/stamps.jpg', ['cut2/stamps_p26', 'cut5/vintage_p49'], 'أصحاب المشاريع', 'تغليف الطلبات صار أحلى 📦', 0],
+  ['sheets/botanical.jpg', ['cut3/botanical_p17', 'cut2/vases_p9'], 'المعلمين والمعلمات', 'مكافآت ملونة للطلاب ✏️', 1],
+  ['sheets/journal.jpg', ['cut2/journal_p32', 'cut2/journal_p46'], 'محبين الجورنال', 'صفحات مليانة حياة 📒', 2],
+].map(([bg, stk, who, line, i]) => {
+  const at = SWITCHES[i], end = SWITCHES[i + 1];
+  const aAt = [TL.biz_a, TL.teach_a, TL.jour][i] - 0.25, bAt = [TL.ding0, TL.ding1, TL.jour + 1.35][i];
   const wrap = document.createElement('div'); wrap.className = 'abs'; wrap.style.inset = '0';
   wrap.innerHTML = `
     <div class="feed"><div class="bg" style="background-image:url(${bg})"></div><div class="rec"><i></i>تقرير</div>
@@ -127,11 +131,11 @@ const REPORTS = [
       <img class="stk" src="${stk[1]}.png" style="left:500px; top:600px; width:320px"></div>
     <div class="lower"><div class="a">${who}</div><div class="b">${line}</div></div>`;
   $('s3').appendChild(wrap);
-  return { wrap, at, end: at + 2.6, bg: wrap.querySelector('.bg'), stk: [...wrap.querySelectorAll('.stk')], a: wrap.querySelector('.a'), b: wrap.querySelector('.b'), rec: wrap.querySelector('.rec i') };
+  return { wrap, at, end, aAt, bAt, bg: wrap.querySelector('.bg'), stk: [...wrap.querySelectorAll('.stk')], a: wrap.querySelector('.a'), b: wrap.querySelector('.b'), rec: wrap.querySelector('.rec i') };
 });
 
 // odometers: each digit is a column 0-9 that rolls to its target
-const ODOS = [['11', 14.7], ['780', 15.4], ['1', 16.1]].map(([num, at], i) => {
+const ODOS = [['11', TL.odo + 0.2], ['780', TL.odo + 0.4], ['1', TL.odo + 0.6]].map(([num, at], i) => {
   const el = $('o' + i);
   el.innerHTML = [...num].map(() => `<div class="d"><div class="col">${[...Array(30).keys()].map((k) => `<div>${k % 10}</div>`).join('')}</div></div>`).join('');
   return { cols: [...el.querySelectorAll('.col')], num, at, card: $('st' + i) };
@@ -142,13 +146,13 @@ const STATIC = [...Array(18)].map(() => { const b = document.createElement('i');
 
 window.render = (t) => {
   SCENES.forEach(([id, a, b]) => { $(id).style.display = t >= a && t < b ? 'block' : 'none'; });
-  const inNews = t >= 2.8;
+  const inNews = t >= TL.paper;
   $('ticker').style.display = inNews ? 'block' : 'none';
-  $('live').style.display = inNews && t < 18.2 ? 'block' : 'none';
+  $('live').style.display = inNews && t < SWITCHES[4] ? 'block' : 'none';
   $('clock').style.display = inNews ? 'block' : 'none';
   $('live').style.opacity = Math.floor(t * 2) % 2 ? 1 : 0.55;
-  $('run').style.transform = `translateX(${-((t - 2.8) * 230) % 3200}px)`;
-  $('ticker').style.transform = `translateY(${(1 - outCubic(p(t, 2.8, 3.2))) * 200}px)`;
+  $('run').style.transform = `translateX(${-((t - TL.paper) * 230) % 3200}px)`;
+  $('ticker').style.transform = `translateY(${(1 - outCubic(p(t, TL.paper, TL.paper + 0.4))) * 200}px)`;
   $('grid').style.transform = `translate(${(t * 30) % 90}px, ${(t * 18) % 90}px)`;
 
   // S1: light bars sweep across, logo spins in, "breaking" banner flashes
@@ -158,23 +162,23 @@ window.render = (t) => {
   });
   const lg = back(p(t, 0.5, 1.1));
   $('logo').style.transform = `scale(${lg}) rotate(${(1 - lg) * -360 + Math.sin(t * 2) * 2}deg)`;
-  const br = p(t, 1.4, 1.6);
+  const br = p(t, TL.alarm, TL.alarm + 0.2);
   $('breaking').style.transform = `scaleY(${br})`;
   $('breaking').style.background = Math.floor(t * 5) % 2 ? 'var(--red)' : 'var(--red-d)';
 
   // S2: the newspaper spins in and lands, then slowly pushes in
-  const sp = outCubic(p(t, 2.8, 3.8));
-  $('paper').style.transform = `scale(${0.05 + 0.95 * sp + 0.05 * p(t, 3.8, 6.6)}) rotate(${(1 - sp) * 1080 - 3}deg)`;
-  $('stage').style.transform = t > 3.8 && t < 4.0 ? `translateY(${Math.sin(t * 90) * 8}px)` : '';
+  const sp = outCubic(p(t, TL.paper, TL.paper + 1.0));
+  $('paper').style.transform = `scale(${0.05 + 0.95 * sp + 0.05 * p(t, TL.paper + 1.0, SWITCHES[0])}) rotate(${(1 - sp) * 1080 - 3}deg)`;
+  $('stage').style.transform = t > TL.paper + 1.0 && t < TL.paper + 1.2 ? `translateY(${Math.sin(t * 90) * 8}px)` : '';
 
   // S3: each report: feed zooms slowly, stickers pop, lower third slides in
-  REPORTS.forEach(({ wrap, at, end, bg, stk, a, b, rec }) => {
+  REPORTS.forEach(({ wrap, at, end, aAt, bAt, bg, stk, a, b, rec }) => {
     const on = t >= at && t < end;
     wrap.style.display = on ? '' : 'none'; if (!on) return;
     bg.style.transform = `scale(${1.15 + 0.1 * p(t, at, end)})`; bg.style.filter = 'brightness(.75)';
-    stk.forEach((s, i) => { const k = back(p(t, at + 0.4 + i * 0.2, at + 0.8 + i * 0.2)); s.style.transform = `scale(${k}) rotate(${(i ? 8 : -8) + Math.sin(t * 2 + i) * 2}deg)`; });
-    a.style.transform = `translateX(${(1 - outCubic(p(t, at + 0.6, at + 0.95))) * 1100}px)`;
-    b.style.transform = `translateX(${(1 - outCubic(p(t, at + 0.8, at + 1.15))) * 1100}px)`;
+    stk.forEach((s, i) => { const k = back(p(t, at + 0.3 + i * 0.2, at + 0.7 + i * 0.2)); s.style.transform = `scale(${k}) rotate(${(i ? 8 : -8) + Math.sin(t * 2 + i) * 2}deg)`; });
+    a.style.transform = `translateX(${(1 - outCubic(p(t, aAt, aAt + 0.35))) * 1100}px)`;
+    b.style.transform = `translateX(${(1 - outCubic(p(t, bAt, bAt + 0.35))) * 1100}px)`;
     rec.style.opacity = Math.floor(t * 2.5) % 2 ? 1 : 0.2;
   });
 
@@ -189,9 +193,9 @@ window.render = (t) => {
   });
 
   // S5: QR on the TV
-  const tv = back(p(t, 18.3, 18.8));
+  const tv = back(p(t, SWITCHES[4] + 0.1, SWITCHES[4] + 0.6));
   $('tv').style.transform = `scale(${0.4 + 0.6 * tv})`;
-  $('tv').style.filter = t < 18.7 ? `brightness(${2 - p(t, 18.3, 18.7)})` : 'none';
+  $('tv').style.filter = t < SWITCHES[4] + 0.5 ? `brightness(${2 - p(t, SWITCHES[4] + 0.1, SWITCHES[4] + 0.5)})` : 'none';
 
   // channel switch: horizontal static bars for 0.25s around each cut
   const sw = SWITCHES.find((c) => t >= c - 0.1 && t < c + 0.18);
