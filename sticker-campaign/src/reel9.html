@@ -75,6 +75,7 @@
 </div>
 </div>
 
+<script src="reel9_timeline.js"></script>
 <script>
 const clamp = (x) => Math.min(1, Math.max(0, x));
 const p = (t, a, b) => clamp((t - a) / (b - a));
@@ -83,7 +84,9 @@ const outCubic = (x) => 1 - Math.pow(1 - x, 3);
 const inOut = (x) => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
 const $ = (id) => document.getElementById(id);
 
-const SCENES = [['s1', 0, 2.6], ['s2', 2.6, 8.0], ['s3', 8.0, 13.4], ['s4', 13.4, 18.8], ['s5', 18.8, 23.5]];
+// Timings come from reel9_timeline.js (tools/mix_reel9.py): effects sit between the voice lines.
+const SCENES = [['s1', 0, TL.enter0], ['s2', TL.enter0, TL.enter1], ['s3', TL.enter1, TL.enter2], ['s4', TL.enter2, TL.cards], ['s5', TL.cards, TL.end_all]];
+const LINE = ['biz_b', 'teach_b', 'jour_b'];
 
 const img = (src, x, y, w, r) => `<img class="stk" src="${src}.png" style="left:${x}px; top:${y}px; width:${w}px; transform:rotate(${r}deg)">`;
 const STORIES = [
@@ -133,24 +136,24 @@ window.render = (t) => {
   SCENES.forEach(([id, a, b]) => { $(id).style.display = t >= a && t < b ? 'block' : 'none'; });
 
   // S1: words bounce in
-  [['i1', 0.15], ['i2', 0.8], ['i3', 1.4]].forEach(([id, at]) => {
+  [['i1', TL.intro], ['i2', TL.intro + 1.1], ['i3', TL.intro + 1.7]].forEach(([id, at]) => {
     const k = p(t, at, at + 0.45);
     $(id).style.opacity = k; $(id).style.transform = `translateY(${(1 - back(k)) * 120}px) rotate(${(1 - k) * -6}deg)`;
   });
 
   // stories: object slides in, the handle sweeps right-to-left revealing the "after" side
-  STORIES.forEach((s) => {
-    const a = SCENES.find(([id]) => id === s.scene)[1];
-    if (t < a || t > a + 5.4) return;
+  STORIES.forEach((s, i) => {
+    const [, a, end] = SCENES.find(([id]) => id === s.scene);
+    if (t < a || t >= end) return;
+    const swA = TL['sweep' + i], swB = TL['sweep' + i + '_end'], cap = TL[LINE[i]];
     s.run.style.transform = `translateX(${((t - a) * 260) % 1400 - 1400}px)`;
     const enter = back(p(t, a, a + 0.6));
     s.ba.style.transform = `translateY(${(1 - enter) * 1500}px) rotate(${(1 - enter) * 8}deg)`;
     // sweep: 100% -> 0% (reveal), small pause, back to 50% and settle at 0
-    const sw = p(t, a + 1.0, a + 2.4), sw2 = p(t, a + 2.9, a + 3.5);
-    const x = 100 - inOut(sw) * 100 + Math.sin(sw2 * Math.PI) * 18;
+    const x = 100 - inOut(p(t, swA, swB)) * 100;
     s.after.style.clipPath = `inset(0 0 0 ${x}%)`;
     s.handle.style.left = x + '%';
-    s.handle.style.opacity = t < a + 3.9 ? 1 : 1 - p(t, a + 3.9, a + 4.2);
+    s.handle.style.opacity = 1 - p(t, swB + 0.2, swB + 0.5);
     // stickers on the revealed side pop a little as the line passes them
     s.stk.forEach((el) => {
       const cx = (el.offsetLeft + el.offsetWidth / 2) / 900 * 100;
@@ -159,27 +162,27 @@ window.render = (t) => {
       el.style.transform = `${base} scale(${passed ? 1 : 0.9})`;
     });
     if (s.stamp) {
-      const k = p(t, a + 3.0, a + 3.18);
+      const k = p(t, TL.stamp, TL.stamp + 0.18);
       s.stamp.style.transform = `rotate(-14deg) scale(${k > 0 ? 2.2 - 1.2 * outCubic(k) : 0})`;
       s.stamp.style.opacity = k > 0 ? 0.9 : 0;
     }
-    s.capEl.style.opacity = p(t, a + 2.5, a + 2.8);
-    s.capEl.style.transform = `translateY(${(1 - outCubic(p(t, a + 2.5, a + 2.9))) * 60}px)`;
+    s.capEl.style.opacity = p(t, cap, cap + 0.3);
+    s.capEl.style.transform = `translateY(${(1 - outCubic(p(t, cap, cap + 0.4))) * 60}px)`;
   });
 
   // S5: the three cards fly in and line up, then the QR
-  [['m0', 90, 18.9, -6], ['m1', 390, 19.05, 0], ['m2', 690, 19.2, 6]].forEach(([id, x, at, r]) => {
+  [['m0', 90, TL.cards, -6], ['m1', 390, TL.cards + 0.15, 0], ['m2', 690, TL.cards + 0.3, 6]].forEach(([id, x, at, r]) => {
     const k = back(p(t, at, at + 0.5));
     $(id).style.transform = `translate(${x - 690 * 0}px, ${480 - (1 - k) * 1400}px) rotate(${r * k}deg)`;
     $(id).style.left = '0px'; $(id).style.top = '0px';
     $(id).style.transform = `translate(${x}px, ${420 + (1 - k) * 1500}px) rotate(${r}deg)`;
   });
-  $('e1').style.opacity = p(t, 18.9, 19.2);
-  $('e2').style.opacity = p(t, 19.6, 19.9);
-  const q = back(p(t, 20.1, 20.6));
+  $('e1').style.opacity = p(t, TL.end, TL.end + 0.3);
+  $('e2').style.opacity = p(t, TL.end + 1.6, TL.end + 1.9);
+  const q = back(p(t, TL.qr, TL.qr + 0.5));
   $('qr').style.transform = `scale(${0.3 + 0.7 * q}) rotate(${(1 - q) * 20}deg)`;
-  $('qr').style.opacity = p(t, 20.1, 20.2);
-  $('e3').style.opacity = p(t, 20.6, 20.9);
+  $('qr').style.opacity = p(t, TL.qr, TL.qr + 0.1);
+  $('e3').style.opacity = p(t, TL.qr + 0.4, TL.qr + 0.7);
 };
 render(0);
 </script>
