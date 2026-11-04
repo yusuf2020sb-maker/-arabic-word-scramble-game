@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Playpen+Sans+Arabic:wght@500;700;800&family=Zain:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --desk:#e8dccb; --ink:#2b241d; --kraft:#c49a6c; --kraft-d:#a77e52; --cream:#fffaf0; --blue:#8fb3d9; --red:#c8443a; --sage:#9bb39a; --gold:#e5b94e; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html, body { width:1080px; height:1920px; overflow:clip; font-family:'Zain',sans-serif; color:var(--ink); }
+  #stage { position:absolute; inset:0; overflow:clip; background:var(--desk);
+    background-image:repeating-linear-gradient(92deg, rgba(120,90,60,.05) 0 3px, transparent 3px 22px), repeating-linear-gradient(0deg, rgba(120,90,60,.04) 0 2px, transparent 2px 60px); }
+  .scene { position:absolute; inset:0; overflow:clip; display:none; }
+  .abs { position:absolute; }
+  .center { width:100%; text-align:center; }
+  .pp { font-family:'Playpen Sans Arabic',sans-serif; font-weight:800; }
+  /* ticker */
+  .ticker { position:absolute; left:0; right:0; top:230px; height:120px; background:var(--ink); color:var(--cream); overflow:clip; transform:rotate(-3deg); }
+  .ticker .run { position:absolute; left:0; top:14px; white-space:nowrap; font-family:'Playpen Sans Arabic'; font-weight:700; font-size:64px; }
+  /* before/after frame */
+  .ba { position:absolute; left:90px; top:470px; width:900px; height:980px; }
+  .layer { position:absolute; inset:0; }
+  .after { clip-path:inset(0 0 0 100%); }
+  .handle { position:absolute; top:-20px; bottom:-20px; width:10px; margin-left:-5px; background:var(--cream); box-shadow:0 0 0 3px var(--ink); left:100%; }
+  .handle::after { content:'⇆'; position:absolute; left:50%; top:50%; width:110px; height:110px; margin:-55px 0 0 -55px; border-radius:50%; background:var(--cream); border:6px solid var(--ink); display:flex; align-items:center; justify-content:center; font-size:60px; }
+  .tag { position:absolute; top:-70px; font-family:'Playpen Sans Arabic'; font-weight:700; font-size:44px; padding:4px 26px; border-radius:30px; background:var(--cream); border:4px solid var(--ink); }
+  .cap { position:absolute; left:60px; right:60px; top:1530px; text-align:center; font-size:72px; font-weight:800; line-height:1.3; }
+  .stk { position:absolute; filter:drop-shadow(4px 8px 6px rgba(0,0,0,.25)); }
+  /* objects */
+  .box { position:absolute; left:70px; top:160px; width:760px; height:660px; background:var(--kraft); border-radius:12px; box-shadow:0 30px 40px rgba(60,40,20,.3);
+         background-image:linear-gradient(90deg, transparent 49%, var(--kraft-d) 49% 51%, transparent 51%), repeating-linear-gradient(0deg, rgba(0,0,0,.03) 0 4px, transparent 4px 9px); }
+  .box .tape { position:absolute; left:340px; top:-10px; width:80px; height:680px; background:rgba(214,190,140,.85); }
+  .note { position:absolute; left:110px; top:90px; width:680px; height:820px; background:#fff; border-radius:10px; box-shadow:0 30px 40px rgba(60,40,20,.25);
+          background-image:repeating-linear-gradient(0deg, transparent 0 66px, var(--blue) 66px 68px); }
+  .note::before { content:''; position:absolute; top:0; bottom:0; right:110px; width:4px; background:#e59a94; }
+  .note .w { position:absolute; right:150px; height:18px; border-radius:9px; background:#9aa6b4; opacity:.55; }
+  .spread { position:absolute; left:20px; top:150px; width:860px; height:700px; display:flex; box-shadow:0 30px 40px rgba(60,40,20,.28); }
+  .spread .pg { flex:1; background:var(--cream); background-image:radial-gradient(rgba(43,36,29,.18) 2px, transparent 2.5px); background-size:40px 40px; }
+  .spread .pg:first-child { border-radius:0 14px 14px 0; box-shadow:inset 30px 0 30px -20px rgba(0,0,0,.18); }
+  .spread .pg:last-child { border-radius:14px 0 0 14px; box-shadow:inset -30px 0 30px -20px rgba(0,0,0,.18); }
+  .washi { position:absolute; height:70px; opacity:.85; }
+  .label { position:absolute; background:var(--cream); border:4px dashed var(--kraft-d); padding:20px 36px; font-family:'Playpen Sans Arabic'; font-weight:700; font-size:52px; border-radius:12px; }
+  .stamp { position:absolute; border:10px solid var(--red); color:var(--red); border-radius:50%; width:270px; height:270px; display:flex; align-items:center; justify-content:center; font-family:'Playpen Sans Arabic'; font-weight:800; font-size:76px; mix-blend-mode:multiply; }
+  .star { position:absolute; width:150px; height:150px; background:var(--gold); clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%); filter:drop-shadow(3px 6px 0 rgba(0,0,0,.2)); }
+  /* end */
+  .mini { position:absolute; width:300px; height:380px; background:var(--cream); border:6px solid var(--ink); border-radius:28px; overflow:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; box-shadow:0 14px 0 var(--ink); }
+  .mini img { width:210px; height:210px; object-fit:contain; }
+  .mini b { font-family:'Playpen Sans Arabic'; font-size:36px; }
+  #qr { position:absolute; left:290px; top:1080px; width:500px; height:500px; background:#fff; border:8px solid var(--ink); border-radius:40px; padding:34px; box-shadow:0 16px 0 var(--ink); }
+</style>
+</head>
+<body>
+<div id="stage">
+
+<!-- S1: intro -->
+<div class="scene" id="s1">
+  <div class="abs center pp" id="i1" style="top:620px; font-size:130px; line-height:1.25">ستيكر واحد</div>
+  <div class="abs center pp" id="i2" style="top:820px; font-size:110px; color:var(--red)">ثلاث حكايات</div>
+  <div class="abs center" id="i3" style="top:1060px; font-size:56px; font-weight:700">📦 · ✏️ · 📒</div>
+</div>
+
+<!-- S2-S4: built in JS -->
+<div class="scene" id="s2"></div>
+<div class="scene" id="s3"></div>
+<div class="scene" id="s4"></div>
+
+<!-- S5: the three stories together + store -->
+<div class="scene" id="s5">
+  <div class="abs center pp" id="e1" style="top:170px; font-size:84px; line-height:1.3">لكل واحد حكايته</div>
+  <div class="mini" id="m0"><img src="cut2/stamps_p26.png"><b>المشاريع</b></div>
+  <div class="mini" id="m1"><img src="cut3/botanical_p17.png"><b>المدرسة</b></div>
+  <div class="mini" id="m2"><img src="cut2/journal_p46.png"><b>الجورنال</b></div>
+  <div class="abs center" id="e2" style="top:950px; font-size:52px; font-weight:800">11 مجموعة · ملف PDF · تطبع كل ما احتجت</div>
+  <div id="qr"><img src="qr_store.png" style="width:100%; height:100%"></div>
+  <div class="abs center pp" id="e3" style="top:1640px; font-size:60px; direction:ltr">planme.zaher.io</div>
+</div>
+</div>
+
+<script>
+const clamp = (x) => Math.min(1, Math.max(0, x));
+const p = (t, a, b) => clamp((t - a) / (b - a));
+const back = (x) => { const c1 = 1.8, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+const outCubic = (x) => 1 - Math.pow(1 - x, 3);
+const inOut = (x) => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const $ = (id) => document.getElementById(id);
+
+const SCENES = [['s1', 0, 2.6], ['s2', 2.6, 8.0], ['s3', 8.0, 13.4], ['s4', 13.4, 18.8], ['s5', 18.8, 23.5]];
+
+const img = (src, x, y, w, r) => `<img class="stk" src="${src}.png" style="left:${x}px; top:${y}px; width:${w}px; transform:rotate(${r}deg)">`;
+const STORIES = [
+  {
+    scene: 's2', who: 'لأصحاب المشاريع', cap: 'تغليف يلفت النظر<br>من أول نظرة',
+    before: `<div class="box"><div class="tape"></div></div>`,
+    after: `<div class="box"><div class="tape"></div></div>
+      ${img('cut2/stamps_p26', 130, 230, 230, -8)}${img('cut2/stamps_p18', 560, 210, 200, 7)}
+      ${img('cut5/vintage_p49', 110, 560, 260, 5)}${img('cut5/ephemera_p54', 600, 590, 190, -6)}
+      <div class="label" style="left:270px; top:430px; transform:rotate(-2deg)">شكراً لطلبك ♡</div>`,
+  },
+  {
+    scene: 's3', who: 'للمعلمين والمعلمات', cap: 'مكافأة صغيرة…<br>تفرق مع الطالب',
+    before: `<div class="note">${[0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => `<div class="w" style="top:${150 + i * 68}px; width:${300 + (i * 97) % 220}px"></div>`).join('')}</div>`,
+    after: `<div class="note">${[0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => `<div class="w" style="top:${150 + i * 68}px; width:${300 + (i * 97) % 220}px"></div>`).join('')}</div>
+      ${img('cut3/botanical_p17', 90, 40, 220, -10)}${img('cut2/vases_p9', 610, 640, 210, 8)}
+      <div class="star" style="left:640px; top:80px; transform:rotate(12deg)"></div>
+      <div class="star" style="left:150px; top:740px; transform:rotate(-8deg) scale(.7)"></div>
+      <div class="stamp" id="mumtaz" style="left:300px; top:560px">ممتاز</div>`,
+  },
+  {
+    scene: 's4', who: 'لمحبين الجورنال', cap: 'صفحة عادية…<br>صارت ذكرى',
+    before: `<div class="spread"><div class="pg"></div><div class="pg"></div></div>`,
+    after: `<div class="spread"><div class="pg"></div><div class="pg"></div></div>
+      <div class="washi" style="left:80px; top:180px; width:300px; background:var(--sage); transform:rotate(-6deg)"></div>
+      <div class="washi" style="left:520px; top:760px; width:280px; background:#e9b8a8; transform:rotate(5deg)"></div>
+      ${img('cut2/journal_p32', 70, 240, 330, -4)}${img('cut2/journal_p46', 120, 560, 250, 6)}
+      ${img('cut2/roses_p43', 500, 210, 300, 5)}${img('cut2/cozyautumn_p30', 560, 520, 240, -7)}${img('cut2/ephemera_p102', 370, 620, 150, 3)}`,
+  },
+].map((s) => {
+  const root = $(s.scene);
+  root.innerHTML = `
+    <div class="ticker"><div class="run">${(s.who + '  •  ').repeat(8)}</div></div>
+    <div class="ba">
+      <div class="layer before">${s.before}</div>
+      <div class="layer after">${s.after}</div>
+      <div class="handle"></div>
+      <div class="tag" style="left:20px">قبل</div><div class="tag" style="right:20px">بعد</div>
+    </div>
+    <div class="cap">${s.cap}</div>`;
+  return { ...s, run: root.querySelector('.run'), after: root.querySelector('.after'), handle: root.querySelector('.handle'),
+           ba: root.querySelector('.ba'), capEl: root.querySelector('.cap'), stamp: root.querySelector('#mumtaz'),
+           stk: [...root.querySelectorAll('.after .stk, .after .star, .after .label, .after .washi')] };
+});
+
+window.render = (t) => {
+  SCENES.forEach(([id, a, b]) => { $(id).style.display = t >= a && t < b ? 'block' : 'none'; });
+
+  // S1: words bounce in
+  [['i1', 0.15], ['i2', 0.8], ['i3', 1.4]].forEach(([id, at]) => {
+    const k = p(t, at, at + 0.45);
+    $(id).style.opacity = k; $(id).style.transform = `translateY(${(1 - back(k)) * 120}px) rotate(${(1 - k) * -6}deg)`;
+  });
+
+  // stories: object slides in, the handle sweeps right-to-left revealing the "after" side
+  STORIES.forEach((s) => {
+    const a = SCENES.find(([id]) => id === s.scene)[1];
+    if (t < a || t > a + 5.4) return;
+    s.run.style.transform = `translateX(${((t - a) * 260) % 1400 - 1400}px)`;
+    const enter = back(p(t, a, a + 0.6));
+    s.ba.style.transform = `translateY(${(1 - enter) * 1500}px) rotate(${(1 - enter) * 8}deg)`;
+    // sweep: 100% -> 0% (reveal), small pause, back to 50% and settle at 0
+    const sw = p(t, a + 1.0, a + 2.4), sw2 = p(t, a + 2.9, a + 3.5);
+    const x = 100 - inOut(sw) * 100 + Math.sin(sw2 * Math.PI) * 18;
+    s.after.style.clipPath = `inset(0 0 0 ${x}%)`;
+    s.handle.style.left = x + '%';
+    s.handle.style.opacity = t < a + 3.9 ? 1 : 1 - p(t, a + 3.9, a + 4.2);
+    // stickers on the revealed side pop a little as the line passes them
+    s.stk.forEach((el) => {
+      const cx = (el.offsetLeft + el.offsetWidth / 2) / 900 * 100;
+      const passed = x < cx;
+      const base = el.dataset.base ?? (el.dataset.base = el.style.transform || '');
+      el.style.transform = `${base} scale(${passed ? 1 : 0.9})`;
+    });
+    if (s.stamp) {
+      const k = p(t, a + 3.0, a + 3.18);
+      s.stamp.style.transform = `rotate(-14deg) scale(${k > 0 ? 2.2 - 1.2 * outCubic(k) : 0})`;
+      s.stamp.style.opacity = k > 0 ? 0.9 : 0;
+    }
+    s.capEl.style.opacity = p(t, a + 2.5, a + 2.8);
+    s.capEl.style.transform = `translateY(${(1 - outCubic(p(t, a + 2.5, a + 2.9))) * 60}px)`;
+  });
+
+  // S5: the three cards fly in and line up, then the QR
+  [['m0', 90, 18.9, -6], ['m1', 390, 19.05, 0], ['m2', 690, 19.2, 6]].forEach(([id, x, at, r]) => {
+    const k = back(p(t, at, at + 0.5));
+    $(id).style.transform = `translate(${x - 690 * 0}px, ${480 - (1 - k) * 1400}px) rotate(${r * k}deg)`;
+    $(id).style.left = '0px'; $(id).style.top = '0px';
+    $(id).style.transform = `translate(${x}px, ${420 + (1 - k) * 1500}px) rotate(${r}deg)`;
+  });
+  $('e1').style.opacity = p(t, 18.9, 19.2);
+  $('e2').style.opacity = p(t, 19.6, 19.9);
+  const q = back(p(t, 20.1, 20.6));
+  $('qr').style.transform = `scale(${0.3 + 0.7 * q}) rotate(${(1 - q) * 20}deg)`;
+  $('qr').style.opacity = p(t, 20.1, 20.2);
+  $('e3').style.opacity = p(t, 20.6, 20.9);
+};
+render(0);
+</script>
+</body>
+</html>
