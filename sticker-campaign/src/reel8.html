@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Lemonada:wght@600;700&family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --teal:#0f4c4a; --teal-d:#08302f; --coral:#ff7a59; --coral-d:#d65a3c; --cream:#fff3e0; --gold:#ffcf5c; --ink:#2a1a12; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html, body { width:1080px; height:1920px; overflow:clip; font-family:'Cairo',sans-serif; color:var(--cream); }
+  #stage { position:absolute; inset:0; overflow:clip; background:radial-gradient(ellipse at 50% 45%, #17706c, var(--teal) 45%, var(--teal-d)); }
+  #rays { position:absolute; left:-460px; top:-40px; width:2000px; height:2000px; opacity:.12;
+          background:repeating-conic-gradient(from 0deg, #fff 0 8deg, transparent 8deg 20deg); border-radius:50%; }
+  .scene { position:absolute; inset:0; overflow:clip; display:none; }
+  .abs { position:absolute; }
+  .center { width:100%; text-align:center; }
+  .lem { font-family:'Lemonada',sans-serif; font-weight:700; }
+  /* machine */
+  #machine { position:absolute; left:90px; top:580px; width:900px; height:1060px; }
+  #body { position:absolute; inset:0; background:linear-gradient(180deg, var(--coral), var(--coral-d)); border-radius:60px; border:10px solid var(--ink); box-shadow:0 30px 0 var(--ink); }
+  #marquee { position:absolute; left:80px; right:80px; top:-90px; height:200px; background:var(--cream); border:10px solid var(--ink); border-radius:40px; display:flex; align-items:center; justify-content:center; color:var(--ink); font-size:76px; }
+  .bulb { position:absolute; width:30px; height:30px; border-radius:50%; background:#fff8d6; border:4px solid var(--ink); }
+  #panel { position:absolute; left:60px; right:60px; top:180px; height:440px; background:var(--ink); border-radius:34px; padding:20px; display:flex; gap:20px; }
+  .win { position:relative; flex:1; background:var(--cream); border-radius:20px; overflow:hidden; box-shadow:inset 0 30px 30px -20px rgba(0,0,0,.35), inset 0 -30px 30px -20px rgba(0,0,0,.35); }
+  .strip { position:absolute; left:0; right:0; top:0; }
+  .cell { height:300px; display:flex; align-items:center; justify-content:center; }
+  .cell img { width:220px; height:220px; object-fit:contain; }
+  #payline { position:absolute; left:40px; right:40px; top:398px; height:6px; background:var(--gold); opacity:.8; border-radius:3px; }
+  #result { position:absolute; left:60px; right:60px; top:680px; height:200px; background:var(--teal-d); border:8px solid var(--ink); border-radius:30px; display:flex; align-items:center; justify-content:center; font-size:96px; color:var(--gold); }
+  #lever { position:absolute; left:-80px; top:240px; width:30px; height:330px; background:#ccc; border:6px solid var(--ink); border-radius:15px; transform-origin:50% 100%; }
+  #lever::before { content:''; position:absolute; left:-32px; top:-60px; width:80px; height:80px; border-radius:50%; background:var(--gold); border:6px solid var(--ink); }
+  #slot { position:absolute; left:340px; top:920px; width:220px; height:30px; background:var(--ink); border-radius:15px; }
+  .fall { position:absolute; left:0; top:0; width:170px; }
+  /* lens */
+  #sheet { position:absolute; left:140px; top:380px; width:800px; border-radius:16px; box-shadow:0 30px 60px rgba(0,0,0,.4); }
+  #lens { position:absolute; left:0; top:0; width:420px; height:420px; border-radius:50%; border:16px solid var(--gold); box-shadow:0 20px 50px rgba(0,0,0,.5), inset 0 0 40px rgba(255,255,255,.4); background-repeat:no-repeat; }
+  #handle { position:absolute; left:0; top:0; width:44px; height:260px; background:var(--ink); border-radius:22px; transform-origin:50% 0; }
+  /* slices */
+  .sl { position:absolute; left:0; width:1080px; text-align:center; }
+  /* scratch card */
+  #card { position:absolute; left:190px; top:560px; width:700px; height:860px; background:var(--cream); border:10px solid var(--ink); border-radius:46px; box-shadow:0 26px 0 var(--ink); color:var(--ink); }
+  #card .q { position:absolute; left:110px; top:70px; width:460px; height:460px; }
+  #scratch { position:absolute; left:40px; top:40px; border-radius:30px; }
+  #coin { position:absolute; left:0; top:0; font-size:110px; }
+</style>
+</head>
+<body>
+<div id="stage">
+<div id="rays"></div>
+
+<!-- S1 + S2: the machine and three spins -->
+<div class="scene" id="s1">
+  <div class="abs center lem" id="hook" style="top:110px; font-size:84px; line-height:1.35">وش بيطلع<br>لك اليوم؟</div>
+  <div id="machine">
+    <div id="body"></div>
+    <div id="marquee" class="lem">آلة الستيكرات</div>
+    <div id="panel"><div class="win"><div class="strip"></div></div><div class="win"><div class="strip"></div></div><div class="win"><div class="strip"></div></div></div>
+    <div id="payline"></div>
+    <div id="result" class="lem"></div>
+    <div id="slot"></div>
+    <div id="lever"></div>
+  </div>
+  <div id="shower"></div>
+</div>
+
+<!-- S3: magnifying lens over a sheet -->
+<div class="scene" id="s3">
+  <div class="abs center lem" style="top:170px; font-size:80px; line-height:1.4">كل مجموعة<br><span style="color:var(--gold)">ملف PDF مستقل</span></div>
+  <img id="sheet" src="sheets/stamps.jpg">
+  <div id="handle"></div>
+  <div id="lens"></div>
+</div>
+
+<!-- S4: sliced text -->
+<div class="scene" id="s4"></div>
+
+<!-- S5: scratch card -->
+<div class="scene" id="s5">
+  <div class="abs center lem" id="prize" style="top:200px; font-size:96px">الجائزة الكبرى…</div>
+  <div id="card">
+    <img class="q" src="qr_store.png">
+    <div class="abs center" style="top:580px; font-size:64px; font-weight:900">المتجر</div>
+    <div class="abs center" style="top:680px; font-size:50px; font-weight:700; direction:ltr">planme.zaher.io</div>
+    <canvas id="scratch" width="620" height="760"></canvas>
+  </div>
+  <div id="coin">🪙</div>
+</div>
+</div>
+
+<script>
+const clamp = (x) => Math.min(1, Math.max(0, x));
+const p = (t, a, b) => clamp((t - a) / (b - a));
+const back = (x) => { const c1 = 1.9, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+const outCubic = (x) => 1 - Math.pow(1 - x, 3);
+const inOut = (x) => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const $ = (id) => document.getElementById(id);
+const rnd = (s) => { const x = Math.sin(s * 12.9898 + 78.233) * 43758.5453; return x - Math.floor(x); };
+
+const SCENES = [['s1', 0, 11.2], ['s3', 11.2, 14.6], ['s4', 14.6, 17.2], ['s5', 17.2, 22.5]];
+
+// --- slot machine -------------------------------------------------------
+// Each reel strip has 12 cells; the winning cells sit at index 0 (roses), 4 (stamps), 8 (autumn).
+const N = 12, H = 300, WIN_H = 400;
+const WINNERS = [['roses_p36', 'roses_p50', 'roses_p63'], ['stamps_p10', 'stamps_p30', 'stamps_p14'], ['autumn_ar_p33', 'autumn_ar_p41', 'cozyautumn_p67']];
+const FILL = ['ephemera_p54', 'ephemera_p86', 'journal_p54', 'vases_p3', 'vintage_p36', 'vintage_p49', 'vintage_p62', 'botanical_p7', 'ephemera_p117'];
+// spins: lever time, start, per-reel stop times, landing index, result text
+const SPINS = [
+  { lever: 2.5, start: 2.65, stops: [4.0, 4.4, 4.8], land: 0, text: 'ورود! 🌹', win: 0 },
+  { lever: 6.5, start: 6.65, stops: [7.6, 7.85, 8.1], land: 4, text: 'طوابع! 📮', win: 1 },
+  { lever: 8.8, start: 8.95, stops: [9.8, 10.0, 10.2], land: 8, text: 'خريف! 🍂', win: 2 },
+];
+const LOOPS = 3;
+const REELS = [...document.querySelectorAll('.strip')].map((strip, r) => {
+  const cells = [...Array(N)].map((_, i) => (i % 4 === 0 ? WINNERS[i / 4][r] : FILL[(i * 5 + r * 3) % FILL.length]));
+  const seq = [cells[N - 1], ...cells, ...cells, cells[0]];
+  strip.innerHTML = seq.map((s) => `<div class="cell"><img src="cut5/${s}.png"></div>`).join('');
+  return strip;
+});
+// reel position in cells: each spin travels LOOPS full turns plus whatever lands on the target
+function reelPos(r, t) {
+  let pos = 6; // start on filler cells so the first win is a surprise
+  for (const s of SPINS) {
+    const target = Math.ceil((pos + LOOPS * N - s.land) / N) * N + s.land;
+    if (t < s.start) return pos;
+    const u = p(t, s.start, s.stops[r]);
+    const k = 1 - Math.pow(1 - u, 3);
+    const bounce = u >= 1 ? Math.sin(Math.min(1, (t - s.stops[r]) / 0.25) * Math.PI) * -0.08 : 0;
+    if (u < 1 || t < s.stops[r] + 0.25) return pos + (target - pos) * k + bounce;
+    pos = target;
+  }
+  return pos;
+}
+const BULBS = [...Array(26)].map((_, i) => {
+  const b = document.createElement('div'); b.className = 'bulb';
+  const w = 740, h = 200, per = 2 * (w + h), d = (i / 26) * per;
+  let x, y;
+  if (d < w) { x = d; y = 0; } else if (d < w + h) { x = w; y = d - w; } else if (d < 2 * w + h) { x = w - (d - w - h); y = h; } else { x = 0; y = h - (d - 2 * w - h); }
+  Object.assign(b.style, { left: 80 + x - 15 + 'px', top: -90 + y - 15 + 'px' });
+  $('machine').appendChild(b); return b;
+});
+const SHOWER = [...Array(16)].map((_, i) => {
+  const el = document.createElement('img'); el.className = 'fall'; $('shower').appendChild(el);
+  return { el, x: 30 + (i * 67) % 900, d: (i % 8) * 0.07, spin: (i % 2 ? 1 : -1) * (200 + i * 15) };
+});
+
+// --- sliced text ---------------------------------------------------------
+const LINES = [['تحميل فوري', 640, 14.7, 'var(--cream)'], ['وتطبع كل ما احتجت', 900, 15.4, 'var(--gold)']];
+const SLICES = 8;
+const SL = LINES.flatMap(([txt, top, at, col]) => [...Array(SLICES)].map((_, i) => {
+  const el = document.createElement('div'); el.className = 'sl lem'; el.textContent = txt;
+  Object.assign(el.style, { top: top + 'px', fontSize: '74px', whiteSpace: 'nowrap', color: col, clipPath: `inset(0 ${100 - (i + 1) * 100 / SLICES}% 0 ${i * 100 / SLICES}%)` });
+  $('s4').appendChild(el); return { el, at: at + i * 0.045, dir: i % 2 ? 1 : -1 };
+}));
+
+// --- scratch card --------------------------------------------------------
+const cv = $('scratch'), cx = cv.getContext('2d');
+const SCR_A = 18.6, SCR_B = 20.4;
+const scratchPath = (u) => { // zigzag across the card, row by row
+  const rows = 6, r = Math.min(rows - 1, Math.floor(u * rows)), f = (u * rows) % 1;
+  const x = r % 2 ? 560 - f * 500 : 60 + f * 500;
+  return [x, 70 + r * 125 + f * 20];
+};
+
+window.render = (t) => {
+  SCENES.forEach(([id, a, b]) => { $(id).style.display = t >= a && t < b ? 'block' : 'none'; });
+  $('rays').style.transform = `rotate(${t * 12}deg)`;
+
+  // S1: hook + machine drop
+  $('hook').style.transform = `scale(${0.6 + 0.4 * back(p(t, 0.1, 0.5))})`;
+  $('hook').style.opacity = p(t, 0.1, 0.3);
+  const drop = back(p(t, 0.3, 0.9));
+  $('machine').style.transform = `translateY(${(1 - drop) * -1400}px)`;
+  BULBS.forEach((b, i) => {
+    const fast = SPINS.some((s) => t > s.stops[2] && t < s.stops[2] + 1.3);
+    const ph = Math.floor(t * (fast ? 16 : 6));
+    b.style.background = (i + ph) % 3 === 0 ? '#fff8d6' : (fast ? (i % 2 ? '#ff7a59' : '#ffcf5c') : '#7a5c3a');
+    b.style.boxShadow = (i + ph) % 3 === 0 ? '0 0 24px #fff3a0' : 'none';
+  });
+  // reels
+  REELS.forEach((strip, r) => {
+    const pos = reelPos(r, t), prev = reelPos(r, t - 1 / 30);
+    const frac = ((pos % N) + N) % N;
+    strip.style.transform = `translateY(${-(frac + 1) * H + (WIN_H - H) / 2}px)`;
+    strip.style.filter = `blur(${Math.min(10, Math.abs(pos - prev) * 9)}px)`;
+  });
+  // lever pulls
+  const pull = Math.max(0, ...SPINS.map((s) => Math.sin(p(t, s.lever, s.lever + 0.35) * Math.PI)));
+  $('lever').style.transform = `rotate(${pull * -28}deg) scaleY(${1 - pull * 0.25})`;
+  // result banner
+  const won = [...SPINS].reverse().find((s) => t >= s.stops[2] + 0.1);
+  const spinning = SPINS.find((s) => t >= s.lever && t < s.stops[2] + 0.1);
+  $('result').textContent = spinning ? '…' : won ? won.text : 'اسحب الذراع';
+  if (!spinning && !won) $('result').textContent = '';
+  $('result').style.transform = won && !spinning ? `scale(${0.7 + 0.3 * back(p(t, won.stops[2] + 0.1, won.stops[2] + 0.45))})` : 'scale(1)';
+  $('machine').style.transform += won && !spinning ? ` rotate(${Math.sin((t - won.stops[2]) * 40) * 1.2 * (1 - p(t, won.stops[2], won.stops[2] + 0.5))}deg)` : '';
+  // sticker shower after each win
+  SHOWER.forEach(({ el, x, d, spin }, i) => {
+    const s = won && !spinning ? won : null;
+    const k = s ? p(t, s.stops[2] + 0.15 + d, s.stops[2] + 1.9 + d) : 0;
+    el.style.display = k > 0 && k < 1 ? '' : 'none';
+    if (s) el.src = `cut5/${WINNERS[s.win][i % 3]}.png`;
+    el.style.transform = `translate(${x}px, ${-200 + k * 2300}px) rotate(${k * spin}deg)`;
+  });
+
+  // S3: lens glides over the sheet, showing it magnified
+  const sheet = $('sheet'), W = 800, Hs = sheet.naturalHeight / sheet.naturalWidth * 800 || 1131;
+  const u = p(t, 11.3, 14.5);
+  const lx = 140 + 200 + Math.sin(u * Math.PI * 2) * 240, ly = 380 + 260 + u * (Hs - 520);
+  const Z = 2.3, R = 210;
+  $('lens').style.transform = `translate(${lx - R}px, ${ly - R}px) scale(${0.8 + 0.2 * back(p(t, 11.2, 11.6))})`;
+  $('lens').style.backgroundImage = `url(sheets/stamps.jpg)`;
+  $('lens').style.backgroundSize = `${W * Z}px ${Hs * Z}px`;
+  $('lens').style.backgroundPosition = `${-(lx - 140) * Z + R - 16}px ${-(ly - 380) * Z + R - 16}px`;
+  $('handle').style.transform = `translate(${lx + 120}px, ${ly + 120}px) rotate(-40deg)`;
+
+  // S4: slices slide in alternately from above and below
+  SL.forEach(({ el, at, dir }) => {
+    const k = outCubic(p(t, at, at + 0.5));
+    el.style.transform = `translateY(${(1 - k) * dir * 260}px)`;
+    el.style.opacity = k > 0 ? 1 : 0;
+  });
+
+  // S5: silver layer scratched away by the coin, then the store is revealed
+  cx.globalCompositeOperation = 'source-over';
+  const g = cx.createLinearGradient(0, 0, 620, 760); g.addColorStop(0, '#c9ccd1'); g.addColorStop(.5, '#eef0f2'); g.addColorStop(1, '#aeb3ba');
+  cx.fillStyle = g; cx.fillRect(0, 0, 620, 760);
+  cx.fillStyle = '#7d838c'; cx.font = '700 60px Cairo'; cx.textAlign = 'center'; cx.fillText('✦  ؟؟؟  ✦', 310, 400);
+  cx.globalCompositeOperation = 'destination-out';
+  const su = p(t, SCR_A, SCR_B);
+  for (let v = 0; v <= su; v += 0.004) { const [x, y] = scratchPath(v); cx.beginPath(); cx.arc(x, y, 95, 0, Math.PI * 2); cx.fill(); }
+  if (t > SCR_B) cx.clearRect(0, 0, 620, 760);
+  const [cxp, cyp] = scratchPath(su);
+  $('coin').style.display = t > SCR_A - 0.3 && t < SCR_B + 0.2 ? '' : 'none';
+  $('coin').style.transform = `translate(${190 + 40 + cxp - 50}px, ${560 + 40 + cyp - 60}px) rotate(${Math.sin(t * 20) * 15}deg)`;
+  $('prize').textContent = t < SCR_B ? 'الجائزة الكبرى…' : 'المتجر! 🎉';
+  $('prize').style.transform = `scale(${t < SCR_B ? 0.7 + 0.3 * back(p(t, 17.3, 17.7)) : 0.7 + 0.3 * back(p(t, SCR_B, SCR_B + 0.35))})`;
+  $('card').style.transform = `translateY(${(1 - back(p(t, 17.4, 17.9))) * 1200}px) rotate(${t > SCR_B ? Math.sin((t - SCR_B) * 30) * 2 * (1 - p(t, SCR_B, SCR_B + 0.6)) : 0}deg)`;
+};
+render(0);
+</script>
+</body>
+</html>
