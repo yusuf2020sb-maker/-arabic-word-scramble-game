@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@700&family=Lateef:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --mud:#c99a63; --mud-d:#a87a45; --plaster:#efe2cc; --wood:#6b3f22; --wood-d:#43260f; --red:#9b2a22; --ink:#2f1d10; --gold:#e5b04a; --cream:#fbf3e4; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html, body { width:1080px; height:1920px; overflow:clip; font-family:'Lateef',serif; color:var(--ink); }
+  #stage { position:absolute; inset:0; overflow:clip; background:#2a1a12; }
+  .scene { position:absolute; inset:0; overflow:clip; display:none; }
+  .abs { position:absolute; }
+  .center { width:100%; text-align:center; }
+  .qh { font-family:'Reem Kufi',sans-serif; font-weight:700; line-height:1.15; }
+  /* outside at dusk */
+  #s1 { background:linear-gradient(180deg, #3b2a5a 0%, #b3563e 45%, #f0a35a 62%, #f6c27a 70%); }
+  .dune { position:absolute; left:-100px; right:-100px; border-radius:50% 50% 0 0; }
+  #wall { position:absolute; left:0; right:0; top:760px; bottom:0; background:var(--mud);
+          background-image:radial-gradient(rgba(90,55,25,.25) 2px, transparent 3px), radial-gradient(rgba(255,230,190,.2) 2px, transparent 3px); background-size:17px 23px, 29px 31px; }
+  #wall::before { content:''; position:absolute; left:0; right:0; top:-70px; height:70px; background:var(--mud);
+          clip-path:polygon(0 100%, 0 30%, 4% 0, 8% 30%, 12% 0, 16% 30%, 20% 0, 24% 30%, 28% 0, 32% 30%, 36% 0, 40% 30%, 44% 0, 48% 30%, 52% 0, 56% 30%, 60% 0, 64% 30%, 68% 0, 72% 30%, 76% 0, 80% 30%, 84% 0, 88% 30%, 92% 0, 96% 30%, 100% 0, 100% 100%); }
+  #door { position:absolute; left:290px; top:980px; width:500px; height:780px; perspective:1600px; }
+  #light { position:absolute; inset:0; background:radial-gradient(ellipse at 50% 60%, #fff2c6, #ffc46a 50%, #c97a2a); }
+  .leaf { position:absolute; top:0; bottom:0; width:50%; background:var(--wood); border:10px solid var(--wood-d);
+          background-image:repeating-linear-gradient(135deg, transparent 0 24px, rgba(229,176,74,.55) 24px 30px), repeating-linear-gradient(45deg, transparent 0 24px, rgba(155,42,34,.5) 24px 30px); }
+  .leaf::after { content:''; position:absolute; left:30%; right:30%; top:44%; height:80px; background:var(--gold); border-radius:8px; opacity:.85; }
+  #leafR { right:0; transform-origin:100% 50%; }
+  #leafL { left:0; transform-origin:0 50%; }
+  .grain { position:absolute; left:0; top:0; width:6px; height:6px; border-radius:50%; background:rgba(255,220,170,.8); }
+  .hook { position:absolute; left:0; right:0; text-align:center; color:var(--cream); text-shadow:0 6px 20px rgba(60,20,10,.6); }
+  /* majlis */
+  #s3 { background:var(--plaster); background-image:radial-gradient(rgba(150,110,60,.12) 2px, transparent 3px); background-size:21px 21px; }
+  .niche { position:absolute; top:380px; width:260px; height:380px; background:#e2cfae; border-radius:130px 130px 10px 10px; box-shadow:inset 0 20px 30px rgba(90,60,30,.25); }
+  .sadu { position:absolute; left:0; right:0; height:300px;
+          background:repeating-linear-gradient(90deg, var(--red) 0 60px, #1d140e 60px 70px, var(--cream) 70px 90px, #1d140e 90px 100px),
+                     linear-gradient(var(--red), var(--red)); }
+  .sadu::before { content:''; position:absolute; left:0; right:0; top:40%; height:20%;
+          background:repeating-linear-gradient(45deg, var(--cream) 0 18px, #1d140e 18px 36px), repeating-linear-gradient(-45deg, transparent 0 18px, var(--gold) 18px 22px); }
+  .stk { position:absolute; left:0; top:0; filter:drop-shadow(0 14px 14px rgba(60,30,10,.35)); }
+  .smoke { position:absolute; width:46px; height:260px; border-radius:23px; filter:blur(10px); background:linear-gradient(to top, rgba(255,255,255,.7), transparent); }
+  #stream { position:absolute; left:0; top:0; width:12px; height:0; background:linear-gradient(#6b3f1c, #8a5a2c); border-radius:6px; transform-origin:top; }
+  #lanternGlow { position:absolute; width:520px; height:520px; border-radius:50%; background:radial-gradient(circle, rgba(255,200,110,.6), transparent 65%); mix-blend-mode:multiply; pointer-events:none; }
+  #title3 { position:absolute; left:0; right:0; top:120px; text-align:center; font-family:'Reem Kufi'; font-weight:700; font-size:96px; color:var(--red); }
+  svg.star { position:absolute; left:340px; top:40px; overflow:visible; }
+  svg.star polygon { fill:none; stroke:var(--gold); stroke-width:6; }
+  /* weave */
+  #s4 { background:#1d140e; }
+  #weave { position:absolute; left:0; right:0; top:900px; height:760px; }
+  .row { position:absolute; left:0; right:0; height:38px; }
+  .chip { display:inline-block; background:var(--cream); color:var(--ink); border:4px solid var(--gold); border-radius:999px; padding:4px 32px; font-weight:800; font-size:52px; margin:10px; }
+  /* conveyor cards */
+  #s5 { background:var(--plaster); }
+  .card { position:absolute; left:0; top:520px; width:760px; height:900px; background:var(--cream); border-radius:30px; box-shadow:0 30px 50px rgba(60,30,10,.3); overflow:hidden; }
+  .card .lbl { position:absolute; left:30px; right:30px; bottom:50px; text-align:center; font-weight:800; font-size:78px; line-height:1.2; }
+  .gift { position:absolute; left:180px; top:150px; width:400px; height:360px; background:var(--red); border-radius:14px; }
+  .gift::before { content:''; position:absolute; left:180px; top:0; bottom:0; width:40px; background:var(--gold); }
+  .gift::after { content:''; position:absolute; left:0; right:0; top:160px; height:40px; background:var(--gold); }
+  .nb { position:absolute; left:150px; top:110px; width:460px; height:520px; background:#fff; border-left:30px solid #3d6b4f; border-radius:10px; background-image:repeating-linear-gradient(0deg, transparent 0 46px, rgba(80,120,200,.25) 46px 48px); }
+  /* chest */
+  #s6 { background:radial-gradient(ellipse at 50% 55%, #4a2d18, #1a0f08 70%); }
+  #chest { position:absolute; left:170px; top:900px; width:740px; height:560px; perspective:1800px; }
+  #cbase { position:absolute; left:0; right:0; bottom:0; height:400px; background:#2e6b4a; border:12px solid var(--gold); border-radius:16px; }
+  #clid { position:absolute; left:-10px; right:-10px; top:40px; height:150px; background:#285e41; border:12px solid var(--gold); border-radius:16px; transform-origin:50% 0%; z-index:3; }
+  #qrbox { position:absolute; left:220px; top:-220px; width:300px; height:300px; background:#fff; border-radius:18px; padding:16px; z-index:2; box-shadow:0 0 60px rgba(255,210,120,.9); }
+</style>
+</head>
+<body>
+<div id="stage">
+
+<!-- S1: dusk outside grandpa's house -->
+<div class="scene" id="s1">
+  <div class="dune" style="top:560px; height:400px; background:#c7804a"></div>
+  <div class="dune" style="top:640px; height:400px; background:#b06a3c; left:200px"></div>
+  <div id="wall"></div>
+  <div id="door"><div id="light"></div><div class="leaf" id="leafL"></div><div class="leaf" id="leafR"></div></div>
+  <div class="hook qh" id="k1" style="top:170px; font-size:108px">تذكر بيت جدك؟ 🏺</div>
+  <div class="hook" id="k2" style="top:430px; font-size:84px; font-weight:800">الدلّة…</div>
+  <div class="hook" id="k3" style="top:540px; font-size:84px; font-weight:800">الفناجيل…</div>
+  <div class="hook" id="k4" style="top:650px; font-size:84px; font-weight:800">وريحة الهيل ☕</div>
+</div>
+
+<!-- S3: the majlis -->
+<div class="scene" id="s3">
+  <svg class="star" width="400" height="400" viewBox="-200 -200 400 400"><polygon id="star" points="0,-170 48,-118 120,-120 118,-48 170,0 118,48 120,120 48,118 0,170 -48,118 -120,120 -118,48 -170,0 -118,-48 -120,-120 -48,-118"/></svg>
+  <div id="title3">ستيكرات تراثية عربية</div>
+  <div class="niche" style="left:70px"></div><div class="niche" style="left:410px"></div><div class="niche" style="left:750px"></div>
+  <div class="sadu" style="top:1520px"></div>
+  <div id="lanternGlow"></div>
+  <div id="stream"></div>
+</div>
+
+<!-- S4: sadu weave -->
+<div class="scene" id="s4">
+  <div class="abs center qh" id="n1" style="top:220px; font-size:260px; color:var(--gold)">٥٠</div>
+  <div class="abs center qh" id="n2" style="top:520px; font-size:110px; color:var(--cream)">تصميم بطابع عتيق</div>
+  <div id="weave"></div>
+</div>
+
+<!-- S5: conveyor of uses -->
+<div class="scene" id="s5">
+  <div class="sadu" style="top:1500px; height:180px"></div>
+  <div class="abs center qh" style="top:200px; font-size:110px; color:var(--red)">لكل مناسبة</div>
+</div>
+
+<!-- S6: the chest opens -->
+<div class="scene" id="s6">
+  <div class="abs center qh" id="e1" style="top:200px; font-size:120px; color:var(--cream)">تراثنا… في ملف</div>
+  <div class="abs center" id="e3" style="top:390px; font-size:60px; font-weight:800; color:var(--gold)">تطبعه في بيتك</div>
+  <div id="chest"><div id="qrbox"><img src="qr_store.png" style="width:100%; height:100%"></div><div id="cbase"></div><div id="clid"></div></div>
+  <div class="abs center" id="e2" style="top:1560px; font-size:64px; font-weight:800; color:var(--cream); direction:ltr">planme.zaher.io</div>
+</div>
+</div>
+
+<script>
+const clamp = (x) => Math.min(1, Math.max(0, x));
+const p = (t, a, b) => clamp((t - a) / (b - a));
+const back = (x) => { const c1 = 1.7, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+const outCubic = (x) => 1 - Math.pow(1 - x, 3);
+const inOut = (x) => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const $ = (id) => document.getElementById(id);
+const rnd = (s) => { const x = Math.sin(s * 12.9898 + 78.233) * 43758.5453; return x - Math.floor(x); };
+
+const SCENES = [['s1', 0, 5.6], ['s3', 5.6, 12.4], ['s4', 12.4, 16.2], ['s5', 16.2, 20.4], ['s6', 20.4, 24.5]];
+
+// blowing sand
+const SAND = [...Array(50)].map((_, i) => { const g = document.createElement('div'); g.className = 'grain'; $('s1').appendChild(g); return { g, y: 500 + rnd(i) * 1300, sp: 300 + rnd(i + 4) * 500, ph: rnd(i + 8) * 1200, s: 0.4 + rnd(i + 2) }; });
+
+function sticker(parent, src, x, y, w) {
+  const el = document.createElement('img'); el.src = `heritage/${src}.png`; el.className = 'stk'; el.style.width = w + 'px'; parent.appendChild(el); return { el, x, y, w };
+}
+// S3 items: [src, x, y, width, appear time, style]
+const ITEMS = [
+  ['h6', 40, -40, 150, 6.0, 'hang'], ['h50', 120, 1080, 320, 6.5, 'pour'], ['h54', 520, 1330, 170, 6.9, 'pop'], ['h53', 760, 1230, 120, 7.4, 'pop'],
+  ['h48', 650, 1380, 280, 7.8, 'pop'], ['h14', 90, 430, 220, 8.2, 'pop'], ['h40', 450, 470, 130, 8.6, 'pop'], ['h41', 600, 480, 120, 8.9, 'pop'],
+  ['h22', 760, 460, 240, 9.2, 'pop'], ['h52', 360, 1250, 170, 9.6, 'smoke'], ['h45', 120, 820, 200, 10.0, 'pop'], ['h46', 760, 820, 200, 10.3, 'pop'],
+].map(([src, x, y, w, at, kind]) => ({ ...sticker($('s3'), src, x, y, w), at, kind }));
+const SMOKE = [0, 1, 2].map(() => { const s = document.createElement('div'); s.className = 'smoke'; $('s3').appendChild(s); return s; });
+const STAR_L = (() => { const pl = $('star'); const pts = pl.getAttribute('points').split(' ').map((q) => q.split(',').map(Number)); let L = 0; for (let i = 0; i < pts.length; i++) { const a = pts[i], b = pts[(i + 1) % pts.length]; L += Math.hypot(a[0] - b[0], a[1] - b[1]); } pl.style.strokeDasharray = L; return L; })();
+
+// S4 weave: rows of sadu pattern appear one after another like a loom
+const PAL = ['#9b2a22', '#1d140e', '#fbf3e4', '#e5b04a'];
+const ROWS = [...Array(20)].map((_, i) => {
+  const r = document.createElement('div'); r.className = 'row'; r.style.top = (i * 38) + 'px';
+  const a = PAL[i % 4], b = PAL[(i + 2) % 4];
+  r.style.background = i % 5 === 2 ? `repeating-linear-gradient(90deg, ${a} 0 40px, ${b} 40px 80px)` : (i % 5 === 4 ? `repeating-linear-gradient(45deg, ${a} 0 14px, ${b} 14px 28px)` : a);
+  $('weave').appendChild(r); return r;
+});
+const CHIPS = document.createElement('div'); CHIPS.className = 'abs center'; CHIPS.style.cssText = 'top:700px; padding:0 40px';
+CHIPS.innerHTML = '<span class="chip">دلّة وفناجيل</span><span class="chip">فوانيس</span><span class="chip">تمر ورمان</span><span class="chip">عود وبخور</span>';
+$('s4').appendChild(CHIPS);
+
+// S5 cards on a conveyor
+const CARDS = [
+  ['لتوزيعات رمضان<br>والعيد 🌙', `<div class="gift"></div><img class="stk" src="heritage/h50.png" style="left:270px; top:190px; width:220px">`],
+  ['لمشروع التراث<br>في المدرسة ✏️', `<div class="nb"></div><img class="stk" src="heritage/h6.png" style="left:230px; top:190px; width:150px"><img class="stk" src="heritage/h14.png" style="left:380px; top:380px; width:200px">`],
+  ['ولصفحات<br>الذكريات 📒', `<div class="nb" style="border-left-color:#9b2a22"></div><img class="stk" src="heritage/h30.png" style="left:200px; top:160px; width:330px"><img class="stk" src="heritage/h54.png" style="left:420px; top:420px; width:150px">`],
+].map(([lbl, html], i) => { const c = document.createElement('div'); c.className = 'card'; c.innerHTML = html + `<div class="lbl">${lbl}</div>`; $('s5').appendChild(c); return { c, at: 16.3 + i * 1.35 }; });
+
+window.render = (t) => {
+  SCENES.forEach(([id, a, b]) => { $(id).style.display = t >= a && t < b ? 'block' : 'none'; });
+
+  // S1: sand drifts, hook lines appear, door opens, camera goes through
+  SAND.forEach(({ g, y, sp, ph, s }) => { const x = 1180 - ((t * sp + ph) % 1400); g.style.transform = `translate(${x}px, ${y + Math.sin(t * 2 + ph) * 20}px) scale(${s})`; });
+  $('k1').style.opacity = p(t, 0.2, 0.5); $('k1').style.transform = `scale(${0.85 + 0.15 * outCubic(p(t, 0.2, 0.7))})`; $('k1').style.filter = `blur(${(1 - p(t, 0.2, 0.6)) * 12}px)`;
+  [['k2', 1.6], ['k3', 2.2], ['k4', 2.8]].forEach(([id, at]) => { const k = p(t, at, at + 0.4); $(id).style.opacity = k; $(id).style.transform = `translateX(${(1 - outCubic(k)) * -120}px)`; });
+  const op = inOut(p(t, 4.1, 4.9));
+  $('leafL').style.transform = `rotateY(${op * 100}deg)`; $('leafR').style.transform = `rotateY(${-op * 100}deg)`;
+  const push = inOut(p(t, 4.7, 5.6));
+  $('s1').style.transform = `scale(${1 + push * 4})`; $('s1').style.transformOrigin = '540px 1370px';
+  ['k1', 'k2', 'k3', 'k4'].forEach((id) => { $(id).style.opacity *= 1 - p(t, 4.0, 4.4); });
+
+  // S3: majlis fills; lantern swings, dallah pours, incense smokes
+  ITEMS.forEach((it) => {
+    const k = p(t, it.at, it.at + 0.45);
+    it.el.style.display = t >= it.at ? '' : 'none';
+    if (it.kind === 'hang') {
+      const sw = Math.sin((t - it.at) * 3) * 10 * Math.exp(-(t - it.at) * 0.4);
+      it.el.style.transformOrigin = '50% 0'; it.el.style.transform = `translate(${it.x}px, ${it.y + (1 - outCubic(k)) * -400}px) rotate(${sw}deg)`;
+      const g = $('lanternGlow'); g.style.left = (it.x + it.w / 2 - 260) + 'px'; g.style.top = '80px'; g.style.opacity = 0;
+    } else if (it.kind === 'pour') {
+      const tilt = Math.sin(p(t, it.at + 0.6, it.at + 2.0) * Math.PI) * -38;
+      it.el.style.transformOrigin = '80% 80%';
+      it.el.style.transform = `translate(${it.x + (1 - outCubic(k)) * -600}px, ${it.y}px) rotate(${tilt}deg)`;
+      const pour = Math.sin(p(t, it.at + 0.8, it.at + 1.9) * Math.PI);
+      $('stream').style.transform = `translate(${it.x + it.w * 0.96}px, ${it.y + 120}px)`; $('stream').style.height = (pour * 190) + 'px'; $('stream').style.opacity = pour > 0.05 ? 1 : 0;
+    } else {
+      it.el.style.transform = `translate(${it.x}px, ${it.y}px) scale(${back(k)}) rotate(${Math.sin(t * 1.5 + it.x) * 2}deg)`;
+    }
+    if (it.kind === 'smoke') SMOKE.forEach((s, i) => { const q = ((t * 0.5 + i * 0.33) % 1); s.style.left = (it.x + it.w / 2 - 23 + i * 18 - 18) + 'px'; s.style.top = (it.y - 250) + 'px'; s.style.transform = `translate(${Math.sin(q * 7 + i) * 30}px, ${-q * 200}px) scaleY(${0.5 + q})`; s.style.opacity = t > it.at + 0.4 ? Math.sin(q * Math.PI) * 0.75 : 0; });
+  });
+  $('star').style.strokeDashoffset = STAR_L * (1 - inOut(p(t, 10.8, 11.8)));
+  $('title3').style.opacity = p(t, 11.3, 11.7); $('title3').style.transform = `translateY(${(1 - outCubic(p(t, 11.3, 11.8))) * 40}px)`;
+  $('s3').style.transform = `scale(${1.04 - 0.04 * p(t, 5.6, 12.4)})`;
+
+  // S4: loom weaves the sadu band row by row
+  $('n1').style.transform = `scale(${0.5 + 0.5 * back(p(t, 12.5, 12.9))})`;
+  $('n2').style.opacity = p(t, 12.9, 13.2);
+  ROWS.forEach((r, i) => { const k = p(t, 13.0 + i * 0.09, 13.25 + i * 0.09); r.style.clipPath = `inset(0 ${i % 2 ? 0 : (1 - k) * 100}% 0 ${i % 2 ? (1 - k) * 100 : 0}%)`; });
+  [...CHIPS.children].forEach((c, i) => { c.style.transform = `scale(${back(p(t, 14.9 + i * 0.15, 15.25 + i * 0.15))})`; });
+
+  // S5: cards ride in from the right, pause, then leave to the left
+  CARDS.forEach(({ c, at }) => {
+    const inK = inOut(p(t, at, at + 0.45)), outK = inOut(p(t, at + 1.15, at + 1.5));
+    c.style.transform = `translateX(${160 + (1 - inK) * 1100 - outK * 1300}px) rotate(${(1 - inK) * 6 - outK * 6}deg)`;
+    c.style.display = t >= at && t < at + 1.55 ? '' : 'none';
+  });
+
+  // S6: chest lid opens, QR rises in the glow
+  const lid = inOut(p(t, 20.9, 21.6));
+  $('clid').style.transform = `rotateX(${lid * 110}deg)`;
+  const rise = back(p(t, 21.4, 22.0));
+  $('qrbox').style.transform = `translateY(${(1 - rise) * 380}px) scale(${0.6 + 0.4 * rise})`; $('qrbox').style.opacity = p(t, 21.4, 21.6);
+  $('e1').style.opacity = p(t, 20.5, 20.9); $('e3').style.opacity = p(t, 21.0, 21.3); $('e2').style.opacity = p(t, 22.1, 22.4);
+};
+render(0);
+</script>
+</body>
+</html>
