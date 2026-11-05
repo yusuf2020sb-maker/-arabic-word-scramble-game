@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Katibeh&family=Harmattan:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --night:#16203a; --night-l:#24345a; --wall:#f1dfca; --wall-d:#e4cdb3; --wood:#8a5a36; --wood-d:#5e3b22; --ink:#3a2618; --warm:#ffcf8a; --cream:#fff7ec; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html, body { width:1080px; height:1920px; overflow:clip; font-family:'Harmattan',sans-serif; color:var(--ink); }
+  #stage { position:absolute; inset:0; overflow:clip; background:var(--wall); }
+  .scene { position:absolute; inset:0; overflow:clip; display:none; }
+  .abs { position:absolute; }
+  .center { width:100%; text-align:center; }
+  .kt { font-family:'Katibeh',serif; line-height:1.05; }
+  /* night window */
+  #s1, #s5 { background:radial-gradient(ellipse at 50% 100%, #4a3524 0%, #1c1a24 60%); }
+  .win { position:absolute; left:110px; top:260px; width:860px; height:1180px; border:34px solid var(--wood); border-radius:14px; overflow:hidden; box-shadow:0 0 0 10px var(--wood-d), 0 30px 60px rgba(0,0,0,.5);
+         background:linear-gradient(180deg, #0f1a33, var(--night-l) 70%, #3c3a4a); }
+  .win::before, .win::after { content:''; position:absolute; background:var(--wood); z-index:3; }
+  .win::before { left:50%; top:0; bottom:0; width:24px; margin-left:-12px; }
+  .win::after { top:50%; left:0; right:0; height:24px; margin-top:-12px; }
+  .rain { position:absolute; inset:0; z-index:1; }
+  .rain i { position:absolute; left:0; top:0; width:3px; height:90px; background:linear-gradient(transparent, rgba(200,220,255,.55)); display:block; }
+  .drop { position:absolute; left:0; top:0; width:16px; height:22px; border-radius:50% 50% 50% 50% / 60% 60% 40% 40%; background:radial-gradient(circle at 35% 35%, rgba(255,255,255,.8), rgba(180,200,240,.25) 60%, transparent 70%); z-index:2; }
+  .glow { position:absolute; left:-200px; right:-200px; bottom:-200px; height:900px; background:radial-gradient(ellipse at 50% 100%, rgba(255,190,110,.55), transparent 65%); pointer-events:none; }
+  .word { position:absolute; left:0; right:0; text-align:center; font-family:'Katibeh'; font-size:200px; color:var(--cream); text-shadow:0 0 40px rgba(255,200,130,.7); z-index:5; }
+  #fog { position:absolute; inset:0; z-index:30; pointer-events:none; display:none; }
+  /* shelves */
+  #s2, #s3, #s4 { background:var(--wall); background-image:repeating-linear-gradient(90deg, transparent 0 70px, rgba(170,120,80,.08) 70px 74px); }
+  .shelf { position:absolute; left:60px; right:60px; height:40px; background:linear-gradient(var(--wood), var(--wood-d)); border-radius:6px; box-shadow:0 18px 20px rgba(60,35,20,.3); }
+  .stk { position:absolute; left:0; top:0; filter:drop-shadow(0 12px 12px rgba(60,35,20,.3)); transform-origin:50% 100%; }
+  .puff { position:absolute; left:0; top:0; width:26px; height:26px; border-radius:50%; background:rgba(255,245,230,.9); }
+  .candle { position:absolute; width:340px; height:340px; border-radius:50%; background:radial-gradient(circle, rgba(255,200,120,.55), transparent 65%); pointer-events:none; mix-blend-mode:screen; }
+  .steam { position:absolute; width:36px; height:200px; border-radius:18px; filter:blur(8px); background:linear-gradient(to top, rgba(255,255,255,.8), transparent); }
+  .title { position:absolute; left:0; right:0; top:140px; text-align:center; font-family:'Katibeh'; font-size:150px; color:var(--wood-d); }
+  /* pages */
+  .book { position:absolute; left:140px; top:470px; width:800px; height:1020px; perspective:2400px; }
+  .pg { position:absolute; inset:0; background:var(--cream); border-radius:6px 20px 20px 6px; box-shadow:0 30px 50px rgba(60,35,20,.3); transform-origin:100% 50%; backface-visibility:hidden;
+        background-image:repeating-linear-gradient(0deg, transparent 0 62px, rgba(120,80,50,.12) 62px 64px); }
+  .pg .lbl { position:absolute; left:40px; right:40px; bottom:60px; text-align:center; font-family:'Katibeh'; font-size:110px; color:var(--wood-d); }
+  .tag { position:absolute; left:210px; top:180px; width:380px; height:560px; background:#d7b48a; border-radius:30px 30px 20px 20px; clip-path:polygon(50% 0, 100% 14%, 100% 100%, 0 100%, 0 14%); }
+  .tag::after { content:''; position:absolute; left:165px; top:40px; width:50px; height:50px; border-radius:50%; background:var(--cream); }
+  .kbox { position:absolute; left:120px; top:200px; width:560px; height:460px; background:#c49a6c; border-radius:10px; background-image:linear-gradient(90deg, transparent 46%, #a77e52 46% 54%, transparent 54%); }
+  #qr { position:absolute; left:250px; top:470px; width:580px; height:700px; background:var(--cream); border:26px solid var(--wood); box-shadow:0 0 0 8px var(--wood-d), 0 30px 60px rgba(0,0,0,.5); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; padding-top:10px; }
+  #qr img { width:430px; height:430px; }
+</style>
+</head>
+<body>
+<div id="stage">
+
+<!-- S1: rainy window hook -->
+<div class="scene" id="s1">
+  <div class="win" id="win1"><div class="rain"></div></div>
+  <div class="glow"></div>
+  <div class="word" id="w1" style="top:420px">مطر 🌧️</div>
+  <div class="word" id="w2" style="top:700px">شاي ☕</div>
+  <div class="word" id="w3" style="top:980px">وكتاب 📖</div>
+  <div class="word" id="w4" style="top:560px; font-size:170px">الشعور هذا…</div>
+  <div class="word" id="w5" style="top:860px; font-size:150px; color:var(--warm)">صار ستيكرات ✨</div>
+</div>
+
+<!-- S2: shelves fill up -->
+<div class="scene" id="s2">
+  <div class="title" id="t2">ستيكرات البيت الدافئ</div>
+  <div class="shelf" style="top:780px"></div><div class="shelf" style="top:1200px"></div><div class="shelf" style="top:1620px"></div>
+</div>
+
+<!-- S3: cozy corner + count -->
+<div class="scene" id="s3">
+  <div class="title" id="t3" style="font-size:230px; top:110px">١٣٦</div>
+  <div class="abs center kt" style="top:380px; font-size:110px; color:var(--wood-d)">تصميم دافئ</div>
+  <div class="abs center" style="top:540px; font-size:58px; font-weight:700">شاي · كتب · خريف · لحظات بيتية</div>
+</div>
+
+<!-- S4: page flips -->
+<div class="scene" id="s4">
+  <div class="book" id="book"></div>
+</div>
+
+<!-- S5: store as a framed picture next to the rainy window -->
+<div class="scene" id="s5">
+  <div class="glow" style="bottom:-300px"></div>
+  <div class="abs center kt" id="e1" style="top:140px; font-size:150px; color:var(--cream); text-shadow:0 0 30px rgba(255,200,130,.6)">الدفء… في ملف</div>
+  <div id="qr"><img src="qr_store.png"><div style="font-weight:700; font-size:50px; direction:ltr">planme.zaher.io</div></div>
+  <div class="abs center" id="e2" style="top:1320px; font-size:60px; font-weight:700; color:var(--cream)">ملف PDF · تحميل فوري · تطبعه في بيتك</div>
+</div>
+
+<canvas id="fog" width="1080" height="1920"></canvas>
+</div>
+
+<script>
+const clamp = (x) => Math.min(1, Math.max(0, x));
+const p = (t, a, b) => clamp((t - a) / (b - a));
+const back = (x) => { const c1 = 1.6, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+const outCubic = (x) => 1 - Math.pow(1 - x, 3);
+const inOut = (x) => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const $ = (id) => document.getElementById(id);
+const rnd = (s) => { const x = Math.sin(s * 12.9898 + 78.233) * 43758.5453; return x - Math.floor(x); };
+
+const SCENES = [['s1', 0, 4.6], ['s2', 4.6, 12.6], ['s3', 12.6, 16.4], ['s4', 16.4, 20.0], ['s5', 20.0, 24.5]];
+
+// rain streaks and glass droplets
+const RAIN = [...Array(60)].map((_, i) => { const r = document.createElement('i'); document.querySelector('#win1 .rain').appendChild(r); return { r, x: rnd(i) * 860, sp: 1400 + rnd(i + 3) * 900, ph: rnd(i + 7) }; });
+const DROPS = [...Array(14)].map((_, i) => { const d = document.createElement('div'); d.className = 'drop'; $('win1').appendChild(d); return { d, x: 30 + rnd(i + 11) * 780, y0: rnd(i + 5) * 600, sp: 40 + rnd(i + 2) * 120, s: 0.6 + rnd(i + 9) }; });
+
+// S2: stickers drop onto three shelves; candles get a glow
+const SHELF = [[ 'c15', 80, 780, 260], ['c131', 380, 780, 230], ['c138', 640, 780, 200], ['c95', 840, 780, 190],
+               ['c49', 90, 1200, 200], ['c128', 330, 1200, 330], ['c19', 700, 1200, 150], ['c32', 850, 1200, 190],
+               ['c142', 80, 1620, 230], ['c93', 340, 1620, 230], ['c92', 600, 1620, 210], ['c101', 830, 1620, 200]];
+const S2 = SHELF.map(([src, x, shelfY, w], i) => {
+  const el = document.createElement('img'); el.src = `cozy/${src}.png`; el.className = 'stk'; el.style.width = w + 'px'; $('s2').appendChild(el);
+  const puffs = [...Array(6)].map(() => { const pf = document.createElement('div'); pf.className = 'puff'; $('s2').appendChild(pf); return pf; });
+  return { el, src, x, shelfY, w, at: 5.2 + i * 0.5, puffs };
+});
+const GLOWS = S2.filter((s) => ['c138', 'c19', 'c93'].includes(s.src)).map((s) => { const g = document.createElement('div'); g.className = 'candle'; $('s2').insertBefore(g, $('s2').firstChild); return { g, s }; });
+const TEASTEAM = [0, 1].map((i) => { const st = document.createElement('div'); st.className = 'steam'; $('s2').appendChild(st); return st; });
+
+// S3: cozy corner
+const CORNER = [['c98', 560, 760, 440], ['c124', 70, 940, 470], ['c94', 520, 1380, 380], ['c101', 120, 1450, 230], ['c96', 120, 640, 300]].map(([src, x, y, w], i) => {
+  const el = document.createElement('img'); el.src = `cozy/${src}.png`; el.className = 'stk'; el.style.width = w + 'px'; $('s3').appendChild(el); return { el, x, y, at: 12.8 + i * 0.25 };
+});
+const FIRE = document.createElement('div'); FIRE.className = 'candle'; FIRE.style.cssText += 'left:600px; top:900px; width:420px; height:420px;'; $('s3').insertBefore(FIRE, $('s3').firstChild);
+
+// S4: three pages that flip over (the top page is the first one)
+const PAGES = [
+  ['لصفحة جورنال هادية', `<img class="stk" src="cozy/c33.png" style="left:150px; top:120px; width:300px; transform:rotate(-5deg)"><img class="stk" src="cozy/c31.png" style="left:430px; top:420px; width:230px; transform:rotate(6deg)">`],
+  ['لبطاقة هدية شتوية', `<div class="tag"></div><img class="stk" src="cozy/c72.png" style="left:270px; top:330px; width:260px">`],
+  ['ولطلب يوصل دافي', `<div class="kbox"></div><img class="stk" src="cozy/c129.png" style="left:180px; top:270px; width:200px; transform:rotate(-6deg)"><img class="stk" src="cozy/c138.png" style="left:430px; top:300px; width:190px; transform:rotate(5deg)">`],
+];
+const PG = PAGES.map(([lbl, html], i) => {
+  const d = document.createElement('div'); d.className = 'pg'; d.style.zIndex = 10 - i; d.innerHTML = html + `<div class="lbl">${lbl}</div>`; $('book').appendChild(d); return d;
+});
+const FLIPS = [17.6, 18.8];
+
+// fog wipe between S1 and S2
+const fog = $('fog'), fx = fog.getContext('2d');
+const FOG_A = 4.2, WIPE_A = 4.6, WIPE_B = 5.1;
+const wipeAt = (u) => [1080 - u * 1300 + 100, 900 + Math.sin(u * Math.PI) * -260];
+
+window.render = (t) => {
+  SCENES.forEach(([id, a, b]) => { $(id).style.display = t >= a && t < b ? 'block' : 'none'; });
+
+  // S1: rain + droplets, words glow in
+  RAIN.forEach(({ r, x, sp, ph }) => { const y = ((t * sp + ph * 1300) % 1400) - 150; r.style.transform = `translate(${x + y * 0.12}px, ${y}px) rotate(-7deg)`; });
+  DROPS.forEach(({ d, x, y0, sp, s }) => { const y = (y0 + t * sp) % 1200; d.style.transform = `translate(${x}px, ${y}px) scale(${s})`; });
+  [['w1', 0.3], ['w2', 1.0], ['w3', 1.7]].forEach(([id, at]) => {
+    const k = p(t, at, at + 0.5), out = p(t, 2.5, 2.8);
+    $(id).style.opacity = k * (1 - out); $(id).style.filter = `blur(${(1 - k) * 14 + out * 10}px)`;
+    $(id).style.transform = `translateY(${(1 - outCubic(k)) * 40}px)`;
+  });
+  [['w4', 2.7], ['w5', 3.3]].forEach(([id, at]) => { const k = p(t, at, at + 0.5); $(id).style.opacity = k; $(id).style.filter = `blur(${(1 - k) * 14}px)`; $(id).style.transform = `scale(${0.9 + 0.1 * outCubic(k)})`; });
+
+  // fog builds on the glass, then a finger wipe clears a path into the warm room
+  const fogK = p(t, FOG_A, FOG_A + 0.4);
+  fog.style.display = t > FOG_A && t < WIPE_B + 0.3 ? 'block' : 'none';
+  if (fog.style.display === 'block') {
+    fx.globalCompositeOperation = 'source-over'; fx.clearRect(0, 0, 1080, 1920);
+    fx.fillStyle = `rgba(235,238,245,${0.92 * fogK})`; fx.fillRect(0, 0, 1080, 1920);
+    fx.globalCompositeOperation = 'destination-out';
+    const u = p(t, WIPE_A, WIPE_B);
+    for (let v = 0; v <= u; v += 0.01) { const [x, y] = wipeAt(v); fx.beginPath(); fx.arc(x, y, 260 + v * 900, 0, Math.PI * 2); fx.fill(); }
+    if (t > WIPE_B) { fx.fillStyle = '#000'; fx.globalAlpha = p(t, WIPE_B, WIPE_B + 0.3); fx.fillRect(0, 0, 1080, 1920); fx.globalAlpha = 1; }
+  }
+
+  // S2: drops with a little bounce and a dust puff, then candles glow and the teapot steams
+  $('t2').style.opacity = p(t, 4.8, 5.1);
+  $('s2').style.transform = `scale(${1 + 0.05 * p(t, 4.6, 12.6)})`;
+  S2.forEach(({ el, x, shelfY, w, at, puffs }) => {
+    const h = el.naturalHeight / el.naturalWidth * w || w;
+    const k = p(t, at, at + 0.35);
+    const y = shelfY - h + (k < 1 ? -(1 - k * k) * 900 : 0);
+    const squash = t > at + 0.35 && t < at + 0.6 ? 1 - 0.08 * Math.sin(p(t, at + 0.35, at + 0.6) * Math.PI) : 1;
+    el.style.display = t >= at ? '' : 'none';
+    el.style.transform = `translate(${x}px, ${y}px) scale(${1 / squash}, ${squash})`;
+    puffs.forEach((pf, j) => {
+      const q = p(t, at + 0.33, at + 0.9), ang = (j % 2 ? 1 : -1) * (0.3 + j * 0.15);
+      pf.style.display = q > 0 && q < 1 ? '' : 'none';
+      pf.style.transform = `translate(${x + w / 2 + Math.cos(ang) * q * 140 * (j % 2 ? 1 : -1)}px, ${shelfY - 20 - q * 50 - j * 4}px) scale(${1.2 - q})`;
+      pf.style.opacity = 0.8 * (1 - q);
+    });
+  });
+  GLOWS.forEach(({ g, s }, i) => {
+    const h = s.el.naturalHeight / s.el.naturalWidth * s.w || s.w;
+    g.style.left = (s.x + s.w / 2 - 170) + 'px'; g.style.top = (s.shelfY - h - 60) + 'px';
+    g.style.opacity = t > s.at + 0.4 ? 0.6 + 0.4 * Math.abs(Math.sin(t * 9 + i * 2) * Math.sin(t * 5.3 + i)) : 0;
+  });
+  TEASTEAM.forEach((st, i) => { const k = ((t * 0.6 + i * 0.5) % 1); st.style.left = (170 + i * 50) + 'px'; st.style.top = '420px'; st.style.transform = `translate(${Math.sin(k * 6 + i) * 20}px, ${-k * 180}px) scaleY(${0.6 + k})`; st.style.opacity = t > 5.8 ? Math.sin(k * Math.PI) * 0.8 : 0; });
+
+  // S3: corner builds, fireplace flickers
+  $('t3').style.transform = `scale(${0.6 + 0.4 * back(p(t, 12.7, 13.1))})`;
+  CORNER.forEach(({ el, x, y, at }) => { const k = back(p(t, at, at + 0.4)); el.style.transform = `translate(${x}px, ${y}px) scale(${k})`; el.style.opacity = t >= at ? 1 : 0; });
+  FIRE.style.opacity = t > 13.0 ? 0.6 + 0.4 * Math.abs(Math.sin(t * 11) * Math.sin(t * 6.7)) : 0;
+
+  // S4: pages flip around the spine
+  $('book').style.transform = `translateY(${(1 - back(p(t, 16.45, 16.9))) * 1200}px)`;
+  PG.forEach((pg, i) => {
+    const f = i < FLIPS.length ? inOut(p(t, FLIPS[i], FLIPS[i] + 0.6)) : 0;
+    pg.style.transform = `rotateY(${f * 178}deg)`;
+    pg.style.boxShadow = `${-20 * Math.sin(f * Math.PI)}px 30px 50px rgba(60,35,20,${0.3 + 0.2 * Math.sin(f * Math.PI)})`;
+  });
+
+  // S5: framed QR glows in the warm light
+  $('e1').style.opacity = p(t, 20.2, 20.6);
+  const q = back(p(t, 20.4, 20.9));
+  $('qr').style.transform = `translateY(${(1 - q) * -200}px) rotate(${Math.sin((t - 20.4) * 4) * 2 * Math.exp(-(t - 20.4) * 1.2)}deg)`;
+  $('qr').style.opacity = p(t, 20.4, 20.6);
+  $('e2').style.opacity = p(t, 21.2, 21.5);
+};
+render(0);
+</script>
+</body>
+</html>
