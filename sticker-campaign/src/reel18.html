@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@700&family=Ruwudu:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root { --door:#3e5c4a; --door-d:#2a4234; --brass:#c9a04a; --env:#efe1c6; --env-d:#dccaa8; --red:#b3342b; --blue:#2c4f8a; --ink:#2a2030; --paper:#fbf6ea; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html, body { width:1080px; height:1920px; overflow:clip; font-family:'Ruwudu',serif; color:var(--ink); }
+  #stage { position:absolute; inset:0; overflow:clip; background:#d9c9ad; }
+  .scene { position:absolute; inset:0; overflow:clip; display:none; }
+  .abs { position:absolute; }
+  .center { width:100%; text-align:center; }
+  .bd { font-family:'Noto Naskh Arabic',serif; font-weight:700; line-height:1.15; }
+  /* door with mail slot */
+  #s1 { background:var(--door); background-image:repeating-linear-gradient(90deg, transparent 0 180px, rgba(0,0,0,.12) 180px 186px); }
+  .panel { position:absolute; border:14px solid var(--door-d); border-radius:10px; }
+  #slot { position:absolute; left:290px; top:860px; width:500px; height:110px; background:var(--brass); border-radius:20px; box-shadow:inset 0 -8px 0 rgba(0,0,0,.25); }
+  #slotGap { position:absolute; left:40px; right:40px; top:38px; height:34px; background:#1a120c; border-radius:10px; }
+  #flapS { position:absolute; left:40px; right:40px; top:30px; height:44px; background:#b48d3c; border-radius:10px; transform-origin:50% 0; }
+  #floor { position:absolute; left:0; right:0; top:1600px; bottom:0; background:#8b6a4a; }
+  /* envelope */
+  .env { position:absolute; left:0; top:0; width:800px; height:520px; transform-style:preserve-3d; }
+  .face { position:absolute; inset:0; backface-visibility:hidden; background:var(--env); border-radius:12px; box-shadow:0 30px 50px rgba(0,0,0,.3); }
+  .airmail { border:22px solid transparent; border-image:repeating-linear-gradient(45deg, var(--red) 0 22px, #fff 22px 44px, var(--blue) 44px 66px, #fff 66px 88px) 22; }
+  .backf { transform:rotateY(180deg); background:var(--env-d); overflow:hidden; }
+  .backf::before { content:''; position:absolute; left:0; right:0; bottom:0; height:100%; background:linear-gradient(to top right, var(--env) 50%, transparent 50%) left/50% 100% no-repeat, linear-gradient(to top left, var(--env) 50%, transparent 50%) right/50% 100% no-repeat; }
+  .flap { position:absolute; left:0; right:0; top:0; height:300px; background:var(--env-d); clip-path:polygon(0 0, 100% 0, 50% 100%); transform-origin:50% 0; z-index:3; filter:brightness(.95); }
+  .seal { position:absolute; width:120px; height:120px; border-radius:50%; background:radial-gradient(circle at 40% 35%, #d9534a, var(--red) 60%, #7a1b15); z-index:4; }
+  #letter { position:absolute; left:140px; top:0; width:800px; height:1100px; background:var(--paper); border-radius:6px; box-shadow:0 30px 50px rgba(0,0,0,.25);
+            background-image:repeating-linear-gradient(0deg, transparent 0 88px, rgba(44,79,138,.18) 88px 90px); }
+  .line { position:absolute; right:60px; left:60px; font-size:66px; font-weight:700; white-space:nowrap; text-align:right; }
+  #nib { position:absolute; left:0; top:0; font-size:90px; transform-origin:0 100%; }
+  /* sheet + uses */
+  #sheet { position:absolute; left:120px; top:260px; width:840px; height:780px; background:#f3ead8; border-radius:10px; box-shadow:0 20px 40px rgba(0,0,0,.25);
+           background-image:radial-gradient(circle, rgba(0,0,0,.18) 3px, transparent 4px); background-size:28px 28px; }
+  .st { position:absolute; left:0; top:0; filter:drop-shadow(0 10px 10px rgba(0,0,0,.25)); }
+  .use { position:absolute; top:1200px; width:300px; height:300px; }
+  .use .lbl { position:absolute; left:-20px; right:-20px; top:330px; text-align:center; font-family:'Noto Naskh Arabic'; font-weight:700; font-size:62px; }
+  .pk { position:absolute; inset:30px 10px 40px; background:#c49a6c; border-radius:8px; background-image:linear-gradient(90deg, transparent 45%, #a77e52 45% 55%, transparent 55%); }
+  .tg { position:absolute; left:60px; right:60px; top:10px; bottom:10px; background:#e0c79f; clip-path:polygon(50% 0, 100% 15%, 100% 100%, 0 100%, 0 15%); }
+  .jp { position:absolute; inset:10px 30px; background:#fff; border-radius:6px; background-image:repeating-linear-gradient(0deg, transparent 0 34px, rgba(44,79,138,.2) 34px 36px); }
+  .postmark { position:absolute; left:0; top:0; width:230px; height:230px; border:8px solid rgba(40,30,60,.75); border-radius:50%; mix-blend-mode:multiply; display:flex; align-items:center; justify-content:center; font-family:'Noto Naskh Arabic'; font-weight:700; font-size:40px; color:rgba(40,30,60,.8); }
+  .postmark::after { content:''; position:absolute; left:200px; top:60px; width:220px; height:110px; background:repeating-linear-gradient(0deg, rgba(40,30,60,.7) 0 6px, transparent 6px 22px); border-radius:40% / 20%; }
+  /* editable stamp */
+  #big { position:absolute; left:240px; top:520px; width:600px; }
+  #edit { position:absolute; left:300px; top:1150px; width:480px; height:110px; background:#fff; border:5px dashed var(--blue); border-radius:14px; display:flex; align-items:center; justify-content:center; font-family:'Ruwudu'; font-weight:700; font-size:64px; }
+  /* plane + end */
+  #plane { position:absolute; left:0; top:0; width:220px; height:140px; z-index:10; }
+  #plane i { position:absolute; inset:0; background:#fff; clip-path:polygon(0 50%, 100% 0, 60% 100%); display:block; filter:drop-shadow(0 6px 4px rgba(0,0,0,.2)); }
+  #plane b { position:absolute; inset:0; background:#e4dccb; clip-path:polygon(0 50%, 100% 0, 45% 62%); display:block; }
+  #endEnv { position:absolute; left:140px; top:620px; width:800px; height:900px; background:var(--env); border-radius:16px; box-shadow:0 30px 60px rgba(0,0,0,.3); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; }
+  #endEnv img.q { width:440px; height:440px; background:#fff; padding:20px; border-radius:16px; }
+</style>
+</head>
+<body>
+<div id="stage">
+
+<!-- S1: an envelope through the mail slot -->
+<div class="scene" id="s1">
+  <div class="panel" style="left:110px; top:180px; width:860px; height:560px"></div>
+  <div class="panel" style="left:110px; top:1080px; width:860px; height:440px"></div>
+  <div class="abs center bd" id="k1" style="top:300px; font-size:130px; color:#f6efe0">وصلتك رسالة… 📩</div>
+  <div class="abs center bd" id="k2" style="top:500px; font-size:96px; color:var(--brass)">من زمان 🕰️</div>
+  <div id="floor"></div>
+  <div class="env" id="env1" style="z-index:1"><div class="face airmail"></div></div>
+  <div id="slot"><div id="slotGap"></div><div id="flapS"></div></div>
+</div>
+
+<!-- S2: flip, seal breaks, flap opens, letter rises -->
+<div class="scene" id="s2" style="background:#d9c9ad">
+  <div id="letterPeek" class="abs" style="left:190px; top:0; width:700px; height:600px; background:var(--paper); border-radius:6px"></div>
+  <div class="env" id="env2" style="left:140px; top:700px">
+    <div class="face airmail" id="front2"></div>
+    <div class="face backf"></div>
+  </div>
+  <div class="flap" id="flap2" style="left:140px; top:700px; width:800px"></div>
+  <div class="seal" id="sealL" style="left:480px; top:900px; clip-path:inset(0 50% 0 0)"></div>
+  <div class="seal" id="sealR" style="left:480px; top:900px; clip-path:inset(0 0 0 50%)"></div>
+</div>
+
+<!-- S3: the letter writes itself -->
+<div class="scene" id="s3" style="background:#d9c9ad">
+  <div id="letter" style="top:400px">
+    <div class="line" id="l1" style="top:80px; font-size:58px">إلى كل من يحب الأشياء القديمة…</div>
+    <div class="line" id="l2" style="top:270px; font-size:96px; font-family:'Noto Naskh Arabic'; font-weight:700">هذي طوابع زهور</div>
+    <div class="line" id="l3" style="top:450px">مرسومة بأسلوب الرسم القديم 🌼</div>
+    <div class="line" id="l4" style="top:640px; font-size:54px">تلصقها، تطبعها، وتكتب عليها اللي تبي ✏️</div>
+  </div>
+  <div id="nib">🖋️</div>
+</div>
+
+<!-- S4: tear stamps off the sheet onto your things -->
+<div class="scene" id="s4">
+  <div id="sheet"></div>
+  <div class="use" style="left:60px"><div class="pk"></div><div class="lbl">طلباتك 📦</div></div>
+  <div class="use" style="left:390px"><div class="tg"></div><div class="lbl">هداياك 🎁</div></div>
+  <div class="use" style="left:720px"><div class="jp"></div><div class="lbl">دفترك 📒</div></div>
+</div>
+
+<!-- S5: editable stamp -->
+<div class="scene" id="s5" style="background:#efe4cf">
+  <div class="abs center bd" style="top:180px; font-size:120px">٣٥ طابع</div>
+  <div class="abs center bd" style="top:340px; font-size:84px; color:var(--blue)">قابلة للتعديل ✏️</div>
+  <img id="big" src="stamps/s12.png">
+  <div id="edit"><span id="typed"></span><span id="caret">|</span></div>
+  <div class="abs center" style="top:1320px; font-size:56px; font-weight:700">تكتب عليها الاسم أو التاريخ أو اللي تحب</div>
+</div>
+
+<!-- S6: paper plane to the store -->
+<div class="scene" id="s6" style="background:linear-gradient(#cfe0ee, #efe4cf)">
+  <div class="abs center bd" id="e1" style="top:210px; font-size:110px">ردّك يوصل هنا ✉️</div>
+  <div id="endEnv" class="airmail"><img class="q" src="qr_store.png"><div class="bd" style="font-size:70px">المتجر</div><div style="font-size:52px; font-weight:700; direction:ltr">planme.zaher.io</div></div>
+  <div class="abs center" id="e2" style="top:1600px; font-size:54px; font-weight:700">ملف PDF · تحميل فوري · تطبعه في بيتك</div>
+</div>
+
+<div id="plane"><i></i><b></b></div>
+</div>
+
+<script>
+const clamp = (x) => Math.min(1, Math.max(0, x));
+const p = (t, a, b) => clamp((t - a) / (b - a));
+const back = (x) => { const c1 = 1.7, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+const outCubic = (x) => 1 - Math.pow(1 - x, 3);
+const inCubic = (x) => x * x * x;
+const inOut = (x) => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const $ = (id) => document.getElementById(id);
+
+const SCENES = [['s1', 0, 3.4], ['s2', 3.4, 6.2], ['s3', 6.2, 11.6], ['s4', 11.6, 16.4], ['s5', 16.4, 19.8], ['s6', 19.8, 24.5]];
+
+// stamp on the front of the envelopes
+['env1', 'front2'].forEach((id) => { const im = document.createElement('img'); im.src = 'stamps/s32.png'; im.style.cssText = 'position:absolute; left:40px; top:30px; width:150px; transform:rotate(-4deg)'; $(id).querySelector ? ($(id).classList.contains('face') ? $(id) : $(id).querySelector('.face')).appendChild(im) : 0; });
+
+// S4: sheet of stamps; three tear off and fly to the things below
+const SHEET = ['s6', 's7', 's8', 's10', 's12', 's14', 's18', 's25', 's28', 's30', 's36', 's40'];
+const SH = SHEET.map((src, i) => {
+  const el = document.createElement('img'); el.src = `stamps/${src}.png`; el.className = 'st'; el.style.width = '180px'; $('s4').appendChild(el);
+  return { el, x: 160 + (i % 4) * 200, y: 300 + Math.floor(i / 4) * 245 };
+});
+const TEAR = [[4, 120, 1240, 12.4], [9, 450, 1240, 13.6], [10, 780, 1240, 14.8]];   // [sheet index, target x, target y, start]
+const PM = TEAR.map(([, x, y]) => { const pm = document.createElement('div'); pm.className = 'postmark'; pm.textContent = '٢٠٢٧'; pm.style.zIndex = 5; $('s4').appendChild(pm); return { pm, x, y }; });
+
+// S5 typing on the stamp
+const TYPED = 'مع حبي ♡';
+
+// S6 paper plane path (cubic bezier with a loop), ends at the envelope
+const bez = (u, P) => { const m = 1 - u; return [0, 1].map((k) => m * m * m * P[0][k] + 3 * m * m * u * P[1][k] + 3 * m * u * u * P[2][k] + u * u * u * P[3][k]); };
+const PATH = [[-200, 1500], [1400, 300], [-400, 300], [560, 1000]];
+
+window.render = (t) => {
+  SCENES.forEach(([id, a, b]) => { $(id).style.display = t >= a && t < b ? 'block' : 'none'; });
+
+  // S1: words, then the slot flap lifts and the envelope slides through and falls to the floor
+  $('k1').style.opacity = p(t, 0.3, 0.6); $('k1').style.transform = `translateY(${(1 - outCubic(p(t, 0.3, 0.8))) * 40}px)`;
+  $('k2').style.opacity = p(t, 1.4, 1.7);
+  const flapK = Math.sin(p(t, 1.9, 3.0) * Math.PI);
+  $('flapS').style.transform = `rotateX(${flapK * 70}deg)`;
+  const push = p(t, 2.0, 2.5), fall = p(t, 2.5, 3.1);
+  const ex = 140, ey = 915 - 520 + push * 380 + inCubic(fall) * 540;
+  $('env1').style.transform = `translate(${ex}px, ${ey}px) rotate(${fall * 12}deg) scale(${0.62})`;
+  $('env1').style.transformOrigin = '50% 0';
+  $('env1').style.clipPath = push < 1 ? `inset(${(1 - push) * 100}% 0 0 0)` : 'none';
+  $('env1').style.display = t > 2.0 ? '' : 'none';
+  $('s1').style.translate = t > 3.05 && t < 3.25 ? `0 ${Math.sin(t * 90) * 6}px` : '0 0';
+
+  // S2: envelope flips, seal cracks, flap opens, letter rises
+  const fl = inOut(p(t, 3.5, 4.0));
+  $('env2').style.transform = `rotateY(${180 * fl}deg) rotate(${Math.sin(t * 2) * 1}deg)`;
+  const showBack = fl > 0.5;
+  ['flap2', 'sealL', 'sealR', 'letterPeek'].forEach((id) => { $(id).style.display = showBack ? '' : 'none'; });
+  const cr = outCubic(p(t, 4.3, 4.65));
+  $('sealL').style.transform = `translate(${-cr * 70}px, ${cr * 30}px) rotate(${-cr * 30}deg)`; $('sealR').style.transform = `translate(${cr * 70}px, ${cr * 40}px) rotate(${cr * 30}deg)`;
+  $('sealL').style.opacity = $('sealR').style.opacity = 1 - p(t, 4.8, 5.1);
+  $('flap2').style.transform = `perspective(1600px) rotateX(${inOut(p(t, 4.7, 5.2)) * 175}deg)`;
+  $('flap2').style.zIndex = p(t, 4.7, 5.2) > 0.5 ? 0 : 3;
+  const rise = outCubic(p(t, 5.2, 6.0));
+  $('letterPeek').style.transform = `translateY(${800 - rise * 700}px)`;
+  $('letterPeek').style.zIndex = 0;
+
+  // S3: ink writing right-to-left with a pen nib on the moving edge
+  const LINES = [['l1', 6.4, 7.3], ['l2', 7.5, 8.2], ['l3', 8.4, 9.4], ['l4', 9.7, 10.9]];
+  let nib = null;
+  LINES.forEach(([id, a, b]) => {
+    const k = p(t, a, b), el = $(id);
+    el.style.clipPath = `inset(0 0 0 ${(1 - k) * 100}%)`;
+    if (k > 0 && k < 1) { const r = el.getBoundingClientRect(); const textW = Math.min(r.width, el.scrollWidth); nib = [r.right - k * textW, r.top + r.height * 0.55]; }
+  });
+  $('nib').style.display = nib ? '' : 'none';
+  if (nib) $('nib').style.transform = `translate(${nib[0] - 10}px, ${nib[1] - 90}px) rotate(${-20 + Math.sin(t * 40) * 6}deg)`;
+  $('letter').style.transform = `translateY(${(1 - outCubic(p(t, 6.2, 6.6))) * 600}px) rotate(-1deg)`;
+
+  // S4: tear stamps along the perforations, they fly down and get postmarked
+  SH.forEach(({ el, x, y }, i) => {
+    const tr = TEAR.find(([idx]) => idx === i);
+    let tx = x, ty = y, rot = 0, sc = 1;
+    if (tr) {
+      const [, gx, gy, at] = tr;
+      const lift = outCubic(p(t, at, at + 0.25)), fly = inOut(p(t, at + 0.3, at + 0.85));
+      tx = x + (gx + 40 - x) * fly; ty = y - lift * 40 + (gy - y) * fly - Math.sin(fly * Math.PI) * 200;
+      rot = lift * -8 + fly * 14; sc = 1 + lift * 0.1 - fly * 0.1;
+    }
+    el.style.transform = `translate(${tx}px, ${ty}px) rotate(${rot}deg) scale(${sc})`;
+  });
+  PM.forEach(({ pm, x, y }, i) => { const at = TEAR[i][3] + 1.0, k = p(t, at, at + 0.12); pm.style.display = t >= at ? '' : 'none'; pm.style.transform = `translate(${x + 60}px, ${y + 60}px) scale(${1.6 - 0.6 * k}) rotate(-12deg)`; pm.style.opacity = 0.85; });
+
+  // S5: typing on the editable label
+  $('big').style.transform = `scale(${0.7 + 0.3 * back(p(t, 16.5, 16.9))}) rotate(${Math.sin(t * 1.5) * 2}deg)`;
+  const n = Math.floor(p(t, 17.4, 18.6) * TYPED.length);
+  $('typed').textContent = [...TYPED].slice(0, n).join('');
+  $('caret').style.opacity = Math.floor(t * 3) % 2 ? 1 : 0;
+
+  // S6: paper plane loops in and lands on the envelope holding the QR
+  const u = p(t, 19.9, 21.3);
+  const [px, py] = bez(u, PATH), [qx, qy] = bez(Math.min(1, u + 0.01), PATH);
+  const ang = Math.atan2(qy - py, qx - px) * 180 / Math.PI;
+  $('plane').style.display = t > 19.9 && t < 21.4 ? '' : 'none';
+  $('plane').style.transform = `translate(${px - 110}px, ${py - 70}px) rotate(${ang + 180}deg) scale(${1 - u * 0.4})`;
+  const land = back(p(t, 21.2, 21.7));
+  $('endEnv').style.transform = `scale(${0.4 + 0.6 * land})`; $('endEnv').style.opacity = p(t, 21.2, 21.3);
+  $('e1').style.opacity = p(t, 20.0, 20.4); $('e2').style.opacity = p(t, 22.0, 22.3);
+};
+render(0);
+</script>
+</body>
+</html>
