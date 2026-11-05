@@ -106,6 +106,7 @@
 <div id="charge"><i id="chargeFill"></i><b id="chargeTxt">1%</b></div>
 </div>
 
+<script src="reel15_timeline.js"></script>
 <script>
 const clamp = (x) => Math.min(1, Math.max(0, x));
 const p = (t, a, b) => clamp((t - a) / (b - a));
@@ -114,32 +115,31 @@ const outCubic = (x) => 1 - Math.pow(1 - x, 3);
 const inOut = (x) => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
 const $ = (id) => document.getElementById(id);
 
-const SCENES = [['s1', 0, 3.2], ['a', 3.2, 7.2], ['b', 7.2, 11.2], ['c', 11.2, 15.2], ['ans', 15.2, 19.2], ['pack', 19.2, 22.2], ['end', 22.2, 26.5]];
-// each situation: start; the coffee wave fills at +1.6 and drains at +2.25
-const SIT = [['a', 3.2], ['b', 7.2], ['c', 11.2]];
-const WAVES = SIT.map(([, a]) => a + 1.6);
+// All timings come from reel15_timeline.js (tools/mix_reel15.py): effects sit between the voice lines.
+const SCENES = [['s1', 0, TL.enter0], ['a', TL.enter0, TL.enter1], ['b', TL.enter1, TL.enter2], ['c', TL.enter2, TL.ansfx], ['ans', TL.ansfx, TL.countfx], ['pack', TL.countfx, TL.cup], ['end', TL.cup, TL.end_all]];
+const SIT = ['a', 'b', 'c'];
+const LINE2 = ['a2', 'b2', 'c2'];
 
 function sticker(parent, src, x, y, w) {
   const el = document.createElement('img'); el.src = `coffee/${src}.png`; el.className = 'stk'; el.style.width = w + 'px'; parent.appendChild(el); return { el, x, y };
 }
-// journal page lines
 document.querySelectorAll('.page').forEach((pg) => { pg.innerHTML = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => `<div class="w" style="top:${110 + i * 64}px; width:${260 + (i * 113) % 300}px"></div>`).join(''); });
 
-// per situation: tired sticker in the grey half, happy stickers in the colour half
 const PROPS = {
   a: { before: [['p48', 330, 1360, 420, -6]], after: [['p46', 260, 760, 380, -8], ['p10', 640, 780, 230, 8], ['p30', 330, 1040, 210, 5], ['p26', 560, 1040, 260, -5]] },
   b: { before: [['p51', 330, 1320, 420, 6]], after: [['p53', 130, 1200, 360, -6], ['p33', 620, 1150, 300, 7]] },
   c: { before: [['p49', 330, 1500, 420, -5]], after: [['p74', 210, 740, 360, -6], ['p76', 600, 820, 280, 7], ['p8', 300, 1110, 320, 4]] },
 };
-const LAYERS = SIT.map(([id, a]) => {
+const LAYERS = SIT.map((id, i) => {
   const root = $(id), before = root.querySelector('.before'), after = root.querySelector('.afterL');
   const b = PROPS[id].before.map(([s, x, y, w, r]) => ({ ...sticker(before, s, x, y, w), r }));
-  const f = PROPS[id].after.map(([s, x, y, w, r], i) => ({ ...sticker(after, s, x, y, w), r, i }));
-  return { id, a, before, after, b, f, sit: root.querySelector('.sit'), aft: root.querySelector('.after') };
+  const f = PROPS[id].after.map(([s, x, y, w, r], k) => ({ ...sticker(after, s, x, y, w), r, k }));
+  return { a: TL['enter' + i], end: [TL.enter1, TL.enter2, TL.ansfx][i], sad: TL['sad' + i], pour: TL['pour' + i], yay: TL['yay' + i], line: TL[LINE2[i]],
+           before, after, b, f, sit: root.querySelector('.sit'), aft: root.querySelector('.after') };
 });
 
-const MEMES = ['p54', 'p116', 'p73', 'p94', 'p36'];
-const MEME_A = 16.6, MEME_D = 0.5;
+const MEMES = ['p54', 'p116', 'p73', 'p94'];
+const MEME_A = TL.memes, MEME_D = 0.42;
 const CSTEAM = [0, 1, 2].map((i) => { const s = document.createElement('div'); s.className = 'steam'; s.style.left = (480 + i * 60) + 'px'; s.style.top = '470px'; $('end').appendChild(s); return s; });
 
 function wavePath(level, t) {
@@ -152,68 +152,71 @@ window.render = (t) => {
   SCENES.forEach(([id, a, b]) => { $(id).style.display = t >= a && t < b ? 'block' : 'none'; });
   $('beans').style.transform = `translate(${(t * 18) % 130}px, ${(t * 30) % 130}px)`;
 
-  // S1 hook
-  $('h1').style.opacity = p(t, 0.15, 0.4); $('h1').style.transform = `translateY(${(1 - outCubic(p(t, 0.15, 0.6))) * 60}px)`;
-  const sl = p(t, 1.0, 1.15), split = t > 1.0 && t < 1.5 ? (1 - p(t, 1.0, 1.5)) * 18 : 0;
+  // hook: both lines slam in together on the scratch, then the voice reads them
+  const S = TL.slam + 0.07;
+  $('h1').style.opacity = p(t, S - 0.1, S + 0.1); $('h1').style.transform = `translateY(${(1 - outCubic(p(t, S - 0.1, S + 0.3))) * 60}px)`;
+  const sl = p(t, S, S + 0.15), split = t > S && t < S + 0.5 ? (1 - p(t, S, S + 0.5)) * 18 : 0;
   $('h2').style.opacity = sl > 0 ? 1 : 0;
   $('h2').style.transform = `scale(${2.4 - 1.4 * outCubic(sl)})`;
   $('h2').style.textShadow = `${split}px 0 0 rgba(230,60,60,.7), ${-split}px 0 0 rgba(60,180,230,.7)`;
-  $('stage').style.translate = t > 1.12 && t < 1.45 ? `${Math.sin(t * 90) * 14}px ${Math.cos(t * 80) * 8}px` : '0 0';
-  $('h3').style.opacity = p(t, 2.1, 2.3); $('h3').style.transform = `translateY(${Math.sin(t * 7) * 10}px)`;
+  $('stage').style.translate = t > S + 0.12 && t < S + 0.45 ? `${Math.sin(t * 90) * 14}px ${Math.cos(t * 80) * 8}px` : '0 0';
+  $('h3').style.opacity = p(t, TL.h3, TL.h3 + 0.15); $('h3').style.transform = `translateY(${Math.sin(t * 7) * 10}px)`;
 
-  // situations
+  // situations: grey + tired sticker -> coffee wave -> colour + sticker line
   let grey = false;
-  LAYERS.forEach(({ a, before, after, b, f, sit, aft }) => {
-    if (t < a || t >= a + 4.0) return;
-    const swapped = t >= a + 2.25;
+  LAYERS.forEach(({ a, end, sad, pour, yay, line, before, after, b, f, sit, aft }) => {
+    if (t < a || t >= end) return;
+    const swapped = t >= pour + 0.45;
     grey = !swapped;
     before.style.display = swapped ? 'none' : ''; after.style.display = swapped ? '' : 'none';
-    sit.style.opacity = p(t, a + 0.1, a + 0.3); sit.style.transform = `translateY(${(1 - outCubic(p(t, a + 0.1, a + 0.5))) * -80}px)`;
+    sit.style.opacity = p(t, a + 0.05, a + 0.25); sit.style.transform = `translateY(${(1 - outCubic(p(t, a + 0.05, a + 0.45))) * -80}px)`;
     sit.style.filter = swapped ? 'none' : 'grayscale(1)';
-    b.forEach(({ el, x, y, r }) => { el.style.transform = `translate(${x}px, ${y + (1 - outCubic(p(t, a + 0.4, a + 0.8))) * 900 + Math.max(0, t - a - 0.9) * 20}px) rotate(${r + Math.sin((t - a) * 2) * 3 - p(t, a + 0.9, a + 1.6) * 8}deg)`; });
+    b.forEach(({ el, x, y, r }) => { el.style.transform = `translate(${x}px, ${y + (1 - outCubic(p(t, a + 0.1, a + 0.45))) * 900 + p(t, sad, sad + 0.6) * 40}px) rotate(${r + Math.sin((t - a) * 2) * 3 - p(t, sad, sad + 0.6) * 10}deg)`; });
     before.querySelectorAll('.stack div, .board, .page').forEach((d) => { d.style.filter = 'grayscale(1) brightness(.9)'; });
-    f.forEach(({ el, x, y, r, i }) => { const k = back(p(t, a + 2.4 + i * 0.15, a + 2.75 + i * 0.15)); el.style.transform = `translate(${x}px, ${y}px) scale(${k}) rotate(${r + Math.sin(t * 2.4 + i) * 3}deg)`; });
-    aft.style.opacity = p(t, a + 2.8, a + 3.0); aft.style.transform = `scale(${0.6 + 0.4 * back(p(t, a + 2.8, a + 3.2))})`;
+    f.forEach(({ el, x, y, r, k }) => { const kk = back(p(t, yay + 0.05 + k * 0.12, yay + 0.4 + k * 0.12)); el.style.transform = `translate(${x}px, ${y}px) scale(${kk}) rotate(${r + Math.sin(t * 2.4 + k) * 3}deg)`; });
+    aft.style.opacity = p(t, line, line + 0.25); aft.style.transform = `scale(${0.6 + 0.4 * back(p(t, line, line + 0.4))})`;
   });
   $('stage').style.background = grey ? '#e5e2de' : 'var(--cream)';
   $('beans').style.filter = grey ? 'grayscale(1)' : 'none';
 
-  // coffee wave for each situation, with the battery charging during the teacher one
-  const w = WAVES.find((x) => t > x - 0.05 && t < x + 1.25);
+  // coffee wave during each pour (fills, then drains), battery charges in the teacher one
+  const w = [TL.pour0, TL.pour1, TL.pour2].find((x) => t > x - 0.03 && t < x + 0.85);
   $('wave').style.display = w ? '' : 'none';
   if (w) {
-    const fill = inOut(p(t, w, w + 0.6)), drain = inOut(p(t, w + 0.65, w + 1.2));
-    $('wpath').setAttribute('d', wavePath(t < w + 0.65 ? 2000 - fill * 2200 : -200 + drain * 2300, t));
+    const fill = inOut(p(t, w, w + 0.4)), drain = inOut(p(t, w + 0.45, w + 0.8));
+    $('wpath').setAttribute('d', wavePath(t < w + 0.45 ? 2000 - fill * 2200 : -200 + drain * 2300, t));
   }
-  const cw = WAVES[1], ch = t > cw + 0.1 && t < cw + 0.9;
+  const cw = TL.pour1, ch = t > cw + 0.05 && t < cw + 0.75;
   $('charge').style.display = ch ? 'block' : 'none';
-  const pct = Math.max(1, Math.round(100 * outCubic(p(t, cw + 0.15, cw + 0.6))));
+  const pct = Math.max(1, Math.round(100 * outCubic(p(t, cw + 0.1, cw + 0.5))));
   $('chargeFill').style.width = (472 * pct / 100) + 'px'; $('chargeFill').style.background = pct < 30 ? '#e55' : '#7bd389';
   $('chargeTxt').textContent = pct + '% ⚡';
-  $('charge').style.transform = `scale(${back(p(t, cw + 0.1, cw + 0.3))})`;
+  $('charge').style.transform = `scale(${back(p(t, cw + 0.05, cw + 0.25))})`;
 
-  // the answer, then memes
-  $('an1').style.opacity = p(t, 15.3, 15.5);
-  $('an3').style.opacity = p(t, 16.5, 16.8);
-  const s2 = p(t, 15.8, 15.95);
-  $('an2').style.opacity = s2 > 0 ? 1 : 0; $('an2').style.transform = `scale(${2.2 - 1.2 * outCubic(s2)}) rotate(${t > 15.95 ? Math.sin(t * 8) * 3 : 0}deg)`;
+  // the answer, rim shot, memes, then the line about the stickers
+  $('an1').style.opacity = p(t, TL.ans - 0.05, TL.ans + 0.15);
+  const s2 = p(t, TL.all - 0.05, TL.all + 0.1);
+  $('an2').style.opacity = s2 > 0 ? 1 : 0; $('an2').style.transform = `scale(${2.2 - 1.2 * outCubic(s2)}) rotate(${t > TL.rim ? Math.sin(t * 8) * 3 : 0}deg)`;
+  $('an3').style.opacity = p(t, TL.says, TL.says + 0.3);
   const mi = Math.floor((t - MEME_A) / MEME_D);
   if (t >= MEME_A && mi < MEMES.length) {
-    const f = ((t - MEME_A) % MEME_D) / MEME_D, inK = outCubic(clamp(f / 0.3)), dir = mi % 2 ? 1 : -1;
+    const fr = ((t - MEME_A) % MEME_D) / MEME_D, inK = outCubic(clamp(fr / 0.3)), dir = mi % 2 ? 1 : -1;
     $('memeImg').src = `coffee/${MEMES[mi]}.png`;
     $('meme').style.display = '';
     $('meme').style.transform = `translate(${(1 - inK) * dir * 1200}px, 160px) scale(${0.85 - 0.1 * (1 - inK)}) rotate(${(1 - inK) * dir * 10}deg)`;
     $('meme').style.filter = `blur(${(1 - inK) * 18}px)`;
+  } else if (t >= MEME_A + MEMES.length * MEME_D && t < TL.countfx) {
+    $('memeImg').src = `coffee/${MEMES[MEMES.length - 1]}.png`; $('meme').style.display = ''; $('meme').style.transform = 'translate(0, 160px) scale(.85)'; $('meme').style.filter = 'none';
   } else $('meme').style.display = 'none';
 
-  // pack
-  $('cnt').textContent = Math.round(114 * outCubic(p(t, 19.3, 20.3)));
-  [...$('chips').children].forEach((c, i) => { c.style.transform = `scale(${back(p(t, 20.5 + i * 0.15, 20.85 + i * 0.15))})`; });
+  // pack: counter rolls during the ticks, chips pop in the gap
+  $('cnt').textContent = Math.round(114 * outCubic(p(t, TL.countfx, TL.countfx + 1.0)));
+  [...$('chips').children].forEach((c, i) => { c.style.transform = `scale(${back(p(t, TL.chips + i * 0.15, TL.chips + 0.35 + i * 0.15))})`; });
 
   // end cup
-  $('cup').style.transform = `translateY(${(1 - back(p(t, 22.3, 22.9))) * 1300}px) rotate(${Math.sin(t * 1.5) * 1.5}deg)`;
-  $('e1').style.opacity = p(t, 22.5, 22.8); $('e2').style.opacity = p(t, 23.3, 23.6);
-  CSTEAM.forEach((s, i) => { const k = ((t * 0.6 + i * 0.33) % 1); s.style.transform = `translate(${Math.sin(k * 6 + i) * 24}px, ${-k * 200}px) scaleY(${0.6 + k})`; s.style.opacity = t > 23.0 ? Math.sin(k * Math.PI) * 0.9 : 0; });
+  $('cup').style.transform = `translateY(${(1 - back(p(t, TL.cup, TL.cup + 0.5))) * 1300}px) rotate(${Math.sin(t * 1.5) * 1.5}deg)`;
+  $('e1').style.opacity = p(t, TL.store - 0.1, TL.store + 0.2); $('e2').style.opacity = p(t, TL.store + 0.5, TL.store + 0.8);
+  CSTEAM.forEach((s, i) => { const k = ((t * 0.6 + i * 0.33) % 1); s.style.transform = `translate(${Math.sin(k * 6 + i) * 24}px, ${-k * 200}px) scaleY(${0.6 + k})`; s.style.opacity = t > TL.cup + 0.5 ? Math.sin(k * Math.PI) * 0.9 : 0; });
 };
 render(0);
 </script>
