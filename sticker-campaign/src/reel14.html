@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi+Fun:wght@600;700&family=IBM+Plex+Sans+Arabic:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --cream:#f6e7d7; --brown:#5a3825; --brown-d:#3b2416; --caramel:#c98b4f; --pink:#f3b6b0; --white:#fffaf4; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html, body { width:1080px; height:1920px; overflow:clip; font-family:'IBM Plex Sans Arabic',sans-serif; color:var(--brown-d); }
+  #stage { position:absolute; inset:0; overflow:clip; background:var(--cream); }
+  #beans { position:absolute; inset:-100px; opacity:.13;
+    background-image:radial-gradient(ellipse 18px 26px at 30px 30px, var(--brown) 98%, transparent), radial-gradient(ellipse 18px 26px at 95px 90px, var(--brown) 98%, transparent);
+    background-size:130px 130px; }
+  .scene { position:absolute; inset:0; overflow:clip; display:none; }
+  .abs { position:absolute; }
+  .center { width:100%; text-align:center; }
+  .rk { font-family:'Reem Kufi Fun',sans-serif; font-weight:700; line-height:1.2; }
+  .stk { position:absolute; left:0; top:0; filter:drop-shadow(0 14px 16px rgba(59,36,22,.28)); }
+  .cap { position:absolute; left:0; right:0; top:240px; text-align:center; font-family:'Reem Kufi Fun'; font-weight:700; font-size:96px; }
+  #wave { position:absolute; left:0; top:0; width:1080px; height:2600px; pointer-events:none; z-index:20; }
+  #charge { position:absolute; left:290px; top:760px; width:500px; height:240px; border:16px solid var(--white); border-radius:40px; z-index:21; display:none; }
+  #charge::after { content:''; position:absolute; right:-46px; top:70px; width:30px; height:70px; background:var(--white); border-radius:0 12px 12px 0; }
+  #charge i { position:absolute; left:14px; top:14px; bottom:14px; background:#7bd389; border-radius:16px; display:block; }
+  #charge b { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:'Reem Kufi Fun'; font-size:110px; color:var(--white); text-shadow:0 4px 10px rgba(0,0,0,.4); }
+  .steam { position:absolute; width:40px; height:220px; border-radius:20px; background:linear-gradient(to top, rgba(255,255,255,.75), transparent); filter:blur(8px); }
+  .meme { position:absolute; left:140px; top:520px; width:800px; height:800px; display:flex; align-items:center; justify-content:center; }
+  .meme img { width:100%; height:100%; object-fit:contain; filter:drop-shadow(0 20px 24px rgba(59,36,22,.3)); }
+  .chip { display:inline-block; background:var(--white); border:5px solid var(--brown); border-radius:999px; padding:8px 34px; font-weight:700; font-size:46px; margin:10px; box-shadow:0 8px 0 var(--brown); }
+  /* takeaway cup */
+  #cup { position:absolute; left:290px; top:700px; width:500px; height:780px; }
+  #cup .lid { position:absolute; left:-30px; right:-30px; top:0; height:80px; background:var(--white); border-radius:30px 30px 12px 12px; box-shadow:0 8px 0 #d9c7b5; }
+  #cup .body { position:absolute; left:0; right:0; top:70px; bottom:0; background:var(--white); clip-path:polygon(0 0, 100% 0, 88% 100%, 12% 100%); }
+  #cup .sleeve { position:absolute; left:14px; right:14px; top:220px; height:420px; background:var(--caramel); clip-path:polygon(0 0, 100% 0, 95% 100%, 5% 100%); display:flex; align-items:center; justify-content:center; }
+  #cup .sleeve img { width:330px; height:330px; background:#fff; padding:18px; border-radius:18px; }
+</style>
+</head>
+<body>
+<div id="stage">
+<div id="beans"></div>
+
+<!-- S1: hook -->
+<div class="scene" id="s1">
+  <div class="abs center rk" id="h1" style="top:470px; font-size:134px">إذا أول كلمة<br>تقولها الصبح…</div>
+  <div class="abs center rk" id="h2" style="top:880px; font-size:300px; color:var(--brown)">قهوة ☕</div>
+  <div class="abs center rk" id="h3" style="top:1320px; font-size:96px; color:var(--caramel)">هذا الفيديو لك</div>
+</div>
+
+<!-- S2: before coffee (grey, droopy) -->
+<div class="scene" id="s2">
+  <div class="cap" id="c2">أنا قبل القهوة:</div>
+</div>
+
+<!-- S3: after coffee (colour, bouncy) -->
+<div class="scene" id="s3">
+  <div class="cap" id="c3">أنا بعد القهوة:</div>
+</div>
+
+<!-- S4: rapid-fire memes -->
+<div class="scene" id="s4">
+  <div class="cap" id="c4" style="font-size:84px; line-height:1.3">ستيكرات تقول<br>اللي في خاطرك 😂</div>
+  <div class="meme" id="meme"><img id="memeImg"></div>
+</div>
+
+<!-- S5: the pack -->
+<div class="scene" id="s5">
+  <div class="abs center rk" style="top:430px; font-size:300px; color:var(--brown)" id="cnt">0</div>
+  <div class="abs center rk" style="top:800px; font-size:100px">تصميم قهوة وميمز</div>
+  <div class="abs center" style="top:960px; font-size:58px; font-weight:700">عربي · English</div>
+  <div class="abs center" id="chips" style="top:1130px; padding:0 40px">
+    <span class="chip">للكوب ☕</span><span class="chip">للابتوب 💻</span><span class="chip">للجوال 📱</span><span class="chip">لهدايا عشاق القهوة 🎁</span>
+  </div>
+</div>
+
+<!-- S6: the store on a takeaway cup -->
+<div class="scene" id="s6">
+  <div class="abs center rk" id="e1" style="top:240px; font-size:100px">قهوتك… في المتجر ☕</div>
+  <div id="cup"><div class="body"></div><div class="sleeve"><img src="qr_store.png"></div><div class="lid"></div></div>
+  <div class="abs center rk" id="e2" style="top:1560px; font-size:64px; direction:ltr">planme.zaher.io</div>
+</div>
+
+<svg id="wave" viewBox="0 0 1080 2600"><path id="wpath" fill="#5a3825"/></svg>
+<div id="charge"><i id="chargeFill"></i><b id="chargeTxt">1%</b></div>
+</div>
+
+<script>
+const clamp = (x) => Math.min(1, Math.max(0, x));
+const p = (t, a, b) => clamp((t - a) / (b - a));
+const back = (x) => { const c1 = 2.0, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+const outCubic = (x) => 1 - Math.pow(1 - x, 3);
+const inOut = (x) => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const $ = (id) => document.getElementById(id);
+
+const SCENES = [['s1', 0, 3.4], ['s2', 3.4, 7.4], ['s3', 7.4, 11.6], ['s4', 11.6, 16.0], ['s5', 16.0, 19.2], ['s6', 19.2, 24.0]];
+
+function sticker(parent, src, x, y, w) {
+  const el = document.createElement('img'); el.src = `coffee/${src}.png`; el.className = 'stk'; el.style.width = w + 'px'; parent.appendChild(el); return { el, x, y };
+}
+// S2 before coffee
+const LOW = sticker($('s2'), 'p48', 240, 620, 600);
+const WARN = sticker($('s2'), 'p51', 300, 1080, 480);
+// S3 after coffee
+const COOL = sticker($('s3'), 'p33', 330, 470, 420);
+const LIFE = sticker($('s3'), 'p53', 70, 1000, 470);
+const THER = sticker($('s3'), 'p74', 560, 1030, 450);
+const STEAM = [0, 1, 2].map((i) => { const s = document.createElement('div'); s.className = 'steam'; s.style.left = (470 + i * 55) + 'px'; s.style.top = '250px'; $('s3').appendChild(s); return s; });
+// S4 memes
+const MEMES = ['p54', 'p49', 'p116', 'p73', 'p10', 'p94', 'p46'];
+const MEME_A = 12.4, MEME_D = 0.52;
+// S6 steam over the cup
+const CSTEAM = [0, 1, 2].map((i) => { const s = document.createElement('div'); s.className = 'steam'; s.style.left = (480 + i * 60) + 'px'; s.style.top = '470px'; $('s6').appendChild(s); return s; });
+
+function wavePath(level, t) {
+  // coffee surface at y=level with a moving wave; filled to the bottom
+  let d = `M 0 2600 L 0 ${level}`;
+  for (let x = 0; x <= 1080; x += 40) d += ` L ${x} ${level + Math.sin(x / 90 + t * 9) * 26 + Math.sin(x / 37 - t * 6) * 10}`;
+  return d + ' L 1080 2600 Z';
+}
+
+window.render = (t) => {
+  SCENES.forEach(([id, a, b]) => { $(id).style.display = t >= a && t < b ? 'block' : 'none'; });
+  $('beans').style.transform = `translate(${(t * 18) % 130}px, ${(t * 30) % 130}px)`;
+
+  // S1: line 1 rises, "قهوة" slams with an RGB-split shake, line 3 pops
+  $('h1').style.opacity = p(t, 0.15, 0.4); $('h1').style.transform = `translateY(${(1 - outCubic(p(t, 0.15, 0.6))) * 60}px)`;
+  const sl = p(t, 1.3, 1.45);
+  const split = t > 1.3 && t < 1.8 ? (1 - p(t, 1.3, 1.8)) * 18 : 0;
+  $('h2').style.opacity = sl > 0 ? 1 : 0;
+  $('h2').style.transform = `scale(${2.6 - 1.6 * outCubic(sl)}) rotate(${Math.sin(t * 60) * split * 0.15}deg)`;
+  $('h2').style.textShadow = `${split}px 0 0 rgba(230,60,60,.7), ${-split}px 0 0 rgba(60,180,230,.7)`;
+  $('stage').style.translate = t > 1.42 && t < 1.75 ? `${Math.sin(t * 90) * 14}px ${Math.cos(t * 80) * 8}px` : '0 0';
+  $('h3').style.opacity = p(t, 2.3, 2.45); $('h3').style.transform = `scale(${0.5 + 0.5 * back(p(t, 2.3, 2.7))})`;
+
+  // S2: grey world, battery droops, warning sign slides in
+  const grey = t >= 3.4 && t < 7.4;
+  $('s2').style.filter = grey ? 'grayscale(1) brightness(.92)' : 'none';
+  $('beans').style.filter = grey ? 'grayscale(1)' : 'none';
+  $('stage').style.background = grey ? '#e5e2de' : 'var(--cream)';
+  $('c2').style.opacity = p(t, 3.5, 3.7);
+  const droop = Math.sin((t - 3.7) * 2) * 4;
+  LOW.el.style.transform = `translate(${LOW.x}px, ${LOW.y + (1 - outCubic(p(t, 3.7, 4.1))) * -900 + Math.max(0, t - 4.6) * 25}px) rotate(${-4 + droop + p(t, 4.6, 6.0) * -10}deg)`;
+  WARN.el.style.transform = `translate(${WARN.x + (1 - outCubic(p(t, 4.4, 4.8))) * 1200}px, ${WARN.y}px) rotate(${6 + p(t, 4.6, 6.0) * 8}deg)`;
+
+  // coffee pours in and fills the screen (6.2 -> 7.3), the battery charges, then it drains
+  const fill = inOut(p(t, 6.2, 7.3)), drain = inOut(p(t, 7.45, 8.0));
+  const level = t < 7.45 ? 2000 - fill * 2200 : -200 + drain * 2300;
+  $('wpath').setAttribute('d', wavePath(level, t));
+  $('wave').style.display = t > 6.15 && t < 8.05 ? '' : 'none';
+  const ch = t > 6.35 && t < 7.7;
+  $('charge').style.display = ch ? 'block' : 'none';
+  const pct = Math.max(1, Math.round(100 * outCubic(p(t, 6.4, 7.2))));
+  $('chargeFill').style.width = (472 * pct / 100) + 'px';
+  $('chargeFill').style.background = pct < 30 ? '#e55' : '#7bd389';
+  $('chargeTxt').textContent = pct + '% ⚡';
+  $('charge').style.transform = `scale(${back(p(t, 6.35, 6.6))}) rotate(${t > 7.2 ? Math.sin(t * 40) * 3 : 0}deg)`;
+
+  // S3: colour comes back, everything bounces
+  $('c3').style.opacity = p(t, 7.6, 7.8); $('c3').style.transform = `scale(${0.6 + 0.4 * back(p(t, 7.6, 8.0))})`;
+  const bounce = (a) => Math.abs(Math.sin((t - a) * 6)) * 30 * Math.exp(-(t - a) * 0.8);
+  COOL.el.style.transform = `translate(${COOL.x}px, ${COOL.y - (t > 7.8 ? bounce(7.8) : 0)}px) scale(${back(p(t, 7.8, 8.2))}) rotate(${Math.sin(t * 3) * 5}deg)`;
+  LIFE.el.style.transform = `translate(${LIFE.x}px, ${LIFE.y}px) scale(${back(p(t, 8.6, 9.0))}) rotate(${-6 + Math.sin(t * 2.5) * 3}deg)`;
+  THER.el.style.transform = `translate(${THER.x}px, ${THER.y}px) scale(${back(p(t, 9.4, 9.8))}) rotate(${7 + Math.sin(t * 2.2 + 1) * 3}deg)`;
+  STEAM.forEach((s, i) => { const k = ((t * 0.7 + i * 0.33) % 1); s.style.transform = `translate(${Math.sin(k * 6 + i) * 20}px, ${-k * 160}px) scaleY(${0.6 + k})`; s.style.opacity = t > 7.9 ? Math.sin(k * Math.PI) * 0.9 : 0; });
+
+  // S4: caption, then memes whip in one after another
+  $('c4').style.opacity = t < MEME_A ? p(t, 11.6, 11.8) : 0;
+  const mi = Math.floor((t - MEME_A) / MEME_D);
+  if (t >= MEME_A && mi < MEMES.length) {
+    const f = ((t - MEME_A) % MEME_D) / MEME_D;
+    $('memeImg').src = `coffee/${MEMES[mi]}.png`;
+    const inK = outCubic(clamp(f / 0.28));
+    const dir = mi % 2 ? 1 : -1;
+    $('meme').style.transform = `translateX(${(1 - inK) * dir * 1200}px) scale(${1.25 - 0.25 * inK}) rotate(${(1 - inK) * dir * 10}deg)`;
+    $('meme').style.filter = `blur(${(1 - inK) * 18}px)`;
+    $('meme').style.display = '';
+  } else $('meme').style.display = 'none';
+
+  // S5: counter rolls to 114, chips pop
+  $('cnt').textContent = Math.round(114 * outCubic(p(t, 16.1, 17.2)));
+  $('cnt').style.transform = `scale(${1 + (t > 17.2 && t < 17.5 ? 0.12 * Math.sin(p(t, 17.2, 17.5) * Math.PI) : 0)})`;
+  [...$('chips').children].forEach((c, i) => { c.style.transform = `scale(${back(p(t, 17.5 + i * 0.15, 17.85 + i * 0.15))})`; });
+
+  // S6: cup rises with steam, QR on the sleeve
+  $('cup').style.transform = `translateY(${(1 - back(p(t, 19.3, 19.9))) * 1300}px) rotate(${Math.sin(t * 1.5) * 1.5}deg)`;
+  $('e1').style.opacity = p(t, 19.5, 19.8);
+  $('e2').style.opacity = p(t, 20.3, 20.6);
+  CSTEAM.forEach((s, i) => { const k = ((t * 0.6 + i * 0.33) % 1); s.style.transform = `translate(${Math.sin(k * 6 + i) * 24}px, ${-k * 200}px) scaleY(${0.6 + k})`; s.style.opacity = t > 20.0 ? Math.sin(k * Math.PI) * 0.9 : 0; s.style.background = 'linear-gradient(to top, rgba(90,56,37,.35), transparent)'; });
+};
+render(0);
+</script>
+</body>
+</html>
