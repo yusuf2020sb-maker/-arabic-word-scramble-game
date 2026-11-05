@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi+Fun:wght@600;700&family=IBM+Plex+Sans+Arabic:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --cream:#f6e7d7; --brown:#5a3825; --brown-d:#3b2416; --caramel:#c98b4f; --kraft:#c49a6c; --kraft-d:#a77e52; --white:#fffaf4; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html, body { width:1080px; height:1920px; overflow:clip; font-family:'IBM Plex Sans Arabic',sans-serif; color:var(--brown-d); }
+  #stage { position:absolute; inset:0; overflow:clip; background:var(--cream); }
+  #beans { position:absolute; inset:-100px; opacity:.13;
+    background-image:radial-gradient(ellipse 18px 26px at 30px 30px, var(--brown) 98%, transparent), radial-gradient(ellipse 18px 26px at 95px 90px, var(--brown) 98%, transparent);
+    background-size:130px 130px; }
+  .scene { position:absolute; inset:0; overflow:clip; display:none; }
+  .abs { position:absolute; }
+  .center { width:100%; text-align:center; }
+  .rk { font-family:'Reem Kufi Fun',sans-serif; font-weight:700; line-height:1.25; }
+  .stk { position:absolute; left:0; top:0; filter:drop-shadow(0 14px 16px rgba(59,36,22,.28)); }
+  .sit { position:absolute; left:60px; right:60px; top:200px; text-align:center; font-family:'Reem Kufi Fun'; font-weight:700; font-size:88px; line-height:1.3; }
+  .after { position:absolute; left:60px; right:60px; top:1560px; text-align:center; font-family:'Reem Kufi Fun'; font-weight:700; font-size:80px; color:var(--brown); }
+  .grey { filter:grayscale(1) brightness(.92); }
+  #wave { position:absolute; left:0; top:0; width:1080px; height:2600px; pointer-events:none; z-index:20; }
+  #charge { position:absolute; left:290px; top:840px; width:500px; height:240px; border:16px solid var(--white); border-radius:40px; z-index:21; display:none; }
+  #charge::after { content:''; position:absolute; right:-46px; top:70px; width:30px; height:70px; background:var(--white); border-radius:0 12px 12px 0; }
+  #charge i { position:absolute; left:14px; top:14px; bottom:14px; border-radius:16px; display:block; }
+  #charge b { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:'Reem Kufi Fun'; font-size:110px; color:var(--white); text-shadow:0 4px 10px rgba(0,0,0,.4); }
+  /* props */
+  .box { position:absolute; left:190px; top:720px; width:700px; height:600px; background:var(--kraft); border-radius:12px; box-shadow:0 30px 40px rgba(60,40,20,.3);
+         background-image:linear-gradient(90deg, transparent 47%, var(--kraft-d) 47% 53%, transparent 53%); }
+  .stack { position:absolute; left:120px; top:1020px; width:840px; height:400px; }
+  .stack div { position:absolute; width:260px; height:200px; background:var(--kraft); border-radius:8px; box-shadow:0 10px 16px rgba(60,40,20,.25); }
+  .board { position:absolute; left:110px; top:680px; width:860px; height:620px; background:#2f4a3a; border:22px solid #8a5a33; border-radius:14px; }
+  .board .chalk { position:absolute; color:rgba(255,255,255,.75); font-size:58px; font-weight:700; }
+  .page { position:absolute; left:150px; top:660px; width:780px; height:820px; background:var(--white); border-radius:10px; box-shadow:0 30px 40px rgba(60,40,20,.25);
+          background-image:repeating-linear-gradient(0deg, transparent 0 62px, rgba(90,56,37,.14) 62px 64px); }
+  .page .w { position:absolute; right:80px; height:16px; border-radius:8px; background:rgba(90,56,37,.35); }
+  .meme { position:absolute; left:140px; top:560px; width:800px; height:800px; display:flex; align-items:center; justify-content:center; }
+  .meme img { width:100%; height:100%; object-fit:contain; filter:drop-shadow(0 20px 24px rgba(59,36,22,.3)); }
+  .chip { display:inline-block; background:var(--white); border:5px solid var(--brown); border-radius:999px; padding:8px 34px; font-weight:700; font-size:48px; margin:10px; box-shadow:0 8px 0 var(--brown); }
+  .steam { position:absolute; width:40px; height:220px; border-radius:20px; filter:blur(8px); background:linear-gradient(to top, rgba(90,56,37,.35), transparent); }
+  #cup { position:absolute; left:290px; top:700px; width:500px; height:780px; }
+  #cup .lid { position:absolute; left:-30px; right:-30px; top:0; height:80px; background:var(--white); border-radius:30px 30px 12px 12px; box-shadow:0 8px 0 #d9c7b5; }
+  #cup .body { position:absolute; left:0; right:0; top:70px; bottom:0; background:var(--white); clip-path:polygon(0 0, 100% 0, 88% 100%, 12% 100%); }
+  #cup .sleeve { position:absolute; left:14px; right:14px; top:220px; height:420px; background:var(--caramel); clip-path:polygon(0 0, 100% 0, 95% 100%, 5% 100%); display:flex; align-items:center; justify-content:center; }
+  #cup .sleeve img { width:330px; height:330px; background:#fff; padding:18px; border-radius:18px; }
+</style>
+</head>
+<body>
+<div id="stage">
+<div id="beans"></div>
+
+<!-- S1: hook -->
+<div class="scene" id="s1">
+  <div class="abs center rk" id="h1" style="top:520px; font-size:120px">مين أكثر واحد</div>
+  <div class="abs center rk" id="h2" style="top:760px; font-size:150px; color:var(--brown)">يحتاج قهوة<br>الصبح؟ 👀</div>
+  <div class="abs center rk" id="h3" style="top:1330px; font-size:66px; color:var(--caramel)">الجواب في الآخر 👇</div>
+</div>
+
+<!-- three situations: grey before, coffee wave, colour after -->
+<div class="scene" id="a">
+  <div class="sit">اللي قدامه ٥٠ طلب<br>لازم تتغلّف قبل الظهر 📦</div>
+  <div class="layer before"><div class="stack"><div style="left:0; top:120px"></div><div style="left:290px; top:140px"></div><div style="left:580px; top:110px"></div><div style="left:140px; top:-60px"></div><div style="left:440px; top:-50px"></div></div></div>
+  <div class="layer afterL"><div class="box"></div></div>
+  <div class="after">وتغليفه صار له مزاج ☕</div>
+</div>
+<div class="scene" id="b">
+  <div class="sit">اللي يدخل الفصل<br>الساعة ٧ الصبح ✏️</div>
+  <div class="layer before"><div class="board"><div class="chalk" style="right:60px; top:60px">درس اليوم:</div><div class="chalk" style="right:60px; top:170px">.................</div></div></div>
+  <div class="layer afterL"><div class="board"><div class="chalk" style="right:60px; top:60px">درس اليوم:</div><div class="chalk" style="right:60px; top:170px">.................</div></div></div>
+  <div class="after">ومزاجه صار ١٠٠٪</div>
+</div>
+<div class="scene" id="c">
+  <div class="sit">اللي يكتب يومه في دفتر<br>قبل ما يبدأ 📒</div>
+  <div class="layer before"><div class="page">${''}</div></div>
+  <div class="layer afterL"><div class="page"></div></div>
+  <div class="after">وصفحته صارت تشبهه</div>
+</div>
+
+<!-- the answer + rapid memes -->
+<div class="scene" id="ans">
+  <div class="abs center rk" id="an1" style="top:300px; font-size:110px">الجواب؟</div>
+  <div class="abs center rk" id="an2" style="top:470px; font-size:200px; color:var(--brown)">كلنا 😂</div>
+  <div class="meme" id="meme"><img id="memeImg"></div>
+</div>
+
+<!-- the pack -->
+<div class="scene" id="pack">
+  <div class="abs center rk" style="top:400px; font-size:280px; color:var(--brown)" id="cnt">0</div>
+  <div class="abs center rk" style="top:760px; font-size:96px">ستيكر قهوة وميمز</div>
+  <div class="abs center" style="top:920px; font-size:56px; font-weight:700">عربي · English · ملف PDF تطبعه في بيتك</div>
+  <div class="abs center" id="chips" style="top:1100px; padding:0 40px">
+    <span class="chip">لطلباتك 📦</span><span class="chip">لدفترك 📒</span><span class="chip">لكوبك ☕</span><span class="chip">لطلابك ✏️</span>
+  </div>
+</div>
+
+<!-- store on the cup -->
+<div class="scene" id="end">
+  <div class="abs center rk" id="e1" style="top:240px; font-size:100px">قهوتك… في المتجر ☕</div>
+  <div id="cup"><div class="body"></div><div class="sleeve"><img src="qr_store.png"></div><div class="lid"></div></div>
+  <div class="abs center rk" id="e2" style="top:1560px; font-size:64px; direction:ltr">planme.zaher.io</div>
+</div>
+
+<svg id="wave" viewBox="0 0 1080 2600"><path id="wpath" fill="#5a3825"/></svg>
+<div id="charge"><i id="chargeFill"></i><b id="chargeTxt">1%</b></div>
+</div>
+
+<script>
+const clamp = (x) => Math.min(1, Math.max(0, x));
+const p = (t, a, b) => clamp((t - a) / (b - a));
+const back = (x) => { const c1 = 2.0, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+const outCubic = (x) => 1 - Math.pow(1 - x, 3);
+const inOut = (x) => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const $ = (id) => document.getElementById(id);
+
+const SCENES = [['s1', 0, 3.2], ['a', 3.2, 7.2], ['b', 7.2, 11.2], ['c', 11.2, 15.2], ['ans', 15.2, 19.2], ['pack', 19.2, 22.2], ['end', 22.2, 26.5]];
+// each situation: start; the coffee wave fills at +1.6 and drains at +2.25
+const SIT = [['a', 3.2], ['b', 7.2], ['c', 11.2]];
+const WAVES = SIT.map(([, a]) => a + 1.6);
+
+function sticker(parent, src, x, y, w) {
+  const el = document.createElement('img'); el.src = `coffee/${src}.png`; el.className = 'stk'; el.style.width = w + 'px'; parent.appendChild(el); return { el, x, y };
+}
+// journal page lines
+document.querySelectorAll('.page').forEach((pg) => { pg.innerHTML = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => `<div class="w" style="top:${110 + i * 64}px; width:${260 + (i * 113) % 300}px"></div>`).join(''); });
+
+// per situation: tired sticker in the grey half, happy stickers in the colour half
+const PROPS = {
+  a: { before: [['p48', 330, 1360, 420, -6]], after: [['p46', 260, 760, 380, -8], ['p10', 640, 780, 230, 8], ['p30', 330, 1040, 210, 5], ['p26', 560, 1040, 260, -5]] },
+  b: { before: [['p51', 330, 1320, 420, 6]], after: [['p53', 130, 1200, 360, -6], ['p33', 620, 1150, 300, 7]] },
+  c: { before: [['p49', 330, 1500, 420, -5]], after: [['p74', 210, 740, 360, -6], ['p76', 600, 820, 280, 7], ['p8', 300, 1110, 320, 4]] },
+};
+const LAYERS = SIT.map(([id, a]) => {
+  const root = $(id), before = root.querySelector('.before'), after = root.querySelector('.afterL');
+  const b = PROPS[id].before.map(([s, x, y, w, r]) => ({ ...sticker(before, s, x, y, w), r }));
+  const f = PROPS[id].after.map(([s, x, y, w, r], i) => ({ ...sticker(after, s, x, y, w), r, i }));
+  return { id, a, before, after, b, f, sit: root.querySelector('.sit'), aft: root.querySelector('.after') };
+});
+
+const MEMES = ['p54', 'p116', 'p73', 'p94', 'p36'];
+const MEME_A = 16.6, MEME_D = 0.5;
+const CSTEAM = [0, 1, 2].map((i) => { const s = document.createElement('div'); s.className = 'steam'; s.style.left = (480 + i * 60) + 'px'; s.style.top = '470px'; $('end').appendChild(s); return s; });
+
+function wavePath(level, t) {
+  let d = `M 0 2600 L 0 ${level}`;
+  for (let x = 0; x <= 1080; x += 40) d += ` L ${x} ${level + Math.sin(x / 90 + t * 9) * 26 + Math.sin(x / 37 - t * 6) * 10}`;
+  return d + ' L 1080 2600 Z';
+}
+
+window.render = (t) => {
+  SCENES.forEach(([id, a, b]) => { $(id).style.display = t >= a && t < b ? 'block' : 'none'; });
+  $('beans').style.transform = `translate(${(t * 18) % 130}px, ${(t * 30) % 130}px)`;
+
+  // S1 hook
+  $('h1').style.opacity = p(t, 0.15, 0.4); $('h1').style.transform = `translateY(${(1 - outCubic(p(t, 0.15, 0.6))) * 60}px)`;
+  const sl = p(t, 1.0, 1.15), split = t > 1.0 && t < 1.5 ? (1 - p(t, 1.0, 1.5)) * 18 : 0;
+  $('h2').style.opacity = sl > 0 ? 1 : 0;
+  $('h2').style.transform = `scale(${2.4 - 1.4 * outCubic(sl)})`;
+  $('h2').style.textShadow = `${split}px 0 0 rgba(230,60,60,.7), ${-split}px 0 0 rgba(60,180,230,.7)`;
+  $('stage').style.translate = t > 1.12 && t < 1.45 ? `${Math.sin(t * 90) * 14}px ${Math.cos(t * 80) * 8}px` : '0 0';
+  $('h3').style.opacity = p(t, 2.1, 2.3); $('h3').style.transform = `translateY(${Math.sin(t * 7) * 10}px)`;
+
+  // situations
+  let grey = false;
+  LAYERS.forEach(({ a, before, after, b, f, sit, aft }) => {
+    if (t < a || t >= a + 4.0) return;
+    const swapped = t >= a + 2.25;
+    grey = !swapped;
+    before.style.display = swapped ? 'none' : ''; after.style.display = swapped ? '' : 'none';
+    sit.style.opacity = p(t, a + 0.1, a + 0.3); sit.style.transform = `translateY(${(1 - outCubic(p(t, a + 0.1, a + 0.5))) * -80}px)`;
+    sit.style.filter = swapped ? 'none' : 'grayscale(1)';
+    b.forEach(({ el, x, y, r }) => { el.style.transform = `translate(${x}px, ${y + (1 - outCubic(p(t, a + 0.4, a + 0.8))) * 900 + Math.max(0, t - a - 0.9) * 20}px) rotate(${r + Math.sin((t - a) * 2) * 3 - p(t, a + 0.9, a + 1.6) * 8}deg)`; });
+    before.querySelectorAll('.stack div, .board, .page').forEach((d) => { d.style.filter = 'grayscale(1) brightness(.9)'; });
+    f.forEach(({ el, x, y, r, i }) => { const k = back(p(t, a + 2.4 + i * 0.15, a + 2.75 + i * 0.15)); el.style.transform = `translate(${x}px, ${y}px) scale(${k}) rotate(${r + Math.sin(t * 2.4 + i) * 3}deg)`; });
+    aft.style.opacity = p(t, a + 2.8, a + 3.0); aft.style.transform = `scale(${0.6 + 0.4 * back(p(t, a + 2.8, a + 3.2))})`;
+  });
+  $('stage').style.background = grey ? '#e5e2de' : 'var(--cream)';
+  $('beans').style.filter = grey ? 'grayscale(1)' : 'none';
+
+  // coffee wave for each situation, with the battery charging during the teacher one
+  const w = WAVES.find((x) => t > x - 0.05 && t < x + 1.25);
+  $('wave').style.display = w ? '' : 'none';
+  if (w) {
+    const fill = inOut(p(t, w, w + 0.6)), drain = inOut(p(t, w + 0.65, w + 1.2));
+    $('wpath').setAttribute('d', wavePath(t < w + 0.65 ? 2000 - fill * 2200 : -200 + drain * 2300, t));
+  }
+  const cw = WAVES[1], ch = t > cw + 0.1 && t < cw + 0.9;
+  $('charge').style.display = ch ? 'block' : 'none';
+  const pct = Math.max(1, Math.round(100 * outCubic(p(t, cw + 0.15, cw + 0.6))));
+  $('chargeFill').style.width = (472 * pct / 100) + 'px'; $('chargeFill').style.background = pct < 30 ? '#e55' : '#7bd389';
+  $('chargeTxt').textContent = pct + '% ⚡';
+  $('charge').style.transform = `scale(${back(p(t, cw + 0.1, cw + 0.3))})`;
+
+  // the answer, then memes
+  $('an1').style.opacity = p(t, 15.3, 15.5);
+  const s2 = p(t, 15.8, 15.95);
+  $('an2').style.opacity = s2 > 0 ? 1 : 0; $('an2').style.transform = `scale(${2.2 - 1.2 * outCubic(s2)}) rotate(${t > 15.95 ? Math.sin(t * 8) * 3 : 0}deg)`;
+  const mi = Math.floor((t - MEME_A) / MEME_D);
+  if (t >= MEME_A && mi < MEMES.length) {
+    const f = ((t - MEME_A) % MEME_D) / MEME_D, inK = outCubic(clamp(f / 0.3)), dir = mi % 2 ? 1 : -1;
+    $('memeImg').src = `coffee/${MEMES[mi]}.png`;
+    $('meme').style.display = '';
+    $('meme').style.transform = `translate(${(1 - inK) * dir * 1200}px, 160px) scale(${0.85 - 0.1 * (1 - inK)}) rotate(${(1 - inK) * dir * 10}deg)`;
+    $('meme').style.filter = `blur(${(1 - inK) * 18}px)`;
+  } else $('meme').style.display = 'none';
+
+  // pack
+  $('cnt').textContent = Math.round(114 * outCubic(p(t, 19.3, 20.3)));
+  [...$('chips').children].forEach((c, i) => { c.style.transform = `scale(${back(p(t, 20.5 + i * 0.15, 20.85 + i * 0.15))})`; });
+
+  // end cup
+  $('cup').style.transform = `translateY(${(1 - back(p(t, 22.3, 22.9))) * 1300}px) rotate(${Math.sin(t * 1.5) * 1.5}deg)`;
+  $('e1').style.opacity = p(t, 22.5, 22.8); $('e2').style.opacity = p(t, 23.3, 23.6);
+  CSTEAM.forEach((s, i) => { const k = ((t * 0.6 + i * 0.33) % 1); s.style.transform = `translate(${Math.sin(k * 6 + i) * 24}px, ${-k * 200}px) scaleY(${0.6 + k})`; s.style.opacity = t > 23.0 ? Math.sin(k * Math.PI) * 0.9 : 0; });
+};
+render(0);
+</script>
+</body>
+</html>
