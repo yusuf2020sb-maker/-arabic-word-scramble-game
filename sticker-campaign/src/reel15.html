@@ -52,34 +52,35 @@
 <!-- S1: hook -->
 <div class="scene" id="s1">
   <div class="abs center rk" id="h1" style="top:520px; font-size:120px">مين أكثر واحد</div>
-  <div class="abs center rk" id="h2" style="top:760px; font-size:150px; color:var(--brown)">يحتاج قهوة<br>الصبح؟ 👀</div>
+  <div class="abs center rk" id="h2" style="top:760px; font-size:140px; color:var(--brown)">يحتاج ستيكرات<br>قهوة؟ 👀</div>
   <div class="abs center rk" id="h3" style="top:1330px; font-size:66px; color:var(--caramel)">الجواب في الآخر 👇</div>
 </div>
 
 <!-- three situations: grey before, coffee wave, colour after -->
 <div class="scene" id="a">
-  <div class="sit">اللي قدامه ٥٠ طلب<br>لازم تتغلّف قبل الظهر 📦</div>
+  <div class="sit">اللي يغلّف ٥٠ طلب<br>قبل الظهر 📦</div>
   <div class="layer before"><div class="stack"><div style="left:0; top:120px"></div><div style="left:290px; top:140px"></div><div style="left:580px; top:110px"></div><div style="left:140px; top:-60px"></div><div style="left:440px; top:-50px"></div></div></div>
   <div class="layer afterL"><div class="box"></div></div>
-  <div class="after">وتغليفه صار له مزاج ☕</div>
+  <div class="after">ستيكر قهوة على كل طلب ☕</div>
 </div>
 <div class="scene" id="b">
   <div class="sit">اللي يدخل الفصل<br>الساعة ٧ الصبح ✏️</div>
   <div class="layer before"><div class="board"><div class="chalk" style="right:60px; top:60px">درس اليوم:</div><div class="chalk" style="right:60px; top:170px">.................</div></div></div>
   <div class="layer afterL"><div class="board"><div class="chalk" style="right:60px; top:60px">درس اليوم:</div><div class="chalk" style="right:60px; top:170px">.................</div></div></div>
-  <div class="after">ومزاجه صار ١٠٠٪</div>
+  <div class="after">وستيكر على دفتر كل طالب ✏️</div>
 </div>
 <div class="scene" id="c">
-  <div class="sit">اللي يكتب يومه في دفتر<br>قبل ما يبدأ 📒</div>
+  <div class="sit">اللي يكتب يومه<br>في دفتر 📒</div>
   <div class="layer before"><div class="page">${''}</div></div>
   <div class="layer afterL"><div class="page"></div></div>
-  <div class="after">وصفحته صارت تشبهه</div>
+  <div class="after">وصفحته صارت مليانة ستيكرات</div>
 </div>
 
 <!-- the answer + rapid memes -->
 <div class="scene" id="ans">
   <div class="abs center rk" id="an1" style="top:300px; font-size:110px">الجواب؟</div>
   <div class="abs center rk" id="an2" style="top:470px; font-size:200px; color:var(--brown)">كلنا 😂</div>
+  <div class="abs center rk" id="an3" style="top:1500px; font-size:72px">ستيكرات تقول اللي في خاطرنا</div>
   <div class="meme" id="meme"><img id="memeImg"></div>
 </div>
 
@@ -95,7 +96,8 @@
 
 <!-- store on the cup -->
 <div class="scene" id="end">
-  <div class="abs center rk" id="e1" style="top:240px; font-size:100px">قهوتك… في المتجر ☕</div>
+  <div class="abs center rk" id="e1" style="top:200px; font-size:92px; line-height:1.3">ستيكرات القهوة<br>في المتجر ☕</div>
+  <div class="abs center" style="top:1640px; font-size:50px; font-weight:700">ملف PDF · تحميل فوري · تطبعه في بيتك</div>
   <div id="cup"><div class="body"></div><div class="sleeve"><img src="qr_store.png"></div><div class="lid"></div></div>
   <div class="abs center rk" id="e2" style="top:1560px; font-size:64px; direction:ltr">planme.zaher.io</div>
 </div>
@@ -192,6 +194,7 @@ window.render = (t) => {
 
   // the answer, then memes
   $('an1').style.opacity = p(t, 15.3, 15.5);
+  $('an3').style.opacity = p(t, 16.5, 16.8);
   const s2 = p(t, 15.8, 15.95);
   $('an2').style.opacity = s2 > 0 ? 1 : 0; $('an2').style.transform = `scale(${2.2 - 1.2 * outCubic(s2)}) rotate(${t > 15.95 ? Math.sin(t * 8) * 3 : 0}deg)`;
   const mi = Math.floor((t - MEME_A) / MEME_D);
