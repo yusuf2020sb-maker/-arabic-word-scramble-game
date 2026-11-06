@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root { --char:#12100e; --char-l:#1d1916; --cream:#efe4d2; --gold:#c9a45c; --gold-l:#e6cd92; --wine:#7a2430; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html, body { width:1080px; height:1920px; overflow:clip; font-family:'Tajawal',sans-serif; color:var(--cream); background:var(--char); }
+  #stage { position:absolute; inset:0; overflow:clip; background:radial-gradient(ellipse at 50% 42%, #2a231d 0%, var(--char) 62%); }
+  .scene { position:absolute; inset:0; overflow:clip; display:none; }
+  .abs { position:absolute; }
+  .center { width:100%; text-align:center; }
+  .am { font-family:'Amiri',serif; font-weight:700; line-height:1.3; }
+  .lbl { font-weight:500; letter-spacing:.06em; color:var(--gold-l); }
+  .mask { display:block; overflow:hidden; }
+  .mask > span { display:inline-block; }
+  .rule { height:2px; background:linear-gradient(90deg, transparent, var(--gold), transparent); transform-origin:center; }
+  .stk { position:absolute; left:0; top:0; }
+  /* overlays */
+  #leak { position:absolute; inset:-300px; pointer-events:none; mix-blend-mode:screen; background:radial-gradient(circle at 30% 30%, rgba(255,170,90,.18), transparent 35%), radial-gradient(circle at 75% 70%, rgba(255,120,80,.12), transparent 40%); }
+  #grain { position:absolute; inset:0; pointer-events:none; opacity:.07; mix-blend-mode:overlay;
+           background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+  #vig { position:absolute; inset:0; pointer-events:none; background:radial-gradient(ellipse at center, transparent 48%, rgba(0,0,0,.75) 100%); }
+  #fade { position:absolute; inset:0; background:#000; pointer-events:none; }
+  /* S1 */
+  #hand { position:absolute; width:6px; height:150px; background:var(--wine); border-radius:3px; transform-origin:50% 100%; }
+  /* S2 flythrough */
+  #fly { position:absolute; inset:0; perspective:1100px; perspective-origin:50% 45%; }
+  #space { position:absolute; left:540px; top:860px; transform-style:preserve-3d; }
+  .fl { position:absolute; left:0; top:0; transform-style:preserve-3d; }
+  .bokeh { position:absolute; left:0; top:0; border-radius:50%; background:radial-gradient(circle, rgba(230,205,146,.55), rgba(201,164,92,.12) 60%, transparent 70%); }
+  /* S3 wall */
+  #wallwrap { position:absolute; inset:0; perspective:1400px; }
+  #wall { position:absolute; left:90px; top:560px; width:900px; height:1100px; transform-style:preserve-3d; transform-origin:50% 50%; }
+  .tile { position:absolute; width:260px; height:300px; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,.03); border:1px solid rgba(201,164,92,.25); }
+  .tile img { max-width:80%; max-height:80%; }
+  #big62 { position:absolute; left:0; right:0; top:250px; text-align:center; font-family:'Amiri'; font-weight:700; font-size:380px; color:transparent; -webkit-text-stroke:3px var(--gold); line-height:1; }
+  /* S4 product */
+  #sheetwrap { position:absolute; inset:0; perspective:1800px; }
+  #sheet { position:absolute; left:250px; top:560px; width:580px; box-shadow:0 60px 80px rgba(0,0,0,.65); transform-origin:50% 60%; }
+  #sheetSheen { position:absolute; left:250px; top:560px; width:580px; height:820px; background:linear-gradient(115deg, transparent 35%, rgba(255,255,255,.28) 50%, transparent 65%); background-size:300% 100%; mix-blend-mode:screen; pointer-events:none; }
+  .callout { position:absolute; display:flex; align-items:center; gap:18px; white-space:nowrap; direction:ltr; }
+  .callout i { display:block; height:2px; background:var(--gold); transform-origin:left; }
+  .callout b { display:block; width:16px; height:16px; border-radius:50%; background:var(--gold); }
+  .callout span { font-size:46px; font-weight:700; direction:rtl; unicode-bidi:isolate; }
+  /* S5 panels */
+  .panel { position:absolute; top:0; bottom:0; overflow:hidden; }
+  .panel .bg { position:absolute; inset:0; background:radial-gradient(ellipse at 50% 45%, #3a2d24, #15110e 70%); }
+  .panel .cap { position:absolute; left:0; right:0; bottom:330px; text-align:center; }
+  /* S6 end */
+  #frame { position:absolute; left:110px; top:300px; width:860px; height:1320px; }
+  #frame svg { position:absolute; inset:0; overflow:visible; }
+  #frame rect { fill:none; stroke:var(--gold); stroke-width:2; }
+  #qr { position:absolute; left:290px; top:780px; width:500px; height:500px; background:var(--cream); padding:28px; }
+</style>
+</head>
+<body>
+<div id="stage">
+
+<!-- S1 hook -->
+<div class="scene" id="s1">
+  <div class="abs center am" style="top:300px; font-size:96px"><span class="mask"><span id="h1">بعض الأشياء…</span></span></div>
+  <div class="abs center am" style="top:440px; font-size:96px; color:var(--gold-l)"><span class="mask"><span id="h2">ما تطلع من الموضة أبد</span></span></div>
+  <div class="abs rule" id="r1" style="left:240px; width:600px; top:610px"></div>
+  </div>
+
+<!-- S2 flythrough -->
+<div class="scene" id="s2">
+  <div id="fly"><div id="space"></div></div>
+  <div class="abs center am" style="top:230px; font-size:112px"><span class="mask"><span id="t1">ستيكرات فنتج كلاسيكية</span></span></div>
+  <div class="abs center lbl" style="top:420px; font-size:44px"><span class="mask"><span id="t2">كتب · ساعات · شموع · رسائل</span></span></div>
+</div>
+
+<!-- S3 wall -->
+<div class="scene" id="s3">
+  <div id="big62">٦٢</div>
+  <div id="wallwrap"><div id="wall"></div></div>
+  <div class="abs center am" style="top:640px; font-size:80px"><span class="mask"><span id="t3">تصميم بطابع عتيق</span></span></div>
+</div>
+
+<!-- S4 product shot -->
+<div class="scene" id="s4">
+  <div id="sheetwrap"><img id="sheet" src="classic/sheet.jpg"></div>
+  <div id="sheetSheen"></div>
+  <div class="callout" id="co1" style="left:40px; top:620px"><span>ملف PDF</span><i style="width:110px"></i><b></b></div>
+  <div class="callout" id="co2" style="left:40px; top:980px"><span>مقاس A4</span><i style="width:110px"></i><b></b></div>
+  <div class="callout" id="co3" style="left:40px; top:1300px"><span>تطبعه في بيتك</span><i style="width:40px"></i><b></b></div>
+  <div class="abs center am" style="top:220px; font-size:96px"><span class="mask"><span id="t4">جاهز للطباعة</span></span></div>
+</div>
+
+<!-- S5 three panels -->
+<div class="scene" id="s5"></div>
+
+<!-- S6 end card -->
+<div class="scene" id="s6">
+  <div id="frame"><svg width="860" height="1320"><rect id="fr" x="1" y="1" width="858" height="1318"/><rect id="fr2" x="20" y="20" width="820" height="1280"/></svg></div>
+  <div class="abs center lbl" style="top:400px; font-size:40px"><span class="mask"><span id="e0">مجموعة</span></span></div>
+  <div class="abs center am" style="top:470px; font-size:104px"><span class="mask"><span id="e1">ستيكرات فنتج كلاسيكية</span></span></div>
+  <div class="abs rule" id="r2" style="left:290px; width:500px; top:670px"></div>
+  <div id="qr"><img src="qr_store.png" style="width:100%; height:100%"></div>
+  <div class="abs center" style="top:1330px; font-size:52px; font-weight:700; direction:ltr"><span class="mask"><span id="e2">planme.zaher.io</span></span></div>
+  <div class="abs center lbl" style="top:1430px; font-size:40px"><span class="mask"><span id="e3">ملف PDF · تحميل فوري · تطبعه في بيتك</span></span></div>
+</div>
+
+<div id="leak"></div>
+<div id="grain"></div>
+<div id="vig"></div>
+<div id="fade"></div>
+</div>
+
+<script>
+const clamp = (x) => Math.min(1, Math.max(0, x));
+const p = (t, a, b) => clamp((t - a) / (b - a));
+const eio = (x) => x < .5 ? 16 * x ** 5 : 1 - Math.pow(-2 * x + 2, 5) / 2;   // ease in-out quint
+const eo = (x) => 1 - Math.pow(1 - x, 4);
+const $ = (id) => document.getElementById(id);
+const rnd = (s) => { const x = Math.sin(s * 12.9898 + 78.233) * 43758.5453; return x - Math.floor(x); };
+
+const SCENES = [['s1', 0, 3.4], ['s2', 3.4, 9.0], ['s3', 9.0, 12.8], ['s4', 12.8, 16.4], ['s5', 16.4, 20.2], ['s6', 20.2, 24.5]];
+const CUTS = [3.4, 9.0, 12.8, 16.4, 20.2];
+const img = (parent, src, w, cls = 'stk') => { const el = document.createElement('img'); el.src = `classic/${src}.png`; el.className = cls; el.style.width = w + 'px'; parent.appendChild(el); return el; };
+const reveal = (id, t, a) => { const k = eo(p(t, a, a + 0.8)); $(id).style.transform = `translateY(${(1 - k) * 110}%)`; };
+
+// S1 hero
+const WATCH = img($('s1'), 'v12', 560);
+
+// S2 3D field
+const FIELD = [['v29', -330, -220, -400], ['v42', 300, 140, -700], ['v8', -260, 420, -1000], ['v9', 330, -360, -1300], ['v18', -350, 80, -1600], ['v20', 260, 380, -1900],
+  ['v52', -200, -380, -2200], ['v14', 340, 0, -2500], ['v26', -300, 300, -2800], ['v37', 230, -300, -3100], ['v57', -150, 120, -3400], ['v24', 300, 330, -3700], ['v25', -330, -120, -4000], ['v60', 60, -40, -4300]];
+const FL = FIELD.map(([src, x, y, z], i) => { const w = document.createElement('div'); w.className = 'fl'; const el = img(w, src, 340); el.style.left = '-170px'; el.style.top = '-170px'; $('space').appendChild(w); return { w, el, x, y, z, r: (rnd(i) - 0.5) * 24 }; });
+const BOK = [...Array(18)].map((_, i) => { const b = document.createElement('div'); b.className = 'bokeh'; const s = 40 + rnd(i) * 120; b.style.width = b.style.height = s + 'px'; $('s2').appendChild(b); return { b, x: rnd(i + 3) * 1080, y: rnd(i + 7) * 1920, s }; });
+
+// S3 wall tiles
+const WALLS = ['v29', 'v42', 'v8', 'v9', 'v18', 'v20', 'v52', 'v14', 'v26', 'v37', 'v57', 'v24'];
+const TL3 = WALLS.map((src, i) => { const tdiv = document.createElement('div'); tdiv.className = 'tile'; tdiv.style.left = (i % 3) * 300 + 'px'; tdiv.style.top = Math.floor(i / 3) * 280 + 'px'; img(tdiv, src, 220, ''); $('wall').appendChild(tdiv); return tdiv; });
+
+// S5 panels
+const PANELS = [['للهدايا والرسائل', ['v10', 'v25']], ['للدفاتر والجورنال', ['v5', 'v26']], ['ولتغليف طلباتك', ['v42', 'v20']]].map(([cap, srcs], i) => {
+  const pnl = document.createElement('div'); pnl.className = 'panel'; pnl.innerHTML = `<div class="bg"></div><div class="cap am" style="font-size:84px">${cap}</div>`;
+  const a = img(pnl, srcs[0], 520), b = img(pnl, srcs[1], 300);
+  $('s5').appendChild(pnl); return { pnl, a, b, at: 16.4 + i * 1.25, cap: pnl.querySelector('.cap') };
+});
+
+let FRL = null;
+window.render = (t) => {
+  SCENES.forEach(([id, a, b]) => { $(id).style.display = t >= a && t < b ? 'block' : 'none'; });
+  // fade from black + quick dips at cuts
+  const dip = Math.max(0, ...CUTS.map((c) => 1 - Math.abs(t - c) / 0.16));
+  $('fade').style.opacity = Math.max(1 - p(t, 0, 0.7), dip * 0.85, p(t, 24.0, 24.5));
+  $('leak').style.transform = `translate(${Math.sin(t * 0.35) * 180}px, ${Math.cos(t * 0.27) * 260}px)`;
+  $('leak').style.opacity = 0.6 + 0.4 * Math.sin(t * 0.8);
+
+  // S1: spotlight on the watch, slow push, second hand ticks
+  const push = eio(p(t, 0, 3.4));
+  WATCH.style.transform = `translate(260px, ${720 - push * 30}px) scale(${1 + push * 0.12}) rotate(${-4 + push * 4}deg)`;
+  WATCH.style.filter = `drop-shadow(0 40px 50px rgba(0,0,0,.7)) brightness(${0.5 + 0.5 * eo(p(t, 0.1, 1.2))})`;
+  $('s1').style.background = `radial-gradient(circle 520px at 540px 1100px, rgba(201,164,92,${0.22 * eo(p(t, 0.1, 1.2))}), transparent 70%)`;
+  reveal('h1', t, 0.6); reveal('h2', t, 1.4);
+  $('r1').style.transform = `scaleX(${eo(p(t, 2.1, 2.9))})`;
+
+  // S2: camera flies forward through the field with depth-of-field
+  const camZ = eio(p(t, 3.4, 9.0)) * 4300 + 200;
+  FL.forEach(({ w, el, x, y, z, r }) => {
+    const d = z + camZ;                   // distance in front of the screen plane (negative = far)
+    const blur = Math.min(16, Math.abs(d - 120) / 110);
+    w.style.transform = `translate3d(${x}px, ${y}px, ${d}px) rotateY(${r}deg) rotateZ(${r * 0.4}deg)`;
+    el.style.filter = `blur(${blur}px) drop-shadow(0 30px 30px rgba(0,0,0,.6))`;
+    w.style.opacity = d > 900 ? 0 : clamp(1 + (d + 2600) / 1200) * clamp((900 - d) / 400);
+  });
+  BOK.forEach(({ b, x, y, s }, i) => { const yy = (y + t * (20 + i * 3)) % 1950; b.style.transform = `translate(${x + Math.sin(t + i) * 30}px, ${yy}px)`; b.style.opacity = 0.35 + 0.3 * Math.sin(t * 1.3 + i); });
+  reveal('t1', t, 5.6); reveal('t2', t, 6.3);
+
+  // S3: tilted 3D wall rises and slowly rotates; outlined 62 behind
+  const rise = eio(p(t, 9.0, 11.0));
+  $('wall').style.transform = `rotateX(${58 - rise * 30}deg) rotateZ(${-12 + (t - 9) * 4}deg) translateZ(${-200 + rise * 120}px)`;
+  TL3.forEach((tl, i) => { const k = eo(p(t, 9.1 + i * 0.06, 9.6 + i * 0.06)); tl.style.opacity = k; tl.style.transform = `translateZ(${(1 - k) * 300}px)`; });
+  $('big62').style.transform = `scale(${0.9 + 0.1 * eo(p(t, 9.0, 10.0))})`; $('big62').style.opacity = eo(p(t, 9.2, 10.0));
+  reveal('t3', t, 10.4);
+
+  // S4: product shot: sheet tilts in, light sweeps, callouts draw
+  const tilt = eio(p(t, 12.8, 14.0));
+  $('sheet').style.transform = `perspective(1800px) rotateX(${28 - tilt * 18}deg) rotateY(${-22 + tilt * 30}deg) rotateZ(${-4 + tilt * 3}deg) translateY(${(1 - tilt) * 200}px)`;
+  $('sheet').style.left = '330px';
+  $('sheetSheen').style.left = '330px';
+  $('sheetSheen').style.transform = $('sheet').style.transform;
+  $('sheetSheen').style.backgroundPosition = `${100 - p(t, 13.6, 15.2) * 200}% 0`;
+  reveal('t4', t, 13.0);
+  [['co1', 14.0], ['co2', 14.4], ['co3', 14.8]].forEach(([id, a]) => {
+    const k = eo(p(t, a, a + 0.5)); const c = $(id);
+    c.querySelector('i').style.transform = `scaleX(${k})`; c.querySelector('b').style.transform = `scale(${k})`;
+    c.querySelector('span').style.opacity = p(t, a + 0.3, a + 0.6);
+  });
+
+  // S5: three panels slide in one after another as vertical slices
+  PANELS.forEach(({ pnl, a, b, at, cap }, i) => {
+    const k = eio(p(t, at, at + 0.5));
+    const left = 1080 - (i + 1) * 360;
+    pnl.style.left = left + 'px'; pnl.style.width = '360px';
+    pnl.style.clipPath = `inset(${(1 - k) * 100}% 0 0 0)`;
+    const active = t >= at && t < at + 1.25 + (i === 2 ? 1.3 : 0);
+    // the newest panel expands to full width while it is the focus
+    const focus = t >= at && (i === 2 || t < PANELS[i + 1].at) ? 1 : 0;
+    const f = focus ? eio(p(t, at + 0.2, at + 0.7)) : 0;
+    pnl.style.left = (left * (1 - f)) + 'px'; pnl.style.width = (360 + (1080 - 360) * f) + 'px'; pnl.style.zIndex = focus ? 5 : 1;
+    a.style.transform = `translate(${(360 + 720 * f) / 2 - 260 + Math.sin(t) * 8}px, ${620 + (1 - f) * 150}px) scale(${0.55 + 0.45 * f}) rotate(${-4 + Math.sin(t * 0.8) * 2}deg)`;
+    b.style.transform = `translate(${(360 + 720 * f) / 2 + 60}px, ${1000}px) scale(${0.5 + 0.5 * f}) rotate(8deg)`;
+    a.style.filter = b.style.filter = 'drop-shadow(0 30px 40px rgba(0,0,0,.7))';
+    cap.style.opacity = f;
+  });
+
+  // S6: gold frame draws, wordmark, QR
+  if (!FRL) { FRL = ['fr', 'fr2'].map((id) => { const r = $(id), L = 2 * (+r.getAttribute('width') + +r.getAttribute('height')); r.style.strokeDasharray = L; return [r, L]; }); }
+  FRL.forEach(([r, L], i) => { r.style.strokeDashoffset = L * (1 - eio(p(t, 20.3 + i * 0.2, 21.6 + i * 0.2))); });
+  reveal('e0', t, 20.6); reveal('e1', t, 20.8); $('r2').style.transform = `scaleX(${eo(p(t, 21.3, 22.0))})`;
+  const q = eo(p(t, 21.5, 22.3));
+  $('qr').style.opacity = q; $('qr').style.transform = `translateY(${(1 - q) * 40}px)`;
+  reveal('e2', t, 22.0); reveal('e3', t, 22.3);
+};
+render(0);
+</script>
+</body>
+</html>
