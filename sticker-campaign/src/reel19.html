@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Almarai:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --felt:#1f3d33; --felt-d:#132a22; --gold:#d8b25a; --cream:#f7efdc; --ink:#1c1a17; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html, body { width:1080px; height:1920px; overflow:clip; font-family:'Almarai',sans-serif; color:var(--cream); }
+  #stage { position:absolute; inset:0; overflow:clip; background:radial-gradient(ellipse at 50% 40%, #2c5244, var(--felt) 55%, var(--felt-d));
+           background-image:radial-gradient(ellipse at 50% 40%, #2c5244, var(--felt) 55%, var(--felt-d)), radial-gradient(rgba(255,255,255,.04) 1px, transparent 1px); background-size:auto, 6px 6px; }
+  .scene { position:absolute; inset:0; overflow:clip; display:none; }
+  .abs { position:absolute; }
+  .center { width:100%; text-align:center; }
+  .lz { font-family:'Lalezar',sans-serif; line-height:1.2; }
+  /* album slots */
+  .slot { position:absolute; left:0; top:0; width:340px; height:400px; transform-style:preserve-3d; }
+  .slot img { width:100%; height:100%; object-fit:contain; filter:drop-shadow(0 18px 18px rgba(0,0,0,.45)); }
+  .corner { position:absolute; width:56px; height:56px; background:#0b0b0b; }
+  .corner.tl { left:-6px; top:-6px; clip-path:polygon(0 0, 100% 0, 0 100%); }
+  .corner.br { right:-6px; bottom:-6px; clip-path:polygon(100% 0, 100% 100%, 0 100%); }
+  .num { position:absolute; left:50%; top:-50px; width:100px; height:100px; margin-left:-50px; border-radius:50%; background:var(--gold); color:var(--felt-d); font-family:'Lalezar'; font-size:72px; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 0 #9c7d36; }
+  .sheen { position:absolute; inset:0; background:linear-gradient(115deg, transparent 35%, rgba(255,255,255,.55) 50%, transparent 65%); background-size:300% 100%; mix-blend-mode:screen; pointer-events:none; }
+  #spot { position:absolute; inset:0; pointer-events:none; background:rgba(5,12,9,.7); }
+  .trait { position:absolute; left:60px; right:60px; top:1400px; text-align:center; }
+  .trait b { display:block; font-family:'Lalezar'; font-size:120px; color:var(--gold); }
+  .trait span { display:block; font-size:58px; font-weight:800; margin-top:10px; }
+  .bubble { position:absolute; left:140px; top:1100px; width:800px; background:var(--cream); color:var(--ink); border-radius:40px; padding:34px 44px; font-size:54px; font-weight:800; box-shadow:0 14px 0 rgba(0,0,0,.3); }
+  .bubble::after { content:''; position:absolute; right:90px; bottom:-40px; border:22px solid transparent; border-top:30px solid var(--cream); }
+  .bubble small { display:block; font-size:36px; color:#7a7466; margin-bottom:8px; }
+  .chip { display:inline-block; background:var(--cream); color:var(--felt-d); border-radius:999px; padding:8px 36px; font-weight:800; font-size:48px; margin:10px; }
+  /* QR as a perforated stamp */
+  #qrStamp { position:absolute; left:250px; top:720px; width:580px; height:720px; }
+  #qrStamp .perf { position:absolute; inset:0; background:var(--cream);
+             -webkit-mask:radial-gradient(circle 13px at 20px 20px, transparent 98%, #000) 0 0 / 40px 40px; mask:radial-gradient(circle 13px at 20px 20px, transparent 98%, #000) 0 0 / 40px 40px; }
+  #qrStamp .inner { position:absolute; inset:30px; background:var(--cream); border:6px solid var(--felt); padding:18px; display:flex; flex-direction:column; align-items:center; gap:8px; color:var(--felt-d); }
+  #qrStamp img { width:420px; height:420px; }
+</style>
+</head>
+<body>
+<div id="stage">
+
+<!-- S1 hook -->
+<div class="scene" id="s1">
+  <div class="abs center lz" id="h1" style="top:420px; font-size:170px">أي طابع</div>
+  <div class="abs center lz" id="h2" style="top:640px; font-size:200px; color:var(--gold)">يشبهك؟ 👀</div>
+  <div class="abs center" id="h3" style="top:960px; font-size:64px; font-weight:800">١ ولا ٢ ولا ٣ ولا ٤؟</div>
+</div>
+
+<!-- S2-S3 the album: stamps shuffle, then reveal one by one -->
+<div class="scene" id="album">
+  <div class="abs center lz" id="pick" style="top:200px; font-size:96px">كل رقم له جواب 👇</div>
+  <div id="spot"></div>
+  <div class="trait" id="trait"><b id="tb"></b><span id="ts"></span></div>
+</div>
+
+<!-- S4 comment -->
+<div class="scene" id="s4">
+  <div class="abs center lz" style="top:240px; font-size:120px">وأنت؟</div>
+  <div class="abs center lz" style="top:420px; font-size:110px; color:var(--gold)">رقمك في التعليقات 👇</div>
+  <div class="bubble" id="bub"><small>تعليقك…</small><span id="btxt"></span><span id="bcaret">|</span></div>
+  <div class="abs center" id="m1" style="top:1480px; font-size:60px; font-weight:800">٣٥ طابع زهور… لكل شخصية طابع</div>
+</div>
+
+<!-- S5 store stamp -->
+<div class="scene" id="s5">
+  <div class="abs center lz" id="e1" style="top:210px; font-size:110px">طابعك في المتجر 🌼</div>
+  <div class="abs center" id="chips" style="top:420px"><span class="chip">للطلبات 📦</span><span class="chip">للهدايا 🎁</span><span class="chip">للدفاتر 📒</span></div>
+  <div id="qrStamp"><div class="perf"></div><div class="inner"><img src="qr_store.png"><div class="lz" style="font-size:60px">المتجر</div><div style="font-size:42px; font-weight:800; direction:ltr">planme.zaher.io</div></div></div>
+  <div class="abs center" id="e2" style="top:1520px; font-size:52px; font-weight:800">ملف PDF تطبعه في بيتك · تحميل فوري</div>
+</div>
+</div>
+
+<script>
+const clamp = (x) => Math.min(1, Math.max(0, x));
+const p = (t, a, b) => clamp((t - a) / (b - a));
+const back = (x) => { const c1 = 1.7, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+const outCubic = (x) => 1 - Math.pow(1 - x, 3);
+const inOut = (x) => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const $ = (id) => document.getElementById(id);
+
+const SCENES = [['s1', 0, 3.0], ['album', 3.0, 16.4], ['s4', 16.4, 19.8], ['s5', 19.8, 24.5]];
+
+// four stamps in album slots; grid positions 0..3 (2x2)
+const GRID = [[620, 520], [120, 520], [620, 1000], [120, 1000]];   // RTL: 1 top-right, 2 top-left, 3 bottom-right, 4 bottom-left
+const STAMPS = [['s32', 'حضور يلفت', 'مثل الوردة الحمراء… ما تنتسى 🌹'], ['s25', 'هدوء وأناقة', 'بساطة تبان من بعيد 🤍'], ['s7', 'طاقة وفرح', 'لون يفرّح أي مكان 🧡'], ['s30', 'خيال وإبداع', 'أفكار جديدة كل يوم 💜']];
+const SLOTS = STAMPS.map(([src], i) => {
+  const s = document.createElement('div'); s.className = 'slot';
+  s.innerHTML = `<img src="stamps/${src}.png"><div class="corner tl"></div><div class="corner br"></div><div class="sheen"></div><div class="num">${['١', '٢', '٣', '٤'][i]}</div>`;
+  $('album').insertBefore(s, $('spot')); return { s, sheen: s.querySelector('.sheen'), num: s.querySelector('.num') };
+});
+// shuffle plan: list of [time, permutation of grid positions]; ends with stamp i at grid i
+const SHUF = [[3.3, [3, 2, 1, 0]], [4.0, [1, 3, 0, 2]], [4.7, [0, 1, 2, 3]]];
+const posAt = (i, t) => {
+  let from = [2, 0, 3, 1][i], to = from, k = 1;
+  for (const [at, perm] of SHUF) { if (t < at) break; from = to; to = perm[i]; k = inOut(p(t, at, at + 0.5)); }
+  const [ax, ay] = GRID[from], [bx, by] = GRID[to];
+  const arc = Math.sin(k * Math.PI) * (from === to ? 0 : 140) * (i % 2 ? 1 : -1);
+  return [ax + (bx - ax) * k, ay + (by - ay) * k + arc, Math.sin(k * Math.PI)];
+};
+// reveals: each number takes the stage in turn
+const REV = [6.6, 9.0, 11.4, 13.8];
+const REV_D = 2.4;
+
+const COMMENTS = ['١ 🌹', '٢ 🤍', '٣ 🧡', '٤ 💜'];
+
+window.render = (t) => {
+  SCENES.forEach(([id, a, b]) => { $(id).style.display = t >= a && t < b ? 'block' : 'none'; });
+
+  // S1
+  $('h1').style.opacity = p(t, 0.15, 0.35); $('h1').style.transform = `translateY(${(1 - outCubic(p(t, 0.15, 0.55))) * 60}px)`;
+  const s2 = p(t, 0.8, 0.95);
+  $('h2').style.opacity = s2 > 0 ? 1 : 0; $('h2').style.transform = `scale(${2 - outCubic(s2)}) rotate(${Math.sin(t * 6) * 3}deg)`;
+  $('h3').style.opacity = p(t, 1.7, 1.9);
+
+  // album: shuffle, spotlight chase, then reveals
+  const ri = REV.findIndex((a) => t >= a && t < a + REV_D);
+  $('pick').style.opacity = t < REV[0] ? p(t, 5.2, 5.5) : 0;
+  SLOTS.forEach(({ s, sheen, num }, i) => {
+    let [x, y, lift] = posAt(i, t);
+    let sc = 1 + lift * 0.12, rx = 0, ry = 0, z = 0, op = 1;
+    num.style.opacity = t > 4.9 ? 1 : 0;
+    if (ri >= 0) {
+      const a = REV[ri], k = inOut(p(t, a, a + 0.45)), out = inOut(p(t, a + REV_D - 0.35, a + REV_D));
+      if (i === ri) {
+        x = x + (370 - x) * k * (1 - out); y = y + (520 - y) * k * (1 - out); sc = 1 + 0.9 * k * (1 - out);
+        // gentle 3D tilt with a sweeping sheen while on stage
+        rx = Math.sin((t - a) * 2.2) * 12 * k; ry = Math.cos((t - a) * 1.7) * 16 * k; z = 10;
+        sheen.style.backgroundPosition = `${100 - p(t, a + 0.4, a + 1.6) * 200}% 0`;
+      } else op = 1 - 0.75 * k * (1 - out);
+    } else sheen.style.backgroundPosition = '200% 0';
+    s.style.transform = `translate(${x}px, ${y}px) perspective(1200px) rotateX(${rx}deg) rotateY(${ry}deg) scale(${sc})`;
+    s.style.zIndex = z; s.style.opacity = op;
+    s.style.display = t >= 3.0 ? '' : 'none';
+  });
+  // spotlight: chases over the four slots before the first reveal, then sits on the active stamp
+  let sx = 540, sy = 960, sr = 2000;
+  if (t > 5.0 && t < REV[0]) { const order = [0, 1, 3, 2]; const ph = (t - 5.0) * 4; const g = GRID[order[Math.floor(ph) % 4]]; sx = g[0] + 170; sy = g[1] + 200; sr = 300; }
+  if (ri >= 0) { sx = 540; sy = 720; sr = 560; }
+  $('spot').style.background = `radial-gradient(circle ${sr}px at ${sx}px ${sy}px, transparent 70%, rgba(5,12,9,.72) 100%)`;
+  $('spot').style.zIndex = 5;
+  if (ri >= 0) {
+    const a = REV[ri], k = p(t, a + 0.4, a + 0.7);
+    $('tb').textContent = `${['١', '٢', '٣', '٤'][ri]}: ${STAMPS[ri][1]}`; $('ts').textContent = STAMPS[ri][2];
+    $('trait').style.opacity = k * (1 - p(t, a + REV_D - 0.3, a + REV_D)); $('trait').style.transform = `translateY(${(1 - outCubic(k)) * 60}px)`;
+    $('trait').style.zIndex = 12;
+  } else $('trait').style.opacity = 0;
+
+  // S4: a comment bubble cycles through a few answers
+  const ci = Math.min(COMMENTS.length - 1, Math.floor(Math.max(0, t - 16.8) / 0.5));
+  $('bcaret').style.opacity = Math.floor(t * 3) % 2 ? 1 : 0;
+  $('btxt').textContent = COMMENTS[ci];
+  $('bub').style.transform = `scale(${back(p(t, 16.6, 16.9))})`;
+  $('btxt').style.display = t > 16.8 ? '' : 'none';
+  $('m1').style.opacity = p(t, 18.8, 19.1);
+
+  // S5: QR stamp drops in
+  $('e1').style.opacity = p(t, 19.9, 20.2);
+  [...$('chips').children].forEach((c, i) => { c.style.transform = `scale(${back(p(t, 20.2 + i * 0.15, 20.55 + i * 0.15))})`; });
+  const q = back(p(t, 20.8, 21.3));
+  $('qrStamp').style.transform = `scale(${0.4 + 0.6 * q}) rotate(${(1 - q) * -12 + Math.sin(t * 1.4) * 1.2}deg)`; $('qrStamp').style.opacity = p(t, 20.8, 20.9);
+  $('e2').style.opacity = p(t, 21.8, 22.1);
+};
+render(0);
+</script>
+</body>
+</html>
