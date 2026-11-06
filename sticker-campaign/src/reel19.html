@@ -71,6 +71,7 @@
 </div>
 </div>
 
+<script src="reel19_timeline.js"></script>
 <script>
 const clamp = (x) => Math.min(1, Math.max(0, x));
 const p = (t, a, b) => clamp((t - a) / (b - a));
@@ -79,7 +80,9 @@ const outCubic = (x) => 1 - Math.pow(1 - x, 3);
 const inOut = (x) => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
 const $ = (id) => document.getElementById(id);
 
-const SCENES = [['s1', 0, 3.0], ['album', 3.0, 16.4], ['s4', 16.4, 19.8], ['s5', 19.8, 24.5]];
+// Timings come from reel19_timeline.js (tools/mix_reel19.py): effects sit between the voice lines.
+const SCENES = [['s1', 0, TL.shuffle], ['album', TL.shuffle, TL.s4fx], ['s4', TL.s4fx, TL.s5fx], ['s5', TL.s5fx, TL.end_all]];
+const A = TL.shuffle;
 
 // four stamps in album slots; grid positions 0..3 (2x2)
 const GRID = [[620, 520], [120, 520], [620, 1000], [120, 1000]];   // RTL: 1 top-right, 2 top-left, 3 bottom-right, 4 bottom-left
@@ -90,7 +93,7 @@ const SLOTS = STAMPS.map(([src], i) => {
   $('album').insertBefore(s, $('spot')); return { s, sheen: s.querySelector('.sheen'), num: s.querySelector('.num') };
 });
 // shuffle plan: list of [time, permutation of grid positions]; ends with stamp i at grid i
-const SHUF = [[3.3, [3, 2, 1, 0]], [4.0, [1, 3, 0, 2]], [4.7, [0, 1, 2, 3]]];
+const SHUF = [[A + 0.3, [3, 2, 1, 0]], [A + 0.9, [1, 3, 0, 2]], [A + 1.5, [0, 1, 2, 3]]];
 const posAt = (i, t) => {
   let from = [2, 0, 3, 1][i], to = from, k = 1;
   for (const [at, perm] of SHUF) { if (t < at) break; from = to; to = perm[i]; k = inOut(p(t, at, at + 0.5)); }
@@ -99,8 +102,8 @@ const posAt = (i, t) => {
   return [ax + (bx - ax) * k, ay + (by - ay) * k + arc, Math.sin(k * Math.PI)];
 };
 // reveals: each number takes the stage in turn
-const REV = [6.6, 9.0, 11.4, 13.8];
-const REV_D = 2.4;
+const REV = [TL.rev0, TL.rev1, TL.rev2, TL.rev3];
+const REV_END = [TL.rev1, TL.rev2, TL.rev3, TL.s4fx];
 
 const COMMENTS = ['١ 🌹', '٢ 🤍', '٣ 🧡', '٤ 💜'];
 
@@ -108,20 +111,20 @@ window.render = (t) => {
   SCENES.forEach(([id, a, b]) => { $(id).style.display = t >= a && t < b ? 'block' : 'none'; });
 
   // S1
-  $('h1').style.opacity = p(t, 0.15, 0.35); $('h1').style.transform = `translateY(${(1 - outCubic(p(t, 0.15, 0.55))) * 60}px)`;
-  const s2 = p(t, 0.8, 0.95);
+  $('h1').style.opacity = p(t, TL.slam + 0.1, TL.slam + 0.3); $('h1').style.transform = `translateY(${(1 - outCubic(p(t, TL.slam + 0.1, TL.slam + 0.5))) * 60}px)`;
+  const s2 = p(t, TL.slam + 0.25, TL.slam + 0.4);
   $('h2').style.opacity = s2 > 0 ? 1 : 0; $('h2').style.transform = `scale(${2 - outCubic(s2)}) rotate(${Math.sin(t * 6) * 3}deg)`;
-  $('h3').style.opacity = p(t, 1.7, 1.9);
+  $('h3').style.opacity = p(t, TL.sub - 0.1, TL.sub + 0.1);
 
   // album: shuffle, spotlight chase, then reveals
-  const ri = REV.findIndex((a) => t >= a && t < a + REV_D);
-  $('pick').style.opacity = t < REV[0] ? p(t, 5.2, 5.5) : 0;
+  const ri = REV.findIndex((a, i) => t >= a && t < REV_END[i]);
+  $('pick').style.opacity = t < REV[0] ? p(t, A + 0.2, A + 0.5) : 0;
   SLOTS.forEach(({ s, sheen, num }, i) => {
     let [x, y, lift] = posAt(i, t);
     let sc = 1 + lift * 0.12, rx = 0, ry = 0, z = 0, op = 1;
-    num.style.opacity = t > 4.9 ? 1 : 0;
+    num.style.opacity = t > A + 1.9 ? 1 : 0;
     if (ri >= 0) {
-      const a = REV[ri], k = inOut(p(t, a, a + 0.45)), out = inOut(p(t, a + REV_D - 0.35, a + REV_D));
+      const a = REV[ri], e = REV_END[ri], k = inOut(p(t, a, a + 0.45)), out = inOut(p(t, e - 0.35, e));
       if (i === ri) {
         x = x + (370 - x) * k * (1 - out); y = y + (520 - y) * k * (1 - out); sc = 1 + 0.9 * k * (1 - out);
         // gentle 3D tilt with a sweeping sheen while on stage
@@ -135,31 +138,31 @@ window.render = (t) => {
   });
   // spotlight: chases over the four slots before the first reveal, then sits on the active stamp
   let sx = 540, sy = 960, sr = 2000;
-  if (t > 5.0 && t < REV[0]) { const order = [0, 1, 3, 2]; const ph = (t - 5.0) * 4; const g = GRID[order[Math.floor(ph) % 4]]; sx = g[0] + 170; sy = g[1] + 200; sr = 300; }
+  if (t > A + 2.0 && t < REV[0]) { const order = [0, 1, 3, 2]; const ph = (t - A - 2.0) * 5; const g = GRID[order[Math.floor(ph) % 4]]; sx = g[0] + 170; sy = g[1] + 200; sr = 300; }
   if (ri >= 0) { sx = 540; sy = 720; sr = 560; }
   $('spot').style.background = `radial-gradient(circle ${sr}px at ${sx}px ${sy}px, transparent 70%, rgba(5,12,9,.72) 100%)`;
   $('spot').style.zIndex = 5;
   if (ri >= 0) {
-    const a = REV[ri], k = p(t, a + 0.4, a + 0.7);
+    const a = REV[ri], e = REV_END[ri], n = TL['n' + ri], k = p(t, n - 0.1, n + 0.2);
     $('tb').textContent = `${['١', '٢', '٣', '٤'][ri]}: ${STAMPS[ri][1]}`; $('ts').textContent = STAMPS[ri][2];
-    $('trait').style.opacity = k * (1 - p(t, a + REV_D - 0.3, a + REV_D)); $('trait').style.transform = `translateY(${(1 - outCubic(k)) * 60}px)`;
+    $('trait').style.opacity = k * (1 - p(t, e - 0.3, e)); $('trait').style.transform = `translateY(${(1 - outCubic(k)) * 60}px)`;
     $('trait').style.zIndex = 12;
   } else $('trait').style.opacity = 0;
 
   // S4: a comment bubble cycles through a few answers
-  const ci = Math.min(COMMENTS.length - 1, Math.floor(Math.max(0, t - 16.8) / 0.5));
+  const ci = Math.min(COMMENTS.length - 1, Math.floor(Math.max(0, t - TL.typefx) / 0.25));
   $('bcaret').style.opacity = Math.floor(t * 3) % 2 ? 1 : 0;
   $('btxt').textContent = COMMENTS[ci];
-  $('bub').style.transform = `scale(${back(p(t, 16.6, 16.9))})`;
-  $('btxt').style.display = t > 16.8 ? '' : 'none';
-  $('m1').style.opacity = p(t, 18.8, 19.1);
+  $('bub').style.transform = `scale(${back(p(t, TL.s4fx + 0.2, TL.s4fx + 0.5))})`;
+  $('btxt').style.display = t > TL.typefx ? '' : 'none';
+  $('m1').style.opacity = p(t, TL.count - 0.1, TL.count + 0.2);
 
   // S5: QR stamp drops in
-  $('e1').style.opacity = p(t, 19.9, 20.2);
-  [...$('chips').children].forEach((c, i) => { c.style.transform = `scale(${back(p(t, 20.2 + i * 0.15, 20.55 + i * 0.15))})`; });
-  const q = back(p(t, 20.8, 21.3));
-  $('qrStamp').style.transform = `scale(${0.4 + 0.6 * q}) rotate(${(1 - q) * -12 + Math.sin(t * 1.4) * 1.2}deg)`; $('qrStamp').style.opacity = p(t, 20.8, 20.9);
-  $('e2').style.opacity = p(t, 21.8, 22.1);
+  $('e1').style.opacity = p(t, TL.s5fx, TL.s5fx + 0.3);
+  [...$('chips').children].forEach((c, i) => { c.style.transform = `scale(${back(p(t, TL.s5fx + 0.2 + i * 0.15, TL.s5fx + 0.55 + i * 0.15))})`; });
+  const q = back(p(t, TL.s5fx + 0.55, TL.s5fx + 1.0));
+  $('qrStamp').style.transform = `scale(${0.4 + 0.6 * q}) rotate(${(1 - q) * -12 + Math.sin(t * 1.4) * 1.2}deg)`; $('qrStamp').style.opacity = p(t, TL.s5fx + 0.55, TL.s5fx + 0.65);
+  $('e2').style.opacity = p(t, TL.store - 0.2, TL.store + 0.1);
 };
 render(0);
 </script>
