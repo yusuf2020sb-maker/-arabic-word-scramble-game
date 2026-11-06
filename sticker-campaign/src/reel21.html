@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Readex+Pro:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root { --cream:#f3ebdf; --wine:#6e1f2a; --wine-d:#3e0f17; --sage:#7d8f6a; --gold:#d9b46a; --kraft:#c59a6a; --ink:#2e1a16; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html, body { width:1080px; height:1920px; overflow:clip; font-family:'Readex Pro',sans-serif; color:var(--ink); }
+  #stage { position:absolute; inset:0; overflow:clip; background:var(--cream);
+    background-image:radial-gradient(rgba(110,31,42,.05) 2px, transparent 3px); background-size:26px 26px; }
+  .scene { position:absolute; inset:0; overflow:clip; display:none; }
+  .abs { position:absolute; }
+  .center { width:100%; text-align:center; }
+  .am { font-family:'Amiri',serif; font-weight:700; line-height:1.25; }
+  .stk { position:absolute; left:0; top:0; filter:drop-shadow(0 12px 14px rgba(62,15,23,.25)); }
+  .petal { position:absolute; left:0; top:0; width:34px; height:24px; border-radius:60% 40% 60% 40%; background:radial-gradient(circle at 30% 30%, #b2394a, var(--wine) 70%); }
+  .spark { position:absolute; left:0; top:0; width:70px; height:70px; }
+  .spark::before, .spark::after { content:''; position:absolute; left:50%; top:50%; background:#ffe9b0; border-radius:50%; transform:translate(-50%,-50%); }
+  .spark::before { width:100%; height:10%; } .spark::after { width:10%; height:100%; }
+  #s1 { background:radial-gradient(ellipse at 50% 55%, #5a1a24, var(--wine-d) 70%); color:#fbeee8; }
+  svg.stems { position:absolute; left:0; top:0; overflow:visible; }
+  svg.stems path { fill:none; stroke:var(--sage); stroke-width:12; stroke-linecap:round; }
+  /* kraft cone + ribbon */
+  #cone { position:absolute; left:240px; top:1000px; width:600px; height:760px; }
+  #cone .l, #cone .r { position:absolute; top:0; bottom:0; width:60%; background:var(--kraft); box-shadow:0 20px 30px rgba(62,15,23,.25);
+         background-image:repeating-linear-gradient(100deg, rgba(0,0,0,.05) 0 3px, transparent 3px 14px); }
+  #cone .l { left:0; clip-path:polygon(0 0, 100% 10%, 85% 100%, 70% 100%); }
+  #cone .r { right:0; clip-path:polygon(0 10%, 100% 0, 30% 100%, 15% 100%); filter:brightness(.93); }
+  #bow { position:absolute; left:440px; top:1330px; width:200px; height:140px; z-index:30; }
+  #bow i { position:absolute; top:10px; width:100px; height:90px; background:var(--wine); border-radius:50% 50% 50% 50% / 60% 60% 40% 40%; display:block; }
+  #bow i.a { left:-10px; transform:rotate(-25deg); } #bow i.b { right:-10px; transform:rotate(25deg); }
+  #bow b { position:absolute; left:80px; top:40px; width:44px; height:44px; background:#4f121c; border-radius:12px; display:block; }
+  #bow u { position:absolute; top:70px; width:30px; height:120px; background:var(--wine); display:block; }
+  #bow u.a { left:70px; transform:rotate(14deg); } #bow u.b { left:104px; transform:rotate(-14deg); }
+  /* greeting card */
+  #card { position:absolute; left:140px; top:520px; width:800px; height:900px; perspective:2400px; }
+  .half { position:absolute; top:0; width:400px; height:900px; background:#fbf6ee; box-shadow:0 20px 40px rgba(62,15,23,.25); }
+  #cardR { right:0; border-radius:0 18px 18px 0; }
+  #cardL { right:0; border-radius:0 18px 18px 0; transform-origin:0 50%; z-index:3; background:var(--wine); display:flex; align-items:center; justify-content:center; color:#fbeee8; }
+  .chip { display:inline-block; background:#fff; border:3px solid var(--wine); color:var(--wine); border-radius:999px; padding:6px 30px; font-weight:700; font-size:44px; margin:8px; }
+  #frame { position:absolute; left:220px; top:600px; width:640px; height:820px; border-radius:50%; border:22px solid var(--gold); background:#fffaf2; box-shadow:0 0 0 8px var(--wine), 0 30px 60px rgba(62,15,23,.3); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; }
+  #frame img.q { width:380px; height:380px; }
+</style>
+</head>
+<body>
+<div id="stage">
+
+<!-- S1: a rose wilts... except this one -->
+<div class="scene" id="s1">
+  <div class="abs center am" id="w1" style="top:220px; font-size:108px">الورد الحقيقي يذبل… 🥀</div>
+  <div class="abs center am" id="w2" style="top:1460px; font-size:150px; color:var(--gold)">إلا هذا 🌹</div>
+</div>
+
+<!-- S2+S3: garden grows, then gathers into a wrapped bouquet -->
+<div class="scene" id="g">
+  <svg class="stems" width="1080" height="1920" id="stems"></svg>
+  <div class="abs center am" id="t1" style="top:120px; font-size:120px; color:var(--wine)">ستيكرات ورود فنتج</div>
+  <div class="abs center" id="t2" style="top:300px; font-size:58px; font-weight:700; color:var(--sage)">٦٣ تصميم</div>
+  <div class="abs center am" id="t3" style="top:120px; font-size:112px; color:var(--wine)">باقة… ما تذبل 🎀</div>
+  <div class="abs center" id="t4" style="top:300px; font-size:56px; font-weight:700">تطبعها كل ما احتجت</div>
+  <div id="cone"><div class="l"></div><div class="r"></div></div>
+  <div id="bow"><u class="a"></u><u class="b"></u><i class="a"></i><i class="b"></i><b></b></div>
+</div>
+
+<!-- S4: greeting card -->
+<div class="scene" id="s4">
+  <div class="abs center am" id="k1" style="top:150px; font-size:104px; color:var(--wine)">ورد لكل مناسبة</div>
+  <div id="card"><div class="half" id="cardR"></div><div class="half" id="cardL"><div class="am" style="font-size:120px">لك 🌹</div></div></div>
+  <div class="abs center" id="chips" style="top:1500px; padding:0 30px"><span class="chip">لبطاقات الإهداء 💌</span><span class="chip">لصفحات دفترك 📒</span><span class="chip">لتغليف طلباتك 📦</span></div>
+</div>
+
+<!-- S5: store in a vintage oval frame -->
+<div class="scene" id="s5">
+  <div class="abs center am" id="e1" style="top:170px; font-size:112px; color:var(--wine)">ورودك… في المتجر 🌹</div>
+  <div class="abs center" id="e3" style="top:370px; font-size:52px; font-weight:700">ستيكرات PDF تطبعها في بيتك</div>
+  <div id="frame"><img class="q" src="qr_store.png"><div style="font-weight:700; font-size:50px; direction:ltr; color:var(--wine)">planme.zaher.io</div></div>
+</div>
+</div>
+
+<script>
+const clamp = (x) => Math.min(1, Math.max(0, x));
+const p = (t, a, b) => clamp((t - a) / (b - a));
+const back = (x) => { const c1 = 1.7, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+const outCubic = (x) => 1 - Math.pow(1 - x, 3);
+const inOut = (x) => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const $ = (id) => document.getElementById(id);
+const rnd = (s) => { const x = Math.sin(s * 12.9898 + 78.233) * 43758.5453; return x - Math.floor(x); };
+
+const SCENES = [['s1', 0, 4.2], ['g', 4.2, 14.6], ['s4', 14.6, 18.6], ['s5', 18.6, 23.5]];
+function sticker(parent, src, w) { const el = document.createElement('img'); el.src = `roses/${src}.png`; el.className = 'stk'; el.style.width = w + 'px'; parent.appendChild(el); return el; }
+
+// S1 hero rose + petals + sparkle burst
+const HERO = sticker($('s1'), 'r44', 620);
+const PETALS = [...Array(14)].map((_, i) => { const d = document.createElement('div'); d.className = 'petal'; $('s1').appendChild(d); return { d, x: 330 + rnd(i) * 420, dl: 0.8 + rnd(i + 3) * 1.4, sp: 0.8 + rnd(i + 5) * 0.6, sw: (rnd(i + 7) - 0.5) * 200 }; });
+const SPARKS = [...Array(10)].map(() => { const s = document.createElement('div'); s.className = 'spark'; $('s1').appendChild(s); return s; });
+
+// S2 garden: stems from the bottom to bloom points, leaves along the way
+const BLOOMS = [['r14', 170, 820, 250], ['r18', 430, 640, 280], ['r38', 720, 760, 250], ['r16', 260, 1110, 230], ['r22', 600, 1030, 260], ['r46', 860, 1180, 200], ['r28', 120, 1380, 210]];
+const LEAVES = [['r50', 300, 1300, 180, -20], ['r52', 520, 1240, 200, 25], ['r57', 820, 1420, 170, -15], ['r65', 60, 1560, 170, 10], ['r55', 640, 1500, 160, 30]];
+const NS = 'http://www.w3.org/2000/svg';
+const STEMS = BLOOMS.map(([, x, y, w], i) => {
+  const cx = x + w / 2, cy = y + w * 0.6, bx = 300 + i * 80;
+  const d = `M ${bx} 1950 C ${bx} 1600, ${cx + (i % 2 ? 120 : -120)} ${cy + 360}, ${cx} ${cy}`;
+  const pth = document.createElementNS(NS, 'path'); pth.setAttribute('d', d); $('stems').appendChild(pth);
+  const L = pth.getTotalLength(); pth.style.strokeDasharray = L; return { pth, L, at: 4.4 + i * 0.22 };
+});
+const LV = LEAVES.map(([src, x, y, w, r], i) => ({ el: sticker($('g'), src, w), x, y, r, at: 5.2 + i * 0.25 }));
+const BL = BLOOMS.map(([src, x, y, w], i) => ({ el: sticker($('g'), src, w), x, y, w, at: 5.6 + i * 0.28 }));
+// bouquet positions (gathered above the cone)
+const BQ = [[300, 760, 1.0], [520, 700, 1.05], [700, 790, 0.95], [380, 920, 1.0], [600, 900, 1.0], [760, 960, 0.9], [230, 960, 0.9]];
+
+// S4 card flowers
+const CARDF = [['r48', 640, 640, 260], ['r47', 600, 1000, 220]].map(([src, x, y, w]) => ({ el: sticker($('s4'), src, w), x, y }));
+// S5 roses around the frame
+const FR = [['r44', 120, 1240, 300, -12], ['r48', 700, 1250, 280, 12], ['r10', 430, 460, 220, 0]].map(([src, x, y, w, r]) => ({ el: sticker($('s5'), src, w), x, y, r }));
+
+window.render = (t) => {
+  SCENES.forEach(([id, a, b]) => { $(id).style.display = t >= a && t < b ? 'block' : 'none'; });
+
+  // S1: wilt, petals drop, then revive
+  $('w1').style.opacity = p(t, 0.2, 0.5) * (1 - p(t, 2.4, 2.6));
+  const wilt = inOut(p(t, 0.6, 2.2)), rev = back(p(t, 2.6, 3.3));
+  const k = wilt * (1 - clamp(rev));
+  HERO.style.transformOrigin = '50% 100%';
+  HERO.style.transform = `translate(230px, ${560 + k * 120}px) rotate(${k * 28}deg) scale(${1 - k * 0.12 + (t > 2.6 ? 0.08 * Math.sin(p(t, 2.6, 3.3) * Math.PI) : 0)})`;
+  HERO.style.filter = `grayscale(${k * 0.9}) sepia(${k * 0.5}) brightness(${1 - k * 0.35}) drop-shadow(0 ${20 - k * 12}px 30px rgba(0,0,0,.4))`;
+  PETALS.forEach(({ d, x, dl, sp, sw }, i) => {
+    const q = p(t, dl, dl + sp * 1.6);
+    d.style.display = q > 0 && q < 1 ? '' : 'none';
+    d.style.transform = `translate(${x + Math.sin(q * 6 + i) * 40 + q * sw}px, ${800 + q * 900}px) rotate(${q * 540}deg)`;
+    d.style.opacity = 1 - q * 0.6;
+  });
+  SPARKS.forEach((s, i) => {
+    const q = p(t, 2.65, 3.4), ang = (i / 10) * Math.PI * 2, r = outCubic(q) * (300 + (i % 3) * 60);
+    s.style.display = q > 0 && q < 1 ? '' : 'none';
+    s.style.transform = `translate(${510 + Math.cos(ang) * r}px, ${880 + Math.sin(ang) * r}px) scale(${1.3 - q}) rotate(${q * 180}deg)`;
+  });
+  $('w2').style.opacity = p(t, 2.55, 2.75); $('w2').style.transform = `scale(${0.6 + 0.4 * back(p(t, 2.55, 2.95))})`;
+
+  // S2: stems grow, leaves sprout, blooms unfurl; S3: gather into the bouquet
+  const gather = inOut(p(t, 10.6, 11.4));
+  STEMS.forEach(({ pth, L, at }) => { pth.style.strokeDashoffset = L * (1 - outCubic(p(t, at, at + 1.3))); pth.style.opacity = 1 - gather; });
+  LV.forEach(({ el, x, y, r, at }) => { const q = back(p(t, at, at + 0.4)); el.style.transform = `translate(${x}px, ${y}px) rotate(${r + Math.sin(t * 1.6 + x) * 4}deg) scale(${q})`; el.style.opacity = 1 - gather; });
+  BL.forEach(({ el, x, y, w, at }, i) => {
+    const q = back(p(t, at, at + 0.5)), sway = Math.sin(t * 1.4 + i) * 3;
+    const [bx, by, bs] = BQ[i];
+    const X = x + (bx - x) * gather, Y = y + (by - y) * gather;
+    el.style.transform = `translate(${X}px, ${Y}px) rotate(${(1 - clamp(q)) * -90 + sway}deg) scale(${q * (1 + (bs - 1) * gather)})`;
+    el.style.zIndex = 20;
+  });
+  $('t1').style.opacity = p(t, 7.8, 8.1) * (1 - p(t, 10.4, 10.7)); $('t2').style.opacity = p(t, 8.4, 8.7) * (1 - p(t, 10.4, 10.7));
+  $('t3').style.opacity = p(t, 12.4, 12.7); $('t4').style.opacity = p(t, 13.0, 13.3);
+  const cone = outCubic(p(t, 11.2, 11.8));
+  $('cone').style.transform = `translateY(${(1 - cone) * 900}px)`; $('cone').style.zIndex = 25;
+  const bow = back(p(t, 12.0, 12.4));
+  $('bow').style.transform = `scale(${bow}) rotate(${(1 - clamp(bow)) * 180}deg)`;
+
+  // S4: card opens to reveal the roses inside
+  $('k1').style.opacity = p(t, 14.7, 15.0);
+  const op = inOut(p(t, 15.1, 15.8));
+  $('cardL').style.transform = `perspective(2400px) rotateY(${op * 178}deg)`;
+  $('cardL').style.right = '0px';
+  $('cardL').querySelector('div').style.opacity = op < 0.5 ? 1 : 0;
+  CARDF.forEach(({ el, x, y }, i) => { const q = back(p(t, 15.7 + i * 0.2, 16.1 + i * 0.2)); el.style.transform = `translate(${x}px, ${y}px) scale(${q}) rotate(${Math.sin(t * 2 + i) * 3}deg)`; el.style.zIndex = 4; });
+  [...$('chips').children].forEach((c, i) => { c.style.transform = `scale(${back(p(t, 16.6 + i * 0.2, 16.95 + i * 0.2))})`; });
+
+  // S5: frame + roses, gentle petals
+  $('e1').style.opacity = p(t, 18.7, 19.0); $('e3').style.opacity = p(t, 19.0, 19.3);
+  const fq = back(p(t, 19.1, 19.6));
+  $('frame').style.transform = `scale(${0.4 + 0.6 * fq})`; $('frame').style.opacity = p(t, 19.1, 19.2);
+  FR.forEach(({ el, x, y, r }, i) => { const q = back(p(t, 19.6 + i * 0.2, 20.0 + i * 0.2)); el.style.transform = `translate(${x}px, ${y}px) rotate(${r + Math.sin(t * 1.5 + i) * 3}deg) scale(${q})`; el.style.zIndex = 5; });
+};
+render(0);
+</script>
+</body>
+</html>
