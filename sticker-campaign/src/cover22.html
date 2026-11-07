@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --char:#12100e; --cream:#efe4d2; --gold:#c9a45c; --gold-l:#e6cd92; --wine:#7a2430; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:var(--char); color:var(--cream); font-family:'Tajawal',sans-serif; }
+  #stage { position:absolute; inset:0; overflow:clip;
+    background: radial-gradient(circle 560px at 540px 1060px, rgba(201,164,92,.28), transparent 72%), radial-gradient(ellipse at 50% 45%, #2b241d 0%, var(--char) 66%); }
+  .grain { position:absolute; inset:0; opacity:.07; background-image:repeating-radial-gradient(circle at 30% 40%, #fff 0 1px, transparent 1px 3px); }
+  .frame { position:absolute; left:50px; top:50px; right:50px; bottom:50px; border:2px solid rgba(201,164,92,.55); }
+  .frame::after { content:''; position:absolute; inset:14px; border:1px solid rgba(201,164,92,.3); }
+  .abs { position:absolute; left:0; right:0; text-align:center; }
+  .am { font-family:'Amiri',serif; font-weight:700; line-height:1.25; }
+  .hook1 { top:270px; font-size:118px; text-shadow:0 6px 30px rgba(0,0,0,.6); }
+  .hook2 { top:420px; font-size:118px; color:var(--gold-l); text-shadow:0 6px 30px rgba(0,0,0,.6); }
+  .rule { position:absolute; left:340px; width:400px; height:2px; background:linear-gradient(90deg, transparent, var(--gold), transparent); }
+  .st { position:absolute; filter:drop-shadow(0 22px 26px rgba(0,0,0,.65)); }
+  .badge { position:absolute; left:720px; top:1180px; width:240px; height:240px; border-radius:50%; background:var(--wine);
+    border:4px solid var(--gold); box-shadow:0 0 0 10px rgba(122,36,48,.35), 0 20px 40px rgba(0,0,0,.6); transform:rotate(-10deg);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
+  .badge b { font-family:'Amiri'; font-size:112px; line-height:.9; color:var(--gold-l); }
+  .badge span { font-size:38px; font-weight:800; color:var(--cream); }
+  .title { top:1490px; font-size:92px; }
+  .sub { top:1630px; font-size:42px; font-weight:700; color:var(--gold-l); letter-spacing:.02em; }
+</style></head><body>
+<div id="stage">
+  <div class="grain"></div>
+  <div class="frame"></div>
+  <div class="abs am hook1">بعض الأشياء…</div>
+  <div class="abs am hook2">ما تطلع من الموضة أبد</div>
+  <div class="rule" style="top:600px"></div>
+
+  <img class="st" src="classic/v9.png"  style="left:90px;  top:660px; width:250px; transform:rotate(-14deg)">
+  <img class="st" src="classic/v60.png" style="left:770px; top:650px; width:220px; transform:rotate(10deg)">
+  <img class="st" src="classic/v8.png"  style="left:80px;  top:960px; width:250px; transform:rotate(-6deg)">
+  <img class="st" src="classic/v10.png" style="left:760px; top:930px; width:250px; transform:rotate(12deg)">
+  <img class="st" src="classic/v20.png" style="left:110px; top:1220px; width:150px; transform:rotate(-24deg)">
+  <img class="st" src="classic/v42.png" style="left:270px; top:1260px; width:260px; transform:rotate(-5deg)">
+  <img class="st" src="classic/v24.png" style="left:540px; top:1270px; width:200px; transform:rotate(14deg)">
+  <img class="st" src="classic/v12.png" style="left:330px; top:690px; width:420px; transform:rotate(-4deg); filter:drop-shadow(0 40px 50px rgba(0,0,0,.75))">
+
+  <div class="badge"><b>٦٢</b><span>ستيكر</span></div>
+
+  <div class="abs am title">ستيكرات فنتج كلاسيكية</div>
+  <div class="abs sub">ملف PDF · جاهز للطباعة</div>
+</div>
+</body></html>
