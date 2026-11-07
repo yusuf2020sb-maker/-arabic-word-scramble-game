@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@600;700&family=IBM+Plex+Sans+Arabic:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --wine:#4a1724; --wine-d:#2a0c14; --cream:#f1e4cf; --gold:#d6b27a; --brown:#5a3a26; --blue:#5d7591; --plum:#5b3f78; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:var(--wine-d); font-family:'IBM Plex Sans Arabic',sans-serif; color:var(--cream); }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; }
+  .scene { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; display:none; }
+  .abs { position:absolute; left:0; top:0; }
+  .line { position:absolute; left:0; width:1080px; text-align:center; }
+  .nk { font-family:'Noto Naskh Arabic',serif; font-weight:700; line-height:1.35; }
+  .w { display:inline-block; }
+  .st { position:absolute; left:0; top:0; filter:drop-shadow(0 16px 20px rgba(0,0,0,.45)); will-change:transform; }
+  #bg { position:absolute; left:0; top:0; width:1080px; height:1920px; }
+  #grain { position:absolute; left:0; top:0; opacity:.3; mix-blend-mode:overlay; pointer-events:none; }
+  #vig { position:absolute; left:0; top:0; width:1080px; height:1920px; background:radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(10,2,5,.6) 100%); pointer-events:none; }
+  /* envelope */
+  #env { position:absolute; left:150px; top:820px; width:780px; height:520px; transform-style:preserve-3d; }
+  #envBack { position:absolute; left:0; top:0; width:780px; height:520px; background:#d9c3a0; border-radius:10px; box-shadow:0 40px 70px rgba(0,0,0,.55); }
+  #envFront { position:absolute; left:0; top:0; width:780px; height:520px; z-index:3;
+    background: linear-gradient(to top right, #e8d6b8 49.6%, transparent 50%) left bottom / 50% 100% no-repeat, linear-gradient(to top left, #e3cfae 49.6%, transparent 50%) right bottom / 50% 100% no-repeat; }
+  #envFront2 { position:absolute; left:0; top:200px; width:780px; height:320px; z-index:2; background:linear-gradient(180deg,#eadbc0,#dcc6a2); clip-path:polygon(0 100%, 50% 0, 100% 100%); }
+  #flap { position:absolute; left:0; top:0; width:780px; height:330px; z-index:4; transform-origin:50% 0; background:linear-gradient(180deg,#e6d2b0,#d8c09a); clip-path:polygon(0 0, 100% 0, 50% 100%); }
+  #seal { position:absolute; z-index:6; left:0; top:0; width:200px; height:200px; }
+  #seal .h { position:absolute; left:0; top:0; width:200px; height:200px; overflow:hidden; }
+  #seal .h img { width:200px; position:absolute; top:0; }
+  #inside { position:absolute; left:0; top:0; z-index:1; }
+  /* drawers */
+  .drawer { position:absolute; left:60px; width:960px; height:300px; }
+  .drawer .box { position:absolute; left:0; top:0; width:960px; height:300px; border-radius:14px; box-shadow:0 20px 40px rgba(0,0,0,.45); }
+  .drawer .lab { position:absolute; top:20px; font-family:'Noto Naskh Arabic'; font-weight:700; font-size:66px; line-height:1.2; }
+  .drawer .knob { position:absolute; width:46px; height:46px; border-radius:50%; background:radial-gradient(circle at 35% 35%, #f6dca4, #9c7432); top:127px; }
+  #flipbox { position:absolute; left:290px; top:640px; width:500px; height:640px; border-radius:20px; background:#f4e7d1; box-shadow:0 30px 60px rgba(0,0,0,.5), inset 0 0 0 10px #e4d1af, inset 0 0 0 12px #b9935a; }
+  #flipimg { position:absolute; left:40px; top:40px; width:420px; height:560px; object-fit:contain; }
+  .card { position:absolute; left:0; top:0; width:700px; height:500px; border-radius:10px; box-shadow:0 30px 60px rgba(0,0,0,.5); }
+  .chip { position:absolute; left:0; top:0; padding:14px 34px; border-radius:60px; background:var(--gold); color:var(--wine-d); font-size:44px; font-weight:700; white-space:nowrap; }
+  .chip span { direction:rtl; unicode-bidi:isolate; }
+  #qcard { position:absolute; left:170px; top:520px; width:740px; height:980px; background:#f3e6cf; border-radius:14px; box-shadow:0 40px 80px rgba(0,0,0,.55), inset 0 0 0 14px #e6d4b2, inset 0 0 0 16px #a4834f; }
+  #qr { position:absolute; left:350px; top:860px; width:380px; height:380px; background:#fffaf0; padding:22px; border-radius:16px; }
+  #qr img { width:100%; height:100%; display:block; }
+  #fade { position:absolute; left:0; top:0; width:1080px; height:1920px; background:#000; opacity:0; pointer-events:none; }
+</style></head><body>
+<div id="stage">
+  <div id="bg"></div>
+
+  <!-- S1 sealed letter -->
+  <div class="scene" id="s1">
+    <div class="line nk" style="top:220px; font-size:150px"><span class="w" id="h1">رسالة…</span></div>
+    <div class="line nk" style="top:430px; font-size:104px; color:var(--gold)"><span class="w" id="h2">عمرها مية سنة</span></div>
+    <div class="line nk" style="top:1460px; font-size:104px"><span class="w" id="h3">فتحناها…</span></div>
+    <div class="line nk" style="top:1620px; font-size:104px; color:var(--gold)"><span class="w" id="h4">ولقينا هذا!</span></div>
+    <div id="env"><div id="envBack"></div><div id="inside"></div><div id="envFront2"></div><div id="envFront"></div><div id="flap"></div></div>
+    <div id="seal"><div class="h" id="sl"><img src="eph/b18.png"></div><div class="h" id="sr"><img src="eph/b18.png"></div></div>
+    <div id="burst"></div>
+  </div>
+
+  <!-- S2 title collage -->
+  <div class="scene" id="s2">
+    <div id="col"></div>
+    <div class="line nk" style="top:760px; font-size:132px; text-shadow:0 10px 40px rgba(0,0,0,.8)"><span class="w" id="t1">ستيكرات</span></div>
+    <div class="line nk" style="top:930px; font-size:150px; color:var(--gold); text-shadow:0 10px 40px rgba(0,0,0,.8)"><span class="w" id="t2">إفيميرا فنتج</span></div>
+  </div>
+
+  <!-- S3 kinds: 2x2 iris tiles -->
+  <div class="scene" id="s3"><div id="kt"></div></div>
+
+  <!-- S4 four colours: drawers -->
+  <div class="scene" id="s4">
+    <div class="line nk" style="top:150px; font-size:96px"><span class="w" id="cT">بأربع ألوان</span></div>
+    <div class="abs" style="left:40px; top:330px; width:1000px; height:1420px; background:linear-gradient(180deg,#5b3522,#3e2416); border-radius:20px; box-shadow:0 40px 80px rgba(0,0,0,.6)"></div>
+    <div id="drawers"></div>
+  </div>
+
+  <!-- S5 flipbook count -->
+  <div class="scene" id="s5">
+    <div class="line nk" style="top:200px; font-size:250px; line-height:1; color:var(--gold)"><span class="w" id="n1">١٤٩</span></div>
+    <div class="line nk" style="top:470px; font-size:90px"><span class="w" id="n2">تصميم</span></div>
+    <div id="flipbox"><img id="flipimg" src="eph/b9.png"></div>
+  </div>
+
+  <!-- S6 uses: tossed cards -->
+  <div class="scene" id="s6"><div id="cards"></div></div>
+
+  <!-- S7 print -->
+  <div class="scene" id="s7">
+    <div class="line nk" style="top:220px; font-size:120px"><span class="w" id="p1">ملف PDF</span></div>
+    <div class="line nk" style="top:400px; font-size:80px; color:var(--gold)"><span class="w" id="p2">جاهز للطباعة</span></div>
+    <img id="sh2" class="abs" src="eph/sheet3.jpg" style="width:540px; box-shadow:0 30px 60px rgba(0,0,0,.5)">
+    <img id="sh1" class="abs" src="eph/sheet2.jpg" style="width:540px; box-shadow:0 30px 60px rgba(0,0,0,.5)">
+    <div class="chip" id="ch0"><span>A4</span></div>
+    <div class="chip" id="ch1"><span>١٤٩ تصميم</span></div>
+    <div class="chip" id="ch2"><span>تحميل فوري</span></div>
+  </div>
+
+  <!-- S8 end card sealed with wax -->
+  <div class="scene" id="s8">
+    <div class="line nk" style="top:170px; font-size:110px"><span class="w" id="e1">ستيكرات الإفيميرا</span></div>
+    <div class="line nk" style="top:340px; font-size:66px; color:var(--gold)"><span class="w" id="e1b">أختام · فراشات · فيونكات · بطاقات</span></div>
+    <div id="qcard">
+      <div class="line nk" style="left:0; width:740px; top:90px; font-size:96px; color:#4a1724"><span class="w" id="e2">في المتجر</span></div>
+      <div class="line" style="left:0; width:740px; top:240px; font-size:46px; font-weight:700; color:#4a1724; direction:ltr"><span class="w" id="e3">planme.zaher.io</span></div>
+    </div>
+    <div id="qr"><img src="qr_store.png"></div>
+    <img id="bigseal" class="st" src="eph/b18.png" style="width:240px">
+    <div id="corner"></div>
+  </div>
+
+  <svg id="grain" width="1080" height="1920"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" seed="5"/><feColorMatrix values="0 0 0 0 .5  0 0 0 0 .4  0 0 0 0 .35  0 0 0 .7 0"/></filter><rect width="1080" height="1920" filter="url(#n)"/></svg>
+  <div id="vig"></div>
+  <div id="flutter"></div>
+  <div id="fade"></div>
+</div>
+<script>
+const $ = (id) => document.getElementById(id);
+const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eio = (x) => (x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const eb = (x) => { const c = 1.7; return x <= 0 ? 0 : 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const mixc = (a, b, k) => { const h = (c) => [1, 3, 5].map((i) => parseInt(c.slice(i, i + 2), 16)); const A = h(a), B = h(b); return `rgb(${A.map((v, i) => Math.round(v + (B[i] - v) * k)).join(',')})`; };
+
+const D = { h1: 0.2, h2: 1.0, open: 2.4, h3: 2.6, h4: 3.4, title: 4.8, t2: 5.6, k0: 7.6, k1: 8.5, k2: 9.4, k3: 10.3, colors: 11.6, c0: 12.6, c1: 13.4, c2: 14.2, c3: 15.0,
+  count: 16.4, u0: 19.0, u1: 20.4, u2: 21.8, print: 23.4, brand: 26.0, store: 27.4, end_all: 30.0 };
+const T = Object.assign({}, D, window.TL || {});
+const CUT = [T.title - 0.25, T.k0 - 0.25, T.colors - 0.25, T.count - 0.25, T.u0 - 0.25, T.print - 0.25, T.brand - 0.25];
+const SC = [['s1', 0, CUT[0]], ['s2', CUT[0], CUT[1]], ['s3', CUT[1], CUT[2]], ['s4', CUT[2], CUT[3]], ['s5', CUT[3], CUT[4]], ['s6', CUT[4], CUT[5]], ['s7', CUT[5], CUT[6]], ['s8', CUT[6], 99]];
+const BGS = ['#2a0c14', '#2a0c14', '#3a1520', '#2a1a12', '#24131a', '#2b1d17', '#1f1a26', '#2a0c14'];
+
+const show = (id, t, a, out) => {
+  const k = eo(p(t, a, a + 0.55)); const o = out ? 1 - p(t, out, out + 0.3) : 1; const el = $(id);
+  el.style.opacity = k * o; el.style.filter = `blur(${(1 - k) * 14}px)`; el.style.transform = `translateY(${(1 - k) * 50}px) scale(${0.95 + 0.05 * k})`;
+};
+const place = (el, x, y, s, r, o) => { el.style.transform = `translate(${x}px,${y}px) rotate(${r}deg) scale(${s})`; if (o !== undefined) el.style.opacity = o; };
+const img = (host, n, w) => { const im = document.createElement('img'); im.className = 'st'; im.src = `eph/${n}.png`; im.style.width = w + 'px'; $(host).appendChild(im); return im; };
+
+// butterflies flutter across at cuts (flapping via scaleX)
+const BF = ['b15', 'b20', 'b49', 'b143', 'b107', 'b16', 'b50', 'b143'].map((n) => img('flutter', n, 150));
+
+// S1 burst contents
+const BURST = ['b26', 'b20', 'b21', 'b29', 'b25', 'b36', 'b101', 'b143', 'b98', 'b153', 'b48', 'b85', 'b116', 'b131'].map((n, i) => ({ im: img('burst', n, 190 + R(i) * 60), ang: -150 + i * (120 / 13) + (R(i + 3) - 0.5) * 8, v: 900 + R(i + 5) * 500, rot: (R(i + 7) - 0.5) * 70 }));
+
+// S2 collage ring
+const COL = ['b22', 'b18', 'b15', 'b24', 'b44', 'b47', 'b54', 'b99', 'b110', 'b128', 'b141', 'b149', 'b157', 'b87', 'b94', 'b80', 'b26', 'b101'].map((n, i) => {
+  const top = i < 9; const c = i % 9; return { im: img('col', n, 190), x: 40 + (c % 5) * 205 + (c >= 5 ? 100 : 0) + (R(i) - 0.5) * 40, y: (top ? 140 : 1230) + (c >= 5 ? 250 : 0) + (R(i + 1) - 0.5) * 50, r: (R(i + 2) - 0.5) * 40 };
+});
+
+// S3 kinds tiles
+const KT = [['أختام شمع', 'b29', '#5a1a2a'], ['فراشات', 'b143', '#3e2b55'], ['فيونكات', 'b101', '#40566f'], ['وبطاقات', 'b94', '#5a3a26']].map(([w, n, bg], i) => {
+  const d = document.createElement('div'); d.className = 'abs'; d.style.width = '540px'; d.style.height = '960px'; d.style.left = (i % 2 ? 0 : 540) + 'px'; d.style.top = (i < 2 ? 0 : 960) + 'px'; d.style.background = bg; d.style.overflow = 'hidden';
+  d.innerHTML = `<img class="st" src="eph/${n}.png" style="width:380px; height:420px; object-fit:contain"><div class="line nk" style="width:540px; top:${i < 2 ? 700 : 60}px; font-size:84px"><span class="w">${w}</span></div>`;
+  $('kt').appendChild(d); return { d, im: d.querySelector('img'), lab: d.querySelector('.line span'), i };
+});
+
+// S4 drawers
+const DR = [['عنابي', '#6b2132', ['b9', 'b22', 'b26', 'b18', 'b21']], ['بني', '#6a4428', ['b44', 'b48', 'b47', 'b54', 'b51']], ['أزرق', '#4f6683', ['b98', 'b101', 'b110', 'b107', 'b128']], ['وبنفسجي', '#4e3568', ['b141', 'b143', 'b149', 'b153', 'b157']]].map(([w, c, ns], i) => {
+  const d = document.createElement('div'); d.className = 'drawer'; d.style.top = (370 + i * 340) + 'px';
+  d.innerHTML = `<div class="box" style="background:linear-gradient(180deg, ${c}, ${mixc(c, '#000000', 0.35)})"></div><div class="lab" style="left:690px; width:250px; text-align:center">${w}</div><div class="knob" style="left:${780}px; top:200px"></div>`;
+  const ims = ns.map((n, j) => { const im = document.createElement('img'); im.className = 'st'; im.src = `eph/${n}.png`; im.style.width = '150px'; d.appendChild(im); return im; });
+  $('drawers').appendChild(d); return { d, ims, i };
+});
+
+// S5 flipbook frames
+const FLIP = []; for (let n = 9; n <= 157; n++) FLIP.push(`eph/b${n}.png`);
+FLIP.forEach((src) => { const im = new Image(); im.src = src; });
+
+// S6 tossed cards
+const CARDS = [
+  { cap: 'للجورنال', bg: '#f1e4cf', fg: '#4a1724', st: [['b31', 70, 40, 200, -6], ['b15', 430, 60, 160, 12], ['b13', 300, 230, 140, 4]], r: -7, x: 190, y: 1250 },
+  { cap: 'للرسائل', bg: '#e4d3b4', fg: '#3e2b55', st: [['b141', 80, 60, 220, -4], ['b143', 420, 80, 170, 10], ['b149', 320, 260, 150, -8]], r: 6, x: 190, y: 730 },
+  { cap: 'ولتغليف الطلبات', bg: '#c49b6c', fg: '#2a0c14', st: [['b98', 60, 70, 230, -6], ['b101', 400, 60, 190, 8], ['b110', 330, 270, 140, 0]], r: -4, x: 190, y: 210 },
+].map((c, i) => {
+  const d = document.createElement('div'); d.className = 'card'; d.style.background = c.bg;
+  d.innerHTML = c.st.map(([n], j) => `<img class="st" src="eph/${n}.png" style="height:250px; max-width:230px; object-fit:contain; transform:translate(${50 + j * 215}px,${170 + (j % 2) * 30}px) rotate(${(j - 1) * 7}deg)">`).join('') +
+    `<div class="line nk" style="width:700px; top:30px; font-size:76px; color:${c.fg}">${c.cap}</div>`;
+  $('cards').appendChild(d); return Object.assign(c, { d });
+});
+
+// S8 corner flourishes
+const CORN = ['b26', 'b20', 'b29', 'b143'].map((n) => img('corner', n, 170));
+
+window.render = (t) => {
+  let si = 0; for (let i = 0; i < SC.length; i++) { const [id, a, b] = SC[i]; const on = t >= a && t < b; $(id).style.display = on ? 'block' : 'none'; if (on) si = i; }
+  $('bg').style.background = `radial-gradient(ellipse at 50% 42%, ${mixc(BGS[si], '#ffffff', 0.12)} 0%, ${BGS[si]} 70%)`;
+  const dip = Math.max(0, ...CUT.map((c) => 1 - Math.abs(t - c) / 0.14));
+  $('fade').style.opacity = Math.max(1 - p(t, 0, 0.3), dip * 0.55, p(t, T.end_all - 0.5, T.end_all));
+
+  // butterflies cross at each cut
+  let gi = -1; CUT.forEach((c, i) => { if (Math.abs(t - c) < 0.8) gi = i; });
+  BF.forEach((im, i) => {
+    if (gi < 0) { im.style.opacity = 0; return; }
+    const k = p(t, CUT[gi] - 0.8 + R(i + gi) * 0.3, CUT[gi] + 0.5 + R(i + gi) * 0.3);
+    const dir = gi % 2 ? 1 : -1; const x = dir < 0 ? 1150 - eio(k) * 1500 : -250 + eio(k) * 1500;
+    const y = 200 + R(i + 9) * 1500 - k * 300 + Math.sin(k * 9 + i) * 60;
+    im.style.opacity = k > 0 && k < 1 ? 1 : 0;
+    im.style.transform = `translate(${x}px,${y}px) rotate(${dir * -15 + Math.sin(t * 5 + i) * 10}deg) scaleX(${0.35 + 0.65 * Math.abs(Math.sin(t * 16 + i))})`;
+  });
+
+  // S1: sealed envelope opens, seal cracks, contents burst out
+  if (t < CUT[0]) {
+    const intro = eo(p(t, 0, 1.0));
+    const wob = Math.sin(t * 2) * 1.5;
+    $('env').style.transform = `translateY(${(1 - intro) * 200}px) rotate(${wob * (1 - p(t, T.open, T.open + 0.4))}deg) scale(${0.9 + 0.1 * intro})`;
+    const op = eio(p(t, T.open + 0.25, T.open + 0.95));
+    $('flap').style.transform = `perspective(1500px) rotateX(${op * 178}deg)`; $('flap').style.zIndex = op > 0.5 ? 0 : 4;
+    $('flap').style.filter = `brightness(${1 - Math.sin(op * Math.PI) * 0.2})`;
+    // seal: centred on flap tip, splits at open
+    const sx = 150 + 390 - 100, sy = 820 + 330 - 110 + (1 - intro) * 200;
+    const cr = eo(p(t, T.open, T.open + 0.5)); const fall = p(t, T.open + 0.1, T.open + 1.0);
+    $('sl').style.clipPath = 'inset(0 50% 0 0)'; $('sr').style.clipPath = 'inset(0 0 0 50%)';
+    $('sl').style.transform = `translate(${sx - cr * 60}px, ${sy + fall * fall * 700}px) rotate(${-cr * 30}deg)`;
+    $('sr').style.transform = `translate(${sx + cr * 60}px, ${sy + fall * fall * 760}px) rotate(${cr * 34}deg)`;
+    $('sl').style.opacity = $('sr').style.opacity = 1 - p(t, T.open + 0.6, T.open + 1.0);
+    show('h1', t, T.h1, T.h3 - 0.3); show('h2', t, T.h2, T.h3 - 0.3); show('h3', t, T.h3); show('h4', t, T.h4);
+    // burst from the envelope mouth
+    const b0 = T.h4 - 0.1;
+    BURST.forEach(({ im, ang, v, rot }, i) => {
+      const tt = Math.max(0, t - b0 - i * 0.025); const rad = ang * Math.PI / 180;
+      const x = 540 + Math.cos(rad) * v * 0.55 * Math.min(tt, 1.4) - 110; const y = 940 + Math.sin(rad) * v * Math.min(tt, 1.4) + 900 * tt * tt - 110;
+      im.style.opacity = tt > 0 ? 1 : 0; place(im, x, y, Math.min(1, 0.3 + tt * 3), rot * tt * 3);
+      im.style.zIndex = 2;
+    });
+  }
+
+  // S2: collage orbits in, title
+  if (t >= CUT[0] && t < CUT[1]) {
+    const a = CUT[0];
+    COL.forEach(({ im, x, y, r }, i) => {
+      const k = eb(p(t, a + i * 0.04, a + 0.6 + i * 0.04)); const drift = (t - a) * 6;
+      place(im, 540 + (x - 540) * (0.4 + 0.6 * eo(p(t, a + i * 0.04, a + 0.8 + i * 0.04))), y + Math.sin(t + i) * 8 - drift, k, r + Math.sin(t * 0.8 + i) * 4, p(t, a + i * 0.04, a + 0.1 + i * 0.04));
+    });
+    show('t1', t, T.title - 0.05); show('t2', t, T.t2 - 0.05);
+  }
+
+  // S3: 2x2 iris tiles
+  if (t >= CUT[1] && t < CUT[2]) {
+    const at = [T.k0 - 0.1, T.k1 - 0.15, T.k2 - 0.15, T.k3 - 0.15];
+    KT.forEach(({ d, im, lab, i }) => {
+      const k = eio(p(t, at[i], at[i] + 0.5)); d.style.clipPath = `circle(${k * 800}px at 270px 480px)`;
+      const sk = eb(p(t, at[i] + 0.15, at[i] + 0.6)); place(im, 80, (i < 2 ? 230 : 250), sk, (1 - sk) * -25 + Math.sin(t * 1.5 + i) * 3);
+      const lk = eo(p(t, at[i] + 0.3, at[i] + 0.7)); lab.style.opacity = lk; lab.style.transform = `translateY(${(1 - lk) * 40}px)`;
+    });
+  }
+
+  // S4: drawers slide open one by one
+  if (t >= CUT[2] && t < CUT[3]) {
+    show('cT', t, T.colors - 0.05);
+    const at = [T.c0 - 0.2, T.c1 - 0.2, T.c2 - 0.2, T.c3 - 0.2];
+    DR.forEach(({ d, ims, i }) => {
+      const k = eio(p(t, at[i], at[i] + 0.5));
+      d.style.transform = `perspective(1800px) translateX(${-k * 60}px) translateZ(${k * 60}px) rotateX(${(1 - k) * 8}deg)`;
+      d.style.filter = `brightness(${0.55 + 0.45 * k})`;
+      ims.forEach((im, j) => { const s = eb(p(t, at[i] + 0.2 + j * 0.06, at[i] + 0.55 + j * 0.06)); place(im, 520 - j * 125, 60 + Math.sin(t * 2 + j + i) * 4, s * 0.95, (R(i * 5 + j) - 0.5) * 18); });
+    });
+  }
+
+  // S5: flipbook through every design + counter
+  if (t >= CUT[3] && t < CUT[4]) {
+    const a = CUT[3]; const dur = Math.max(1.2, CUT[4] - a - 0.4); const k = eo(p(t, a + 0.1, a + 0.1 + dur));
+    const idx = Math.min(FLIP.length - 1, Math.floor(k * (FLIP.length - 1)));
+    const el = $('flipimg'); if (el.getAttribute('src') !== FLIP[idx]) el.setAttribute('src', FLIP[idx]);
+    $('n1').textContent = (idx + 1).toLocaleString('ar-EG');
+    show('n1', t, a + 0.05); show('n2', t, a + 0.3);
+    $('flipbox').style.transform = `rotate(${Math.sin(t * 20) * 0.6 * (1 - k)}deg) scale(${0.96 + 0.04 * eo(p(t, a, a + 0.4))})`;
+  }
+
+  // S6: cards tossed onto the pile
+  if (t >= CUT[4] && t < CUT[5]) {
+    const at = [CUT[4] + 0.1, T.u1 - 0.25, T.u2 - 0.25];
+    CARDS.forEach((c, i) => {
+      const k = eo(p(t, at[i], at[i] + 0.55)); const after = at.slice(i + 1).reduce((s, a) => s + eo(p(t, a, a + 0.55)), 0);
+      c.d.style.zIndex = i; c.d.style.opacity = t >= at[i] ? 1 : 0;
+      c.d.style.transform = `translate(${c.x + (1 - k) * (i % 2 ? -1100 : 1100)}px, ${c.y + (1 - k) * 300}px) rotate(${c.r + (1 - k) * (i % 2 ? -40 : 40)}deg) scale(${1 - after * 0.02})`;
+      c.d.style.filter = `brightness(${1 - after * 0.15})`;
+    });
+  }
+
+  // S7 print
+  if (t >= CUT[5] && t < CUT[6]) {
+    const a = CUT[5]; const k = eo(p(t, a, a + 0.9)); const f = eio(p(t, a + 0.5, a + 1.2));
+    show('p1', t, a + 0.1); show('p2', t, a + 0.45);
+    $('sh1').style.transform = `translate(${280 + f * 50}px, ${1950 - k * 1350}px) rotate(${4 * f}deg)`;
+    $('sh2').style.transform = `translate(${280 - f * 90}px, ${1980 - k * 1350}px) rotate(${-7 * f}deg)`;
+    [[80, 1380], [690, 1180], [130, 1560]].forEach(([x, y], i) => {
+      const c = eb(p(t, a + 1.0 + i * 0.3, a + 1.4 + i * 0.3));
+      place($('ch' + i), x, y + Math.sin(t * 2 + i) * 6, c, (i - 1) * 4, p(t, a + 1.0 + i * 0.3, a + 1.1 + i * 0.3));
+    });
+  }
+
+  // S8: card rises, wax seal stamps onto it, QR
+  if (t >= CUT[6]) {
+    const a = CUT[6];
+    const ck = eo(p(t, a, a + 0.7)); $('qcard').style.transform = `translateY(${(1 - ck) * 1200}px) rotate(${(1 - ck) * 8}deg)`;
+    $('qr').style.transform = `translateY(${(1 - ck) * 1200}px)`;
+    show('e1', t, a + 0.1); show('e1b', t, a + 0.4); show('e2', t, T.store - 0.05); show('e3', t, T.store + 0.25);
+    const s0 = a + 0.9; const sk = p(t, s0, s0 + 0.25); const bounce = eb(p(t, s0 + 0.2, s0 + 0.5));
+    $('bigseal').style.opacity = sk > 0 ? 1 : 0;
+    place($('bigseal'), 740, 1290, sk < 1 ? 3 - 2 * eio(sk) : 1 + 0.06 * (1 - bounce), -12);
+    $('bigseal').style.filter = `drop-shadow(0 ${sk < 1 ? 60 : 12}px ${sk < 1 ? 50 : 16}px rgba(0,0,0,.5))`;
+    [[110, 470, -18], [800, 450, 14], [100, 1440, 10], [820, 1520, -10]].forEach(([x, y, r], i) => {
+      const k = eb(p(t, a + 0.5 + i * 0.12, a + 0.9 + i * 0.12)); place(CORN[i], x, y + Math.sin(t * 1.4 + i) * 6, k, r);
+    });
+  }
+};
+render(0);
+</script>
+</body></html>
