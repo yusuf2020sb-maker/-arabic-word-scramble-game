@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Readex+Pro:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; font-family:'Readex Pro',sans-serif; }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; background:#1f2b47; }
+  .stripe { position:absolute; left:-600px; width:2400px; height:260px; transform:rotate(-22deg); }
+  .line { position:absolute; left:0; width:1080px; text-align:center; }
+  .lz { font-family:'Lalezar',sans-serif; line-height:1.1; }
+  .st { position:absolute; filter:drop-shadow(0 30px 34px rgba(10,15,30,.55)); }
+  #grain { position:absolute; left:0; top:0; opacity:.22; mix-blend-mode:multiply; }
+  .badge { position:absolute; left:770px; top:1260px; width:240px; height:240px; border-radius:50%; background:#f4ead8; color:#1f2b47;
+    box-shadow:0 0 0 8px #e0a53c, 0 24px 40px rgba(0,0,0,.45); transform:rotate(-10deg); display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .badge b { font-family:'Lalezar'; font-size:120px; line-height:.9; }
+  .badge span { font-size:38px; font-weight:700; }
+</style></head><body>
+<div id="stage">
+  <div class="stripe" style="top:980px; background:#e0a53c"></div>
+  <div class="stripe" style="top:1240px; background:#b8503f"></div>
+  <div class="stripe" style="top:1500px; background:#3f5a7a"></div>
+  <svg id="grain" width="1080" height="1920"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="3"/><feColorMatrix values="0 0 0 0 .3  0 0 0 0 .25  0 0 0 0 .2  0 0 0 .6 0"/></filter><rect width="1080" height="1920" filter="url(#n)"/></svg>
+  <div class="line lz" style="top:230px; font-size:210px; color:#f4ead8">أي لون</div>
+  <div class="line lz" style="top:450px; font-size:210px; color:#e0a53c">يشبهك؟</div>
+
+  <img class="st" src="vase/b6.png"  style="left:70px;  top:820px; width:400px; transform:rotate(-12deg)">
+  <img class="st" src="vase/b18.png" style="left:610px; top:820px; width:400px; transform:rotate(12deg)">
+  <img class="st" src="vase/b12.png" style="left:320px; top:760px; width:440px; transform:rotate(-2deg)">
+
+  <div class="badge"><b>١٦</b><span>ستيكر</span></div>
+  <div class="line lz" style="top:1560px; font-size:96px; color:#f4ead8; text-shadow:0 6px 20px rgba(0,0,0,.5)">ستيكرات مزهريات فنتج</div>
+  <div class="line" style="top:1690px; font-size:48px; font-weight:700; color:#f4ead8; text-shadow:0 4px 14px rgba(0,0,0,.5)">ملف PDF · جاهز للطباعة</div>
+</div>
+</body></html>
