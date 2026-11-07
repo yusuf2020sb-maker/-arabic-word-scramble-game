@@ -100,6 +100,7 @@
   <div id="wipes"></div>
   <div id="fade"></div>
 </div>
+<script src="reel24_timeline.js"></script>
 <script>
 const $ = (id) => document.getElementById(id);
 const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
@@ -228,7 +229,7 @@ window.render = (t) => {
     $('wall').style.transform = `scale(${z})`; $('wall').style.transformOrigin = '540px 940px';
     const on = p(t, a + 0.25, a + 0.3) * (t > a + 0.38 && t < a + 0.44 ? 0.3 : 1);
     $('cone').style.opacity = on; $('wall').style.filter = `brightness(${0.35 + 0.65 * on})`;
-    pop('a1', t, T.art - 0.05); pop('a2', t, T.art + 0.7);
+    pop('a1', t, T.art - 0.05); pop('a2', t, T.art2 !== undefined ? T.art2 - 0.05 : T.art + 0.7);
   }
 
   // S5 bands slide in alternately
