@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@600;800;900&display=swap" rel="stylesheet">
+<style>
+  :root { --dark:#2a1812; --brown:#4a2a1c; --rust:#a2462b; --mus:#d39a3a; --cream:#efe0c4; --olive:#6b6a3a; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:var(--dark); font-family:'Noto Kufi Arabic',sans-serif; color:var(--cream); }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; }
+  .scene { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; display:none; }
+  .abs { position:absolute; left:0; top:0; }
+  .line { position:absolute; left:0; width:1080px; text-align:center; font-weight:900; line-height:1.3; }
+  .w { display:inline-block; }
+  .st { position:absolute; left:0; top:0; filter:drop-shadow(0 18px 22px rgba(0,0,0,.45)); will-change:transform; }
+  #bg { position:absolute; left:0; top:0; width:1080px; height:1920px; background:radial-gradient(ellipse at 50% 38%, #5a3322 0%, #2a1812 70%); }
+  #grain { position:absolute; left:0; top:0; opacity:.28; mix-blend-mode:overlay; pointer-events:none; }
+  #vig { position:absolute; left:0; top:0; width:1080px; height:1920px; background:radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(10,5,2,.6) 100%); pointer-events:none; }
+  #slot { position:absolute; left:240px; top:560px; width:600px; height:46px; border-radius:23px; background:#120a06; box-shadow:inset 0 6px 12px rgba(0,0,0,.9), 0 2px 0 #7a5236, 0 -2px 0 #1a0f0a; }
+  #slotplate { position:absolute; left:200px; top:520px; width:680px; height:126px; border-radius:30px; background:linear-gradient(180deg,#9b6c3c,#6d4524); box-shadow:0 10px 30px rgba(0,0,0,.5); }
+  .half { position:absolute; left:0; top:0; overflow:hidden; }
+  .half img { position:absolute; top:0; }
+  #punch { position:absolute; left:0; top:0; width:70px; height:70px; border-radius:50%; background:#2a1812; box-shadow:inset 0 4px 8px rgba(0,0,0,.8); }
+  #stampT { color:var(--rust); border:8px solid var(--rust); border-radius:20px; padding:0 40px 10px; background:rgba(239,224,196,.08); }
+  #win { position:absolute; left:120px; top:560px; width:840px; height:1000px; border-radius:420px 420px 40px 40px; overflow:hidden; background:linear-gradient(180deg,#e8b56a,#c9733f 55%,#7a3b22); }
+  #winframe { position:absolute; left:90px; top:530px; width:900px; height:1060px; border-radius:450px 450px 60px 60px; border:32px solid #5b351f; box-shadow:inset 0 0 0 6px #3a2013, 0 30px 60px rgba(0,0,0,.6); pointer-events:none; }
+  #winbar { position:absolute; left:530px; top:560px; width:20px; height:1000px; background:#5b351f; }
+  .desk { position:absolute; left:0; top:0; width:3240px; height:1920px; background:
+    repeating-linear-gradient(90deg, rgba(0,0,0,.06) 0 4px, transparent 4px 90px), linear-gradient(180deg,#7b4d2c,#5e3820); }
+  .cap { position:absolute; top:260px; width:1080px; text-align:center; font-weight:900; font-size:104px; color:var(--cream); text-shadow:0 8px 24px rgba(0,0,0,.5); }
+  .chip { position:absolute; left:0; top:0; padding:14px 34px; border-radius:60px; background:var(--rust); color:var(--cream); font-size:44px; font-weight:800; white-space:nowrap; }
+  .chip span { direction:rtl; unicode-bidi:isolate; }
+  #qr { position:absolute; left:300px; top:760px; width:480px; height:480px; background:#f6ead2; padding:30px; border-radius:24px; box-shadow:0 24px 50px rgba(0,0,0,.5); }
+  #qr img { width:100%; height:100%; display:block; }
+  #string { position:absolute; left:0; top:0; width:4px; background:#d8c3a0; transform-origin:50% 0; }
+  #fade { position:absolute; left:0; top:0; width:1080px; height:1920px; background:#120a06; opacity:0; pointer-events:none; }
+</style></head><body>
+<div id="stage">
+  <div id="bg"></div>
+
+  <!-- S1 ticket hook + tear into autumn -->
+  <div class="scene" id="s1">
+    <div id="slotplate"></div><div id="slot"></div>
+    <div id="tclip" class="abs" style="left:0; top:583px; width:1080px; height:1400px; overflow:hidden">
+      <div id="tk" class="abs"><img id="tkimg" src="autumn/b13.png" style="width:420px; display:block; filter:drop-shadow(0 20px 26px rgba(0,0,0,.5))"><div id="punch"></div></div>
+    </div>
+    <div id="hl" class="half"><img src="autumn/b13.png"></div>
+    <div id="hr" class="half"><img src="autumn/b13.png"></div>
+    <div id="leaves1"></div>
+    <div class="line" style="top:200px; font-size:120px"><span class="w" id="h1">تذكرة ذهاب…</span></div>
+    <div class="line" style="top:1560px; font-size:120px"><span class="w" id="h2"><span id="stampT">بدون عودة</span></span></div>
+    <div class="line" style="top:220px; font-size:96px; color:var(--mus)"><span class="w" id="d1">وجهتها…</span></div>
+    <div class="line" style="top:1500px; font-size:170px"><span class="w" id="d2">الخريف</span></div>
+  </div>
+
+  <!-- S2 train window journey -->
+  <div class="scene" id="s2">
+    <div id="win"><div id="sun" class="abs" style="width:300px; height:300px; border-radius:50%; background:radial-gradient(circle,#fff1c9,#f2c46e 60%,transparent 70%)"></div><div id="lane"></div></div>
+    <div id="winbar"></div><div id="winframe"></div>
+    <div class="line" style="top:200px; font-size:96px"><span class="w" id="k1">تذاكر</span> <span class="w" id="k2" style="color:var(--mus)">بطاقات</span> <span class="w" id="k3">وأوراق شجر</span></div>
+  </div>
+
+  <!-- S3 count: card pile -->
+  <div class="scene" id="s3">
+    <div class="line" style="z-index:3; top:170px; font-size:300px; line-height:1; color:var(--mus)"><span class="w" id="cnt" style="position:relative; z-index:3; text-shadow:0 10px 30px rgba(0,0,0,.7)">٤١</span></div>
+    <div class="line" style="z-index:3; top:520px; font-size:84px"><span class="w" id="cn2" style="position:relative; z-index:3; text-shadow:0 6px 20px rgba(0,0,0,.8)">تصميم بطابع خريفي</span></div>
+    <div id="pile" class="abs" style="z-index:1"></div>
+  </div>
+
+  <!-- S4 desk pan -->
+  <div class="scene" id="s4"><div id="desk" class="desk"></div></div>
+
+  <!-- S5 print -->
+  <div class="scene" id="s5">
+    <div class="line" style="top:220px; font-size:120px"><span class="w" id="p1">ملف PDF</span></div>
+    <div class="line" style="top:390px; font-size:76px; color:var(--mus)"><span class="w" id="p2">جاهز للطباعة في البيت</span></div>
+    <img id="sh2" class="abs" src="autumn/sheet3.jpg" style="width:540px; box-shadow:0 30px 60px rgba(0,0,0,.5)">
+    <img id="sh1" class="abs" src="autumn/sheet2.jpg" style="width:540px; box-shadow:0 30px 60px rgba(0,0,0,.5)">
+    <div class="chip" id="ch0"><span>A4</span></div>
+    <div class="chip" id="ch1"><span>٤١ تصميم</span></div>
+    <div class="chip" id="ch2"><span>تحميل فوري</span></div>
+  </div>
+
+  <!-- S6 end: swinging tag + QR -->
+  <div class="scene" id="s6">
+    <div class="line" style="top:180px; font-size:112px"><span class="w" id="e1">ستيكرات الخريف</span></div>
+    <div class="line" style="top:350px; font-size:72px; color:var(--mus)"><span class="w" id="e1b">تذاكر · بطاقات · أوراق شجر</span></div>
+    <div id="string"></div>
+    <img id="tag" class="st" src="autumn/b25.png" style="width:220px">
+    <div id="qr"><img src="qr_store.png"></div>
+    <div id="leaves6"></div>
+    <div class="line" style="top:1380px; font-size:120px"><span class="w" id="e2">في المتجر</span></div>
+    <div class="line" style="top:1560px; font-size:50px; font-weight:800; direction:ltr"><span class="w" id="e3">planme.zaher.io</span></div>
+  </div>
+
+  <svg id="grain" width="1080" height="1920"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" seed="11"/><feColorMatrix values="0 0 0 0 .5  0 0 0 0 .4  0 0 0 0 .3  0 0 0 .7 0"/></filter><rect width="1080" height="1920" filter="url(#n)"/></svg>
+  <div id="vig"></div>
+  <div id="gust"></div>
+  <div id="fade"></div>
+</div>
+<script>
+const $ = (id) => document.getElementById(id);
+const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eio = (x) => (x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const eb = (x) => { const c = 1.7; return x <= 0 ? 0 : 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+
+const D = { h1: 0.2, h2: 1.5, tear: 3.2, dest: 3.9, k1: 6.4, k2: 7.4, k3: 8.4, count: 10.6, u0: 13.6, u1: 15.2, u2: 16.8, print: 18.6, brand: 21.6, store: 23.0, end_all: 26.0 };
+const T = Object.assign({}, D, window.TL || {});
+const CUT = [T.k1 - 0.3, T.count - 0.2, T.u0 - 0.2, T.print - 0.2, T.brand - 0.2];
+const SC = [['s1', 0, CUT[0]], ['s2', CUT[0], CUT[1]], ['s3', CUT[1], CUT[2]], ['s4', CUT[2], CUT[3]], ['s5', CUT[3], CUT[4]], ['s6', CUT[4], 99]];
+const LEAF = ['b33','b34','b35','b36','b37','b38','b39','b40','b41','b42','b43','b44'];
+
+// text: rise + blur
+const show = (id, t, a, out) => {
+  const k = eo(p(t, a, a + 0.55)); const o = out ? 1 - p(t, out, out + 0.3) : 1; const el = $(id);
+  el.style.opacity = k * o; el.style.filter = `blur(${(1 - k) * 16}px)`; el.style.transform = `translateY(${(1 - k) * 60}px)`;
+};
+const stamp = (id, t, a, out) => {
+  const k = p(t, a, a + 0.22); const o = out ? 1 - p(t, out, out + 0.3) : 1; const el = $(id);
+  el.style.opacity = Math.min(1, k * 3) * o; el.style.transform = `scale(${2.2 - 1.2 * eo(k)}) rotate(${-6}deg)`;
+};
+const place = (el, x, y, s, r, o) => { el.style.transform = `translate(${x}px,${y}px) rotate(${r}deg) scale(${s})`; if (o !== undefined) el.style.opacity = o; };
+
+// fluttering sticker leaves: drift layer (s1 & s6) and a global gust at cuts
+const mkLeaves = (host, n, w0) => [...Array(n)].map((_, i) => { const im = document.createElement('img'); im.className = 'st'; im.src = `autumn/${LEAF[i % 12]}.png`; im.style.width = (w0 + R(i + 4) * 70) + 'px'; $(host).appendChild(im); return im; });
+const L1 = mkLeaves('leaves1', 12, 130), L6 = mkLeaves('leaves6', 8, 100), GU = mkLeaves('gust', 14, 120);
+const flutter = (im, i, t, x, y, k) => { im.style.transform = `translate(${x}px,${y}px) rotate(${t * 60 * (i % 2 ? 1 : -1) + i * 40}deg) rotateX(${Math.sin(t * 3 + i) * 55}deg) rotateY(${Math.cos(t * 2.3 + i) * 45}deg) scale(${k})`; };
+
+// train window lanes: three depths of passing cards
+const LANE = []; const CARDS = ['b5','b7','b9','b11','b12','b14','b16','b18','b19','b21','b23','b24','b26','b27','b28','b29','b31','b10'];
+[[0.55, 280, 0.6, 3], [0.8, 470, 1.0, 1], [1.15, 620, 1.7, 0]].forEach(([s, y, spd, blur], d) => {
+  for (let i = 0; i < 6; i++) { const im = document.createElement('img'); im.className = 'st'; im.src = `autumn/${CARDS[(i * 3 + d) % CARDS.length]}.png`; im.style.width = (240 * s) + 'px'; $('lane').appendChild(im); LANE.push({ im, s, y, spd, blur, i, d }); }
+});
+
+// pile
+const PILE = ['b4','b5','b6','b7','b8','b9','b10','b11','b12','b13','b14','b15','b16','b17','b26','b27','b28','b29'].map((n, i) => { const im = document.createElement('img'); im.className = 'st'; im.src = `autumn/${n}.png`; im.style.width = '260px'; $('pile').appendChild(im); return { im, x: 410 + (R(i + 2) - 0.5) * 440, y: 900 + (R(i + 6) - 0.5) * 380, r: (R(i + 8) - 0.5) * 50 }; });
+
+// desk stations (camera pans right-to-left across a 3-wide desk)
+const ST = [
+  { x: 2160, cap: 'للجورنال', obj: '<div class="abs" style="left:150px; top:620px; width:780px; height:600px; background:#f1e4c8; border-radius:10px; box-shadow:0 30px 60px rgba(0,0,0,.45)"></div><div class="abs" style="left:536px; top:620px; width:8px; height:600px; background:rgba(0,0,0,.15)"></div>' + [...Array(9)].map((_, i) => `<div class="abs" style="left:${i < 5 ? 190 : 580}px; top:${700 + (i % 5) * 90}px; width:300px; height:3px; background:rgba(90,60,40,.25)"></div>`).join(''),
+    st: [['b30', 220, 660, 200, -6], ['b20', 610, 680, 150, 5], ['b38', 330, 980, 150, 20]] },
+  { x: 1080, cap: 'للبطاقات والرسائل', obj: '<div class="abs" style="left:180px; top:660px; width:720px; height:480px; background:#e6d1a8; border-radius:8px; box-shadow:0 30px 60px rgba(0,0,0,.45)"></div><svg class="abs" width="1080" height="1920"><path d="M180 660 L540 930 L900 660" fill="none" stroke="#c9ae80" stroke-width="5"/></svg>',
+    st: [['b32', 430, 770, 220, -4], ['b37', 240, 980, 150, -18], ['b41', 730, 690, 130, 22]] },
+  { x: 0, cap: 'ولتغليف الطلبات', obj: '<div class="abs" style="left:170px; top:640px; width:740px; height:560px; background:linear-gradient(170deg,#c49464,#a57646); border-radius:8px; box-shadow:0 30px 60px rgba(0,0,0,.45)"></div><div class="abs" style="left:170px; top:870px; width:740px; height:84px; background:rgba(239,224,196,.5)"></div>',
+    st: [['b22', 240, 690, 170, -6], ['b31', 640, 700, 200, 6], ['b40', 460, 1000, 140, -12]] },
+].map((s, i) => {
+  const d = document.createElement('div'); d.className = 'abs'; d.style.left = s.x + 'px'; d.style.width = '1080px'; d.style.height = '1920px';
+  d.innerHTML = s.obj + `<div class="cap"><span class="w">${s.cap}</span></div>`;
+  s.ims = s.st.map(([n, x, y, w, r]) => { const im = document.createElement('img'); im.className = 'st'; im.src = `autumn/${n}.png`; im.style.width = w + 'px'; d.appendChild(im); return { im, x, y, r }; });
+  s.capEl = d.querySelector('.cap span'); $('desk').appendChild(d); return s;
+});
+
+window.render = (t) => {
+  for (const [id, a, b] of SC) $(id).style.display = t >= a && t < b ? 'block' : 'none';
+  const dip = Math.max(0, ...CUT.map((c) => 1 - Math.abs(t - c) / 0.14));
+  $('fade').style.opacity = Math.max(1 - p(t, 0, 0.3), dip * 0.6, p(t, T.end_all - 0.5, T.end_all));
+  $('bg').style.background = `radial-gradient(ellipse at ${50 + Math.sin(t * 0.3) * 8}% 38%, #5a3322 0%, #2a1812 70%)`;
+
+  // gust: sticker leaves sweep across at each cut
+  let gi = -1; CUT.forEach((c, i) => { if (Math.abs(t - c) < 0.7) gi = i; });
+  GU.forEach((im, i) => {
+    if (gi < 0) { im.style.opacity = 0; return; }
+    const k = p(t, CUT[gi] - 0.7 + R(i + gi) * 0.3, CUT[gi] + 0.5 + R(i + gi) * 0.3);
+    const x = 1200 - eio(k) * 1600; const y = R(i + 3) * 1800 + Math.sin(k * 6 + i) * 120 - 60;
+    im.style.opacity = k > 0 && k < 1 ? 1 : 0; flutter(im, i, t, x, y, 1);
+  });
+
+  // S1: ticket prints out of the slot, punch, then tears into two halves
+  if (t < CUT[0]) {
+    const out = eo(p(t, 0.15, 1.3)); const tw = 420, th = 840;
+    const tear = eio(p(t, T.tear, T.tear + 0.8));
+    const tx = 330, ty = -th + out * (th + 40);
+    $('tk').style.transform = `translate(${tx}px, ${ty}px)`;
+    $('tclip').style.display = t < T.tear ? 'block' : 'none';
+    const pk = p(t, T.h2 - 0.05, T.h2 + 0.1); $('punch').style.transform = `translate(${tw / 2 - 35}px, ${th - 150}px) scale(${pk > 0 ? 1 : 0})`;
+    // halves
+    const hy = 583 + ty;
+    [['hl', 0, -1], ['hr', tw / 2, 1]].forEach(([id, off, dir]) => {
+      const h = $(id); h.style.display = t >= T.tear ? 'block' : 'none';
+      h.style.width = tw / 2 + 'px'; h.style.height = th + 'px';
+      h.querySelector('img').style.width = tw + 'px'; h.querySelector('img').style.left = -off + 'px';
+      h.style.transformOrigin = dir < 0 ? '0% 100%' : '100% 100%';
+      h.style.transform = `translate(${tx + off + dir * tear * 520}px, ${hy + tear * 260}px) rotate(${dir * tear * 38}deg)`;
+      h.style.opacity = 1 - p(t, T.tear + 0.5, T.tear + 0.9);
+    });
+    $('slot').style.opacity = $('slotplate').style.opacity = 1 - p(t, T.tear, T.tear + 0.4);
+    show('h1', t, T.h1, T.tear - 0.2); stamp('h2', t, T.h2, T.tear - 0.2);
+    show('d1', t, T.dest - 0.1); show('d2', t, T.dest + 0.4);
+    // leaves burst out from the tear and swirl into a slow drift
+    L1.forEach((im, i) => {
+      const k = eo(p(t, T.tear + 0.1 + i * 0.03, T.tear + 1.4 + i * 0.03));
+      const ang = i / 12 * Math.PI * 2 + (t - T.tear) * 0.4; const rr = 110 + k * (230 + R(i) * 110);
+      const x = 540 + Math.cos(ang) * rr - 70; const y = 940 + Math.sin(ang) * rr * 1.1 - 70 + (t - T.tear) * 12;
+      im.style.opacity = t > T.tear + 0.1 ? 1 : 0; flutter(im, i, t, x, y, 0.4 + 0.6 * k);
+    });
+  }
+
+  // S2: passing scenery in the window
+  if (t >= CUT[0] && t < CUT[1]) {
+    const a = CUT[0]; const tt = t - a;
+    $('sun').style.transform = `translate(${270 + tt * 6}px, ${120 + tt * 10}px)`;
+    LANE.forEach(({ im, s, y, spd, blur, i, d }) => {
+      const span = 1400; const x = ((-tt * 520 * spd + i * (span / 6) + d * 120) % span + span) % span - 240;
+      im.style.transform = `translate(${x}px, ${y + Math.sin(tt * 9 + i) * 3}px) rotate(${(R(i + d * 7) - 0.5) * 10}deg)`;
+      im.style.filter = `blur(${blur}px) drop-shadow(0 10px 12px rgba(0,0,0,.35)) brightness(${0.75 + 0.25 * s})`;
+    });
+    $('win').style.transform = `translateY(${Math.sin(tt * 14) * 2}px)`;
+    show('k1', t, T.k1); show('k2', t, T.k2); show('k3', t, T.k3);
+  }
+
+  // S3: cards drop into a pile, number counts up
+  if (t >= CUT[1] && t < CUT[2]) {
+    const a = CUT[1];
+    $('cnt').textContent = Math.round(41 * eo(p(t, a + 0.1, a + 1.3))).toLocaleString('ar-EG');
+    show('cnt', t, a + 0.05); show('cn2', t, a + 0.5);
+    PILE.forEach(({ im, x, y, r }, i) => {
+      const s0 = a + 0.1 + i * 0.07; const k = p(t, s0, s0 + 0.35); const b = eb(p(t, s0 + 0.2, s0 + 0.5));
+      im.style.opacity = k > 0 ? 1 : 0;
+      im.style.transform = `translate(${x}px, ${y - (1 - eio(k)) * 1300}px) rotate(${r + (1 - k) * 40}deg) scale(${k < 1 ? 1.15 : 1 + 0.06 * (1 - b)})`;
+    });
+  }
+
+  // S4: camera pans across the desk, stickers pressed at each station
+  if (t >= CUT[2] && t < CUT[3]) {
+    const at = [CUT[2] + 0.05, T.u1 - 0.35, T.u2 - 0.35];
+    let cam = -2160; for (let i = 1; i < 3; i++) cam += eio(p(t, at[i] - 0.1, at[i] + 0.55)) * 1080;
+    $('desk').style.transform = `translateX(${cam}px)`;
+    ST.forEach((s, i) => {
+      const ck = eo(p(t, at[i] + 0.25, at[i] + 0.7)); s.capEl.style.opacity = ck; s.capEl.style.transform = `translateY(${(1 - ck) * 50}px)`;
+      s.ims.forEach(({ im, x, y, r }, j) => {
+        const s0 = at[i] + 0.4 + j * 0.25; const pk = eo(p(t, s0, s0 + 0.3));
+        im.style.opacity = p(t, s0, s0 + 0.06);
+        im.style.transform = `translate(${x}px,${y}px) rotate(${r + (1 - pk) * 14}deg) scale(${1.45 - 0.45 * pk})`;
+        im.style.filter = `drop-shadow(0 ${14 + (1 - pk) * 60}px ${18 + (1 - pk) * 30}px rgba(0,0,0,${0.45 - (1 - pk) * 0.15}))`;
+      });
+    });
+  }
+
+  // S5 print
+  if (t >= CUT[3] && t < CUT[4]) {
+    const a = CUT[3]; const k = eo(p(t, a, a + 0.9)); const f = eio(p(t, a + 0.5, a + 1.2));
+    show('p1', t, a + 0.1); show('p2', t, a + 0.45);
+    $('sh1').style.transform = `translate(${280 + f * 50}px, ${1950 - k * 1350}px) rotate(${4 * f}deg)`;
+    $('sh2').style.transform = `translate(${280 - f * 90}px, ${1980 - k * 1350}px) rotate(${-7 * f}deg)`;
+    [[80, 1380], [690, 1180], [130, 1560]].forEach(([x, y], i) => {
+      const c = eb(p(t, a + 1.0 + i * 0.3, a + 1.4 + i * 0.3));
+      place($('ch' + i), x, y + Math.sin(t * 2 + i) * 6, c, (i - 1) * 4, p(t, a + 1.0 + i * 0.3, a + 1.1 + i * 0.3));
+    });
+  }
+
+  // S6: tag swings on a string beside the QR, leaves drift
+  if (t >= CUT[4]) {
+    const a = CUT[4]; const tt = t - a;
+    show('e1', t, a + 0.1); show('e1b', t, a + 0.4); show('e2', t, T.store - 0.05); show('e3', t, T.store + 0.3);
+    const drop = eb(p(t, a + 0.3, a + 1.0)); const sw = 26 * Math.exp(-tt * 0.5) * Math.cos(tt * 3.2);
+    const px = 900, py = 0, len = 520 * drop; const rad = sw * Math.PI / 180;
+    const ex = px + Math.sin(rad) * len, ey = py + Math.cos(rad) * len;
+    const sg = $('string'); sg.style.height = len + 'px'; sg.style.transform = `translate(${px - 2}px, ${py}px) rotate(${-sw}deg)`;
+    $('tag').style.transformOrigin = '50% 0%'; $('tag').style.transform = `translate(${ex - 110}px, ${ey - 20}px) rotate(${-sw * 1.3}deg)`;
+    const q = eb(p(t, a + 0.7, a + 1.3)); $('qr').style.transform = `scale(${q}) rotate(${(1 - q) * -6}deg)`; $('qr').style.opacity = p(t, a + 0.7, a + 0.8);
+    L6.forEach((im, i) => {
+      const sp = 70 + R(i) * 60; const y = ((tt * sp + R(i + 5) * 1900) % 2000) - 150; const x = R(i + 9) * 1000 + Math.sin(tt + i) * 70;
+      im.style.opacity = 0.9; flutter(im, i, t, x, y, 0.7);
+    });
+  }
+};
+render(0);
+</script>
+</body></html>
