@@ -109,6 +109,7 @@
 <div id="fade"></div>
 </div>
 
+<script src="reel22_timeline.js"></script>
 <script>
 const clamp = (x) => Math.min(1, Math.max(0, x));
 const p = (t, a, b) => clamp((t - a) / (b - a));
@@ -143,7 +144,12 @@ const PANELS = [['للهدايا والرسائل', ['v10', 'v25']], ['للدف�
 });
 
 let FRL = null;
-window.render = (t) => {
+// design time (old) -> voice time (TL): piecewise-linear warp so every beat lands on its line
+const WK = [[0, 0], [0.6, TL.h1 - 0.06], [1.4, TL.h2 - 0.06], [3.4, TL.fly], [5.6, TL.title - 0.05], [6.3, TL.kinds - 0.05],
+  [9.0, TL.wall], [10.4, TL.count + 0.4], [12.8, TL.sheet], [13.0, TL.ready - 0.3], [14.0, TL.ready - 0.05], [15.6, TL.ready_end - 0.1],
+  [16.4, TL.p0], [17.65, TL.p1], [18.9, TL.p2], [20.2, TL.end], [20.6, TL.brand - 0.15], [22.0, TL.store - 0.1], [24.0, TL.end_all - 0.5], [24.5, TL.end_all]];
+const W = (t) => { for (let i = 1; i < WK.length; i++) { const [o0, n0] = WK[i - 1], [o1, n1] = WK[i]; if (t <= n1) return o0 + (o1 - o0) * Math.max(0, t - n0) / (n1 - n0); } return 24.5; };
+window.render = (T) => { const t = W(T);
   SCENES.forEach(([id, a, b]) => { $(id).style.display = t >= a && t < b ? 'block' : 'none'; });
   // fade from black + quick dips at cuts
   const dip = Math.max(0, ...CUTS.map((c) => 1 - Math.abs(t - c) / 0.16));
