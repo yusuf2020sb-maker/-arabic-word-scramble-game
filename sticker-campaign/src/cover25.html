@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; font-family:'Noto Kufi Arabic',sans-serif; color:#efe0c4; }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; background:radial-gradient(ellipse at 50% 50%, #6a3b25 0%, #2a1812 72%); }
+  #grain { position:absolute; left:0; top:0; opacity:.28; mix-blend-mode:overlay; }
+  .line { position:absolute; left:0; width:1080px; text-align:center; font-weight:900; line-height:1.25; }
+  .st { position:absolute; filter:drop-shadow(0 26px 30px rgba(0,0,0,.55)); }
+  .stamp { display:inline-block; color:#c4532f; border:9px solid #c4532f; border-radius:22px; padding:0 44px 12px; transform:rotate(-6deg); background:rgba(42,24,18,.55); }
+  .badge { position:absolute; left:760px; top:1150px; width:230px; height:230px; border-radius:50%; background:#d39a3a; color:#2a1812;
+    box-shadow:0 0 0 8px #2a1812, 0 0 0 12px #d39a3a, 0 24px 40px rgba(0,0,0,.5); transform:rotate(10deg); display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .badge b { font-size:96px; line-height:1; } .badge span { font-size:34px; }
+</style></head><body>
+<div id="stage">
+  <svg id="grain" width="1080" height="1920"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" seed="11"/><feColorMatrix values="0 0 0 0 .5  0 0 0 0 .4  0 0 0 0 .3  0 0 0 .7 0"/></filter><rect width="1080" height="1920" filter="url(#n)"/></svg>
+  <div class="line" style="top:220px; font-size:136px">تذكرة ذهاب…</div>
+  <img class="st" src="autumn/b36.png" style="left:70px; top:560px; width:170px; transform:rotate(-30deg)">
+  <img class="st" src="autumn/b39.png" style="left:850px; top:600px; width:160px; transform:rotate(25deg)">
+  <img class="st" src="autumn/b19.png" style="left:110px; top:720px; width:300px; transform:rotate(-12deg)">
+  <img class="st" src="autumn/b16.png" style="left:680px; top:720px; width:300px; transform:rotate(11deg)">
+  <img class="st" src="autumn/b13.png" style="left:345px; top:640px; width:390px; transform:rotate(-2deg)">
+  <img class="st" src="autumn/b41.png" style="left:150px; top:1250px; width:180px; transform:rotate(15deg)">
+  <div class="badge"><b>٤١</b><span>ستيكر</span></div>
+  <div class="line" style="top:1440px; font-size:120px"><span class="stamp">بدون عودة</span></div>
+  <div class="line" style="top:1650px; font-size:52px; color:#d39a3a">ستيكرات الخريف · ملف PDF</div>
+</div>
+</body></html>
