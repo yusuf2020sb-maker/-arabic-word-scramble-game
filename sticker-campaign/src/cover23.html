@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@500;700&family=Tajawal:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --paper:#f3ece0; --paper-d:#e6dccb; --ink:#2f3d2c; --sage:#8a9a74; --rose:#b0645b; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; font-family:'Tajawal',sans-serif; color:var(--ink); }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip;
+    background: radial-gradient(circle 600px at 540px 1000px, rgba(255,214,180,.55), transparent 70%), radial-gradient(ellipse at 50% 40%, #fbf6ee 0%, var(--paper) 55%, var(--paper-d) 100%); }
+  #grain { position:absolute; left:0; top:0; opacity:.3; mix-blend-mode:multiply; }
+  .frame { position:absolute; left:50px; top:50px; width:980px; height:1820px; border:2px solid var(--sage); }
+  .frame::after { content:''; position:absolute; left:12px; top:12px; right:12px; bottom:12px; border:1px solid rgba(138,154,116,.5); }
+  .line { position:absolute; left:0; width:1080px; text-align:center; }
+  .em { font-family:'El Messiri',serif; font-weight:700; line-height:1.2; }
+  .st { position:absolute; filter:drop-shadow(0 20px 24px rgba(60,40,25,.3)); }
+  .petal { position:absolute; border-radius:80% 0 80% 0; }
+  .badge { position:absolute; left:740px; top:1150px; width:230px; height:230px; border-radius:50%; background:var(--ink); color:var(--paper);
+    border:4px solid #f3ece0; box-shadow:0 0 0 6px var(--ink), 0 20px 40px rgba(40,50,35,.35); transform:rotate(-10deg);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .badge b { font-family:'El Messiri'; font-size:104px; line-height:.95; }
+  .badge span { font-size:36px; font-weight:800; }
+  .tag { position:absolute; left:0; width:1080px; top:1430px; text-align:center; }
+  .tag span { display:inline-block; background:var(--rose); color:#fff8f0; font-family:'El Messiri'; font-weight:700; font-size:92px; padding:6px 56px 18px; border-radius:20px; transform:rotate(-2deg); box-shadow:0 16px 30px rgba(120,60,50,.3); }
+</style></head><body>
+<div id="stage">
+  <svg id="grain" width="1080" height="1920"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="7"/><feColorMatrix values="0 0 0 0 .45  0 0 0 0 .35  0 0 0 0 .25  0 0 0 .55 0"/></filter><rect width="1080" height="1920" filter="url(#n)"/></svg>
+  <div class="frame"></div>
+  <div id="petals"></div>
+  <div class="line em" style="top:250px; font-size:170px">ورد…</div>
+  <div class="line em" style="top:455px; font-size:122px; color:var(--rose)">ما يحتاج موية</div>
+
+  <img class="st" src="botan/b14.png" style="left:85px;  top:700px;  width:230px; transform:rotate(-14deg)">
+  <img class="st" src="botan/b13.png" style="left:770px; top:690px;  width:240px; transform:rotate(12deg)">
+  <img class="st" src="botan/b6.png"  style="left:100px; top:1040px; width:170px; transform:rotate(-6deg)">
+  <img class="st" src="botan/b40.png" style="left:800px; top:980px;  width:190px; transform:rotate(18deg)">
+  <img class="st" src="botan/b15.png" style="left:150px; top:1220px; width:230px; transform:rotate(-8deg)">
+  <img class="st" src="botan/b19.png" style="left:300px; top:650px;  width:480px; transform:rotate(-3deg); filter:drop-shadow(0 40px 50px rgba(60,40,25,.4))">
+
+  <div class="badge"><b>٤٦</b><span>ستيكر</span></div>
+  <div class="tag"><span>لأنه ستيكرات!</span></div>
+  <div class="line em" style="top:1620px; font-size:56px; color:var(--ink)">ستيكرات نباتية فنتج · ملف PDF</div>
+</div>
+<script>
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const C = [['#e9b7ad','#c97f74'],['#f2d4c8','#d99a8d'],['#c9d3b3','#8a9a74'],['#f5e1b8','#d9b273']];
+for (let i = 0; i < 22; i++) {
+  const d = document.createElement('div'); d.className = 'petal'; const s = 22 + R(i) * 30;
+  d.style.width = s + 'px'; d.style.height = s * 0.7 + 'px'; const c = C[i % 4];
+  d.style.background = `linear-gradient(135deg, ${c[0]}, ${c[1]})`; d.style.opacity = .8;
+  let y = 110 + R(i + 9) * 1700; if ((y > 230 && y < 640) || (y > 1400 && y < 1720)) y = y < 900 ? 120 + R(i) * 100 : 1740 + R(i) * 80; d.style.left = (80 + R(i + 5) * 900) + 'px'; d.style.top = y + 'px'; d.style.transform = `rotate(${R(i + 2) * 360}deg)`;
+  document.getElementById('petals').appendChild(d);
+}
+</script>
+</body></html>
