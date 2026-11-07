@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Readex+Pro:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root { --cream:#f4ead8; --ink:#1f2b47; --red:#b8503f; --mus:#e0a53c; --blue:#3f5a7a; --sky:#9db3c4; --plum:#8e6c9c; --olive:#9a9a62; --pink:#e3aaa2; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:var(--cream); font-family:'Readex Pro',sans-serif; color:var(--ink); }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; }
+  .scene { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; display:none; }
+  .abs { position:absolute; left:0; top:0; }
+  .line { position:absolute; left:0; width:1080px; text-align:center; }
+  .lz { font-family:'Lalezar',sans-serif; line-height:1.15; }
+  .st { position:absolute; left:0; top:0; filter:drop-shadow(0 18px 24px rgba(20,25,40,.35)); will-change:transform; }
+  .w { display:inline-block; }
+  #grain { position:absolute; left:0; top:0; opacity:.22; mix-blend-mode:multiply; pointer-events:none; }
+  #bg1 { position:absolute; left:0; top:0; width:1080px; height:1920px; }
+  #ring { position:absolute; left:540px; top:1080px; width:0; height:0; transform-style:preserve-3d; }
+  #ring img { position:absolute; left:-180px; top:-250px; width:360px; backface-visibility:hidden; }
+  .blk { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; }
+  .arch { position:absolute; left:240px; top:620px; width:600px; height:820px; border-radius:300px 300px 30px 30px; background:rgba(255,255,255,.16); overflow:hidden; }
+  .bigw { position:absolute; left:0; width:1080px; top:250px; text-align:center; font-family:'Lalezar'; font-size:170px; line-height:1.1; }
+  .tile { position:absolute; left:0; top:0; width:230px; height:300px; transform-style:preserve-3d; }
+  .tile .f, .tile .b { position:absolute; left:0; top:0; width:230px; height:300px; backface-visibility:hidden; border-radius:18px; }
+  .tile .b { background:var(--ink); }
+  .tile .f { transform:rotateY(180deg); display:flex; align-items:center; justify-content:center; }
+  .tile .f img { width:210px; height:280px; object-fit:contain; filter:drop-shadow(0 10px 12px rgba(20,25,40,.3)); }
+  #band { position:absolute; left:0; top:1430px; width:1080px; height:300px; background:var(--red); color:var(--cream); text-align:center; }
+  #frameA { position:absolute; left:250px; top:560px; width:580px; height:760px; background:#f8f1e4; padding:34px;
+    border:22px solid #b98a3e; box-shadow: inset 0 0 0 6px #8a6326, 0 0 0 6px #d9b36a, 0 40px 70px rgba(0,0,0,.5); }
+  #frameA img { width:100%; height:100%; object-fit:contain; }
+  #cone { position:absolute; left:140px; top:0; width:800px; height:1500px; background:radial-gradient(ellipse 50% 60% at 50% 0%, rgba(255,240,200,.45), transparent 70%); mix-blend-mode:screen; }
+  #plaque { position:absolute; left:390px; top:1400px; width:300px; padding:14px 0; background:#d9b36a; color:#3b2a10; text-align:center; font-size:40px; font-weight:700; border-radius:6px; }
+  .band { position:absolute; left:0; width:1080px; height:640px; overflow:clip; }
+  .band .cap { position:absolute; top:240px; font-family:'Lalezar'; font-size:110px; line-height:1; }
+  .chip { position:absolute; left:0; top:0; padding:16px 36px; border-radius:60px; background:var(--ink); color:var(--cream); font-size:44px; font-weight:700; white-space:nowrap; }
+  .chip span { direction:rtl; unicode-bidi:isolate; }
+  #qr { position:absolute; left:340px; top:780px; width:400px; height:400px; background:#fff8ec; padding:26px; border-radius:26px; box-shadow:0 24px 50px rgba(20,25,40,.35); }
+  #qr img { width:100%; height:100%; display:block; }
+  #fade { position:absolute; left:0; top:0; width:1080px; height:1920px; background:var(--cream); opacity:0; pointer-events:none; }
+</style></head><body>
+<div id="stage">
+  <div id="bg1"></div>
+
+  <!-- S1 hook: 3D colour carousel -->
+  <div class="scene" id="s1">
+    <div id="ring" style="top:1060px"></div>
+    <div class="line lz" style="top:230px; font-size:190px; color:var(--cream)"><span class="w" id="h1">أي لون</span></div>
+    <div class="line lz" style="top:450px; font-size:190px; color:var(--cream)"><span class="w" id="h2">يشبهك؟</span></div>
+  </div>
+
+  <!-- S2 colour blocks -->
+  <div class="scene" id="s2"></div>
+
+  <!-- S3 mosaic flip -->
+  <div class="scene" id="s3" style="background:var(--cream)">
+    <div id="tiles"></div>
+    <div id="band"><div class="lz" style="font-size:190px; line-height:1; margin-top:22px"><span class="w" id="n16">١٦</span></div></div>
+    <div class="line" style="top:1660px; font-size:52px; font-weight:700; color:var(--cream)"><span class="w" id="n16b">ستيكر مزهرية بألوان فنتج</span></div>
+  </div>
+
+  <!-- S4 gallery -->
+  <div class="scene" id="s4" style="background:#2a2f3f">
+    <div id="wall" class="abs" style="width:1080px; height:1920px">
+      <div class="abs" style="top:1460px; width:1080px; height:460px; background:#1d2130"></div>
+      <div id="frameA"><img src="vase/b13.png"></div>
+      <div id="plaque">لوحة رقم ٧</div>
+    </div>
+    <div id="cone"></div>
+    <div class="line lz" style="top:200px; font-size:120px; color:#f4ead8"><span class="w" id="a1">كل ستيكر</span></div>
+    <div class="line lz" style="top:350px; font-size:120px; color:#e0a53c"><span class="w" id="a2">لوحة صغيرة</span></div>
+  </div>
+
+  <!-- S5 uses: three sliding bands -->
+  <div class="scene" id="s5" style="background:var(--cream)"></div>
+
+  <!-- S6 print + cut -->
+  <div class="scene" id="s6" style="background:var(--sky)">
+    <div class="line lz" style="top:200px; font-size:130px; color:var(--ink)"><span class="w" id="p1">ملف PDF</span></div>
+    <div class="line" style="top:370px; font-size:60px; font-weight:700; color:var(--ink)"><span class="w" id="p2">جاهز للطباعة والقص في البيت</span></div>
+    <img id="sh2" class="abs" src="vase/sheet4.jpg" style="width:540px; box-shadow:0 30px 60px rgba(20,25,40,.35)">
+    <img id="sh1" class="abs" src="vase/sheet3.jpg" style="width:540px; box-shadow:0 30px 60px rgba(20,25,40,.35)">
+    <svg id="cut" class="abs" width="1080" height="1920" style="pointer-events:none"><rect id="cutr" x="0" y="0" width="0" height="0" rx="40" fill="none" stroke="#1f2b47" stroke-width="5" stroke-dasharray="18 14"/></svg>
+    <div id="sc" class="abs lz" style="font-size:90px; color:#1f2b47">✂</div>
+    <div class="chip" id="ch0"><span>A4</span></div>
+    <div class="chip" id="ch1"><span>١٦ تصميم</span></div>
+    <div class="chip" id="ch2"><span>تحميل فوري</span></div>
+  </div>
+
+  <!-- S7 end card: fanned hand of stickers -->
+  <div class="scene" id="s7">
+    <div class="line lz" style="top:190px; font-size:116px; color:var(--cream)"><span class="w" id="e1">ستيكرات المزهريات</span></div>
+    <div class="line lz" style="top:330px; font-size:100px; color:var(--mus)"><span class="w" id="e1b">بألوان فنتج</span></div>
+    <div id="fan"></div>
+    <div id="qr"><img src="qr_store.png"></div>
+    <div class="line lz" style="top:1450px; font-size:120px; color:var(--cream)"><span class="w" id="e2">في المتجر</span></div>
+    <div class="line" style="top:1610px; font-size:50px; font-weight:700; color:var(--cream); direction:ltr"><span class="w" id="e3">planme.zaher.io</span></div>
+  </div>
+
+  <svg id="grain" width="1080" height="1920"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="3"/><feColorMatrix values="0 0 0 0 .3  0 0 0 0 .25  0 0 0 0 .2  0 0 0 .6 0"/></filter><rect width="1080" height="1920" filter="url(#n)"/></svg>
+  <div id="wipes"></div>
+  <div id="fade"></div>
+</div>
+<script>
+const $ = (id) => document.getElementById(id);
+const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eio = (x) => (x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const eb = (x) => { const c = 1.7; return x <= 0 ? 0 : 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const mixc = (a, b, k) => { const h = (c) => [1, 3, 5].map((i) => parseInt(c.slice(i, i + 2), 16)); const A = h(a), B = h(b); return `rgb(${A.map((v, i) => Math.round(v + (B[i] - v) * k)).join(',')})`; };
+
+const D = { h1: 0.2, h2: 1.0, c0: 3.2, c1: 4.9, c2: 6.6, count: 8.6, art: 12.6, u0: 15.6, u1: 17.1, u2: 18.6, print: 20.2, brand: 23.2, store: 24.6, end_all: 27.5 };
+const T = Object.assign({}, D, window.TL || {});
+const CUT = [T.c0 - 0.2, T.count - 0.2, T.art - 0.2, T.u0 - 0.2, T.print - 0.2, T.brand - 0.2];
+const SC = [['s1', 0, CUT[0]], ['s2', CUT[0], CUT[1]], ['s3', CUT[1], CUT[2]], ['s4', CUT[2], CUT[3]], ['s5', CUT[3], CUT[4]], ['s6', CUT[4], CUT[5]], ['s7', CUT[5], 99]];
+const COL = { b10: '#c4574a', b11: '#efe2cc', b12: '#e0a53c', b13: '#1f2b47', b14: '#9a7aa8', b15: '#a99ab8', b16: '#e6b3ad', b17: '#efe2cc', b18: '#b5563f', b19: '#a8a070', b20: '#9db3c4', b21: '#d49b3f', b6: '#3f5a7a', b7: '#efe2cc', b8: '#e8aaa2', b9: '#a9b38c' };
+const ALL = ['b13', 'b12', 'b10', 'b14', 'b20', 'b19', 'b16', 'b6', 'b21', 'b18', 'b9', 'b8', 'b15', 'b11', 'b17', 'b7'];
+
+// kinetic word: pop up with overshoot and a slight skew
+const pop = (id, t, a, out) => {
+  const k = eb(p(t, a, a + 0.45)); const o = out ? 1 - p(t, out, out + 0.25) : 1; const el = $(id);
+  el.style.opacity = Math.min(1, p(t, a, a + 0.12)) * o;
+  el.style.transform = `translateY(${(1 - k) * 120}px) scale(${0.6 + 0.4 * k}) skewX(${(1 - k) * -10}deg)`;
+};
+
+// colour wipes at cuts: three diagonal stripes sweep across
+const WIPE = []; const WC = [['#1f2b47', '#e0a53c', '#b8503f'], ['#e0a53c', '#b8503f', '#1f2b47'], ['#b8503f', '#8e6c9c', '#e0a53c'], ['#3f5a7a', '#e0a53c', '#e3aaa2'], ['#9a9a62', '#1f2b47', '#e0a53c'], ['#b8503f', '#e0a53c', '#1f2b47']];
+for (let i = 0; i < 3; i++) { const d = document.createElement('div'); d.className = 'abs'; d.style.width = '2600px'; d.style.height = '900px'; $('wipes').appendChild(d); WIPE.push(d); }
+
+// S1 ring
+const RING = ALL.slice(0, 12).map((n) => { const im = document.createElement('img'); im.src = `vase/${n}.png`; $('ring').appendChild(im); return { im, n }; });
+
+// S2 colour blocks
+const BL = [['أزرق هادي', 'b6', '#3f5a7a', '#f4ead8'], ['أصفر دافي', 'b12', '#e0a53c', '#1f2b47'], ['ولا أحمر عتيق؟', 'b18', '#b5563f', '#f4ead8']].map(([w, n, bg, fg], i) => {
+  const d = document.createElement('div'); d.className = 'blk'; d.style.background = bg;
+  d.innerHTML = `<div class="arch"></div><img class="st" src="vase/${n}.png" style="width:520px"><div class="bigw" style="color:${fg}"><span class="w">${w}</span></div>`;
+  for (let k = 0; k < 6; k++) d.innerHTML += `<div class="abs" style="width:${60 + k * 20}px; height:${60 + k * 20}px; border-radius:50%; border:3px solid ${fg}; opacity:.18; left:${R(k + i * 9) * 900}px; top:${R(k + 40 + i * 9) * 1700}px"></div>`;
+  $('s2').appendChild(d); return { d, st: d.querySelector('.st'), w: d.querySelector('.bigw span'), arch: d.querySelector('.arch') };
+});
+
+// S3 tiles 4x4
+const TI = ALL.map((n, i) => {
+  const d = document.createElement('div'); d.className = 'tile';
+  d.innerHTML = `<div class="b"></div><div class="f" style="background:${COL[n]}"><img src="vase/${n}.png"></div>`;
+  const c = i % 4, r = Math.floor(i / 4); const x = 50 + c * 250, y = 170 + r * 310;
+  $('tiles').appendChild(d); return { d, x, y, dl: (c + r) * 0.09 };
+});
+
+// S5 uses bands
+const US = [
+  { bg: '#e0a53c', fg: '#1f2b47', cap: 'للبطاقات', obj: '<div class="abs" style="left:110px; top:90px; width:380px; height:470px; background:#fbf4e6; border-radius:8px; box-shadow:0 20px 40px rgba(0,0,0,.25); transform:rotate(-5deg)"></div>', st: ['b13', 160, 120, 260, -5], capx: 560 },
+  { bg: '#3f5a7a', fg: '#f4ead8', cap: 'للدفاتر', obj: '<div class="abs" style="left:590px; top:70px; width:380px; height:500px; background:#c49a6c; border-radius:10px 26px 26px 10px; box-shadow:0 20px 40px rgba(0,0,0,.3)"></div><div class="abs" style="left:920px; top:70px; width:24px; height:500px; background:#b8503f"></div>', st: ['b16', 640, 120, 250, 6], capx: 90 },
+  { bg: '#b8503f', fg: '#f4ead8', cap: 'ولأكياس الطلبات', obj: '<div class="abs" style="left:110px; top:130px; width:360px; height:450px; background:linear-gradient(180deg,#d3ab7c,#c0955f); border-radius:4px; box-shadow:0 20px 40px rgba(0,0,0,.3)"></div><div class="abs" style="left:200px; top:60px; width:180px; height:110px; border:12px solid #8a6438; border-bottom:none; border-radius:90px 90px 0 0"></div>', st: ['b9', 160, 200, 250, -4], capx: 520 },
+].map((u, i) => {
+  const d = document.createElement('div'); d.className = 'band'; d.style.background = u.bg; d.style.top = (i * 640) + 'px';
+  d.innerHTML = u.obj + `<img class="st" src="vase/${u.st[0]}.png" style="width:${u.st[3]}px"><div class="cap" style="left:${u.capx}px; width:480px; text-align:center; color:${u.fg}"><span class="w">${u.cap}</span></div>`;
+  $('s5').appendChild(d); return Object.assign(u, { d, im: d.querySelector('.st'), capEl: d.querySelector('.cap span') });
+});
+
+// S7 fan
+const FAN = ALL.slice(0, 11).map((n) => { const im = document.createElement('img'); im.className = 'st'; im.src = `vase/${n}.png`; im.style.width = '230px'; $('s7').insertBefore(im, $('qr')); return im; });
+
+const place = (el, x, y, s, r, o) => { el.style.transform = `translate(${x}px,${y}px) rotate(${r}deg) scale(${s})`; if (o !== undefined) el.style.opacity = o; };
+
+window.render = (t) => {
+  for (const [id, a, b] of SC) $(id).style.display = t >= a && t < b ? 'block' : 'none';
+  $('fade').style.opacity = Math.max(1 - p(t, 0, 0.3), p(t, T.end_all - 0.5, T.end_all));
+  // wipes
+  let wi = -1; CUT.forEach((c, i) => { if (Math.abs(t - c) < 0.45) wi = i; });
+  WIPE.forEach((d, j) => {
+    if (wi < 0) { d.style.opacity = 0; return; }
+    const k = eio(p(t, CUT[wi] - 0.45 + j * 0.06, CUT[wi] + 0.45 + j * 0.06));
+    d.style.opacity = 1; d.style.background = WC[wi][j];
+    d.style.transform = `translate(${-2700 + k * 4300 - 400}px, ${j * 640 - 200}px) rotate(-22deg)`;
+  });
+
+  // S1: carousel, background follows the front sticker colour
+  if (t < CUT[0]) {
+    const ang = t * 75 + 20; const n = RING.length; let front = 0, best = 1e9;
+    RING.forEach(({ im, n: name }, i) => {
+      const a = i * 360 / n + ang; const rad = a * Math.PI / 180;
+      const z = Math.cos(rad) * 470; const x = Math.sin(rad) * 470;
+      const s = 0.62 + 0.38 * (z + 470) / 940;
+      im.style.transform = `translate(${x}px, ${z * 0.28}px) scale(${s})`; im.style.zIndex = Math.round(z + 500);
+      im.style.opacity = 0.35 + 0.65 * (z + 470) / 940; im.style.filter = `drop-shadow(0 20px 22px rgba(0,0,0,.35)) brightness(${0.75 + 0.25 * (z + 470) / 940})`;
+      const d = Math.abs(((a % 360) + 360) % 360 - 0); const dd = Math.min(d, 360 - d); if (dd < best) { best = dd; front = i; }
+    });
+    const step = 360 / n; const cur = RING[front].n; const nxt = RING[(front - 1 + n) % n].n;
+    const phase = (((ang + front * step) % step) + step) % step / step;
+    $('bg1').style.background = mixc(COL[cur] === '#efe2cc' ? '#8e6c9c' : COL[cur], COL[nxt] === '#efe2cc' ? '#8e6c9c' : COL[nxt], eio(Math.max(0, (phase - 0.5) * 2)));
+    $('ring').style.transform = `translateY(${(1 - eo(p(t, 0, 1.0))) * 300}px) scale(${0.8 + 0.2 * eo(p(t, 0, 1.0))})`;
+    pop('h1', t, T.h1); pop('h2', t, T.h2);
+  } else $('bg1').style.background = '#1f2b47';
+
+  // S2 colour blocks: diagonal clip reveal, sticker rises in arch
+  if (t >= CUT[0] && t < CUT[1]) {
+    const at = [CUT[0], T.c1 - 0.25, T.c2 - 0.25];
+    BL.forEach((b, i) => {
+      const k = eio(p(t, at[i], at[i] + 0.55));
+      b.d.style.display = t >= at[i] ? 'block' : 'none'; b.d.style.zIndex = i;
+      b.d.style.clipPath = i === 0 ? 'none' : `polygon(0 0, ${k * 220}% 0, ${k * 220 - 60}% 100%, 0 100%)`;
+      const sk = eo(p(t, at[i] + 0.2, at[i] + 0.9));
+      place(b.st, 280, 700 + (1 - sk) * 900 + Math.sin(t * 2) * 8, 1, (1 - sk) * 14 + Math.sin(t * 1.4) * 2);
+      b.arch.style.transform = `scaleY(${eo(p(t, at[i] + 0.1, at[i] + 0.6))})`; b.arch.style.transformOrigin = '50% 100%';
+      const wk = eb(p(t, at[i] + 0.3, at[i] + 0.75)); b.w.style.opacity = p(t, at[i] + 0.3, at[i] + 0.4);
+      b.w.style.transform = `scale(${0.5 + 0.5 * wk}) rotate(${(1 - wk) * -8}deg)`;
+    });
+  }
+
+  // S3 mosaic flip + count band
+  if (t >= CUT[1] && t < CUT[2]) {
+    const a = CUT[1] + 0.15;
+    TI.forEach(({ d, x, y, dl }, i) => {
+      const k = eio(p(t, a + dl, a + dl + 0.6));
+      const zoom = 1 + 0.04 * p(t, a, CUT[2]);
+      d.style.transform = `translate(${540 + (x - 540) * zoom}px, ${(y) * zoom}px) perspective(1200px) rotateY(${180 * k}deg) scale(${0.85 + 0.15 * eb(p(t, a + dl, a + dl + 0.6))})`;
+    });
+    const bk = eio(p(t, a + 0.9, a + 1.4));
+    $('band').style.transform = `translateX(${(1 - bk) * 1080}px)`;
+    const n = Math.round(16 * eo(p(t, a + 1.1, a + 2.0))); $('n16').textContent = n.toLocaleString('ar-EG');
+    pop('n16', t, a + 1.1); pop('n16b', t, a + 1.5);
+  }
+
+  // S4 gallery: dolly in, spotlight flicker on
+  if (t >= CUT[2] && t < CUT[3]) {
+    const a = CUT[2];
+    const z = 1.25 - 0.25 * eio(p(t, a, a + 1.6)) + 0.04 * p(t, a + 1.6, CUT[3]);
+    $('wall').style.transform = `scale(${z})`; $('wall').style.transformOrigin = '540px 940px';
+    const on = p(t, a + 0.25, a + 0.3) * (t > a + 0.38 && t < a + 0.44 ? 0.3 : 1);
+    $('cone').style.opacity = on; $('wall').style.filter = `brightness(${0.35 + 0.65 * on})`;
+    pop('a1', t, T.art - 0.05); pop('a2', t, T.art + 0.7);
+  }
+
+  // S5 bands slide in alternately
+  if (t >= CUT[3] && t < CUT[4]) {
+    const at = [CUT[3] + 0.1, T.u1 - 0.25, T.u2 - 0.25];
+    US.forEach((u, i) => {
+      const k = eio(p(t, at[i], at[i] + 0.55)); const dir = i % 2 ? -1 : 1;
+      u.d.style.transform = `translateX(${dir * (1 - k) * 1100}px)`;
+      const sk = eo(p(t, at[i] + 0.35, at[i] + 0.75));
+      place(u.im, u.st[1], u.st[2], 1.4 - 0.4 * sk, u.st[4] + (1 - sk) * 15, p(t, at[i] + 0.35, at[i] + 0.42));
+      u.im.style.filter = `drop-shadow(0 ${16 + (1 - sk) * 60}px ${20 + (1 - sk) * 30}px rgba(20,25,40,.35))`;
+      const ck = eb(p(t, at[i] + 0.4, at[i] + 0.85)); u.capEl.style.opacity = p(t, at[i] + 0.4, at[i] + 0.5); u.capEl.style.transform = `scale(${0.6 + 0.4 * ck})`;
+    });
+  }
+
+  // S6 print + scissor cut line
+  if (t >= CUT[4] && t < CUT[5]) {
+    const a = CUT[4]; const k = eo(p(t, a, a + 0.9)); const f = eio(p(t, a + 0.5, a + 1.2));
+    pop('p1', t, a + 0.1); pop('p2', t, a + 0.45);
+    $('sh1').style.transform = `translate(${270 + f * 50}px, ${1950 - k * 1400}px) rotate(${4 * f}deg)`;
+    $('sh2').style.transform = `translate(${270 - f * 90}px, ${1980 - k * 1400}px) rotate(${-7 * f}deg)`;
+    const cx = 440, cy = 640, cw = 210, ch = 270; const r = $('cutr');
+    r.setAttribute('x', cx + f * 50); r.setAttribute('y', cy + 1950 - k * 1400 - 550 + 0); r.setAttribute('width', cw); r.setAttribute('height', ch);
+    const L = 2 * (cw + ch); const ck = p(t, a + 1.2, a + 2.3);
+    r.style.strokeDasharray = `18 14`; r.style.opacity = ck > 0 ? 1 : 0;
+    r.setAttribute('stroke-dashoffset', 0); r.style.clipPath = `inset(0 0 0 0)`;
+    // scissors travel along the rectangle perimeter
+    const d = ck * L; let sx, sy, rot;
+    const X = cx + f * 50, Y = cy + 1950 - k * 1400 - 550;
+    if (d < cw) { sx = X + d; sy = Y; rot = 0; } else if (d < cw + ch) { sx = X + cw; sy = Y + d - cw; rot = 90; } else if (d < 2 * cw + ch) { sx = X + cw - (d - cw - ch); sy = Y + ch; rot = 180; } else { sx = X; sy = Y + ch - (d - 2 * cw - ch); rot = 270; }
+    $('sc').style.transform = `translate(${sx - 45}px, ${sy - 60}px) rotate(${rot}deg)`; $('sc').style.opacity = ck > 0 && ck < 1 ? 1 : 0;
+    r.setAttribute('stroke-dasharray', `${Math.max(0.01, d)} ${L}`);
+    [[80, 1360], [690, 1180], [120, 1560]].forEach(([x, y], i) => {
+      const c = eb(p(t, a + 1.0 + i * 0.3, a + 1.4 + i * 0.3));
+      place($('ch' + i), x, y + Math.sin(t * 2 + i) * 6, c, (i - 1) * 4, p(t, a + 1.0 + i * 0.3, a + 1.1 + i * 0.3));
+    });
+  }
+
+  // S7 fan of stickers behind the QR, background cycles slowly
+  if (t >= CUT[5]) {
+    const a = CUT[5];
+    const cyc = ['#1f2b47', '#3f5a7a', '#1f2b47']; const ph = (t - a) / 6;
+    $('s7').style.background = mixc(cyc[0], cyc[1], 0.5 - 0.5 * Math.cos(ph * Math.PI * 2));
+    pop('e1', t, a + 0.1); pop('e1b', t, a + 0.35); pop('e2', t, T.store - 0.05); pop('e3', t, T.store + 0.3);
+    FAN.forEach((im, i) => {
+      const k = eb(p(t, a + 0.2 + i * 0.05, a + 0.8 + i * 0.05));
+      const ang = (-75 + i * 15) * k;
+      const rr = 520;
+      const x = 540 + Math.sin(ang * Math.PI / 180) * rr - 115; const y = 1500 - Math.cos(ang * Math.PI / 180) * rr - 160;
+      place(im, x, y, 0.9 + 0.1 * k, ang, p(t, a + 0.2 + i * 0.05, a + 0.3 + i * 0.05));
+    });
+    const q = eb(p(t, a + 0.9, a + 1.4)); $('qr').style.transform = `scale(${q})`; $('qr').style.opacity = p(t, a + 0.9, a + 1.0);
+  }
+};
+render(0);
+</script>
+</body></html>
