@@ -96,6 +96,7 @@
   <div id="gust"></div>
   <div id="fade"></div>
 </div>
+<script src="reel25_timeline.js"></script>
 <script>
 const $ = (id) => document.getElementById(id);
 const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
@@ -185,7 +186,7 @@ window.render = (t) => {
     });
     $('slot').style.opacity = $('slotplate').style.opacity = 1 - p(t, T.tear, T.tear + 0.4);
     show('h1', t, T.h1, T.tear - 0.2); stamp('h2', t, T.h2, T.tear - 0.2);
-    show('d1', t, T.dest - 0.1); show('d2', t, T.dest + 0.4);
+    show('d1', t, T.dest - 0.1); show('d2', t, T.dest2 !== undefined ? T.dest2 - 0.05 : T.dest + 0.4);
     // leaves burst out from the tear and swirl into a slow drift
     L1.forEach((im, i) => {
       const k = eo(p(t, T.tear + 0.1 + i * 0.03, T.tear + 1.4 + i * 0.03));
