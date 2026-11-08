@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@600;800;900&display=swap" rel="stylesheet">
+<style>
+  :root { --night:#0b1222; --navy:#16213d; --ember:#ff8a3d; --gold:#f0bb55; --cream:#f7ecd8; --sadu:#9b1c1f; --green:#145c43; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:var(--night); font-family:'Alexandria',sans-serif; color:var(--cream); }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; }
+  .scene { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; display:none; }
+  .abs { position:absolute; left:0; top:0; }
+  .line { position:absolute; left:0; width:1080px; text-align:center; font-weight:900; line-height:1.35; white-space:nowrap; }
+  .w { display:inline-block; }
+  .st { position:absolute; left:0; top:0; filter:drop-shadow(0 18px 22px rgba(0,0,0,.5)); will-change:transform; }
+  #sky { position:absolute; left:0; top:0; width:1080px; height:1920px; background:linear-gradient(180deg,#060b16 0%,#101a33 55%,#2a1c22 100%); }
+  .star { position:absolute; left:0; top:0; width:4px; height:4px; border-radius:50%; background:#fff; }
+  .ember { position:absolute; left:0; top:0; width:8px; height:8px; border-radius:50%; background:radial-gradient(circle,#ffe2a6,#ff8a3d 50%,transparent 70%); }
+  #glow { position:absolute; left:0; top:1300px; width:1080px; height:700px; background:radial-gradient(ellipse at 50% 100%, rgba(255,140,60,.45), transparent 65%); }
+  .sadu { height:64px; background:
+      linear-gradient(135deg, var(--sadu) 25%, transparent 25%) 0 0 / 64px 64px,
+      linear-gradient(225deg, var(--sadu) 25%, transparent 25%) 0 0 / 64px 64px,
+      linear-gradient(315deg, #111 25%, transparent 25%) 0 0 / 64px 64px,
+      linear-gradient(45deg, #111 25%, transparent 25%) 0 0 / 64px 64px, var(--cream);
+    border-top:7px solid var(--sadu); border-bottom:7px solid var(--sadu); }
+  #ring { position:absolute; left:340px; top:860px; width:400px; height:400px; border-radius:50%; border:8px dashed rgba(240,187,85,.8); }
+  #qmark { position:absolute; left:340px; top:860px; width:400px; height:400px; line-height:400px; text-align:center; font-size:240px; font-weight:900; color:var(--gold); }
+  .puff { position:absolute; left:0; top:0; width:220px; height:220px; border-radius:50%; background:radial-gradient(circle, rgba(235,230,245,.45), rgba(235,230,245,0) 70%); filter:blur(12px); }
+  #scratch { position:absolute; left:0; top:0; }
+  .bulb { position:absolute; left:0; top:0; width:30px; height:30px; border-radius:50%; background:radial-gradient(circle,#fff6d0,#f0bb55 55%,rgba(240,187,85,0) 72%); }
+  .peg { position:absolute; left:0; top:0; transform-origin:50% 0; }
+  .peg .clip { position:absolute; left:50%; top:-10px; width:22px; height:50px; margin-left:-11px; background:#b98a52; border-radius:4px; }
+  .peg .card { position:absolute; left:0; top:30px; width:230px; height:290px; background:var(--cream); border-radius:8px; box-shadow:0 20px 30px rgba(0,0,0,.45); display:flex; align-items:center; justify-content:center; }
+  .peg .card img { width:200px; height:250px; object-fit:contain; }
+  #map { position:absolute; left:0; top:0; width:1500px; }
+  .pinr { position:absolute; left:0; top:0; width:60px; height:20px; border-radius:50%; border:4px solid var(--gold); }
+  #box { position:absolute; left:240px; top:900px; width:600px; height:500px; background:linear-gradient(170deg,#1a6f50,#0f4733); border-radius:10px; box-shadow:0 40px 70px rgba(0,0,0,.55); }
+  #lid { position:absolute; left:220px; top:840px; width:640px; height:120px; background:linear-gradient(170deg,#1f8060,#145c43); border-radius:10px; box-shadow:0 14px 26px rgba(0,0,0,.4); transform-origin:0% 100%; }
+  .ribbon { position:absolute; background:var(--gold); }
+  .bag { position:absolute; left:0; top:0; width:230px; height:300px; background:linear-gradient(170deg,#d4a96f,#b58648); border-radius:6px 6px 14px 14px; box-shadow:0 24px 40px rgba(0,0,0,.45); }
+  .bag::before { content:''; position:absolute; left:65px; top:-56px; width:100px; height:76px; border:10px solid #8a5f2c; border-bottom:none; border-radius:50px 50px 0 0; }
+  .hc { position:absolute; left:0; top:0; width:300px; height:420px; background:var(--cream); border-radius:12px; box-shadow:0 24px 40px rgba(0,0,0,.45); transform-origin:50% 120%; }
+  .hc img { position:absolute; left:40px; top:60px; width:220px; height:220px; object-fit:contain; }
+  .hc b { position:absolute; left:0; width:300px; top:300px; text-align:center; font-size:40px; color:var(--green); }
+  #printer { position:absolute; left:190px; top:560px; width:700px; height:260px; background:linear-gradient(180deg,#d9d3c8,#a9a297); border-radius:28px; box-shadow:0 30px 60px rgba(0,0,0,.6); }
+  #slot { position:absolute; left:250px; top:770px; width:580px; height:20px; background:#222; border-radius:10px; }
+  #led { position:absolute; left:820px; top:620px; width:24px; height:24px; border-radius:50%; background:#39d97a; box-shadow:0 0 18px #39d97a; }
+  #paper { position:absolute; left:270px; top:780px; width:540px; height:760px; background:#f8f2e6; overflow:hidden; box-shadow:0 20px 40px rgba(0,0,0,.4); }
+  .chip { position:absolute; left:0; top:0; padding:12px 34px 16px; border-radius:60px; background:var(--gold); color:#1a1208; font-size:44px; font-weight:800; white-space:nowrap; }
+  .chip span { direction:rtl; unicode-bidi:isolate; }
+  #qcard { position:absolute; left:190px; top:640px; width:700px; height:820px; background:var(--cream); border-radius:22px; box-shadow:0 40px 80px rgba(0,0,0,.6); overflow:hidden; }
+  #qr { position:absolute; left:350px; top:880px; width:380px; height:380px; background:#fff; padding:22px; border-radius:16px; }
+  #qr img { width:100%; height:100%; display:block; }
+  #lantern { position:absolute; left:0; top:0; transform-origin:50% 0; }
+  #lglow { position:absolute; left:0; top:0; width:700px; height:700px; border-radius:50%; background:radial-gradient(circle, rgba(255,190,90,.35), transparent 65%); }
+  #fade { position:absolute; left:0; top:0; width:1080px; height:1920px; background:#000; opacity:0; pointer-events:none; }
+</style></head><body>
+<div id="stage">
+  <div id="sky"></div>
+  <div id="stars"></div>
+  <div id="shoot" class="abs" style="width:260px; height:4px; background:linear-gradient(90deg, transparent, #fff); border-radius:2px"></div>
+  <div id="glow"></div>
+
+  <!-- S1 hook -->
+  <div class="scene" id="s1">
+    <div class="line" style="top:300px; font-size:118px"><span class="w" id="h1">وش ينقص</span></div>
+    <div class="line" style="top:470px; font-size:130px; color:var(--gold)"><span class="w" id="h2">جلستكم؟</span></div>
+    <div id="ring"></div><div id="qmark">؟</div>
+    <div class="abs sadu" style="top:1500px; width:1080px"></div>
+    <img class="st" src="saudi/b28.png" style="width:220px; transform:translate(60px,1330px) rotate(-8deg)">
+    <img class="st" src="saudi/b53.png" style="width:240px; transform:translate(790px,1350px) rotate(6deg)">
+  </div>
+
+  <!-- S2 oud smoke -->
+  <div class="scene" id="s2">
+    <div id="puffs"></div>
+    <img id="mab" class="st" src="saudi/b16.png" style="width:380px">
+    <img id="chips" class="st" src="saudi/b27.png" style="width:240px">
+    <img id="oil" class="st" src="saudi/b31.png" style="width:180px">
+    <div class="line" style="top:300px; font-size:140px"><span class="w" id="o1">ريحة عود…</span></div>
+  </div>
+
+  <!-- S3 scratch reveal -->
+  <div class="scene" id="s3">
+    <div class="line" style="top:280px; font-size:120px"><span class="w" id="c1">دلّة وفناجيل…</span></div>
+    <div class="abs" style="left:150px; top:620px; width:780px; height:900px; border-radius:30px; background:linear-gradient(160deg,#f7ecd8,#e7d2ad); box-shadow:0 40px 70px rgba(0,0,0,.5)"></div>
+    <img class="st" src="saudi/b40.png" style="width:420px; transform:translate(190px,760px)">
+    <img class="st" src="saudi/b15.png" style="width:300px; transform:translate(590px,1060px) rotate(6deg)">
+    <svg id="scratch" width="1080" height="1920">
+      <defs>
+        <linearGradient id="silver" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d9d9de"/><stop offset=".5" stop-color="#9fa3ab"/><stop offset="1" stop-color="#e3e4e8"/></linearGradient>
+        <mask id="m"><rect width="1080" height="1920" fill="#fff"/><path id="zz" d="M 170 700 L 920 760 L 180 900 L 920 980 L 180 1110 L 920 1180 L 180 1310 L 920 1380 L 200 1480" fill="none" stroke="#000" stroke-width="190" stroke-linecap="round" stroke-linejoin="round"/></mask>
+      </defs>
+      <rect x="150" y="620" width="780" height="900" rx="30" fill="url(#silver)" mask="url(#m)"/>
+      <text x="540" y="1100" text-anchor="middle" font-family="Alexandria" font-weight="900" font-size="90" fill="#7d818a" mask="url(#m)">مفاجأة؟</text>
+    </svg>
+    <div id="coin" class="abs" style="width:120px; height:120px; border-radius:50%; background:radial-gradient(circle at 35% 35%, #ffe7a8, #c8902f); box-shadow:0 10px 20px rgba(0,0,0,.5)"></div>
+  </div>
+
+  <!-- S4 string lights with pegged cards -->
+  <div class="scene" id="s4">
+    <svg class="abs" width="1080" height="1920"><path id="wire" d="M -20 640 Q 540 900 1100 640" fill="none" stroke="#3a3326" stroke-width="5"/></svg>
+    <div id="bulbs"></div><div id="pegs"></div>
+    <div class="line" style="top:250px; font-size:96px; color:var(--gold)"><span class="w" id="r1">ولمسة من التراث!</span></div>
+  </div>
+
+  <!-- S5 map pins -->
+  <div class="scene" id="s5">
+    <img id="map" src="saudi/b36.png">
+    <div class="abs" style="width:1080px; height:1920px; background:radial-gradient(ellipse at 50% 50%, transparent 30%, rgba(6,10,20,.75) 90%)"></div>
+    <div id="pins"></div>
+    <div class="line" style="top:220px; font-size:82px; text-shadow:0 8px 30px rgba(0,0,0,.8)"><span class="w" id="m1">ستيكرات تراثية سعودية</span></div>
+    <div class="line" style="top:1500px; font-size:104px; color:var(--gold); text-shadow:0 8px 30px rgba(0,0,0,.8)"><span class="w" id="m2">تزيّن كل شي</span></div>
+  </div>
+
+  <!-- S6 uses -->
+  <div class="scene" id="s6">
+    <div class="line" style="top:260px; font-size:104px"><span class="w" id="ucap">علب الهدايا</span></div>
+    <div id="giftg"><div id="box"></div><div class="ribbon" id="rbV" style="left:520px; top:900px; width:40px; height:500px"></div><div id="lid"><div class="ribbon" style="left:300px; top:0; width:40px; height:120px"></div></div></div>
+    <div id="pop"></div>
+    <div id="bags"></div>
+    <div id="hcs"></div>
+  </div>
+
+  <!-- S7 printer -->
+  <div class="scene" id="s7">
+    <div class="line" style="top:220px; font-size:120px"><span class="w" id="p1">ملف PDF</span></div>
+    <div class="line" style="top:390px; font-size:76px; color:var(--gold)"><span class="w" id="p2">جاهز للطباعة واللصق</span></div>
+    <div id="paper"><div id="pgrid" class="abs" style="width:540px; height:760px"></div></div>
+    <div id="printer"></div><div id="slot"></div><div id="led"></div>
+    <div class="chip" id="ch0"><span>A4</span></div>
+    <div class="chip" id="ch1"><span>تحميل فوري</span></div>
+  </div>
+
+  <!-- S8 end: lantern -->
+  <div class="scene" id="s8">
+    <div id="lglow"></div>
+    <div class="line" style="top:180px; font-size:80px"><span class="w" id="e1">ستيكرات اليوم الوطني</span></div>
+    <div class="line" style="top:330px; font-size:72px; color:var(--gold)"><span class="w" id="e1b">بطابع تراثي</span></div>
+    <div id="qcard"><div class="sadu abs" style="top:0; width:700px"></div><div class="sadu abs" style="top:742px; width:700px"></div>
+      <div class="line" style="width:700px; top:110px; font-size:96px; color:var(--green)"><span class="w" id="e2">في المتجر</span></div></div>
+    <div id="qr"><img src="qr_store.png"></div>
+    <div id="lantern"><div class="abs" style="left:98px; top:0; width:4px; height:470px; background:#c9a46a"></div><img src="saudi/b12.png" style="position:absolute; left:0; top:460px; width:200px; filter:drop-shadow(0 0 30px rgba(255,190,90,.7))"></div>
+    <div class="line" style="top:1560px; font-size:50px; font-weight:800; direction:ltr"><span class="w" id="e3">planme.zaher.io</span></div>
+  </div>
+
+  <div id="embers"></div>
+  <div id="fade"></div>
+</div>
+<script>
+const $ = (id) => document.getElementById(id);
+const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eio = (x) => (x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const eb = (x) => { const c = 1.7; return x <= 0 ? 0 : 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+
+const D = { h1: 0.2, h2: 0.9, oud: 3.0, dal: 5.2, her: 7.6, title: 9.8, t2: 11.0, u0: 13.0, u1: 14.6, u2: 16.2, print: 17.8, brand: 20.8, store: 22.2, end_all: 25.0 };
+const T = Object.assign({}, D, window.TL || {});
+const CUT = [T.oud - 0.25, T.dal - 0.25, T.her - 0.25, T.title - 0.25, T.u0 - 0.25, T.print - 0.25, T.brand - 0.25];
+const SC = [['s1', 0, CUT[0]], ['s2', CUT[0], CUT[1]], ['s3', CUT[1], CUT[2]], ['s4', CUT[2], CUT[3]], ['s5', CUT[3], CUT[4]], ['s6', CUT[4], CUT[5]], ['s7', CUT[5], CUT[6]], ['s8', CUT[6], 99]];
+
+const show = (id, t, a, out) => {
+  const k = eo(p(t, a, a + 0.5)); const o = out ? 1 - p(t, out, out + 0.3) : 1; const el = $(id);
+  el.style.opacity = k * o; el.style.filter = `blur(${(1 - k) * 14}px)`; el.style.transform = `translateY(${(1 - k) * 60}px)`;
+};
+const glowIn = (id, t, a) => { const k = eo(p(t, a, a + 0.6)); const el = $(id); el.style.opacity = k; el.style.textShadow = `0 0 ${40 * (1 - k) + 18}px rgba(255,170,80,${0.4 + 0.5 * (1 - k)})`; el.style.transform = `scale(${1.15 - 0.15 * k})`; };
+const place = (el, x, y, s, r, o) => { el.style.transform = `translate(${x}px,${y}px) rotate(${r}deg) scale(${s})`; if (o !== undefined) el.style.opacity = o; };
+const add = (host, cls, html = '') => { const d = document.createElement('div'); d.className = cls; d.innerHTML = html; $(host).appendChild(d); return d; };
+
+const STARS = [...Array(70)].map((_, i) => { const s = add('stars', 'star'); const z = 1 + R(i + 3) * 3; s.style.width = s.style.height = z + 'px'; s.style.transform = `translate(${R(i) * 1080}px, ${R(i + 1) * 1300}px)`; return s; });
+const EMB = [...Array(40)].map(() => add('embers', 'ember'));
+const PUFFS = [...Array(14)].map(() => add('puffs', 'puff'));
+const BULBS = [...Array(11)].map(() => add('bulbs', 'bulb'));
+const PEGS = ['b8', 'b22', 'b24', 'b28', 'b30'].map((n, i) => { const d = add('pegs', 'peg', `<div class="card"><img src="saudi/${n}.png"></div><div class="clip"></div>`); return d; });
+const PINS = [['b22', 290, 640], ['b30', 640, 820], ['b24', 360, 1060], ['b8', 700, 1180], ['b53', 240, 1290], ['b15', 560, 560]].map(([n, x, y]) => {
+  const r = add('pins', 'pinr'); const im = document.createElement('img'); im.className = 'st'; im.src = `saudi/${n}.png`; im.style.width = '180px'; $('pins').appendChild(im); return { r, im, x, y };
+});
+const POP = ['b29', 'b31', 'b28'].map((n) => { const im = document.createElement('img'); im.className = 'st'; im.src = `saudi/${n}.png`; im.style.width = '200px'; $('pop').appendChild(im); return im; });
+const BAGS = ['b15', 'b24', 'b30'].map((n, i) => add('bags', 'bag', `<img src="saudi/${n}.png" style="position:absolute; left:30px; top:60px; width:170px; height:170px; object-fit:contain; filter:drop-shadow(0 6px 8px rgba(0,0,0,.3))">`));
+const HCS = ['b29', 'b8', 'b40'].map((n) => add('hcs', 'hc', `<img src="saudi/${n}.png"><b>حيّاكم الله</b>`));
+['b8', 'b15', 'b16', 'b22', 'b24', 'b27', 'b28', 'b29', 'b30', 'b31', 'b33', 'b35', 'b36', 'b40', 'b53'].forEach((n, i) => {
+  const im = document.createElement('img'); im.src = `saudi/${n}.png`; im.style.cssText = `position:absolute; width:140px; height:140px; object-fit:contain; left:${30 + (i % 3) * 170}px; top:${40 + Math.floor(i / 3) * 140}px; transform:scale(.85)`; $('pgrid').appendChild(im);
+});
+
+window.render = (t) => {
+  for (const [id, a, b] of SC) $(id).style.display = t >= a && t < b ? 'block' : 'none';
+  $('fade').style.opacity = Math.max(1 - p(t, 0, 0.3), p(t, T.end_all - 0.5, T.end_all));
+  // a soft ember flash at each cut
+  const fl = Math.max(0, ...CUT.map((c) => 1 - Math.abs(t - c) / 0.2));
+  $('glow').style.opacity = 0.7 + 0.3 * Math.sin(t * 7) * Math.sin(t * 3.1) + fl;
+  STARS.forEach((s, i) => { s.style.opacity = 0.35 + 0.65 * Math.abs(Math.sin(t * (1 + R(i + 9) * 2) + i)); });
+  const sh = (t % 6) / 1.0; $('shoot').style.opacity = sh < 1 ? Math.sin(sh * Math.PI) : 0;
+  $('shoot').style.transform = `translate(${900 - sh * 700}px, ${150 + sh * 260}px) rotate(160deg)`;
+  EMB.forEach((e, i) => {
+    const sp = 120 + R(i) * 160; const ph = ((t * sp / 1400) + R(i + 4)) % 1;
+    e.style.transform = `translate(${R(i + 2) * 1080 + Math.sin(t * 2 + i) * 30}px, ${1950 - ph * 1500}px) scale(${1 + R(i + 6) * 1.5})`;
+    e.style.opacity = (1 - ph) * (0.6 + 0.4 * Math.sin(t * 9 + i)) + fl * 0.3;
+  });
+
+  // S1: question + pulsing empty spot
+  if (t < CUT[0]) {
+    show('h1', t, T.h1); glowIn('h2', t, T.h2);
+    const k = eb(p(t, 0.4, 1.0)); const pu = 1 + 0.05 * Math.sin(t * 6);
+    $('ring').style.transform = `scale(${k * pu}) rotate(${t * 30}deg)`; $('qmark').style.transform = `scale(${k * pu})`;
+    $('ring').style.opacity = $('qmark').style.opacity = p(t, 0.4, 0.6);
+  }
+
+  // S2: incense smoke swirls around the burner
+  if (t >= CUT[0] && t < CUT[1]) {
+    const a = CUT[0]; const k = eb(p(t, a, a + 0.6));
+    place($('mab'), 350, 1150, k, Math.sin(t * 1.2) * 2);
+    place($('chips'), 140 + Math.sin(t * 1.3) * 20, 900 + Math.cos(t * 1.1) * 30, eb(p(t, a + 0.4, a + 0.9)), Math.sin(t) * 15);
+    place($('oil'), 760 + Math.sin(t * 1.1 + 1) * 20, 780 + Math.cos(t * 1.4) * 30, eb(p(t, a + 0.6, a + 1.1)), Math.sin(t + 1) * 12);
+    PUFFS.forEach((d, i) => {
+      const ph = ((t - a) * 0.4 + i / PUFFS.length) % 1; const sw = Math.sin(ph * 6 + i) * 120 * ph;
+      d.style.opacity = (1 - ph) * p(t, a + 0.3, a + 0.8) * 0.9; d.style.transform = `translate(${430 + sw}px, ${1120 - ph * 900}px) scale(${0.6 + ph * 2.2})`;
+    });
+    show('o1', t, T.oud - 0.05);
+  }
+
+  // S3: coin scratches away the silver layer
+  if (t >= CUT[1] && t < CUT[2]) {
+    const a = CUT[1]; const zz = $('zz'); const L = zz.getTotalLength();
+    const k = eio(p(t, a + 0.3, CUT[2] - 0.5)); zz.style.strokeDasharray = `${L * k} ${L}`;
+    const pt = zz.getPointAtLength(L * k); $('coin').style.transform = `translate(${pt.x - 60}px, ${pt.y - 60}px) rotate(${t * 400}deg)`;
+    $('coin').style.opacity = k > 0 && k < 1 ? 1 : 0;
+    show('c1', t, T.dal - 0.05);
+  }
+
+  // S4: lights switch on one by one, pegged cards swing
+  if (t >= CUT[2] && t < CUT[3]) {
+    const a = CUT[2]; const wire = $('wire'); const L = wire.getTotalLength();
+    BULBS.forEach((b, i) => { const q = wire.getPointAtLength(L * (i + 0.5) / BULBS.length); const on = p(t, a + 0.1 + i * 0.06, a + 0.2 + i * 0.06); b.style.transform = `translate(${q.x - 15}px, ${q.y - 4}px) scale(${0.6 + on * (1 + 0.15 * Math.sin(t * 8 + i))})`; b.style.opacity = 0.25 + 0.75 * on; });
+    PEGS.forEach((d, i) => {
+      const q = wire.getPointAtLength(L * (i + 0.5) / PEGS.length); const k = p(t, a + 0.3 + i * 0.12, a + 0.6 + i * 0.12);
+      const sw = 10 * Math.exp(-(t - a - 0.3 - i * 0.12) * 1.2) * Math.sin((t - a) * 5 + i) * (k > 0 ? 1 : 0) + Math.sin(t * 1.5 + i) * 1.5;
+      d.style.opacity = k > 0 ? 1 : 0; d.style.transform = `translate(${q.x - 115}px, ${q.y - (1 - eo(k)) * 300}px) rotate(${sw}deg)`;
+    });
+    glowIn('r1', t, T.her - 0.05);
+  }
+
+  // S5: slow push across the vintage map, stickers drop in as pins
+  if (t >= CUT[3] && t < CUT[4]) {
+    const a = CUT[3]; const z = p(t, a, CUT[4]);
+    $('map').style.transform = `translate(${-210 - z * 60}px, ${260 - z * 40}px) scale(${1 + z * 0.08})`; $('map').style.opacity = eo(p(t, a, a + 0.5));
+    PINS.forEach(({ r, im, x, y }, i) => {
+      const s0 = a + 0.3 + i * 0.22; const k = p(t, s0, s0 + 0.3); const b = eb(p(t, s0 + 0.2, s0 + 0.5));
+      im.style.opacity = k > 0 ? 1 : 0; place(im, x - 90, y - 160 - (1 - eio(k)) * 500, k < 1 ? 1 : 1 + 0.08 * (1 - b), (R(i) - 0.5) * 16);
+      const rk = p(t, s0 + 0.3, s0 + 0.9); r.style.opacity = rk > 0 ? 1 - rk : 0; r.style.transform = `translate(${x - 30}px, ${y + 10}px) scale(${1 + rk * 4})`;
+    });
+    show('m1', t, T.title - 0.05); glowIn('m2', t, T.t2 - 0.05);
+  }
+
+  // S6: gift lid lifts + stickers pop out; bags drop; hospitality cards fan
+  if (t >= CUT[4] && t < CUT[5]) {
+    const at = [CUT[4] + 0.1, T.u1 - 0.2, T.u2 - 0.2];
+    const stage = t < at[1] ? 0 : t < at[2] ? 1 : 2;
+    $('ucap').textContent = ['علب الهدايا', 'أكياس التوزيعات', 'وكروت الضيافة'][stage];
+    show('ucap', t, at[stage] + 0.1);
+    const out0 = eio(p(t, at[1] - 0.1, at[1] + 0.3));
+    $('giftg').style.transform = `translateX(${out0 * 1200}px)`; $('pop').style.transform = `translateX(${out0 * 1200}px)`;
+    const lid = eio(p(t, at[0] + 0.4, at[0] + 0.9));
+    $('lid').style.transform = `translate(${-lid * 150}px, ${-lid * 160}px) rotate(${-lid * 20}deg)`;
+    POP.forEach((im, i) => { const s0 = at[0] + 0.7 + i * 0.12; const k = eo(p(t, s0, s0 + 0.5)); place(im, 440 + (i - 1) * 230, 900 - k * (300 + (i % 2) * 60), eb(p(t, s0, s0 + 0.5)), (i - 1) * 14, k > 0 ? 1 : 0); });
+    const out1 = eio(p(t, at[2] - 0.1, at[2] + 0.3));
+    BAGS.forEach((b, i) => { const s0 = at[1] + 0.15 + i * 0.15; const k = p(t, s0, s0 + 0.35); const bb = eb(p(t, s0 + 0.25, s0 + 0.55));
+      b.style.opacity = k > 0 ? 1 : 0; b.style.transform = `translate(${100 + i * 300 + out1 * 1200}px, ${1000 - (1 - eio(k)) * 1100 + (i % 2) * 40}px) scaleY(${k < 1 ? 1 : 1 - 0.06 * (1 - bb)})`; });
+    HCS.forEach((c, i) => { const k = eo(p(t, at[2] + 0.15, at[2] + 0.7)); const ang = (i - 1) * 16 * k;
+      c.style.opacity = t >= at[2] ? 1 : 0; c.style.transform = `translate(${390}px, ${880 + (1 - k) * 900}px) rotate(${ang}deg)`; c.style.zIndex = i === 1 ? 3 : 1; });
+  }
+
+  // S7: printer feeds the sheet line by line
+  if (t >= CUT[5] && t < CUT[6]) {
+    const a = CUT[5]; show('p1', t, a + 0.1); show('p2', t, a + 0.4);
+    const k = p(t, a + 0.3, a + 2.0); const steps = Math.floor(k * 24) / 24;
+    $('paper').style.height = (steps * 760) + 'px'; $('pgrid').style.top = (steps * 760 - 760) + 'px';
+    $('led').style.opacity = k > 0 && k < 1 ? (Math.sin(t * 20) > 0 ? 1 : 0.3) : 1;
+    $('printer').style.transform = `translateY(${k > 0 && k < 1 ? Math.sin(t * 60) * 1.5 : 0}px)`;
+    [[80, 1480], [720, 1300]].forEach(([x, y], i) => { const c = eb(p(t, a + 1.6 + i * 0.3, a + 2.0 + i * 0.3)); place($('ch' + i), x, y, c, (i - 0.5) * 6, p(t, a + 1.6 + i * 0.3, a + 1.7 + i * 0.3)); });
+  }
+
+  // S8: lantern swings, card and QR
+  if (t >= CUT[6]) {
+    const a = CUT[6]; const tt = t - a; const ck = eo(p(t, a, a + 0.7));
+    $('qcard').style.transform = `translateY(${(1 - ck) * 1300}px)`; $('qr').style.transform = `translateY(${(1 - ck) * 1300}px)`;
+    show('e1', t, a + 0.1); show('e1b', t, a + 0.4); glowIn('e2', t, T.store - 0.05); show('e3', t, T.store + 0.25);
+    const sw = 16 * Math.exp(-tt * 0.5) * Math.cos(tt * 2.6);
+    $('lantern').style.transform = `translate(890px, ${-480 + eo(p(t, a + 0.3, a + 1.0)) * 480}px) rotate(${sw}deg)`;
+    $('lglow').style.transform = `translate(${640 - Math.sin(sw * Math.PI / 180) * 500}px, ${-200 + eo(p(t, a + 0.3, a + 1.0)) * 480}px)`;
+    $('lglow').style.opacity = 0.7 + 0.3 * Math.sin(t * 9) * Math.sin(t * 4.3);
+  }
+};
+render(0);
+</script>
+</body></html>
