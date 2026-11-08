@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Changa:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; font-family:'Changa',sans-serif; }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; background:#d9a441; }
+  .line { position:absolute; left:0; width:1080px; text-align:center; font-weight:800; line-height:1.15; white-space:nowrap; }
+  .st { position:absolute; filter:drop-shadow(0 14px 0 rgba(36,23,38,.25)); }
+  .ring { position:absolute; border-radius:50%; }
+  .badge { position:absolute; left:760px; top:1270px; width:250px; height:250px; border-radius:50%; background:#5b3f78; color:#f3e7d6; transform:rotate(-10deg);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:0 14px 0 rgba(36,23,38,.25); }
+  .badge b { font-size:100px; line-height:.95; } .badge span { font-size:40px; }
+</style></head><body>
+<div id="stage">
+  <div class="ring" style="left:90px; top:640px; width:900px; height:900px; background:#7d2a3a"></div>
+  <div class="ring" style="left:190px; top:740px; width:700px; height:700px; background:#f3e7d6"></div>
+  <div class="line" style="top:220px; font-size:128px; color:#241726">الرسالة العادية…</div>
+  <div class="line" style="top:410px; font-size:150px; color:#f3e7d6; -webkit-text-stroke:10px #241726; paint-order:stroke fill">انتهى وقتها!</div>
+  <svg style="position:absolute; left:290px; top:860px" width="500" height="380"><rect x="0" y="0" width="500" height="340" rx="16" fill="#fbf2e0" stroke="#d6c3a5" stroke-width="4"/><path d="M0 0 L250 190 L500 0" fill="none" stroke="#d6c3a5" stroke-width="6"/></svg>
+  <img class="st" src="eph/b18.png" style="left:450px; top:960px; width:180px">
+  <img class="st" src="eph/b143.png" style="left:120px; top:780px; width:240px; transform:rotate(-14deg)">
+  <img class="st" src="eph/b101.png" style="left:720px; top:760px; width:230px; transform:rotate(12deg)">
+  <img class="st" src="eph/b22.png" style="left:150px; top:1180px; width:200px; transform:rotate(-8deg)">
+  <div class="badge"><b>١٤٩</b><span>ستيكر</span></div>
+  <div class="line" style="top:1610px; font-size:66px; color:#241726">ستيكرات الإفيميرا · ملف PDF</div>
+</div>
+</body></html>
