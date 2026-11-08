@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Almarai:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --paper:#f2efe8; --ink:#111111; --navy:#1f2b47; --mus:#e0a53c; --terra:#b5563f; --pink:#e6b3ad; --olive:#9a9a62; --sky:#9db3c4; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:var(--paper); font-family:'Almarai',sans-serif; color:var(--ink); }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; background:var(--paper); }
+  .scene { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; display:none; }
+  .abs { position:absolute; left:0; top:0; }
+  .line { position:absolute; left:0; width:1080px; text-align:center; font-weight:800; line-height:1.1; white-space:nowrap; }
+  .w { display:inline-block; }
+  .st { position:absolute; left:0; top:0; will-change:transform; filter:drop-shadow(0 20px 26px rgba(0,0,0,.22)); }
+  .mq { position:absolute; left:0; direction:ltr; white-space:nowrap; font-weight:800; line-height:1; color:transparent; -webkit-text-stroke:3px var(--ink); }
+  .mq.fill { color:var(--ink); -webkit-text-stroke:0; }
+  .cell { position:absolute; border-radius:40px; overflow:hidden; }
+  .cell img { position:absolute; object-fit:contain; filter:drop-shadow(0 14px 18px rgba(0,0,0,.25)); }
+  .cell .lb { position:absolute; left:34px; bottom:26px; font-weight:800; font-size:60px; }
+  .num { position:absolute; top:26px; right:34px; font-weight:800; font-size:34px; opacity:.7; }
+  #maskword { font-size:470px; font-weight:800; line-height:1; color:transparent; -webkit-background-clip:text; background-clip:text; background-size:120% auto; background-position:center; }
+  .bar { position:absolute; left:0; width:1080px; background:var(--ink); z-index:50; }
+  .chip { position:absolute; left:0; top:0; padding:14px 34px 18px; border-radius:60px; background:var(--ink); color:var(--paper); font-size:44px; font-weight:800; white-space:nowrap; }
+  .chip span { direction:rtl; unicode-bidi:isolate; }
+  #qr { position:absolute; left:290px; top:700px; width:500px; height:500px; background:#fff; padding:30px; border:14px solid var(--ink); }
+  #qr img { width:100%; height:100%; display:block; }
+</style></head><body>
+<div id="stage">
+
+  <!-- S1 hook: marquee + iris zoom -->
+  <div class="scene" id="s1">
+    <div id="mq1"></div>
+    <div id="iris" class="abs" style="left:240px; top:620px; width:600px; height:600px; border-radius:50%; overflow:hidden; background:var(--navy)">
+      <img id="irisImg" src="vase/b13.png" style="position:absolute; left:110px; top:40px; width:380px">
+    </div>
+    <div class="line" style="top:1310px; font-size:150px"><span class="w" id="h1">١٦ لوحة…</span></div>
+    <div class="line" style="top:1490px; font-size:110px; color:var(--terra)"><span class="w" id="h2">في ورقة وحدة!</span></div>
+  </div>
+
+  <!-- S2 text mask with flash cuts -->
+  <div class="scene" id="s2">
+    <div class="line" style="top:240px; font-size:120px"><span class="w" id="c1">كل لوحة…</span></div>
+    <div class="line" style="top:700px"><span class="w" id="maskword">بلون</span></div>
+    <div id="mq2"></div>
+  </div>
+
+  <!-- S3 bento grid -->
+  <div class="scene" id="s3"><div id="bento"></div></div>
+
+  <!-- S4 A4 dimension lines -->
+  <div class="scene" id="s4">
+    <div class="line" style="top:200px; font-size:120px"><span class="w" id="p1">ملف PDF</span></div>
+    <div class="line" style="top:360px; font-size:90px; color:var(--terra)"><span class="w" id="p2">بمقاس A4</span></div>
+    <img id="sheet" class="abs" src="vase/sheet3.jpg" style="width:560px; box-shadow:0 30px 60px rgba(0,0,0,.25)">
+    <svg class="abs" width="1080" height="1920" style="pointer-events:none">
+      <defs><marker id="ar" markerWidth="16" markerHeight="16" refX="8" refY="8" orient="auto-start-reverse"><path d="M0 0 L16 8 L0 16 z" fill="#111"/></marker></defs>
+      <line id="dimH" x1="260" y1="1530" x2="820" y2="1530" stroke="#111" stroke-width="5" marker-start="url(#ar)" marker-end="url(#ar)"/>
+      <line id="dimV" x1="890" y1="700" x2="890" y2="1490" stroke="#111" stroke-width="5" marker-start="url(#ar)" marker-end="url(#ar)"/>
+    </svg>
+    <div class="chip" id="chH"><span>٢١ سم</span></div>
+    <div class="chip" id="chV"><span>٢٩٫٧ سم</span></div>
+  </div>
+
+  <!-- S5 uses: marquee bands -->
+  <div class="scene" id="s5"><div id="bands"></div></div>
+
+  <!-- S6 end -->
+  <div class="scene" id="s6">
+    <div id="mq6"></div>
+    <div class="line" style="top:220px; font-size:104px"><span class="w" id="e1">ستيكرات المزهريات</span></div>
+    <div id="qr"><img src="qr_store.png"></div>
+    <img id="ev1" class="st" src="vase/b12.png" style="width:230px">
+    <img id="ev2" class="st" src="vase/b6.png" style="width:230px">
+    <div class="line" style="top:1380px; font-size:140px; color:var(--terra)"><span class="w" id="e2">في المتجر</span></div>
+    <div class="line" style="top:1560px; font-size:52px; direction:ltr"><span class="w" id="e3">planme.zaher.io</span></div>
+  </div>
+
+  <div class="bar" id="barT" style="top:0; height:0"></div>
+  <div class="bar" id="barB" style="bottom:0; top:auto; height:0"></div>
+</div>
+<script>
+const $ = (id) => document.getElementById(id);
+const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+const eo = (x) => 1 - Math.pow(1 - x, 4);
+const eio = (x) => (x < .5 ? 8 * x * x * x * x : 1 - Math.pow(-2 * x + 2, 4) / 2);
+const eb = (x) => { const c = 1.6; return x <= 0 ? 0 : 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+
+const D = { h1: 0.2, h2: 1.2, c1: 2.8, c2: 3.6, k0: 5.0, k1: 5.8, k2: 6.6, k3: 7.4, print: 8.8, p2: 9.8, u0: 11.4, u1: 12.6, u2: 13.8, brand: 15.4, store: 16.8, end_all: 19.5 };
+const T = Object.assign({}, D, window.TL || {});
+const CUT = [T.c1 - 0.2, T.k0 - 0.2, T.print - 0.2, T.u0 - 0.2, T.brand - 0.2];
+const SC = [['s1', 0, CUT[0]], ['s2', CUT[0], CUT[1]], ['s3', CUT[1], CUT[2]], ['s4', CUT[2], CUT[3]], ['s5', CUT[3], CUT[4]], ['s6', CUT[4], 99]];
+
+// type in: hard mask-up from a baseline
+const up = (id, t, a) => { const k = eo(p(t, a, a + 0.45)); const e = $(id); e.style.opacity = p(t, a, a + 0.05); e.style.clipPath = `inset(${(1 - k) * 100}% 0 0 0)`; e.style.transform = `translateY(${(1 - k) * 80}px)`; };
+const place = (e, x, y, s, r, o) => { e.style.transform = `translate(${x}px,${y}px) rotate(${r}deg) scale(${s})`; if (o !== undefined) e.style.opacity = o; };
+const marquee = (host, rows, words, size, gap) => rows.map((r) => { const d = document.createElement('div'); d.className = 'mq' + (r.fill ? ' fill' : ''); d.style.top = r.y + 'px'; d.style.fontSize = size + 'px'; d.textContent = (words + '   ').repeat(8); $(host).appendChild(d); return { d, ...r }; });
+const runMq = (rows, t, a) => rows.forEach(({ d, dir, sp }) => { d.style.transform = `translateX(${((dir * (t - a) * sp) % 1600) - (dir > 0 ? 1600 : 0)}px)`; });
+
+const MQ1 = marquee('mq1', [{ y: 80, dir: 1, sp: 260 }, { y: 300, dir: -1, sp: 200, fill: true }, { y: 520, dir: 1, sp: 320 }], '١٦ لوحة • مزهريات فنتج •', 190);
+const MQ2 = marquee('mq2', [{ y: 1500, dir: -1, sp: 300 }, { y: 1700, dir: 1, sp: 240 }], 'كحلي • خردلي • طوبي • وردي •', 150);
+const MQ6 = marquee('mq6', [{ y: 1720, dir: 1, sp: 220 }], 'في المتجر • في المتجر •', 160);
+const FLASH = [['b13', '#1f2b47'], ['b12', '#e0a53c'], ['b18', '#b5563f'], ['b16', '#e6b3ad'], ['b20', '#9db3c4'], ['b19', '#9a9a62']];
+
+// bento cells: [x, y, w, h, bg, sticker, label, label colour, when-key]
+const BENTO = [
+  [60, 120, 600, 760, '#1f2b47', 'b13', 'كحلي', '#f2efe8', 'k0'],
+  [680, 120, 340, 360, '#e0a53c', 'b12', '', '#111', 'k1'],
+  [680, 500, 340, 380, '#e0a53c', 'b21', 'خردلي', '#111', 'k1'],
+  [60, 900, 400, 520, '#b5563f', 'b18', 'طوبي', '#f2efe8', 'k2'],
+  [480, 900, 540, 520, '#b5563f', 'b10', '', '#f2efe8', 'k2'],
+  [60, 1440, 960, 400, '#e6b3ad', 'b16', 'ووردي', '#111', 'k3'],
+].map(([x, y, w, h, bg, n, lb, lc, key], i) => {
+  const d = document.createElement('div'); d.className = 'cell'; d.style.cssText = `left:${x}px; top:${y}px; width:${w}px; height:${h}px; background:${bg}`;
+  const iw = Math.min(w * 0.7, h * 0.62), ix = (w - iw) / 2, iy = (h - iw * 1.3) / 2 - (lb ? 30 : 0);
+  d.innerHTML = `<img src="vase/${n}.png" style="width:${iw}px; height:${iw * 1.3}px; left:${i === 5 ? w - iw - 80 : ix}px; top:${i === 5 ? 30 : Math.max(20, iy)}px"><div class="num" style="color:${lc}">0${i + 1}</div>${lb ? `<div class="lb" style="color:${lc}">${lb}</div>` : ''}`;
+  $('bento').appendChild(d); return { d, key, im: d.querySelector('img'), i };
+});
+
+// uses bands
+const USES = [['للبطاقات', '#e0a53c', 'b13'], ['للدفاتر', '#1f2b47', 'b16'], ['ولأكياس الطلبات', '#b5563f', 'b9']].map(([w, bg, n], i) => {
+  const d = document.createElement('div'); d.className = 'abs'; d.style.cssText = `top:${i * 640}px; width:1080px; height:640px; background:${bg}; overflow:hidden`;
+  const fg = i === 0 ? '#111' : '#f2efe8';
+  d.innerHTML = `<div class="mq" style="top:430px; font-size:150px; -webkit-text-stroke:3px ${fg}">${(w + ' • ').repeat(8)}</div>
+    <div class="abs" style="left:${i % 2 ? 620 : 120}px; top:70px; width:340px; height:400px; background:${i === 2 ? '#c49a6c' : '#f2efe8'}; border-radius:${i === 1 ? '12px 30px 30px 12px' : '10px'}; box-shadow:0 20px 40px rgba(0,0,0,.25)"></div>
+    <img class="st" src="vase/${n}.png" style="width:220px">
+    <div class="abs" style="left:${i % 2 ? 80 : 520}px; top:180px; width:480px; text-align:center; font-weight:800; font-size:${i === 2 ? 74 : 96}px; color:${fg}; white-space:nowrap"><span class="w">${w}</span></div>`;
+  $('bands').appendChild(d); return { d, mq: d.querySelector('.mq'), im: d.querySelector('img'), lab: d.querySelector('span.w'), i };
+});
+
+window.render = (t) => {
+  for (const [id, a, b] of SC) $(id).style.display = t >= a && t < b ? 'block' : 'none';
+  // shutter bars close in and open at each cut, and a fade at the end
+  let sh = 0; CUT.forEach((c) => { sh = Math.max(sh, 1 - Math.abs(t - c) / 0.2); });
+  sh = Math.max(sh, p(t, T.end_all - 0.4, T.end_all), 1 - p(t, 0, 0.25));
+  $('barT').style.height = $('barB').style.height = (eio(Math.min(1, sh)) * 961) + 'px';
+
+  // S1
+  if (t < CUT[0]) {
+    runMq(MQ1, t, 0);
+    const ik = eo(p(t, 0.05, 0.7)); $('iris').style.clipPath = `circle(${ik * 50}% at 50% 50%)`;
+    $('irisImg').style.transform = `scale(${1.35 - 0.35 * ik}) rotate(${(1 - ik) * -10}deg)`;
+    up('h1', t, T.h1); up('h2', t, T.h2);
+  }
+
+  // S2: the word is filled with stickers; hard flash cuts between colours
+  if (t >= CUT[0] && t < CUT[1]) {
+    const a = CUT[0]; up('c1', t, T.c1);
+    const fi = Math.floor(Math.max(0, t - T.c2 + 0.1) / 0.28) % FLASH.length; const [n, col] = FLASH[fi];
+    const m = $('maskword'); m.style.backgroundImage = `url(vase/${n}.png)`; m.style.backgroundColor = 'transparent';
+    $('s2').style.background = t >= T.c2 - 0.1 ? col : '#f2efe8';
+    const k = eo(p(t, T.c2 - 0.1, T.c2 + 0.35)); m.style.opacity = p(t, T.c2 - 0.1, T.c2); m.style.transform = `scale(${1.4 - 0.4 * k})`;
+    m.style.webkitTextStroke = '4px #111';
+    $('c1').style.color = t >= T.c2 - 0.1 ? (col === '#1f2b47' || col === '#b5563f' ? '#f2efe8' : '#111') : '#111';
+    runMq(MQ2, t, a); MQ2.forEach(({ d }) => { d.style.opacity = p(t, T.c2, T.c2 + 0.3); d.style.webkitTextStroke = `3px ${col === '#1f2b47' || col === '#b5563f' ? '#f2efe8' : '#111'}`; });
+  }
+
+  // S3: bento cells pop in with their colour word
+  if (t >= CUT[1] && t < CUT[2]) {
+    BENTO.forEach(({ d, key, im, i }) => {
+      const a = T[key] - 0.15 + (i === 2 || i === 4 ? 0.12 : 0); const k = eb(p(t, a, a + 0.5));
+      d.style.transform = `scale(${k})`; d.style.opacity = p(t, a, a + 0.05);
+      im.style.transform = `translateY(${Math.sin(t * 2 + i) * 6}px) rotate(${Math.sin(t * 1.3 + i) * 3}deg) scale(${0.8 + 0.2 * eo(p(t, a + 0.15, a + 0.6))})`;
+    });
+  }
+
+  // S4: sheet slides in, dimension lines draw
+  if (t >= CUT[2] && t < CUT[3]) {
+    const a = CUT[2]; up('p1', t, T.print); up('p2', t, T.p2 - 0.05);
+    const k = eo(p(t, a, a + 0.7)); $('sheet').style.transform = `translate(${260}px, ${700 + (1 - k) * 1300}px)`;
+    const dh = eo(p(t, T.p2 - 0.1, T.p2 + 0.5)), dv = eo(p(t, T.p2 + 0.1, T.p2 + 0.7));
+    $('dimH').setAttribute('x2', 260 + 560 * dh); $('dimH').style.opacity = dh > 0 ? 1 : 0;
+    $('dimV').setAttribute('y2', 700 + 790 * dv); $('dimV').style.opacity = dv > 0 ? 1 : 0;
+    place($('chH'), 450, 1560, eb(p(t, T.p2 + 0.4, T.p2 + 0.8)), 0, p(t, T.p2 + 0.4, T.p2 + 0.45));
+    place($('chV'), 770, 1040, eb(p(t, T.p2 + 0.6, T.p2 + 1.0)), -90, p(t, T.p2 + 0.6, T.p2 + 0.65));
+  }
+
+  // S5: bands slide in, marquee text runs, sticker drops onto each mock-up
+  if (t >= CUT[3] && t < CUT[4]) {
+    const at = [CUT[3] + 0.1, T.u1 - 0.2, T.u2 - 0.2];
+    USES.forEach(({ d, mq, im, lab, i }) => {
+      const k = eo(p(t, at[i], at[i] + 0.45)); d.style.transform = `translateX(${(i % 2 ? -1 : 1) * (1 - k) * 1100}px)`; d.style.opacity = t >= at[i] ? 1 : 0;
+      mq.style.transform = `translateX(${(((i % 2 ? 1 : -1) * (t - at[i]) * 260) % 1500) - 750}px)`; mq.style.opacity = 0.35;
+      const sk = eo(p(t, at[i] + 0.3, at[i] + 0.6)); place(im, (i % 2 ? 620 : 120) + 60, 110, 1.4 - 0.4 * sk, (1 - sk) * 12, p(t, at[i] + 0.3, at[i] + 0.35));
+      const lk = eo(p(t, at[i] + 0.2, at[i] + 0.6)); lab.style.clipPath = `inset(${(1 - lk) * 100}% 0 0 0)`;
+    });
+  }
+
+  // S6
+  if (t >= CUT[4]) {
+    const a = CUT[4]; runMq(MQ6, t, a); up('e1', t, T.brand); up('e2', t, T.store - 0.05); up('e3', t, T.store + 0.3);
+    const q = eb(p(t, a + 0.2, a + 0.7)); $('qr').style.transform = `scale(${q}) rotate(${(1 - q) * -8}deg)`; $('qr').style.opacity = p(t, a + 0.2, a + 0.25);
+    place($('ev1'), 70, 560 + Math.sin(t * 2) * 10, eb(p(t, a + 0.5, a + 0.9)), -12);
+    place($('ev2'), 790, 980 + Math.sin(t * 2 + 1) * 10, eb(p(t, a + 0.6, a + 1.0)), 10);
+  }
+};
+render(0);
+</script>
+</body></html>
