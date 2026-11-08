@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Marhey:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --paper:#f4ecdc; --kraft:#c9a57a; --ink:#3b2a20; --red:#b44a3a; --blue:#4c6a8a; --tape1:rgba(214,182,140,.85); --tape2:rgba(180,74,58,.6); }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:var(--kraft); font-family:'Marhey',sans-serif; color:var(--ink); }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; }
+  .scene { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; display:none; }
+  .page { position:absolute; left:40px; top:60px; width:1000px; height:1800px; background:
+      linear-gradient(90deg, transparent 118px, rgba(180,74,58,.5) 118px, rgba(180,74,58,.5) 122px, transparent 122px),
+      repeating-linear-gradient(180deg, transparent 0 58px, rgba(76,106,138,.22) 58px 60px), var(--paper);
+    box-shadow:0 20px 40px rgba(0,0,0,.25); }
+  .abs { position:absolute; left:0; top:0; }
+  .line { position:absolute; left:0; width:1080px; text-align:center; font-weight:700; line-height:1.3; white-space:nowrap; }
+  .w { display:inline-block; }
+  .st { position:absolute; left:0; top:0; filter:drop-shadow(0 8px 6px rgba(0,0,0,.25)); }
+  .tape { position:absolute; left:0; top:0; width:200px; height:60px; background:var(--tape1);
+    clip-path:polygon(0 8%, 4% 0, 8% 10%, 12% 0, 16% 8%, 20% 0, 80% 0, 84% 10%, 88% 0, 92% 8%, 96% 0, 100% 10%, 100% 92%, 96% 100%, 92% 90%, 88% 100%, 84% 92%, 80% 100%, 20% 100%, 16% 90%, 12% 100%, 8% 92%, 4% 100%, 0 90%);
+    background-image:repeating-linear-gradient(45deg, rgba(255,255,255,.18) 0 10px, transparent 10px 20px); }
+  svg .dd { fill:none; stroke:var(--ink); stroke-width:7; stroke-linecap:round; stroke-linejoin:round; }
+  svg .dr { fill:none; stroke:var(--red); stroke-width:8; stroke-linecap:round; stroke-linejoin:round; }
+  .scrap { position:absolute; left:0; top:0; padding:10px 40px 26px; background:#fffaf0; font-weight:700; box-shadow:0 8px 14px rgba(0,0,0,.2);
+    clip-path:polygon(0 4%, 6% 0, 14% 5%, 25% 1%, 37% 6%, 50% 0, 63% 5%, 75% 1%, 88% 6%, 100% 2%, 98% 50%, 100% 97%, 88% 100%, 75% 95%, 62% 100%, 50% 96%, 37% 100%, 25% 95%, 12% 100%, 0 96%, 2% 50%); }
+  #torn { position:absolute; left:0; top:0; width:1500px; height:1920px; background:#a8845c;
+    background-image:radial-gradient(rgba(0,0,0,.08) 1px, transparent 1px); background-size:7px 7px;
+    clip-path:polygon(4% 0, 100% 0, 100% 100%, 3% 100%, 0% 94%, 5% 88%, 1% 80%, 6% 72%, 2% 63%, 6% 55%, 1% 46%, 5% 38%, 0% 29%, 6% 21%, 2% 12%, 5% 6%); z-index:40; }
+  #qr { position:absolute; left:340px; top:760px; width:400px; height:400px; background:#fff; padding:22px; }
+  #qr img { width:100%; height:100%; display:block; }
+</style></head><body>
+<div id="stage">
+
+  <!-- S1 blank page -->
+  <div class="scene" id="s1"><div class="page"></div>
+    <svg class="abs" width="1080" height="1920"><path id="qd" class="dd" pathLength="1" d="M 430 900 C 430 760, 650 760, 650 880 C 650 960, 540 980, 540 1060 M 540 1160 L 540 1170"/>
+      <path id="star" class="dr" pathLength="1" d="M 800 1400 L 830 1480 L 915 1480 L 845 1530 L 870 1610 L 800 1560 L 730 1610 L 755 1530 L 685 1480 L 770 1480 Z"/></svg>
+    <div class="line" style="top:330px; font-size:130px"><span class="w" id="h1">صفحة فاضية…</span></div>
+    <div class="line" style="top:1300px; font-size:110px; color:var(--red)"><span class="w" id="h2">تحتاج لمسة!</span></div>
+  </div>
+
+  <!-- S2 kinds taped with arrows -->
+  <div class="scene" id="s2"><div class="page"></div><div id="kinds"></div>
+    <svg class="abs" width="1080" height="1920" id="arrows"></svg>
+  </div>
+
+  <!-- S3 count from paper scraps -->
+  <div class="scene" id="s3"><div class="page"></div>
+    <div id="digits"></div>
+    <div id="polas"></div>
+    <div class="scrap" id="c2" style="font-size:80px">ستيكر جورنال فنتج</div>
+  </div>
+
+  <!-- S4 cut / stick / story -->
+  <div class="scene" id="s4"><div class="page"></div>
+    <svg class="abs" width="1080" height="1920"><rect id="cutline" x="300" y="420" width="480" height="560" rx="30" fill="none" stroke="#3b2a20" stroke-width="6" stroke-dasharray="22 16"/></svg>
+    <img id="cutSt" class="st" src="journal/j7.png" style="width:400px">
+    <div id="scis" class="abs" style="font-size:110px">✂</div>
+    <div id="collage"></div>
+    <div class="scrap" id="w0" style="font-size:90px">قص…</div>
+    <div class="scrap" id="w1" style="font-size:90px">لزق…</div>
+    <div class="line" style="top:1680px; font-size:80px"><span class="w" id="w2">والصفحة تصير حكاية.</span></div>
+  </div>
+
+  <!-- S5 print -->
+  <div class="scene" id="s5"><div class="page"></div>
+    <div class="line" style="top:220px; font-size:110px"><span class="w" id="p1">ملف PDF</span></div>
+    <div class="line" style="top:380px; font-size:80px; color:var(--red)"><span class="w" id="p2">جاهز للطباعة</span></div>
+    <img id="sheet" class="abs" src="journal/sheet2.jpg" style="width:560px; box-shadow:0 14px 24px rgba(0,0,0,.3)">
+    <div class="tape" id="pt1"></div><div class="tape" id="pt2"></div>
+  </div>
+
+  <!-- S6 end -->
+  <div class="scene" id="s6"><div class="page"></div>
+    <div class="line" style="top:200px; font-size:96px"><span class="w" id="e1">ستيكرات الجورنال</span></div>
+    <div class="abs" id="note" style="left:270px; top:700px; width:540px; height:540px; background:#fffaf0; box-shadow:0 10px 18px rgba(0,0,0,.25)"></div>
+    <div id="qr"><img src="qr_store.png"></div>
+    <div class="tape" id="qt1"></div><div class="tape" id="qt2"></div>
+    <img id="eA" class="st" src="journal/j6.png" style="width:230px"><img id="eB" class="st" src="journal/j58.png" style="width:200px">
+    <svg class="abs" width="1080" height="1920"><path id="heart" class="dr" pathLength="1" transform="translate(320,170)" d="M 540 1520 C 470 1460, 430 1420, 470 1380 C 500 1350, 540 1370, 540 1400 C 540 1370, 580 1350, 610 1380 C 650 1420, 610 1460, 540 1520 Z"/></svg>
+    <div class="line" style="top:1280px; font-size:110px; color:var(--red)"><span class="w" id="e2">في المتجر</span></div>
+    <div class="line" style="top:1600px; font-size:48px; direction:ltr"><span class="w" id="e3">planme.zaher.io</span></div>
+  </div>
+
+  <div id="torn"></div>
+</div>
+<script>
+const $ = (id) => document.getElementById(id);
+const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eio = (x) => (x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const eb = (x) => { const c = 1.6; return x <= 0 ? 0 : 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const FPS = 12;
+
+const D = { h1: 0.2, h2: 1.4, k0: 3.2, k1: 4.0, k2: 4.8, k3: 5.6, count: 7.0, c2: 8.0, s0: 9.6, s1: 10.4, s2: 11.2, print: 13.2, brand: 15.8, store: 17.2, end_all: 20.0 };
+const T = Object.assign({}, D, window.TL || {});
+const CUT = [T.k0 - 0.25, T.count - 0.25, T.s0 - 0.25, T.print - 0.25, T.brand - 0.25];
+const SC = [['s1', 0, CUT[0]], ['s2', CUT[0], CUT[1]], ['s3', CUT[1], CUT[2]], ['s4', CUT[2], CUT[3]], ['s5', CUT[3], CUT[4]], ['s6', CUT[4], 99]];
+
+// stop-motion helpers: time steps at 12 fps and every element "boils" a little on each step
+let FR = 0;
+const jit = (i, a = 3) => [(R(i * 7.1 + FR) - 0.5) * a, (R(i * 3.3 + FR * 1.7) - 0.5) * a, (R(i * 5.9 + FR * 2.3) - 0.5) * a * 0.5];
+const put = (e, i, x, y, s, r, o) => { const [jx, jy, jr] = jit(i); e.style.transform = `translate(${x + jx}px,${y + jy}px) rotate(${r + jr}deg) scale(${s})`; if (o !== undefined) e.style.opacity = o; };
+const write = (id, t, a, i) => { const k = p(t, a, a + 0.5); const e = $(id); e.style.clipPath = `inset(0 0 0 ${(1 - k) * 100}%)`; e.style.opacity = k > 0 ? 1 : 0; const [jx, jy, jr] = jit(i, 2); e.style.transform = `translate(${jx}px,${jy}px) rotate(${jr}deg)`; };
+const scribble = (el, t, a, d = 0.6) => { const k = p(t, a, a + d); el.style.strokeDasharray = 1; el.style.strokeDashoffset = 1 - k; };
+const mkImg = (host, n, w) => { const im = document.createElement('img'); im.className = 'st'; im.src = `journal/${n}.png`; im.style.width = w + 'px'; $(host).appendChild(im); return im; };
+const mkTape = (host, w, col) => { const d = document.createElement('div'); d.className = 'tape'; d.style.width = w + 'px'; if (col) d.style.background = col; $(host).appendChild(d); return d; };
+
+// S2 kinds
+const KIND = [['فراشات', 'j26', 560, 380, 300, -8], ['شموع', 'j47', 140, 720, 300, 6], ['مفاتيح', 'j53', 640, 1000, 150, 14], ['وورد مجفف', 'j56', 160, 1340, 280, -5]].map(([w, n, x, y, sz, r], i) => {
+  const im = mkImg('kinds', n, sz); const tp = mkTape('kinds', 170, i % 2 ? 'rgba(76,106,138,.55)' : null);
+  const lb = document.createElement('div'); lb.className = 'scrap'; lb.style.fontSize = '74px'; lb.textContent = w; $('kinds').appendChild(lb);
+  const ar = document.createElementNS('http://www.w3.org/2000/svg', 'path'); ar.setAttribute('class', 'dd'); ar.setAttribute('pathLength', '1');
+  const lx = i % 2 ? 620 : 140, ly = y + 60; const ax = i % 2 ? x + sz + 20 : x - 20;
+  ar.setAttribute('d', i % 2 ? `M ${lx - 10} ${ly + 70} Q ${(lx + ax) / 2} ${ly + 160} ${ax} ${ly + 110} M ${ax + 30} ${ly + 80} L ${ax} ${ly + 110} L ${ax + 34} ${ly + 132}` : `M ${lx + 380} ${ly + 70} Q ${(lx + 380 + ax) / 2} ${ly + 170} ${ax} ${ly + 110} M ${ax - 30} ${ly + 80} L ${ax} ${ly + 110} L ${ax - 34} ${ly + 132}`);
+  $('arrows').appendChild(ar);
+  return { im, tp, lb, ar, x, y, sz, r, lx, ly, i };
+});
+// S3 digits as paper scraps + polaroids
+const DIG = ['٦', '٨'].map((d, i) => { const e = document.createElement('div'); e.className = 'scrap'; e.style.cssText += `font-size:360px; line-height:1; padding:20px 60px 70px; background:${i ? '#e7d0aa' : '#fffaf0'}`; e.textContent = d; $('digits').appendChild(e); return e; });
+const POL = ['j11', 'j46', 'j12', 'j65', 'j34', 'j30'].map((n, i) => ({ im: mkImg('polas', n, 220), tp: mkTape('polas', 130), x: 70 + (i % 3) * 330, y: 1100 + Math.floor(i / 3) * 360, r: (R(i) - 0.5) * 22 }));
+// S4 collage
+const COL = ['j6', 'j11', 'j26', 'j30', 'j34', 'j46', 'j47', 'j51', 'j53', 'j56', 'j58', 'j65', 'j12'].map((n, i) => ({ im: mkImg('collage', n, 175), x: 90 + (i % 4) * 230 + (R(i) - 0.5) * 40, y: 1030 + Math.floor(i / 4) * 125 + (R(i + 2) - 0.5) * 30, r: (R(i + 4) - 0.5) * 30 }));
+
+window.render = (tt) => {
+  const t = Math.floor(tt * FPS) / FPS; FR = Math.floor(tt * FPS);
+  for (const [id, a, b] of SC) $(id).style.display = tt >= a && tt < b ? 'block' : 'none';
+  // torn paper sweeps across at each cut (and covers the very start/end)
+  let tk = -1; CUT.forEach((c) => { if (Math.abs(tt - c) < 0.35) tk = p(tt, c - 0.35, c + 0.35); });
+  const tn = $('torn');
+  if (tk >= 0) tn.style.transform = `translateX(${1100 - tk * 2700}px) rotate(${(R(FR) - 0.5) * 1.5}deg)`;
+  else if (tt < 0.3) tn.style.transform = `translateX(${-1500 + (1 - p(tt, 0, 0.3)) * 0 - p(tt, 0, 0.3) * 0}px)`;
+  else tn.style.transform = 'translateX(-1600px)';
+  if (tt >= T.end_all - 0.4) tn.style.transform = `translateX(${1100 - p(tt, T.end_all - 0.4, T.end_all) * 1100}px)`;
+
+  // S1
+  if (tt < CUT[0]) {
+    write('h1', t, T.h1, 1); scribble($('qd'), t, 0.5, 0.8);
+    $('qd').style.opacity = 1 - p(t, T.h2 - 0.1, T.h2);
+    write('h2', t, T.h2, 2); scribble($('star'), t, T.h2 + 0.3, 0.5);
+  }
+  // S2: sticker lands, tape slaps on, label + arrow
+  if (tt >= CUT[0] && tt < CUT[1]) {
+    const ks = [T.k0, T.k1, T.k2, T.k3];
+    KIND.forEach(({ im, tp, lb, ar, x, y, sz, r, lx, ly, i }) => {
+      const a = ks[i] - 0.15; const k = p(t, a, a + 0.25);
+      put(im, i, x, y - (1 - k) * 60, k > 0 ? 1 + (1 - k) * 0.25 : 1, r, k > 0 ? 1 : 0);
+      put(tp, i + 10, x + sz / 2 - 85, y - 20, 1, r - 10, p(t, a + 0.25, a + 0.26));
+      put(lb, i + 20, lx, ly, 1, i % 2 ? 4 : -4, p(t, a + 0.3, a + 0.31));
+      scribble(ar, t, a + 0.35, 0.35);
+    });
+  }
+  // S3: digits slap down one by one, polaroids taped
+  if (tt >= CUT[1] && tt < CUT[2]) {
+    const a = T.count - 0.1;
+    DIG.forEach((e, i) => { const k = p(t, a + i * 0.25, a + i * 0.25 + 0.17); put(e, 40 + i, i ? 560 : 160, 260, k > 0 ? 1 + (1 - k) * 0.6 : 1, i ? 6 : -5, k > 0 ? 1 : 0); });
+    put($('c2'), 50, 210, 760, 1, -3, p(t, T.c2 - 0.1, T.c2 - 0.09));
+    POL.forEach(({ im, tp, x, y, r }, i) => { const s0 = a + 0.6 + i * 0.17; put(im, 60 + i, x, y, 1, r, p(t, s0, s0 + 0.01)); put(tp, 70 + i, x + 45, y - 22, 1, r + 6, p(t, s0 + 0.08, s0 + 0.09)); });
+  }
+  // S4: scissors cut along the dotted line, then a collage assembles
+  if (tt >= CUT[2] && tt < CUT[3]) {
+    const a = T.s0 - 0.1; const ck = p(t, a, T.s1 - 0.15);
+    const L = 2 * (480 + 560); const dd = ck * L; let sx, sy;
+    if (dd < 480) { sx = 300 + dd; sy = 420; } else if (dd < 1040) { sx = 780; sy = 420 + dd - 480; } else if (dd < 1520) { sx = 780 - (dd - 1040); sy = 980; } else { sx = 300; sy = 980 - (dd - 1520); }
+    put($('scis'), 80, sx - 55, sy - 75, 1, 0, ck > 0 && ck < 1 ? 1 : 0);
+    $('cutline').style.opacity = 1 - p(t, T.s1 - 0.15, T.s1);
+    const lift = p(t, T.s1 - 0.15, T.s1 + 0.1);
+    put($('cutSt'), 81, 340, 470 - lift * 40, 1 + lift * 0.05, lift * -5, 1);
+    put($('w0'), 82, 640, 300, 1, -6, p(t, T.s0 - 0.05, T.s0 - 0.04));
+    put($('w1'), 83, 120, 1000, 1, 5, p(t, T.s1 - 0.05, T.s1 - 0.04));
+    COL.forEach(({ im, x, y, r }, i) => { const s0 = T.s2 - 0.2 + i * 0.08; put(im, 90 + i, x, y, 1, r, p(t, s0, s0 + 0.01)); });
+    write('w2', t, T.s2 + 0.2, 99);
+  }
+  // S5 print
+  if (tt >= CUT[3] && tt < CUT[4]) {
+    const a = CUT[3]; write('p1', t, T.print, 110); write('p2', t, T.print + 0.6, 111);
+    const k = eo(p(t, a + 0.1, a + 0.8)); put($('sheet'), 112, 260, 640 + (1 - k) * 1300, 1, -2);
+    put($('pt1'), 113, 210, 610, 1, -30, p(t, a + 0.9, a + 0.91)); put($('pt2'), 114, 690, 1360, 1, -30, p(t, a + 1.05, a + 1.06));
+  }
+  // S6 end
+  if (tt >= CUT[4]) {
+    const a = CUT[4]; write('e1', t, T.brand, 120);
+    const k = p(t, a + 0.2, a + 0.45); put($('note'), 121, 0, 0, k > 0 ? 1 + (1 - k) * 0.3 : 1, -3, k > 0 ? 1 : 0); put($('qr'), 122, 0, 0, k > 0 ? 1 : 1, -3, k > 0 ? 1 : 0);
+    put($('qt1'), 123, 230, 680, 1, -35, p(t, a + 0.55, a + 0.56)); put($('qt2'), 124, 650, 1180, 1, -35, p(t, a + 0.65, a + 0.66));
+    put($('eA'), 125, 60, 420, 1, -12, p(t, a + 0.8, a + 0.81)); put($('eB'), 126, 830, 1060, 1, 10, p(t, a + 0.9, a + 0.91));
+    write('e2', t, T.store - 0.05, 127); write('e3', t, T.store + 0.3, 128); scribble($('heart'), t, T.store + 0.4, 0.5);
+  }
+};
+render(0);
+</script>
+</body></html>
