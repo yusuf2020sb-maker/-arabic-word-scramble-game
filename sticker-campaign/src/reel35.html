@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Kufam:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root { --cream:#fbefd9; --orange:#e8772e; --brown:#5b3a29; --mus:#f2b134; --teal:#2f8f83; --red:#d9483b; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:var(--cream); font-family:'Kufam',sans-serif; color:var(--brown); }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; background:var(--cream); }
+  .scene { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; display:none; }
+  .abs { position:absolute; left:0; top:0; }
+  .line { position:absolute; left:0; width:1080px; text-align:center; font-weight:900; line-height:1.25; white-space:nowrap; }
+  .w { display:inline-block; }
+  .chunky { color:var(--cream); text-shadow: 3px 3px 0 var(--brown), 6px 6px 0 var(--brown), 9px 9px 0 var(--brown), 12px 12px 0 var(--brown); -webkit-text-stroke:4px var(--brown); paint-order:stroke fill; }
+  .st { position:absolute; left:0; top:0; filter:drop-shadow(8px 10px 0 rgba(91,58,41,.35)); will-change:transform; }
+  .burst { position:absolute; left:-460px; top:-40px; width:2000px; height:2000px; border-radius:50%;
+    background:repeating-conic-gradient(from 0deg, var(--mus) 0deg 10deg, #f6c75e 10deg 20deg); }
+  .halftone { position:absolute; left:0; top:0; width:1080px; height:1920px; background-image:radial-gradient(rgba(91,58,41,.16) 3px, transparent 3.5px); background-size:22px 22px; }
+  #batt { position:absolute; left:240px; top:760px; width:560px; height:300px; border:22px solid var(--brown); border-radius:44px; background:var(--cream); }
+  #battCap { position:absolute; left:800px; top:850px; width:46px; height:120px; border-radius:0 20px 20px 0; background:var(--brown); }
+  #battFill { position:absolute; left:16px; top:16px; height:224px; border-radius:20px; }
+  #pct { position:absolute; left:240px; top:1090px; width:600px; text-align:center; font-size:150px; font-weight:900; }
+  #bolt { position:absolute; left:440px; top:780px; font-size:220px; line-height:1; }
+  .bubble { position:absolute; left:0; top:0; background:#fff; border:10px solid var(--brown); border-radius:60px; padding:30px; box-shadow:12px 12px 0 var(--brown); }
+  .pill { position:absolute; left:0; top:0; padding:12px 44px 22px; border-radius:80px; border:8px solid var(--brown); font-weight:900; font-size:70px; white-space:nowrap; box-shadow:8px 8px 0 var(--brown); }
+  .chip { position:absolute; left:0; top:0; padding:12px 36px 18px; border-radius:60px; background:var(--teal); color:var(--cream); border:6px solid var(--brown); font-size:44px; font-weight:800; white-space:nowrap; }
+  .chip span { direction:rtl; unicode-bidi:isolate; }
+  #qrPill { position:absolute; left:250px; top:660px; width:580px; height:700px; border-radius:290px; background:var(--cream); border:14px solid var(--brown); box-shadow:16px 16px 0 var(--brown); }
+  #qr { position:absolute; left:350px; top:820px; width:380px; height:380px; background:#fff; padding:20px; border-radius:20px; }
+  #qr img { width:100%; height:100%; display:block; }
+  #waves { position:absolute; left:0; top:0; z-index:30; pointer-events:none; }
+</style></head><body>
+<div id="stage">
+
+  <!-- S1 battery hook -->
+  <div class="scene" id="s1">
+    <div class="halftone"></div>
+    <div class="line chunky" style="top:260px; font-size:150px"><span class="w" id="h1">البطارية…</span></div>
+    <div id="batt"><div id="battFill"></div></div><div id="battCap"></div>
+    <div id="bolt">⚡</div>
+    <div id="pct">١٪</div>
+    <img id="cup1" class="st" src="coffee/p8.png" style="width:280px">
+    <div class="line chunky" style="top:1480px; font-size:124px"><span class="w" id="h2">والحل؟ قهوة!</span></div>
+  </div>
+
+  <!-- S2 title with sunburst -->
+  <div class="scene" id="s2">
+    <div class="burst" id="burst2"></div>
+    <div id="orbit"></div>
+    <div class="line chunky" style="top:790px; font-size:116px"><span class="w" id="t1">ستيكرات قهوة</span></div>
+    <div class="line" style="top:980px; font-size:90px; color:var(--brown)"><span class="w" id="t2">بروح سعودية</span></div>
+  </div>
+
+  <!-- S3 phrase bubbles -->
+  <div class="scene" id="s3" style="background:var(--orange)">
+    <div class="halftone"></div>
+    <div id="bubbles"></div>
+  </div>
+
+  <!-- S4 uses -->
+  <div class="scene" id="s4"><div class="halftone"></div><div id="uses"></div></div>
+
+  <!-- S5 print -->
+  <div class="scene" id="s5" style="background:var(--teal)">
+    <div class="halftone"></div>
+    <div class="line chunky" style="top:220px; font-size:120px"><span class="w" id="p1">ملف PDF</span></div>
+    <div class="line" style="top:400px; font-size:80px; color:var(--cream)"><span class="w" id="p2">جاهز للطباعة</span></div>
+    <img id="sheet" class="abs" src="coffee/sheet3.jpg" style="width:540px; border:10px solid var(--brown); box-shadow:14px 14px 0 var(--brown)">
+    <div class="chip" id="ch0" style="background:var(--orange)"><span>A4</span></div>
+    <div class="chip" id="ch1" style="background:var(--mus); color:var(--brown)"><span>تحميل فوري</span></div>
+  </div>
+
+  <!-- S6 end -->
+  <div class="scene" id="s6">
+    <div class="burst" id="burst6"></div>
+    <div class="line chunky" style="top:220px; font-size:120px"><span class="w" id="e1">ستيكرات القهوة</span></div>
+    <div id="qrPill"></div>
+    <div id="qr"><img src="qr_store.png"></div>
+    <img id="eA" class="st" src="coffee/p33.png" style="width:240px">
+    <img id="eB" class="st" src="coffee/p36.png" style="width:240px">
+    <div class="line chunky" style="top:1430px; font-size:130px"><span class="w" id="e2">في المتجر</span></div>
+    <div class="line" style="top:1640px; font-size:52px; direction:ltr"><span class="w" id="e3">planme.zaher.io</span></div>
+  </div>
+
+  <svg id="waves" width="1080" height="1920"><path id="wv0" fill="#e8772e"/><path id="wv1" fill="#f2b134"/><path id="wv2" fill="#5b3a29"/></svg>
+</div>
+<script>
+const $ = (id) => document.getElementById(id);
+const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eio = (x) => (x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const eb = (x) => { const c = 2.0; return x <= 0 ? 0 : 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const AR = (n) => Math.round(n).toLocaleString('ar-EG');
+
+const D = { h1: 0.2, h2: 2.0, title: 3.6, t2: 4.6, b0: 6.4, b1: 7.8, b2: 9.2, u0: 11.0, u1: 12.4, u2: 13.8, print: 15.4, brand: 18.0, store: 19.4, end_all: 22.0 };
+const T = Object.assign({}, D, window.TL || {});
+const CUT = [T.title - 0.25, T.b0 - 0.25, T.u0 - 0.25, T.print - 0.25, T.brand - 0.25];
+const SC = [['s1', 0, CUT[0]], ['s2', CUT[0], CUT[1]], ['s3', CUT[1], CUT[2]], ['s4', CUT[2], CUT[3]], ['s5', CUT[3], CUT[4]], ['s6', CUT[4], 99]];
+
+// squash-and-stretch pop
+const squash = (e, t, a, x, y, r = 0) => { const k = p(t, a, a + 0.5); const s = eb(k); const sq = 1 + Math.sin(k * Math.PI * 3) * 0.12 * (1 - k);
+  e.style.opacity = k > 0 ? 1 : 0; e.style.transform = `translate(${x}px,${y}px) rotate(${r + Math.sin(t * 3) * 2}deg) scale(${s * sq}, ${s / sq})`; };
+const wobble = (id, t, a) => { const k = p(t, a, a + 0.5); const e = $(id); e.style.opacity = k > 0 ? 1 : 0; const s = eb(k);
+  e.style.transform = `scale(${s}) rotate(${Math.sin(t * 4) * 2 * (k)}deg) skewX(${Math.sin(t * 5) * 3}deg)`; };
+const mk = (host, n, w) => { const im = document.createElement('img'); im.className = 'st'; im.src = `coffee/${n}.png`; im.style.width = w + 'px'; $(host).appendChild(im); return im; };
+
+// groovy wave wipe: three sine bands rise and fall at each cut
+const wave = (y0, amp, ph, t) => { let d = `M -20 1940 L -20 ${y0}`; for (let x = 0; x <= 1100; x += 40) d += ` L ${x} ${y0 + Math.sin(x / 140 + ph + t * 6) * amp}`; return d + ' L 1100 1940 Z'; };
+
+const ORB = ['p10', 'p26', 'p30', 'p33', 'p36', 'p46', 'p49', 'p53', 'p73', 'p74', 'p76', 'p94'].map((n) => mk('orbit', n, 190));
+const BUB = [['p49', 'أبغى قهوة'], ['p46', 'قهوتي أولاً'], ['p54', 'قلل ناس… كثر قهوة']].map(([n, txt], i) => {
+  const d = document.createElement('div'); d.className = 'bubble'; d.innerHTML = `<img src="coffee/${n}.png" style="width:440px; display:block">`; $('bubbles').appendChild(d);
+  const pl = document.createElement('div'); pl.className = 'pill'; pl.style.background = ['#f2b134', '#fbefd9', '#2f8f83'][i]; pl.style.color = i === 2 ? '#fbefd9' : '#5b3a29'; pl.textContent = `«${txt}»`; $('bubbles').appendChild(pl);
+  return { d, pl, i };
+});
+const USES = [
+  { cap: 'للأكواب', bg: '#f2b134', html: '<div class="abs" style="left:300px; top:760px; width:420px; height:520px; background:#fbefd9; border:12px solid #5b3a29; border-radius:20px 20px 80px 80px; box-shadow:14px 14px 0 #5b3a29"></div><div class="abs" style="left:700px; top:860px; width:170px; height:260px; border:30px solid #5b3a29; border-left:none; border-radius:0 120px 120px 0"></div>', st: [['p8', 360, 830, 300]] },
+  { cap: 'للابتوب', bg: '#2f8f83', html: '<div class="abs" style="left:150px; top:700px; width:780px; height:500px; background:#3c3c44; border:12px solid #5b3a29; border-radius:28px; box-shadow:14px 14px 0 #5b3a29"></div><div class="abs" style="left:80px; top:1190px; width:920px; height:60px; background:#c9c9cf; border:12px solid #5b3a29; border-radius:0 0 40px 40px"></div>', st: [['p74', 200, 760, 240], ['p33', 480, 820, 200], ['p94', 720, 800, 170]] },
+  { cap: 'ولطلبات الكافيه', bg: '#e8772e', html: '<div class="abs" style="left:300px; top:700px; width:480px; height:620px; background:linear-gradient(#d2a877,#b88a54); border:12px solid #5b3a29; clip-path:polygon(0 0,100% 0,92% 100%,8% 100%); box-shadow:14px 14px 0 #5b3a29"></div>', st: [['p53', 360, 850, 360]] },
+].map((u, i) => {
+  const host = document.createElement('div'); host.className = 'abs'; host.style.cssText = `width:1080px; height:1920px; background:${u.bg}`; host.innerHTML = '<div class="halftone"></div>' + u.html;
+  const cap = document.createElement('div'); cap.className = 'line chunky'; cap.style.top = '300px'; cap.style.fontSize = '120px'; cap.innerHTML = `<span class="w">${u.cap}</span>`; host.appendChild(cap);
+  u.ims = u.st.map(([n, x, y, w]) => { const im = document.createElement('img'); im.className = 'st'; im.src = `coffee/${n}.png`; im.style.width = w + 'px'; host.appendChild(im); return { im, x, y }; });
+  $('uses').appendChild(host); return Object.assign(u, { host, capEl: cap.querySelector('span') });
+});
+
+window.render = (t) => {
+  for (const [id, a, b] of SC) $(id).style.display = t >= a && t < b ? 'block' : 'none';
+  // groovy wave wipe
+  let wk = -1; CUT.forEach((c) => { if (Math.abs(t - c) < 0.4) wk = p(t, c - 0.4, c + 0.4); });
+  if (t < 0.35) wk = 0.5 + p(t, 0, 0.35) * 0.5; if (t > T.end_all - 0.4) wk = p(t, T.end_all - 0.4, T.end_all) * 0.5;
+  [0, 1, 2].forEach((i) => { const el = $('wv' + i); if (wk < 0) { el.setAttribute('d', ''); return; }
+    const h = Math.sin(Math.min(1, Math.max(0, wk - i * 0.06) / 0.88) * Math.PI); el.setAttribute('d', wave(1960 - h * (2100 - i * 90), 40, i * 1.3, t)); });
+
+  // S1 battery drains then charges with coffee
+  if (t < CUT[0]) {
+    const drain = eio(p(t, 0.15, 1.5)); const charge = eio(p(t, T.h2 + 0.2, T.h2 + 1.1));
+    const lvl = charge > 0 ? 1 + charge * 99 : 100 - drain * 99;
+    const f = $('battFill'); f.style.width = (496 * lvl / 100) + 'px';
+    f.style.background = lvl < 20 ? (Math.floor(t * 4) % 2 ? '#d9483b' : '#f08070') : lvl < 60 ? '#f2b134' : '#2f8f83';
+    $('pct').textContent = `${AR(lvl)}٪`; $('pct').style.color = lvl < 20 ? '#d9483b' : '#2f8f83';
+    $('batt').style.transform = `rotate(${lvl < 20 && charge === 0 ? Math.sin(t * 40) * 1.5 : 0}deg)`;
+    $('bolt').style.opacity = charge > 0 && charge < 1 ? 1 : 0; $('bolt').style.transform = `scale(${1 + Math.sin(t * 12) * 0.1})`;
+    wobble('h1', t, T.h1); wobble('h2', t, T.h2);
+    squash($('cup1'), t, T.h2 - 0.1, 640, 1060, -8); $('cup1').style.zIndex = 5;
+    if (t < T.h2 - 0.1) $('cup1').style.opacity = 0;
+  }
+  // S2 sunburst + orbit
+  if (t >= CUT[0] && t < CUT[1]) {
+    const a = CUT[0]; $('burst2').style.transform = `rotate(${(t - a) * 18}deg) scale(${eo(p(t, a, a + 0.5))})`;
+    ORB.forEach((im, i) => { const ang = i / ORB.length * Math.PI * 2 + (t - a) * 0.6; const k = eb(p(t, a + 0.1 + i * 0.05, a + 0.6 + i * 0.05));
+      im.style.opacity = k > 0 ? 1 : 0; im.style.transform = `translate(${540 + Math.cos(ang) * 420 - 95}px, ${960 + Math.sin(ang) * 640 - 95}px) rotate(${Math.sin(t * 2 + i) * 10}deg) scale(${k})`; });
+    wobble('t1', t, T.title - 0.05); wobble('t2', t, T.t2 - 0.05);
+  }
+  // S3 phrase bubbles: each pops center, previous shrinks to a corner
+  if (t >= CUT[1] && t < CUT[2]) {
+    const at = [T.b0 - 0.15, T.b1 - 0.15, T.b2 - 0.15];
+    BUB.forEach(({ d, pl, i }) => {
+      const nx = i < 2 ? at[i + 1] : 99; const sh = eio(p(t, nx - 0.1, nx + 0.3));
+      const cx = 270, cy = 560; const tx = [60, 600, 0][i], ty = [180, 200, 0][i];
+      const k = p(t, at[i], at[i] + 0.5); const s = eb(k) * (1 - sh * 0.55);
+      d.style.opacity = k > 0 ? 1 : 0; d.style.transform = `translate(${cx + (tx - cx) * sh}px, ${cy + (ty - cy) * sh}px) rotate(${(i - 1) * 6 + Math.sin(t * 3 + i) * 2}deg) scale(${s})`;
+      d.style.transformOrigin = '0 0'; d.style.zIndex = i + 1;
+      const pk = eb(p(t, at[i] + 0.15, at[i] + 0.5)); pl.style.opacity = pk > 0 && sh < 0.5 ? 1 : 0;
+      pl.style.transform = `translate(${540 - 300}px, ${1260}px) scale(${pk}) rotate(${(i - 1) * -3}deg)`; pl.style.zIndex = 10;
+    });
+  }
+  // S4 uses: wave wipes between stations
+  if (t >= CUT[2] && t < CUT[3]) {
+    const at = [CUT[2] + 0.1, T.u1 - 0.2, T.u2 - 0.2]; const st = t < at[1] ? 0 : t < at[2] ? 1 : 2;
+    USES.forEach((u, i) => {
+      u.host.style.display = i <= st ? 'block' : 'none'; u.host.style.zIndex = i;
+      const k = eio(p(t, at[i], at[i] + 0.45)); u.host.style.clipPath = i === 0 ? 'none' : `inset(${(1 - k) * 100}% 0 0 0)`;
+      const ck = eb(p(t, at[i] + 0.2, at[i] + 0.6)); u.capEl.style.transform = `scale(${ck}) rotate(${Math.sin(t * 4) * 2}deg)`; u.capEl.style.opacity = ck > 0 ? 1 : 0;
+      u.ims.forEach(({ im, x, y }, j) => squash(im, t, at[i] + 0.35 + j * 0.15, x, y, (j - 1) * 8));
+    });
+  }
+  // S5 print
+  if (t >= CUT[3] && t < CUT[4]) {
+    const a = CUT[3]; wobble('p1', t, a + 0.1); wobble('p2', t, a + 0.45);
+    const k = eo(p(t, a + 0.1, a + 0.9)); $('sheet').style.transform = `translate(270px, ${600 + (1 - k) * 1400}px) rotate(${-3 + Math.sin(t * 2) * 1}deg)`;
+    squash($('ch0'), t, a + 1.0, 90, 1450, -6); squash($('ch1'), t, a + 1.2, 680, 1300, 5);
+  }
+  // S6 end
+  if (t >= CUT[4]) {
+    const a = CUT[4]; $('burst6').style.transform = `rotate(${(t - a) * 18}deg) scale(${eo(p(t, a, a + 0.5))})`;
+    wobble('e1', t, a + 0.1); wobble('e2', t, T.store - 0.05); wobble('e3', t, T.store + 0.3);
+    const q = eb(p(t, a + 0.3, a + 0.8)); $('qrPill').style.transform = `scale(${q})`; $('qr').style.transform = `scale(${q})`; $('qrPill').style.opacity = $('qr').style.opacity = q > 0 ? 1 : 0;
+    squash($('eA'), t, a + 0.7, 40, 560, -12); squash($('eB'), t, a + 0.85, 800, 1120, 12);
+  }
+};
+render(0);
+</script>
+</body></html>
