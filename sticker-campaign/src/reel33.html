@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Lemonada:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --peach:#f8e6d8; --wall:#f3d9c4; --ink:#5a3b2e; --terra:#c8664a; --sage:#9fae8a; --mustard:#e2b04a; --cream:#fdf5ec; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:var(--peach); font-family:'Lemonada',sans-serif; color:var(--ink); }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; }
+  #world { position:absolute; left:0; top:0; width:6480px; height:1920px; }
+  .zone { position:absolute; top:0; width:1080px; height:1920px; }
+  .abs { position:absolute; left:0; top:0; }
+  .line { position:absolute; left:0; width:1080px; text-align:center; font-weight:700; line-height:1.35; white-space:nowrap; }
+  .w { display:inline-block; }
+  .st { position:absolute; left:0; top:0; filter:drop-shadow(0 12px 14px rgba(90,59,46,.25)); will-change:transform; }
+  svg .ink { fill:none; stroke:var(--ink); stroke-width:7; stroke-linecap:round; stroke-linejoin:round; }
+  svg .fl { stroke:none; }
+  .lab { position:absolute; left:0; top:0; padding:6px 30px 14px; border-radius:40px; background:var(--ink); color:var(--cream); font-size:46px; font-weight:700; white-space:nowrap; }
+  #qr { position:absolute; left:340px; top:760px; width:400px; height:400px; background:#fff; padding:24px; border-radius:18px; }
+  #qr img { width:100%; height:100%; display:block; }
+  #fade { position:absolute; left:0; top:0; width:1080px; height:1920px; background:var(--ink); opacity:0; pointer-events:none; }
+  #dust { position:absolute; left:0; top:0; width:1080px; height:1920px; pointer-events:none; }
+  .mote { position:absolute; left:0; top:0; width:8px; height:8px; border-radius:50%; background:rgba(255,236,200,.9); }
+</style></head><body>
+<div id="stage">
+  <div id="world">
+    <!-- Z0 room (rightmost: the camera starts here and pans left) -->
+    <div class="zone" id="z0" style="left:5400px">
+      <svg class="abs" width="1080" height="1920">
+        <rect class="fl f0" x="0" y="1480" width="1080" height="440" fill="#e9c9ae"/>
+        <rect class="fl f0" x="300" y="560" width="480" height="560" rx="20" fill="#cfe3e6"/>
+        <path class="ink d0" pathLength="1" d="M 0 1480 L 1080 1480"/>
+        <path class="ink d0" pathLength="1" d="M 300 580 Q 300 560 320 560 L 760 560 Q 780 560 780 580 L 780 1100 Q 780 1120 760 1120 L 320 1120 Q 300 1120 300 1100 Z"/>
+        <path class="ink d0" pathLength="1" d="M 540 560 L 540 1120 M 300 840 L 780 840"/>
+        <path class="ink d0" pathLength="1" d="M 250 520 Q 300 800 250 1160 M 830 520 Q 780 800 830 1160 M 230 520 L 850 520"/>
+        <path class="ink d0" pathLength="1" d="M 130 1700 Q 540 1600 950 1700"/>
+      </svg>
+      <img id="z0lamp" class="st" src="home/b122.png" style="width:200px">
+      <img id="z0chair" class="st" src="home/b124.png" style="width:380px">
+      <img id="z0plant" class="st" src="home/b13.png" style="width:200px">
+    </div>
+    <!-- Z1 shelves -->
+    <div class="zone" id="z1" style="left:4320px">
+      <svg class="abs" width="1080" height="1920">
+        <rect class="fl f1" x="110" y="900" width="860" height="26" rx="8" fill="#c99a6d"/>
+        <rect class="fl f1" x="110" y="1360" width="860" height="26" rx="8" fill="#c99a6d"/>
+        <path class="ink d1" pathLength="1" d="M 110 900 L 970 900 L 970 926 L 110 926 Z M 200 926 L 200 990 L 260 926 M 880 926 L 880 990 L 820 926"/>
+        <path class="ink d1" pathLength="1" d="M 110 1360 L 970 1360 L 970 1386 L 110 1386 Z M 200 1386 L 200 1450 L 260 1386 M 880 1386 L 880 1450 L 820 1386"/>
+      </svg>
+      <div id="shelfItems"></div>
+    </div>
+    <!-- Z2 count + rug -->
+    <div class="zone" id="z2" style="left:3240px">
+      <svg class="abs" width="1080" height="1920">
+        <ellipse class="fl f2" cx="540" cy="1460" rx="470" ry="230" fill="#e2b04a"/>
+        <ellipse class="fl f2" cx="540" cy="1460" rx="380" ry="170" fill="#c8664a"/>
+        <ellipse class="fl f2" cx="540" cy="1460" rx="290" ry="110" fill="#fdf5ec"/>
+        <ellipse class="ink d2" pathLength="1" cx="540" cy="1460" rx="470" ry="230"/>
+        <text id="bignum" x="540" y="860" text-anchor="middle" font-family="Lemonada" font-weight="700" font-size="400" fill="#c8664a" stroke="#5a3b2e" stroke-width="8" stroke-dasharray="3000" stroke-dashoffset="3000" fill-opacity="0">١٣٦</text>
+      </svg>
+      <div class="line" style="top:940px; font-size:84px"><span class="w" id="n2">ستيكر بطابع دافي</span></div>
+      <div id="rugItems"></div>
+    </div>
+    <!-- Z3 desk with three stations -->
+    <div class="zone" id="z3" style="left:2160px">
+      <svg class="abs" width="1080" height="1920">
+        <rect class="fl fu0" x="120" y="380" width="520" height="380" rx="16" fill="#fdf5ec"/>
+        <rect class="fl fu1" x="440" y="860" width="520" height="360" rx="14" fill="#e9d3b4"/>
+        <rect class="fl fu2" x="120" y="1320" width="560" height="420" rx="12" fill="#c99a6d"/>
+        <rect class="fl fu2" x="120" y="1500" width="560" height="70" fill="#f3e0c8"/>
+        <path class="ink du0" pathLength="1" d="M 120 396 Q 120 380 136 380 L 624 380 Q 640 380 640 396 L 640 744 Q 640 760 624 760 L 136 760 Q 120 760 120 744 Z M 380 380 L 380 760"/>
+        <path class="ink du1" pathLength="1" d="M 440 874 Q 440 860 454 860 L 946 860 Q 960 860 960 874 L 960 1206 Q 960 1220 946 1220 L 454 1220 Q 440 1220 440 1206 Z M 440 860 L 700 1060 L 960 860"/>
+        <path class="ink du2" pathLength="1" d="M 120 1320 L 680 1320 L 680 1740 L 120 1740 Z M 120 1500 L 680 1500 M 120 1570 L 680 1570"/>
+      </svg>
+      <div id="deskItems"></div>
+      <div class="lab" id="l0">للجورنال</div><div class="lab" id="l1">للبطاقات</div><div class="lab" id="l2">ولتغليف الطلبات</div>
+    </div>
+    <!-- Z4 printer -->
+    <div class="zone" id="z4" style="left:1080px">
+      <div class="line" style="top:220px; font-size:96px"><span class="w" id="p1">ملف PDF</span></div>
+      <div class="line" style="top:380px; font-size:70px; color:var(--terra)"><span class="w" id="p2">جاهز للطباعة</span></div>
+      <div id="sheetClip" class="abs" style="left:250px; top:860px; width:580px; height:820px; overflow:hidden"><img id="sheet" src="home/sheet2.jpg" style="position:absolute; left:20px; top:0; width:540px"></div>
+      <svg class="abs" width="1080" height="1920">
+        <rect class="fl f4" x="190" y="640" width="700" height="240" rx="40" fill="#fdf5ec"/>
+        <rect class="fl f4" x="260" y="850" width="560" height="22" rx="11" fill="#5a3b2e"/>
+        <circle class="fl f4" cx="800" cy="720" r="16" fill="#9fae8a"/>
+        <path class="ink d4" pathLength="1" d="M 230 640 L 850 640 Q 890 640 890 680 L 890 840 Q 890 880 850 880 L 230 880 Q 190 880 190 840 L 190 680 Q 190 640 230 640 Z M 300 640 L 330 560 L 750 560 L 780 640"/>
+      </svg>
+    </div>
+    <!-- Z5 end: window with QR -->
+    <div class="zone" id="z5" style="left:0">
+      <div class="line" style="top:200px; font-size:84px"><span class="w" id="e1">ستيكرات البيت الدافي</span></div>
+      <img id="lights" class="st" src="home/b107.png" style="width:300px">
+      <svg class="abs" width="1080" height="1920">
+        <rect class="fl f5" x="250" y="660" width="580" height="600" rx="24" fill="#cfe3e6"/>
+        <path class="ink d5" pathLength="1" d="M 250 684 Q 250 660 274 660 L 806 660 Q 830 660 830 684 L 830 1236 Q 830 1260 806 1260 L 274 1260 Q 250 1260 250 1236 Z M 220 1260 L 860 1260"/>
+      </svg>
+      <div id="qr"><img src="qr_store.png"></div>
+      <img id="endCup" class="st" src="home/b137.png" style="width:220px">
+      <img id="endCandle" class="st" src="home/b138.png" style="width:200px">
+      <div class="line" style="top:1420px; font-size:110px; color:var(--terra)"><span class="w" id="e2">في المتجر</span></div>
+      <div class="line" style="top:1590px; font-size:48px; direction:ltr"><span class="w" id="e3">planme.zaher.io</span></div>
+    </div>
+  </div>
+  <div class="line" style="top:220px; font-size:120px; z-index:5"><span class="w" id="h1">بيت دافي…</span></div>
+  <div class="line" style="top:390px; font-size:66px; color:var(--terra); z-index:5"><span class="w" id="h2">يبدأ من التفاصيل الصغيرة</span></div>
+  <div class="line" style="top:240px; font-size:110px; z-index:5"><span class="w" id="kw">فناجيل…</span></div>
+  <div id="dust"></div>
+  <div id="fade"></div>
+</div>
+<script>
+const $ = (id) => document.getElementById(id);
+const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eio = (x) => (x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const eb = (x) => { const c = 1.7; return x <= 0 ? 0 : 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+
+const D = { h1: 0.2, h2: 1.3, k0: 3.4, k1: 4.3, k2: 5.2, k3: 6.1, count: 7.4, n2: 8.6, u0: 10.4, u1: 11.8, u2: 13.2, print: 14.8, brand: 17.6, store: 19.0, end_all: 21.8 };
+const T = Object.assign({}, D, window.TL || {});
+// camera stops: zone i is shown from Z[i]; moves take 0.7 s and start 0.35 s before the anchor
+const Z = [0, T.k0 - 0.2, T.count - 0.2, T.u0 - 0.2, T.print - 0.2, T.brand - 0.2];
+const MOVE = 0.7;
+
+const show = (id, t, a, out) => { const k = eo(p(t, a, a + 0.5)); const o = out ? 1 - p(t, out, out + 0.3) : 1; const e = $(id); e.style.opacity = k * o; e.style.transform = `translateY(${(1 - k) * 40}px)`; e.style.filter = `blur(${(1 - k) * 10}px)`; };
+const place = (e, x, y, s, r, o) => { e.style.transform = `translate(${x}px,${y}px) rotate(${r}deg) scale(${s})`; if (o !== undefined) e.style.opacity = o; };
+const draw = (cls, t, a, d = 0.9) => document.querySelectorAll('.' + cls).forEach((el, i) => { const k = eio(p(t, a + i * 0.12, a + i * 0.12 + d)); el.style.strokeDasharray = 1; el.style.strokeDashoffset = 1 - k; });
+const fill = (cls, t, a) => document.querySelectorAll('.' + cls).forEach((el, i) => { el.style.opacity = eo(p(t, a + i * 0.06, a + i * 0.06 + 0.4)); });
+const mk = (host, n, w) => { const im = document.createElement('img'); im.className = 'st'; im.src = `home/${n}.png`; im.style.width = w + 'px'; $(host).appendChild(im); return im; };
+
+// shelf items: pairs for each word, bottom-aligned on the shelves
+const SH = [[['b31', 130, 900, 190], ['b59', 330, 900, 180]], [['b15', 560, 900, 200], ['b60', 770, 900, 190]], [['b48', 140, 1360, 170], ['b93', 330, 1360, 190]], [['b95', 560, 1360, 200], ['b25', 780, 1360, 180]]]
+  .map((pair) => pair.map(([n, x, y, w]) => ({ im: mk('shelfItems', n, w), x, y, w })));
+const WORDS = ['فناجيل…', 'أباريق…', 'شموع…', 'وكتب.'];
+const RUG = ['b16', 'b23', 'b36', 'b49', 'b56', 'b74', 'b82', 'b88', 'b97', 'b98', 'b104', 'b128'].map((n, i) => ({ im: mk('rugItems', n, 150), x: 120 + (i % 6) * 145 + (i >= 6 ? 70 : 0), y: 1250 + (i >= 6 ? 160 : 0) + (R(i) - 0.5) * 40, r: (R(i + 3) - 0.5) * 30 }));
+const DESK = [[['b133', 150, 420, 200], ['b17', 410, 430, 160]], [['b35', 470, 920, 190], ['b141', 720, 920, 200]], [['b12', 150, 1340, 200], ['b143', 420, 1350, 200]]]
+  .map((g) => g.map(([n, x, y, w]) => ({ im: mk('deskItems', n, w), x, y })));
+const MOTES = [...Array(26)].map(() => { const d = document.createElement('div'); d.className = 'mote'; $('dust').appendChild(d); return d; });
+
+window.render = (t) => {
+  // camera: pan left zone by zone (RTL reading direction)
+  let zi = 0; for (let i = 1; i < Z.length; i++) if (t >= Z[i] - 0.35) zi = i;
+  let x = 5400; for (let i = 1; i < Z.length; i++) x -= eio(p(t, Z[i] - 0.35, Z[i] - 0.35 + MOVE)) * 1080;
+  const bob = Math.sin(t * 0.9) * 6;
+  $('world').style.transform = `translate(${-x}px, ${bob}px)`;
+  $('stage').style.background = '';
+  $('fade').style.opacity = Math.max(1 - p(t, 0, 0.3), p(t, T.end_all - 0.5, T.end_all));
+  MOTES.forEach((m, i) => { const ph = (t * 0.05 + R(i)) % 1; m.style.transform = `translate(${R(i + 1) * 1080 + Math.sin(t + i) * 30}px, ${1800 - ph * 1700}px) scale(${0.5 + R(i + 2)})`; m.style.opacity = 0.5 * Math.sin(ph * Math.PI); });
+
+  // Z0 hook: room draws on, then fills; lamp, chair, plant drop in
+  draw('d0', t, 0.0, 0.8); fill('f0', t, 0.6);
+  place($('z0lamp'), 90, 1060, eb(p(t, 0.7, 1.1)), -3, p(t, 0.7, 0.75));
+  place($('z0chair'), 520, 1150, eb(p(t, 0.9, 1.3)), 0, p(t, 0.9, 0.95));
+  place($('z0plant'), 330, 1300 - 0 * 0, eb(p(t, 1.1, 1.5)), 4, p(t, 1.1, 1.15));
+  show('h1', t, T.h1, Z[1] - 0.45); show('h2', t, T.h2, Z[1] - 0.45);
+
+  // Z1 shelves: one pair drops per word, the word sits at the top
+  draw('d1', t, Z[1] - 0.2, 0.7); fill('f1', t, Z[1] + 0.2);
+  const ks = [T.k0, T.k1, T.k2, T.k3]; let wi = -1; ks.forEach((k, i) => { if (t >= k - 0.1) wi = i; });
+  if (wi >= 0 && t < Z[2] - 0.35) { $('kw').textContent = WORDS[wi]; const k = eb(p(t, ks[wi] - 0.1, ks[wi] + 0.3)); $('kw').style.opacity = 1; $('kw').style.transform = `scale(${k})`; } else $('kw').style.opacity = 0;
+  SH.forEach((pair, i) => pair.forEach(({ im, x, y, w }, j) => {
+    const a = ks[i] - 0.15 + j * 0.1; const k = p(t, a, a + 0.35); const b = eb(p(t, a + 0.25, a + 0.55));
+    im.style.transformOrigin = '50% 100%'; im.style.opacity = k > 0 ? 1 : 0;
+    im.style.transform = `translate(${x}px, ${y - w * 1.05 - (1 - eio(k)) * 700}px) scaleY(${k < 1 ? 1.06 : 1 - 0.08 * (1 - b)}) scaleX(${k < 1 ? 0.95 : 1 + 0.05 * (1 - b)})`;
+  }));
+
+  // Z2 count: number strokes on, then fills; stickers rain onto the rug
+  draw('d2', t, Z[2], 0.8); fill('f2', t, Z[2] + 0.3);
+  const num = $('bignum'); num.setAttribute('stroke-dashoffset', 3000 * (1 - eio(p(t, T.count - 0.1, T.count + 0.9))));
+  num.setAttribute('fill-opacity', eo(p(t, T.count + 0.6, T.count + 1.1)));
+  show('n2', t, T.n2 - 0.05);
+  RUG.forEach(({ im, x, y, r }, i) => { const a = T.count + 0.6 + i * 0.07; const k = p(t, a, a + 0.4); const b = eb(p(t, a + 0.3, a + 0.6));
+    im.style.opacity = k > 0 ? 1 : 0; place(im, x, y - (1 - eio(k)) * 900, k < 1 ? 1 : 1 + 0.06 * (1 - b), r + (1 - k) * 40); });
+
+  // Z3 desk: each station draws, fills, labels, and stickers stamp on
+  const ua = [T.u0 - 0.1, T.u1 - 0.15, T.u2 - 0.15];
+  ua.forEach((a, i) => {
+    draw('du' + i, t, a - 0.1, 0.6); fill('fu' + i, t, a + 0.25);
+    const lab = $('l' + i); const lk = eb(p(t, a + 0.15, a + 0.5)); lab.style.opacity = p(t, a + 0.15, a + 0.2);
+    lab.style.transform = `translate(${[680, 120, 300][i]}px, ${[540, 1010, 1210][i]}px) scale(${lk}) rotate(${[-4, 3, -3][i]}deg)`;
+    DESK[i].forEach(({ im, x, y }, j) => { const s0 = a + 0.35 + j * 0.2; const k = eo(p(t, s0, s0 + 0.3));
+      im.style.opacity = p(t, s0, s0 + 0.05); im.style.transform = `translate(${x}px,${y}px) rotate(${(j ? 6 : -6) + (1 - k) * 12}deg) scale(${1.4 - 0.4 * k})`; });
+  });
+
+  // Z4 printer: draws, then the sheet feeds out line by line
+  draw('d4', t, Z[4] - 0.1, 0.7); fill('f4', t, Z[4] + 0.3);
+  show('p1', t, T.print); show('p2', t, T.print + 0.5);
+  const fk = Math.floor(p(t, Z[4] + 0.6, Z[4] + 2.0) * 20) / 20; $('sheet').style.top = (-820 + fk * 820) + 'px';
+
+  // Z5 end: window draws, QR appears inside, lights, cup and candle
+  draw('d5', t, Z[5] - 0.1, 0.7); fill('f5', t, Z[5] + 0.3);
+  show('e1', t, T.brand); show('e2', t, T.store - 0.05); show('e3', t, T.store + 0.25);
+  const q = eb(p(t, Z[5] + 0.4, Z[5] + 0.9)); $('qr').style.transform = `scale(${q})`; $('qr').style.opacity = p(t, Z[5] + 0.4, Z[5] + 0.45);
+  place($('lights'), 390, 470 + Math.sin(t * 2) * 4, eb(p(t, Z[5] + 0.6, Z[5] + 1.0)), 0, p(t, Z[5] + 0.6, Z[5] + 0.65));
+  place($('endCup'), 110, 1080, eb(p(t, Z[5] + 0.8, Z[5] + 1.2)), -6, p(t, Z[5] + 0.8, Z[5] + 0.85));
+  place($('endCandle'), 790, 1070, eb(p(t, Z[5] + 0.9, Z[5] + 1.3)), 5, p(t, Z[5] + 0.9, Z[5] + 0.95));
+};
+render(0);
+</script>
+</body></html>
