@@ -84,6 +84,7 @@
 
   <svg id="waves" width="1080" height="1920"><path id="wv0" fill="#e8772e"/><path id="wv1" fill="#f2b134"/><path id="wv2" fill="#5b3a29"/></svg>
 </div>
+<script src="reel35_timeline.js"></script>
 <script>
 const $ = (id) => document.getElementById(id);
 const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
@@ -185,7 +186,7 @@ window.render = (t) => {
   // S6 end
   if (t >= CUT[4]) {
     const a = CUT[4]; $('burst6').style.transform = `rotate(${(t - a) * 18}deg) scale(${eo(p(t, a, a + 0.5))})`;
-    wobble('e1', t, a + 0.1); wobble('e2b', t, T.store - 0.1); wobble('e2', t, T.store + 0.15); wobble('e3', t, T.store + 0.3);
+    wobble('e1', t, a + 0.1); wobble('e2b', t, T.store - 0.1); wobble('e2', t, (T.store2 !== undefined ? T.store2 - 0.1 : T.store + 0.15)); wobble('e3', t, (T.store2 !== undefined ? T.store2 + 0.3 : T.store + 0.3));
     const q = eb(p(t, a + 0.3, a + 0.8)); $('qrPill').style.transform = `scale(${q})`; $('qr').style.transform = `scale(${q})`; $('qrPill').style.opacity = $('qr').style.opacity = q > 0 ? 1 : 0;
     squash($('eA'), t, a + 0.7, 40, 560, -12); squash($('eB'), t, a + 0.85, 800, 1120, 12);
   }
