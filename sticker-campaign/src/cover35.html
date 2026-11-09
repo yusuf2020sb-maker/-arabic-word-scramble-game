@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Kufam:wght@800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:#fbefd9; font-family:'Kufam',sans-serif; color:#5b3a29; }
+  .burst { position:absolute; left:-460px; top:-40px; width:2000px; height:2000px; border-radius:50%; background:repeating-conic-gradient(from 0deg, #f2b134 0deg 10deg, #f6c75e 10deg 20deg); }
+  .line { position:absolute; left:0; width:1080px; text-align:center; font-weight:900; line-height:1.25; white-space:nowrap; }
+  .chunky { color:#fbefd9; text-shadow: 3px 3px 0 #5b3a29, 6px 6px 0 #5b3a29, 9px 9px 0 #5b3a29, 12px 12px 0 #5b3a29; -webkit-text-stroke:4px #5b3a29; paint-order:stroke fill; }
+  .st { position:absolute; filter:drop-shadow(8px 10px 0 rgba(91,58,41,.35)); }
+  #batt { position:absolute; left:260px; top:620px; width:520px; height:280px; border:22px solid #5b3a29; border-radius:44px; background:#fbefd9; }
+  #battFill { position:absolute; left:16px; top:16px; width:30px; height:204px; border-radius:16px; background:#d9483b; }
+  #cap { position:absolute; left:780px; top:705px; width:46px; height:110px; border-radius:0 20px 20px 0; background:#5b3a29; }
+  .pill { position:absolute; left:220px; top:1640px; width:640px; padding:14px 0 24px; text-align:center; border-radius:80px; border:8px solid #5b3a29; background:#2f8f83; color:#fbefd9; font-weight:900; font-size:58px; box-shadow:8px 8px 0 #5b3a29; }
+</style></head><body>
+<div id="stage" style="position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip">
+<div class="burst"></div>
+<div class="line chunky" style="top:200px; font-size:150px">البطارية…</div>
+<div class="line" style="top:400px; font-size:120px; color:#d9483b; text-shadow:6px 6px 0 #5b3a29">١٪</div>
+<div id="batt"><div id="battFill"></div></div><div id="cap"></div>
+<div class="line chunky" style="top:960px; font-size:130px">والحل؟ قهوة!</div>
+<img class="st" src="coffee/p8.png" style="left:370px; top:1180px; width:340px; transform:rotate(-6deg)">
+<img class="st" src="coffee/p49.png" style="left:40px; top:1250px; width:290px; transform:rotate(-10deg)">
+<img class="st" src="coffee/p46.png" style="left:760px; top:1240px; width:260px; transform:rotate(9deg)">
+<div class="pill">متوفرة في متجر دُر</div>
+</div>
+</body></html>
