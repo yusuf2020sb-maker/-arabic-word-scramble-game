@@ -77,8 +77,9 @@
     <div id="qr"><img src="qr_store.png"></div>
     <img id="eA" class="st" src="coffee/p33.png" style="width:240px">
     <img id="eB" class="st" src="coffee/p36.png" style="width:240px">
-    <div class="line chunky" style="top:1430px; font-size:130px"><span class="w" id="e2">في المتجر</span></div>
-    <div class="line" style="top:1640px; font-size:52px; direction:ltr"><span class="w" id="e3">planme.zaher.io</span></div>
+    <div class="line" style="top:1400px; font-size:64px; color:var(--brown)"><span class="w" id="e2b">متوفرة الحين في</span></div>
+    <div class="line chunky" style="top:1470px; font-size:140px"><span class="w" id="e2">متجر دُر</span></div>
+    <div class="line" style="top:1680px; font-size:52px; direction:ltr"><span class="w" id="e3">planme.zaher.io</span></div>
   </div>
 
   <svg id="waves" width="1080" height="1920"><path id="wv0" fill="#e8772e"/><path id="wv1" fill="#f2b134"/><path id="wv2" fill="#5b3a29"/></svg>
@@ -184,7 +185,7 @@ window.render = (t) => {
   // S6 end
   if (t >= CUT[4]) {
     const a = CUT[4]; $('burst6').style.transform = `rotate(${(t - a) * 18}deg) scale(${eo(p(t, a, a + 0.5))})`;
-    wobble('e1', t, a + 0.1); wobble('e2', t, T.store - 0.05); wobble('e3', t, T.store + 0.3);
+    wobble('e1', t, a + 0.1); wobble('e2b', t, T.store - 0.1); wobble('e2', t, T.store + 0.15); wobble('e3', t, T.store + 0.3);
     const q = eb(p(t, a + 0.3, a + 0.8)); $('qrPill').style.transform = `scale(${q})`; $('qr').style.transform = `scale(${q})`; $('qrPill').style.opacity = $('qr').style.opacity = q > 0 ? 1 : 0;
     squash($('eA'), t, a + 0.7, 40, 560, -12); squash($('eB'), t, a + 0.85, 800, 1120, 12);
   }
