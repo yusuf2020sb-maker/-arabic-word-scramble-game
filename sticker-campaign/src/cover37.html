@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@700&family=Tajawal:wght@700&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; font-family:'Tajawal',sans-serif; color:#f3e8d6; }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; background:radial-gradient(ellipse at 50% 48%, #5a0f1f 0%, #2a0a12 45%, #14090c 75%); }
+  .line { position:absolute; left:0; width:1080px; text-align:center; line-height:1.3; white-space:nowrap; }
+  .sh { font-family:'Scheherazade New',serif; font-weight:700; }
+  .gold { color:transparent; background:linear-gradient(100deg, #a8843f 0%, #f0d9a0 40%, #fff6dc 50%, #f0d9a0 60%, #a8843f 100%); -webkit-background-clip:text; background-clip:text; }
+  .st { position:absolute; filter:drop-shadow(0 20px 30px rgba(0,0,0,.6)); }
+  .dust { position:absolute; width:8px; height:8px; border-radius:50%; background:radial-gradient(circle, #fff3c8, rgba(201,164,92,0) 70%); }
+  .arch { position:absolute; left:220px; top:600px; width:640px; height:880px; border:4px solid #c9a45c; border-radius:320px 320px 20px 20px; box-shadow:0 0 0 16px rgba(201,164,92,.12); }
+</style></head><body><div id="stage">
+<div id="d"></div>
+<div class="line sh" style="top:200px; font-size:180px"><span class="gold">ورود…</span></div>
+<div class="line sh" style="top:420px; font-size:120px"><span class="gold">بلون الليل</span></div>
+<div class="arch"></div>
+<img class="st" src="roses/r46.png" style="left:40px; top:820px; width:340px; filter:blur(3px) brightness(.7) drop-shadow(0 20px 30px rgba(0,0,0,.6))">
+<img class="st" src="roses/r47.png" style="left:740px; top:860px; width:310px; filter:blur(3px) brightness(.7) drop-shadow(0 20px 30px rgba(0,0,0,.6))">
+<img class="st" src="roses/r48.png" style="left:250px; top:700px; width:580px">
+<img class="st" src="roses/r50.png" style="left:-80px; top:1730px; width:420px; filter:blur(6px) brightness(.8)">
+<img class="st" src="roses/r57.png" style="left:760px; top:1740px; width:380px; filter:blur(6px) brightness(.8); transform:scaleX(-1)">
+<div class="line sh" style="top:1520px; font-size:84px"><span class="gold">٦٣ تصميم فنتج فاخر</span></div>
+<div class="line" style="top:1650px; font-size:54px; color:#f0d9a0; font-weight:700">متوفرة في متجر دُر</div>
+<script>
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+for (let i = 0; i < 40; i++) { const d = document.createElement('div'); d.className = 'dust'; d.style.left = (R(i) * 1060) + 'px'; d.style.top = (R(i + 9) * 1900) + 'px'; d.style.transform = `scale(${0.6 + R(i + 3) * 2})`; d.style.opacity = 0.3 + R(i + 5) * 0.6; document.getElementById('d').appendChild(d); }
+</script>
+</div></body></html>
