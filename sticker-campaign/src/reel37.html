@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@700&family=Tajawal:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --ink:#14090c; --wine:#5a0f1f; --gold:#c9a45c; --gold-l:#f0d9a0; --cream:#f3e8d6; --ash:#3b3838; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:var(--ink); font-family:'Tajawal',sans-serif; color:var(--cream); }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; background:radial-gradient(ellipse at 50% 45%, #2a1016, var(--ink) 70%); }
+  .scene { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; display:none; }
+  .abs { position:absolute; left:0; top:0; }
+  .line { position:absolute; left:0; width:1080px; text-align:center; line-height:1.3; white-space:nowrap; }
+  .sh { font-family:'Scheherazade New',serif; font-weight:700; }
+  .w { display:inline-block; }
+  .gold { color:transparent; background:linear-gradient(100deg, #a8843f 0%, #f0d9a0 40%, #fff6dc 50%, #f0d9a0 60%, #a8843f 100%); background-size:300% 100%; -webkit-background-clip:text; background-clip:text; }
+  .st { position:absolute; left:0; top:0; filter:drop-shadow(0 20px 30px rgba(0,0,0,.6)); will-change:transform; }
+  .bloom { position:absolute; left:0; top:0; width:1080px; height:1920px; }
+  .dust { position:absolute; left:0; top:0; width:6px; height:6px; border-radius:50%; background:radial-gradient(circle, #fff3c8, rgba(201,164,92,0) 70%); }
+  .card { position:absolute; left:0; top:0; }
+  .chip { position:absolute; left:0; top:0; padding:12px 34px 16px; border-radius:60px; border:3px solid var(--gold); color:var(--gold-l); font-size:44px; font-weight:800; white-space:nowrap; background:rgba(20,9,12,.6); }
+  .chip span { direction:rtl; unicode-bidi:isolate; }
+  #qrf { position:absolute; left:290px; top:700px; width:500px; height:560px; border:4px solid var(--gold); border-radius:250px 250px 20px 20px; box-shadow:0 0 0 14px rgba(201,164,92,.15), 0 30px 60px rgba(0,0,0,.6); background:rgba(90,15,31,.45); }
+  #qr { position:absolute; left:360px; top:830px; width:360px; height:360px; background:#fff; padding:20px; border-radius:14px; }
+  #qr img { width:100%; height:100%; display:block; }
+</style></head><body>
+<div id="stage">
+
+  <!-- S1 hook: ink bloom reveals the rose -->
+  <div class="scene" id="s1">
+    <div class="bloom" id="b1" style="background:radial-gradient(circle at 50% 50%, #7a1a2c, #3a0812 70%)">
+      <img class="st" id="bgL" src="roses/r46.png" style="width:360px; filter:blur(6px) brightness(.6)">
+      <img class="st" id="bgR" src="roses/r47.png" style="width:320px; filter:blur(6px) brightness(.6)">
+      <img class="st" id="hero" src="roses/r48.png" style="width:640px">
+      <img class="st" id="fgL" src="roses/r50.png" style="width:420px; filter:blur(10px) brightness(.8)">
+    </div>
+    <div class="line sh" style="top:230px; font-size:170px"><span class="w gold" id="h1">ورود…</span></div>
+    <div class="line sh" style="top:1460px; font-size:140px"><span class="w gold" id="h2">بلون الليل</span></div>
+  </div>
+
+  <!-- S2 three colour blooms -->
+  <div class="scene" id="s2"><div id="cblooms"></div></div>
+
+  <!-- S3 parallax dolly + count -->
+  <div class="scene" id="s3">
+    <div id="layers"></div>
+    <div class="abs" style="left:-100px; top:520px; width:1280px; height:800px; background:radial-gradient(ellipse at 50% 50%, rgba(20,9,12,.92) 35%, rgba(20,9,12,0) 70%)"></div>
+    <div class="line sh" style="top:640px; font-size:340px; line-height:1"><span class="w gold" id="n63">٦٣</span></div>
+    <div class="line sh" style="top:1060px; font-size:96px"><span class="w gold" id="n2">تصميم فنتج فاخر</span></div>
+  </div>
+
+  <!-- S4 uses revealed through blooms -->
+  <div class="scene" id="s4"><div id="ublooms"></div></div>
+
+  <!-- S5 print -->
+  <div class="scene" id="s5">
+    <div class="line sh" style="top:200px; font-size:130px"><span class="w gold" id="p1">ملف PDF</span></div>
+    <div class="line sh" style="top:380px; font-size:90px"><span class="w gold" id="p2">جاهز للطباعة</span></div>
+    <img id="sheet" class="abs" src="roses/sheet2.jpg" style="width:540px; border:3px solid #c9a45c; box-shadow:0 30px 60px rgba(0,0,0,.6)">
+    <div class="chip" id="ch0"><span>A4</span></div><div class="chip" id="ch1"><span>٦٣ تصميم</span></div>
+  </div>
+
+  <!-- S6 end -->
+  <div class="scene" id="s6">
+    <div class="bloom" id="b6" style="background:radial-gradient(circle at 50% 50%, #3a0812, #14090c 75%)"></div>
+    <div class="line sh" style="top:200px; font-size:110px"><span class="w gold" id="e1">ستيكرات الورد الفنتج</span></div>
+    <div id="qrf"></div><div id="qr"><img src="qr_store.png"></div>
+    <img id="eA" class="st" src="roses/r44.png" style="width:260px"><img id="eB" class="st" src="roses/r57.png" style="width:280px">
+    <div class="line" style="top:1370px; font-size:60px; color:var(--cream); font-weight:700"><span class="w" id="e2b">متوفرة في</span></div>
+    <div class="line sh" style="top:1440px; font-size:150px"><span class="w gold" id="e2">متجر دُر</span></div>
+    <div class="line" style="top:1680px; font-size:48px; color:var(--gold-l); font-weight:700; direction:ltr"><span class="w" id="e3">planme.zaher.io</span></div>
+  </div>
+
+  <div id="dustL"></div>
+</div>
+<script>
+const $ = (id) => document.getElementById(id);
+const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eio = (x) => (x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const eb = (x) => { const c = 1.5; return x <= 0 ? 0 : 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+
+const D = { h1: 0.2, h2: 1.2, c0: 3.0, c1: 3.9, c2: 4.8, count: 6.4, n2: 7.4, u0: 9.0, u1: 10.3, u2: 11.6, print: 13.2, brand: 15.8, store: 17.0, store2: 17.6, end_all: 20.5 };
+const T = Object.assign({}, D, window.TL || {});
+const CUT = [T.c0 - 0.25, T.count - 0.25, T.u0 - 0.25, T.print - 0.25, T.brand - 0.25];
+const SC = [['s1', 0, CUT[0]], ['s2', CUT[0], CUT[1]], ['s3', CUT[1], CUT[2]], ['s4', CUT[2], CUT[3]], ['s5', CUT[3], CUT[4]], ['s6', CUT[4], 99]];
+
+// organic ink-bloom clip: radius modulated by evolving noise
+const inkPoly = (cx, cy, r, t, seed) => { const pts = []; for (let i = 0; i < 72; i++) { const a = i / 72 * Math.PI * 2;
+  const rr = r * (1 + 0.16 * Math.sin(5 * a + seed + t * 1.3) + 0.09 * Math.sin(9 * a + seed * 2 - t * 2) + 0.05 * Math.sin(17 * a + seed * 3));
+  pts.push(`${(cx + Math.cos(a) * rr).toFixed(1)}px ${(cy + Math.sin(a) * rr).toFixed(1)}px`); } return `polygon(${pts.join(',')})`; };
+const bloom = (el, t, a, cx, cy, seed, d = 0.9) => { const k = eio(p(t, a, a + d)); el.style.clipPath = k >= 1 ? 'none' : inkPoly(cx, cy, k * 1500, t, seed); el.style.opacity = k > 0 ? 1 : 0; };
+// text reveal: fade-up + gold shimmer sweep
+const goldIn = (id, t, a) => { const k = eo(p(t, a, a + 0.7)); const e = $(id); e.style.opacity = k; e.style.transform = `translateY(${(1 - k) * 40}px)`; e.style.filter = `blur(${(1 - k) * 12}px)`; e.style.backgroundPosition = `${100 - p(t, a + 0.2, a + 1.6) * 100}% 0`; };
+const place = (e, x, y, s, r, o) => { e.style.transform = `translate(${x}px,${y}px) rotate(${r}deg) scale(${s})`; if (o !== undefined) e.style.opacity = o; };
+const img = (parent, n, w, blur = 0, bright = 1) => { const im = document.createElement('img'); im.className = 'st'; im.src = `roses/${n}.png`; im.style.width = w + 'px'; if (blur || bright !== 1) im.style.filter = `blur(${blur}px) brightness(${bright}) drop-shadow(0 20px 30px rgba(0,0,0,.6))`; parent.appendChild(im); return im; };
+
+const DUST = [...Array(50)].map(() => { const d = document.createElement('div'); d.className = 'dust'; $('dustL').appendChild(d); return d; });
+
+// colour blooms
+const CB = [['عنابي…', '#5a0f1f', ['r44', 'r46', 'r47'], [800, 400]], ['ذهبي…', '#6e5320', ['r28', 'r50', 'r18'], [250, 1500]], ['ورماد', '#2e2c2c', ['r16', 'r55', 'r10'], [540, 960]]].map(([w, col, ns, [cx, cy]], i) => {
+  const b = document.createElement('div'); b.className = 'bloom'; b.style.background = `radial-gradient(circle at ${cx}px ${cy}px, ${col}, #14090c 90%)`;
+  b.innerHTML = `<div class="line sh" style="top:240px; font-size:160px"><span class="w gold">${w}</span></div>`;
+  const ims = ns.map((n, j) => img(b, n, j === 0 ? 520 : 330)); $('cblooms').appendChild(b);
+  return { b, ims, cap: b.querySelector('.gold'), cx, cy, i };
+});
+// parallax layers
+const LAY = [];
+[['r52', 'r65', 'r57', 'r55'], ['r14', 'r22', 'r38', 'r18', 'r16'], ['r50', 'r57', 'r65']].forEach((ns, d) => ns.forEach((n, j) => {
+  const blur = [5, 0, 12][d], br = [0.55, 0.9, 0.75][d], w = [260, 300, 460][d];
+  const im = img($('layers'), n, w, blur, br); LAY.push({ im, d, x: ((j + 0.5) / ns.length) * 1080 - w / 2 + (R(j + d * 7) - 0.5) * 120, y: d === 1 ? (j % 2 ? 200 : 1300) + (R(j + 5) - 0.5) * 120 : [180, 0, 1560][d] + (R(j + d * 3) - 0.5) * 160, r: (R(j * 3 + d) - 0.5) * 30 });
+}));
+// uses
+const UB = [['للدعوات', 'r44', '<div class="abs" style="left:250px; top:620px; width:580px; height:800px; background:#f3e8d6; border-radius:8px; box-shadow:0 30px 60px rgba(0,0,0,.6), inset 0 0 0 18px #f3e8d6, inset 0 0 0 21px #c9a45c"></div><div class="line sh" style="left:250px; width:580px; top:1180px; font-size:70px; color:#5a0f1f">دعوة خاصة</div>', [340, 700, 400], [900, 300]],
+  ['للهدايا', 'r48', '<div class="abs" style="left:240px; top:820px; width:600px; height:540px; background:#1d1013; border-radius:10px; box-shadow:0 30px 60px rgba(0,0,0,.6)"></div><div class="abs" style="left:520px; top:820px; width:40px; height:540px; background:#c9a45c"></div><div class="abs" style="left:240px; top:1070px; width:600px; height:40px; background:#c9a45c"></div>', [380, 600, 320], [180, 1600]],
+  ['ولتغليف الطلبات', 'r28', '<div class="abs" style="left:170px; top:760px; width:740px; height:560px; background:linear-gradient(170deg,#b58a5f,#8f6640); border-radius:8px; box-shadow:0 30px 60px rgba(0,0,0,.6)"></div><div class="abs" style="left:170px; top:990px; width:740px; height:80px; background:rgba(201,164,92,.5)"></div>', [380, 760, 320], [540, 960]]].map(([w, n, html, [sx, sy, sw], [cx, cy]], i) => {
+  const b = document.createElement('div'); b.className = 'bloom'; b.style.background = 'radial-gradient(circle at 50% 50%, #3a0812, #14090c 80%)';
+  b.innerHTML = html + `<div class="line sh" style="top:260px; font-size:140px"><span class="w gold">${w}</span></div>`;
+  const im = img(b, n, sw); $('ublooms').appendChild(b); return { b, im, cap: b.querySelector('.line > .gold'), sx, sy, cx, cy, i };
+});
+
+window.render = (t) => {
+  for (const [id, a, b] of SC) $(id).style.display = t >= a && t < b ? 'block' : 'none';
+  $('stage').style.opacity = Math.min(p(t, 0, 0.3) * 0 + 1, 1 - p(t, T.end_all - 0.5, T.end_all));
+  DUST.forEach((d, i) => { const sp = 20 + R(i) * 40; const y = ((1920 - t * sp - R(i + 3) * 1920) % 1920 + 1920) % 1920; const x = R(i + 1) * 1080 + Math.sin(t * 0.7 + i) * 40;
+    d.style.transform = `translate(${x}px, ${y}px) scale(${0.6 + R(i + 2) * 1.8})`; d.style.opacity = 0.3 + 0.6 * Math.abs(Math.sin(t * 1.5 + i)); });
+
+  // S1
+  if (t < CUT[0]) {
+    bloom($('b1'), t, 0.0, 540, 960, 1.3, 1.1);
+    const z = 1 + t * 0.03;
+    place($('hero'), 220, 560, z * (0.92 + 0.08 * eo(p(t, 0.2, 1.4))), Math.sin(t) * 1.5);
+    place($('bgL'), -60 - t * 6, 420, 1, -12); place($('bgR'), 800 + t * 6, 480, 1, 10);
+    place($('fgL'), -120 - t * 14, 1350, 1.1, 18);
+    goldIn('h1', t, T.h1); goldIn('h2', t, T.h2);
+  }
+  // S2
+  if (t >= CUT[0] && t < CUT[1]) {
+    const at = [CUT[0] + 0.05, T.c1 - 0.2, T.c2 - 0.2];
+    CB.forEach(({ b, ims, cap, cx, cy, i }) => {
+      b.style.zIndex = i; bloom(b, t, at[i], cx, cy, i * 2.1, 0.8);
+      const k = eo(p(t, at[i] + 0.2, at[i] + 0.9)); cap.style.opacity = k; cap.style.transform = `translateY(${(1 - k) * 40}px)`; cap.style.backgroundPosition = `${100 - p(t, at[i] + 0.3, at[i] + 1.5) * 100}% 0`;
+      ims.forEach((im, j) => { const s = eo(p(t, at[i] + 0.15 + j * 0.1, at[i] + 0.8 + j * 0.1));
+        place(im, [280, 60, 690][j], [640, 1250, 1250][j] + Math.sin(t * 1.2 + j) * 8, 0.85 + 0.15 * s, [0, -10, 10][j], s); });
+    });
+  }
+  // S3: slow dolly through depth layers
+  if (t >= CUT[1] && t < CUT[2]) {
+    const a = CUT[1]; const z = p(t, a, CUT[2]);
+    LAY.forEach(({ im, d, x, y, r }) => { const s = [1, 1.0, 1.0][d] * (1 + z * [0.08, 0.18, 0.4][d]); const dy = z * [-30, -80, -200][d];
+      place(im, 540 + (x - 540) * s, y + dy, s, r, eo(p(t, a, a + 0.6))); });
+    const nk = eo(p(t, a + 0.2, a + 1.2)); $('n63').textContent = Math.round(63 * nk).toLocaleString('ar-EG');
+    goldIn('n63', t, a + 0.15); goldIn('n2', t, T.n2 - 0.05);
+  }
+  // S4
+  if (t >= CUT[2] && t < CUT[3]) {
+    const at = [CUT[2] + 0.05, T.u1 - 0.25, T.u2 - 0.25];
+    UB.forEach(({ b, im, cap, sx, sy, cx, cy, i }) => {
+      b.style.zIndex = i; bloom(b, t, at[i], cx, cy, 4 + i, 0.8);
+      const k = eo(p(t, at[i] + 0.25, at[i] + 0.9)); cap.style.opacity = k; cap.style.backgroundPosition = `${100 - p(t, at[i] + 0.3, at[i] + 1.5) * 100}% 0`;
+      const s0 = at[i] + 0.4; const sk = eo(p(t, s0, s0 + 0.35));
+      place(im, sx, sy, 1.35 - 0.35 * sk, (1 - sk) * 10 + (i - 1) * 4, p(t, s0, s0 + 0.08));
+    });
+  }
+  // S5
+  if (t >= CUT[3] && t < CUT[4]) {
+    const a = CUT[3]; goldIn('p1', t, a + 0.1); goldIn('p2', t, a + 0.5);
+    const k = eo(p(t, a, a + 0.9)); $('sheet').style.transform = `translate(270px, ${620 + (1 - k) * 1300}px) rotate(${-2 + Math.sin(t) * 0.8}deg)`;
+    place($('ch0'), 100, 1460, eb(p(t, a + 1.0, a + 1.4)), -5, p(t, a + 1.0, a + 1.05)); place($('ch1'), 690, 1320, eb(p(t, a + 1.2, a + 1.6)), 5, p(t, a + 1.2, a + 1.25));
+  }
+  // S6
+  if (t >= CUT[4]) {
+    const a = CUT[4]; bloom($('b6'), t, a, 540, 980, 7, 0.9);
+    goldIn('e1', t, a + 0.2);
+    const q = eo(p(t, a + 0.4, a + 1.0)); $('qrf').style.opacity = $('qr').style.opacity = q; $('qrf').style.transform = $('qr').style.transform = `translateY(${(1 - q) * 60}px)`;
+    place($('eA'), 40, 1060 + Math.sin(t) * 8, eo(p(t, a + 0.7, a + 1.2)), -12, p(t, a + 0.7, a + 0.9));
+    place($('eB'), 790, 560 + Math.sin(t + 1) * 8, eo(p(t, a + 0.8, a + 1.3)), 14, p(t, a + 0.8, a + 1.0));
+    goldIn('e2b', t, T.store - 0.1); goldIn('e2', t, T.store2 - 0.1); goldIn('e3', t, T.store2 + 0.3);
+  }
+};
+render(0);
+</script>
+</body></html>
