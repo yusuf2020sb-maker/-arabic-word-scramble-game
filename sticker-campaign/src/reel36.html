@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Mada:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --mint:#9fd3c7; --navy:#1d3557; --red:#e63946; --cream:#f1faee; --yellow:#ffb703; --steel:#457b9d; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:var(--mint); font-family:'Mada',sans-serif; color:var(--navy); }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; background:var(--mint); }
+  .scene { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; display:none; }
+  .abs { position:absolute; left:0; top:0; }
+  .line { position:absolute; left:0; width:1080px; text-align:center; font-weight:900; line-height:1.2; white-space:nowrap; }
+  .w { display:inline-block; }
+  .grid { position:absolute; left:0; top:0; width:100%; height:100%; background-image:linear-gradient(rgba(29,53,87,.08) 2px, transparent 2px), linear-gradient(90deg, rgba(29,53,87,.08) 2px, transparent 2px); background-size:60px 60px; }
+  .st { position:absolute; left:0; top:0; filter:drop-shadow(0 10px 12px rgba(29,53,87,.3)); }
+  .belt { position:absolute; height:70px; background:var(--navy); border-radius:35px; overflow:hidden; }
+  .belt .dash { position:absolute; left:0; top:28px; height:14px; width:4000px; background:repeating-linear-gradient(90deg, var(--yellow) 0 40px, transparent 40px 90px); }
+  .roller { position:absolute; width:70px; height:70px; border-radius:50%; background:var(--steel); border:8px solid var(--navy); }
+  .roller::after { content:''; position:absolute; left:23px; top:0; width:8px; height:54px; background:var(--navy); }
+  .mach { position:absolute; width:380px; height:420px; background:var(--cream); border:10px solid var(--navy); border-radius:30px; }
+  .mach .lb { position:absolute; left:0; top:610px; width:360px; text-align:center; font-weight:900; font-size:76px; }
+  .mach .lamp { position:absolute; left:155px; top:130px; width:50px; height:50px; border-radius:50%; border:6px solid var(--navy); }
+  .mach .mouth { position:absolute; left:40px; top:260px; width:280px; height:150px; background:var(--navy); border-radius:20px 20px 0 0; }
+  .piston { position:absolute; width:120px; height:160px; background:var(--steel); border:8px solid var(--navy); border-radius:12px; }
+  .gear { position:absolute; width:150px; height:150px; border-radius:50%; background:repeating-conic-gradient(var(--navy) 0 15deg, transparent 15deg 30deg); }
+  .gear::after { content:''; position:absolute; left:30px; top:30px; width:90px; height:90px; border-radius:50%; background:var(--yellow); border:10px solid var(--navy); }
+  #blank { position:absolute; left:0; top:0; width:260px; height:320px; }
+  #blank .paper { position:absolute; left:0; top:0; width:260px; height:320px; background:#fff; border-radius:6px; box-shadow:0 8px 12px rgba(0,0,0,.2); }
+  #blank img { position:absolute; left:0; top:0; width:260px; height:320px; object-fit:contain; }
+  #cancel { position:absolute; left:0; top:0; width:260px; height:320px; }
+  .chip { position:absolute; left:0; top:0; padding:12px 34px 16px; border-radius:60px; background:var(--red); color:var(--cream); font-size:46px; font-weight:900; white-space:nowrap; border:6px solid var(--navy); }
+  .chip span { direction:rtl; unicode-bidi:isolate; }
+  #qr { position:absolute; left:340px; top:760px; width:400px; height:400px; background:#fff; padding:24px; }
+  #qr img { width:100%; height:100%; display:block; }
+  #frame { position:absolute; left:300px; top:720px; width:480px; height:480px; background:var(--cream);
+    -webkit-mask: radial-gradient(circle 14px at 14px 14px, transparent 98%, #000) -14px -14px / 40px 40px; mask: radial-gradient(circle 14px at 14px 14px, transparent 98%, #000) -14px -14px / 40px 40px; }
+  #wipe { position:absolute; left:0; top:0; width:1080px; height:1920px; z-index:40; pointer-events:none; }
+</style></head><body>
+<div id="stage">
+
+  <!-- S1 hook -->
+  <div class="scene" id="s1"><div class="grid"></div>
+    <div class="gear" id="g1" style="left:80px; top:1120px"></div><div class="gear" id="g2" style="left:210px; top:1230px; width:110px; height:110px"></div>
+    <div class="gear" id="g3" style="left:820px; top:1150px"></div>
+    <img id="qStamp" class="st" src="stamps/s26.png" style="width:340px">
+    <div class="line" style="top:250px; font-size:120px"><span class="w" id="h1">كيف يتصنّع</span></div>
+    <div class="line" style="top:410px; font-size:150px; color:var(--red)"><span class="w" id="h1b">الطابع؟</span></div>
+  </div>
+
+  <!-- S2 factory: one long world, camera follows the stamp -->
+  <div class="scene" id="s2"><div class="grid"></div>
+    <div id="world" class="abs" style="width:3240px; height:1920px">
+      <div class="belt" style="left:-100px; top:1340px; width:3440px"><div class="dash" id="dash"></div></div>
+      <div id="rollers"></div>
+      <div class="mach" style="left:2510px; top:840px"><div class="lb">نطبع</div><div class="lamp" id="lamp0"></div><div class="mouth"></div></div>
+      <div class="mach" style="left:1430px; top:840px"><div class="lb">نقصّص</div><div class="lamp" id="lamp1"></div><div class="mouth"></div></div>
+      <div class="mach" style="left:350px; top:840px"><div class="lb">نختم</div><div class="lamp" id="lamp2"></div><div class="mouth"></div></div>
+      <div class="piston" id="pist" style="left:480px; top:680px"></div>
+      <div id="blank"><div class="paper" id="paper"></div><img id="design" src="stamps/s32.png">
+        <svg id="cancel" width="260" height="320"><g id="cancelG" fill="none" stroke="#1d3557" stroke-width="7" opacity="0">
+          <circle cx="200" cy="80" r="60"/><path d="M -20 150 q 35 -25 70 0 t 70 0 t 70 0 t 70 0 M -20 190 q 35 -25 70 0 t 70 0 t 70 0 t 70 0 M -20 230 q 35 -25 70 0 t 70 0 t 70 0 t 70 0"/></g></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- S3 output chute + count -->
+  <div class="scene" id="s3"><div class="grid"></div>
+    <div class="line" style="top:180px; font-size:300px; line-height:1; color:var(--red)"><span class="w" id="n35">٣٥</span></div>
+    <div class="line" style="top:520px; font-size:90px"><span class="w" id="n2">ستيكر طابع فنتج</span></div>
+    <div id="pile"></div>
+  </div>
+
+  <!-- S4 kinds -->
+  <div class="scene" id="s4" style="background:var(--navy)"><div id="kinds"></div></div>
+
+  <!-- S5 uses on the belt -->
+  <div class="scene" id="s5"><div class="grid"></div>
+    <div class="belt" style="left:-100px; top:1360px; width:1280px"><div class="dash" id="dash5"></div></div>
+    <div class="line" style="top:560px; font-size:120px; z-index:5; text-shadow:0 0 0 #9fd3c7, 0 6px 0 #9fd3c7"><span class="w" id="ucap">للرسائل</span></div>
+    <div class="piston" id="arm" style="left:480px; top:-200px; width:120px; height:600px"></div>
+    <div id="items"></div>
+  </div>
+
+  <!-- S6 print -->
+  <div class="scene" id="s6"><div class="grid"></div>
+    <div class="line" style="top:220px; font-size:120px"><span class="w" id="p1">ملف PDF</span></div>
+    <div class="line" style="top:390px; font-size:84px; color:var(--red)"><span class="w" id="p2">جاهز للطباعة</span></div>
+    <img id="sheet" class="abs" src="stamps/sheet2.jpg" style="width:540px; border:10px solid var(--navy); border-radius:12px">
+    <div class="chip" id="ch0"><span>A4</span></div><div class="chip" id="ch1" style="background:var(--yellow); color:var(--navy)"><span>تحميل فوري</span></div>
+  </div>
+
+  <!-- S7 end: giant perforated stamp holding the QR -->
+  <div class="scene" id="s7" style="background:var(--red)">
+    <div class="line" style="top:200px; font-size:110px; color:var(--cream)"><span class="w" id="e1">ستيكرات الطوابع</span></div>
+    <div id="frame"></div>
+    <div id="qr"><img src="qr_store.png"></div>
+    <img id="eA" class="st" src="stamps/s6.png" style="width:220px"><img id="eB" class="st" src="stamps/s36.png" style="width:220px">
+    <div class="line" style="top:1380px; font-size:64px; color:var(--cream)"><span class="w" id="e2b">متوفرة في</span></div>
+    <div class="line" style="top:1460px; font-size:140px; color:var(--yellow)"><span class="w" id="e2">متجر دُر</span></div>
+    <div class="line" style="top:1660px; font-size:50px; color:var(--cream); direction:ltr"><span class="w" id="e3">planme.zaher.io</span></div>
+  </div>
+
+  <svg id="wipe" width="1080" height="1920"><path id="wp" fill="#1d3557"/></svg>
+</div>
+<script>
+const $ = (id) => document.getElementById(id);
+const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eio = (x) => (x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const eb = (x) => { const c = 1.7; return x <= 0 ? 0 : 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+
+const D = { h1: 0.2, h1b: 0.9, k0: 3.4, k1: 4.9, k2: 6.4, count: 8.2, n2: 9.0, q0: 10.8, q1: 11.6, q2: 12.4, u0: 14.0, u1: 15.3, u2: 16.6, print: 18.2, brand: 20.6, store: 21.8, store2: 22.4, end_all: 25.0 };
+const T = Object.assign({}, D, window.TL || {});
+const CUT = [T.k0 - 0.6, T.count - 0.25, T.q0 - 0.25, T.u0 - 0.25, T.print - 0.25, T.brand - 0.25];
+const SC = [['s1', 0, CUT[0]], ['s2', CUT[0], CUT[1]], ['s3', CUT[1], CUT[2]], ['s4', CUT[2], CUT[3]], ['s5', CUT[3], CUT[4]], ['s6', CUT[4], CUT[5]], ['s7', CUT[5], 99]];
+
+const pop = (id, t, a) => { const k = eb(p(t, a, a + 0.45)); const e = $(id); e.style.opacity = p(t, a, a + 0.06); e.style.transform = `scale(${k})`; };
+const place = (e, x, y, s, r, o) => { e.style.transform = `translate(${x}px,${y}px) rotate(${r}deg) scale(${s})`; if (o !== undefined) e.style.opacity = o; };
+
+// perforated-edge wipe: a navy panel with a postage-stamp edge sweeps across at each cut
+const perfWipe = (k) => { const x = 1180 - k * 2400; let d = `M ${x} -20 `; for (let y = -20; y <= 1940; y += 40) d += `L ${x} ${y} a 14 14 0 0 1 0 28 `; return d + `L ${x + 1400} 1960 L ${x + 1400} -20 Z`; };
+
+// rollers along the belt
+for (let i = 0; i < 26; i++) { const r = document.createElement('div'); r.className = 'roller'; r.style.left = (i * 130 - 40) + 'px'; r.style.top = '1340px'; $('rollers').appendChild(r); }
+const ROLL = [...document.querySelectorAll('#rollers .roller')];
+// output pile
+const PILE = ['s6', 's7', 's8', 's10', 's12', 's14', 's18', 's25', 's26', 's28', 's30', 's32', 's36', 's40'].map((n, i) => { const im = document.createElement('img'); im.className = 'st'; im.src = `stamps/${n}.png`; im.style.width = '190px'; $('pile').appendChild(im); return { im, x: 70 + (i % 5) * 190 + (Math.floor(i / 5) % 2) * 60, y: 760 + Math.floor(i / 5) * 270, r: (R(i) - 0.5) * 24 }; });
+// kinds
+const KINDS = [['ورد…', ['s32', 's28', 's36'], '#e63946'], ['وسفن…', ['s26'], '#457b9d'], ['وألوان زاهية', ['s12', 's25', 's40', 's10'], '#ffb703']].map(([w, ns, col], i) => {
+  const d = document.createElement('div'); d.className = 'abs'; d.style.cssText = `width:1080px; height:1920px; background:${col}`;
+  d.innerHTML = `<div class="line" style="top:300px; font-size:150px; color:${i === 2 ? '#1d3557' : '#f1faee'}"><span class="w">${w}</span></div>`;
+  const ims = ns.map((n, j) => { const im = document.createElement('img'); im.className = 'st'; im.src = `stamps/${n}.png`; im.style.width = (ns.length === 1 ? 560 : 380) + 'px'; d.appendChild(im); return im; });
+  $('kinds').appendChild(d); return { d, ims, cap: d.querySelector('.line span'), i, n: ns.length };
+});
+// use items riding the belt
+const ITEMS = [['للرسائل', '<div style="position:absolute; left:0; top:0; width:520px; height:340px; background:#f1faee; border:10px solid #1d3557; border-radius:14px"></div><svg style="position:absolute; left:0; top:0" width="520" height="340"><path d="M 10 10 L 260 190 L 510 10" fill="none" stroke="#1d3557" stroke-width="8"/></svg>', 's18', 340, 30],
+  ['للجورنال', '<div style="position:absolute; left:60px; top:-60px; width:400px; height:400px; background:#457b9d; border:10px solid #1d3557; border-radius:16px 30px 30px 16px"></div><div style="position:absolute; left:400px; top:-60px; width:24px; height:400px; background:#e63946"></div>', 's40', 200, -30],
+  ['ولتغليف الطلبات', '<div style="position:absolute; left:20px; top:-40px; width:480px; height:380px; background:#d4a373; border:10px solid #1d3557; border-radius:10px"></div><div style="position:absolute; left:20px; top:110px; width:480px; height:60px; background:#f1faee; opacity:.7"></div>', 's8', 200, -20]].map(([cap, html, n, sx, sy], i) => {
+  const d = document.createElement('div'); d.className = 'abs'; d.style.cssText = 'width:520px; height:340px'; d.innerHTML = html;
+  const im = document.createElement('img'); im.className = 'st'; im.src = `stamps/${n}.png`; im.style.width = '170px'; d.appendChild(im);
+  $('items').appendChild(d); return { d, im, cap, sx, sy, i };
+});
+
+window.render = (t) => {
+  for (const [id, a, b] of SC) $(id).style.display = t >= a && t < b ? 'block' : 'none';
+  let wk = -1; CUT.forEach((c) => { if (Math.abs(t - c) < 0.35) wk = p(t, c - 0.35, c + 0.35); });
+  if (t < 0.3) wk = 0.5 + p(t, 0, 0.3) * 0.5; if (t > T.end_all - 0.4) wk = p(t, T.end_all - 0.4, T.end_all) * 0.5;
+  $('wp').setAttribute('d', wk < 0 ? '' : perfWipe(wk));
+
+  // S1
+  if (t < CUT[0]) {
+    ['g1', 'g2', 'g3'].forEach((g, i) => { $(g).style.transform = `rotate(${(i === 1 ? -1.4 : 1) * t * 90}deg)`; });
+    pop('h1', t, T.h1); pop('h1b', t, T.h1b);
+    const k = eb(p(t, 0.4, 1.0)); place($('qStamp'), 370, 780 + Math.sin(t * 2) * 10, k, Math.sin(t * 1.5) * 6, p(t, 0.4, 0.45));
+  }
+
+  // S2: the paper rides right-to-left through three machines; the camera follows
+  if (t >= CUT[0] && t < CUT[1]) {
+    const a = CUT[0]; const stops = [[T.k0 - 0.2, 2570], [T.k1 - 0.2, 1490], [T.k2 - 0.2, 410]];
+    let x = 3240; const first = eio(p(t, a, stops[0][0])); x = 3240 + (2570 - 3240) * first;
+    for (let i = 1; i < 3; i++) x += (stops[i][1] - stops[i - 1][1]) * eio(p(t, stops[i - 1][0] + 0.8, stops[i][0]));
+    x += (-300 - 410) * eio(p(t, stops[2][0] + 0.9, CUT[1]));
+    const bx = x, by = 1020;
+    $('blank').style.transform = `translate(${bx}px, ${by}px)`;
+    const cam = Math.min(2160, Math.max(0, bx + 130 - 540)); $('world').style.transform = `translateX(${-cam}px)`;
+    $('dash').style.transform = `translateX(${-(t * 300) % 90}px)`; ROLL.forEach((r) => { r.style.transform = `rotate(${-t * 360}deg)`; });
+    // printing: the design wipes in from the top
+    const pk = p(t, T.k0 - 0.05, T.k0 + 0.55); $('design').style.clipPath = `inset(0 0 ${(1 - pk) * 100}% 0)`;
+    $('paper').style.opacity = 1 - p(t, T.k1 - 0.05, T.k1 + 0.25);
+    // cutting: perforated edge appears when the paper backing disappears (design already has a perforated edge)
+    const ck = p(t, T.k1 - 0.05, T.k1 + 0.25); $('design').style.transform = `scale(${1 - 0.06 * Math.sin(ck * Math.PI)})`;
+    // postmark: piston slams, cancel lines appear
+    const sl = p(t, T.k2 - 0.1, T.k2 + 0.15), up = p(t, T.k2 + 0.25, T.k2 + 0.6);
+    $('pist').style.transform = `translateY(${eio(sl) * 260 - eio(up) * 260}px)`;
+    $('cancelG').setAttribute('opacity', t >= T.k2 + 0.1 ? 0.75 : 0);
+    [0, 1, 2].forEach((i) => { const on = t >= stops[i][0] - 0.1 && t < stops[i][0] + 1.0; $('lamp' + i).style.background = on ? (Math.floor(t * 8) % 2 ? '#ffb703' : '#e63946') : '#9fd3c7'; });
+  }
+
+  // S3: stamps tumble down a chute into rows, counter runs
+  if (t >= CUT[1] && t < CUT[2]) {
+    const a = CUT[1]; $('n35').textContent = Math.round(35 * eo(p(t, a + 0.1, a + 1.2))).toLocaleString('ar-EG');
+    pop('n35', t, a + 0.05); pop('n2', t, T.n2 - 0.05);
+    PILE.forEach(({ im, x, y, r }, i) => { const s0 = a + 0.2 + i * 0.07; const k = p(t, s0, s0 + 0.4); const b = eb(p(t, s0 + 0.3, s0 + 0.6));
+      im.style.opacity = k > 0 ? 1 : 0; place(im, x, y - (1 - eio(k)) * 1000, k < 1 ? 1 : 1 + 0.06 * (1 - b), r + (1 - k) * 90); });
+  }
+
+  // S4: colour panels slam in with their stamps
+  if (t >= CUT[2] && t < CUT[3]) {
+    const at = [T.q0 - 0.15, T.q1 - 0.15, T.q2 - 0.15];
+    KINDS.forEach(({ d, ims, cap, i, n }) => {
+      const k = eio(p(t, at[i], at[i] + 0.35)); d.style.display = t >= at[i] ? 'block' : 'none'; d.style.zIndex = i;
+      d.style.clipPath = i === 0 ? 'none' : `inset(0 0 ${(1 - k) * 100}% 0)`;
+      const ck = eb(p(t, at[i] + 0.1, at[i] + 0.5)); cap.style.transform = `scale(${ck})`;
+      ims.forEach((im, j) => { const s0 = at[i] + 0.2 + j * 0.1; const sk = eb(p(t, s0, s0 + 0.45));
+        const x = n === 1 ? 260 : 70 + (j % 2) * 560; const y = n === 1 ? 680 : 620 + Math.floor(j / 2) * 520;
+        place(im, n === 3 ? [60, 640, 350][j] : x, n === 3 ? [620, 620, 1150][j] : y, sk, (j - 1) * 7 + Math.sin(t * 2 + j) * 2, p(t, s0, s0 + 0.05)); });
+    });
+  }
+
+  // S5: items ride in on the belt, the arm stamps a sticker on each
+  if (t >= CUT[3] && t < CUT[4]) {
+    const at = [CUT[3] + 0.1, T.u1 - 0.25, T.u2 - 0.25]; const st = t < at[1] ? 0 : t < at[2] ? 1 : 2;
+    $('dash5').style.transform = `translateX(${-(t * 300) % 90}px)`;
+    $('ucap').textContent = ITEMS[st].cap; pop('ucap', t, at[st] + 0.1);
+    ITEMS.forEach(({ d, im, sx, sy, i }) => {
+      const kin = eio(p(t, at[i], at[i] + 0.5)); const kout = i < 2 ? eio(p(t, at[i + 1] - 0.05, at[i + 1] + 0.4)) : 0;
+      d.style.transform = `translate(${1200 - kin * 920 - kout * 1000}px, 1020px)`; d.style.opacity = t >= at[i] ? 1 : 0;
+      const down = p(t, at[i] + 0.5, at[i] + 0.65), lift = p(t, at[i] + 0.75, at[i] + 1.0);
+      if (st === i) $('arm').style.transform = `translateY(${eio(down) * 640 - eio(lift) * 640}px)`;
+      im.style.opacity = t >= at[i] + 0.62 ? 1 : 0; im.style.transform = `translate(${sx}px, ${sy}px) rotate(${(i - 1) * 6}deg)`;
+    });
+  }
+
+  // S6 print
+  if (t >= CUT[4] && t < CUT[5]) {
+    const a = CUT[4]; pop('p1', t, a + 0.1); pop('p2', t, a + 0.45);
+    const k = eo(p(t, a, a + 0.8)); $('sheet').style.transform = `translate(270px, ${600 + (1 - k) * 1400}px) rotate(${-2 + Math.sin(t * 2)}deg)`;
+    place($('ch0'), 90, 1460, eb(p(t, a + 1.0, a + 1.4)), -6, p(t, a + 1.0, a + 1.05)); place($('ch1'), 660, 1320, eb(p(t, a + 1.2, a + 1.6)), 5, p(t, a + 1.2, a + 1.25));
+  }
+
+  // S7 end
+  if (t >= CUT[5]) {
+    const a = CUT[5]; pop('e1', t, a + 0.1);
+    const k = eb(p(t, a + 0.2, a + 0.7)); $('frame').style.transform = `scale(${k}) rotate(${(1 - k) * -10}deg)`; $('qr').style.transform = `scale(${k})`; $('frame').style.opacity = $('qr').style.opacity = p(t, a + 0.2, a + 0.25);
+    place($('eA'), 50, 560 + Math.sin(t * 2) * 8, eb(p(t, a + 0.6, a + 1.0)), -12, p(t, a + 0.6, a + 0.65));
+    place($('eB'), 810, 1090 + Math.sin(t * 2 + 1) * 8, eb(p(t, a + 0.75, a + 1.15)), 10, p(t, a + 0.75, a + 0.8));
+    pop('e2b', t, T.store - 0.1); pop('e2', t, T.store2 - 0.1); pop('e3', t, T.store2 + 0.3);
+  }
+};
+render(0);
+</script>
+</body></html>
