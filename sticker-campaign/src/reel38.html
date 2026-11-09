@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --teal:#0f4c4a; --teal-d:#0a3534; --sand:#e9d8b4; --terra:#b5532f; --gold:#d4a24c; --cream:#f7f0e1; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:var(--teal); font-family:'Reem Kufi',sans-serif; color:var(--cream); }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; background:radial-gradient(ellipse at 50% 45%, #15605d, var(--teal-d) 75%); }
+  .scene { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; display:none; }
+  .abs { position:absolute; left:0; top:0; }
+  .line { position:absolute; left:0; width:1080px; text-align:center; font-weight:700; line-height:1.3; white-space:nowrap; }
+  .w { display:inline-block; }
+  .st { position:absolute; left:0; top:0; filter:drop-shadow(0 16px 20px rgba(0,0,0,.4)); will-change:transform; }
+  .star path, .star polygon { fill:none; stroke:var(--gold); stroke-width:4; }
+  .arch { position:absolute; width:300px; height:420px; border:6px solid var(--gold); border-radius:150px 150px 14px 14px; background:rgba(10,53,52,.55); overflow:hidden; }
+  .lat { position:absolute; left:0; top:0; width:120px; height:120px; background:var(--gold); }
+  .chip { position:absolute; left:0; top:0; padding:12px 34px 16px; border-radius:60px; background:var(--terra); color:var(--cream); font-size:44px; font-weight:700; white-space:nowrap; border:4px solid var(--gold); }
+  .chip span { direction:rtl; unicode-bidi:isolate; }
+  #qrA { position:absolute; left:270px; top:640px; width:540px; height:680px; border:8px solid var(--gold); border-radius:270px 270px 24px 24px; background:var(--cream); }
+  #qr { position:absolute; left:360px; top:850px; width:360px; height:360px; background:#fff; padding:18px; }
+  #qr img { width:100%; height:100%; display:block; }
+</style></head><body>
+<div id="stage">
+  <svg id="starbg" class="abs star" width="1080" height="1920" style="opacity:.5"><g id="starG" transform="translate(540 980)"></g></svg>
+
+  <!-- S1 hook: the chest glows -->
+  <div class="scene" id="s1">
+    <div id="rays" class="abs" style="left:-460px; top:-20px; width:2000px; height:2000px; border-radius:50%; background:repeating-conic-gradient(from 0deg, rgba(212,162,76,.22) 0 8deg, transparent 8deg 20deg)"></div>
+    <img id="chest" class="st" src="heritage/h49.png" style="width:640px">
+    <div id="sparks"></div>
+    <div class="line" style="top:260px; font-size:118px"><span class="w" id="h1">وش في صندوق</span></div>
+    <div class="line" style="top:420px; font-size:150px; color:var(--gold)"><span class="w" id="h1b">جدتي؟</span></div>
+  </div>
+
+  <!-- S2 items rise in arches, three rows -->
+  <div class="scene" id="s2">
+    <div class="line" style="top:110px; font-size:84px; color:var(--gold)"><span class="w" id="r0">دلّة… فناجيل… ومبخرة</span></div>
+    <div class="line" style="top:690px; font-size:84px; color:var(--gold)"><span class="w" id="r1">رمّان… تمر… ودهن عود</span></div>
+    <div class="line" style="top:1270px; font-size:84px; color:var(--gold)"><span class="w" id="r2">وصحون بنقوش زمان</span></div>
+    <div id="arches"></div>
+  </div>
+
+  <!-- S3 title over the star -->
+  <div class="scene" id="s3">
+    <div id="ring"></div>
+    <div class="line" style="top:800px; font-size:120px"><span class="w" id="t1">ستيكرات تراثية</span></div>
+    <div class="line" style="top:980px; font-size:84px; color:var(--gold)"><span class="w" id="t2">بروح البيت القديم</span></div>
+  </div>
+
+  <!-- S4 uses in three tall arches -->
+  <div class="scene" id="s4"><div id="uses"></div></div>
+
+  <!-- S5 print -->
+  <div class="scene" id="s5">
+    <div class="line" style="top:220px; font-size:120px"><span class="w" id="p1">ملف PDF</span></div>
+    <div class="line" style="top:390px; font-size:84px; color:var(--gold)"><span class="w" id="p2">جاهز للطباعة</span></div>
+    <div id="sheet" class="abs" style="width:560px; height:792px; background:#f7f0e1; border:6px solid var(--gold); border-radius:10px"></div>
+    <div class="chip" id="ch0"><span>A4</span></div><div class="chip" id="ch1"><span>تحميل فوري</span></div>
+  </div>
+
+  <!-- S6 end -->
+  <div class="scene" id="s6">
+    <div class="line" style="top:200px; font-size:110px"><span class="w" id="e1">ستيكرات التراث</span></div>
+    <div id="qrA"></div><div id="qr"><img src="qr_store.png"></div>
+    <img id="eA" class="st" src="heritage/h50.png" style="width:240px"><img id="eB" class="st" src="heritage/h6.png" style="width:190px">
+    <div class="line" style="top:1380px; font-size:62px"><span class="w" id="e2b">متوفرة في</span></div>
+    <div class="line" style="top:1460px; font-size:150px; color:var(--gold)"><span class="w" id="e2">متجر دُر</span></div>
+    <div class="line" style="top:1680px; font-size:50px; direction:ltr"><span class="w" id="e3">planme.zaher.io</span></div>
+  </div>
+
+  <div id="lattice" class="abs" style="width:1080px; height:1920px; z-index:40; pointer-events:none"></div>
+</div>
+<script>
+const $ = (id) => document.getElementById(id);
+const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eio = (x) => (x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const eb = (x) => { const c = 1.7; return x <= 0 ? 0 : 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+
+const D = { h1: 0.2, h1b: 1.0, a0: 2.6, a1: 4.6, a2: 6.6, title: 8.4, t2: 9.4, u0: 11.0, u1: 12.3, u2: 13.6, print: 15.2, brand: 17.6, store: 18.8, store2: 19.4, end_all: 22.0 };
+const T = Object.assign({}, D, window.TL || {});
+const CUT = [T.a0 - 0.25, T.title - 0.25, T.u0 - 0.25, T.print - 0.25, T.brand - 0.25];
+const SC = [['s1', 0, CUT[0]], ['s2', CUT[0], CUT[1]], ['s3', CUT[1], CUT[2]], ['s4', CUT[2], CUT[3]], ['s5', CUT[3], CUT[4]], ['s6', CUT[4], 99]];
+
+const rise = (id, t, a) => { const k = eo(p(t, a, a + 0.55)); const e = $(id); e.style.opacity = k; e.style.transform = `translateY(${(1 - k) * 50}px)`; e.style.letterSpacing = '0'; e.style.filter = `blur(${(1 - k) * 10}px)`; };
+const place = (e, x, y, s, r, o) => { e.style.transform = `translate(${x}px,${y}px) rotate(${r}deg) scale(${s})`; if (o !== undefined) e.style.opacity = o; };
+
+// eight-point star tessellation, drawn ring by ring
+const SVGNS = 'http://www.w3.org/2000/svg';
+const starPath = (r) => { let d = ''; for (let i = 0; i < 16; i++) { const a = i / 16 * Math.PI * 2 - Math.PI / 2; const rr = i % 2 ? r * 0.62 : r; d += (i ? 'L' : 'M') + (Math.cos(a) * rr).toFixed(1) + ' ' + (Math.sin(a) * rr).toFixed(1) + ' '; } return d + 'Z'; };
+const STARS = [];
+[[0, 0, 300], [0, 0, 520], [0, 0, 760]].forEach(([x, y, r], i) => { const pth = document.createElementNS(SVGNS, 'path'); pth.setAttribute('d', starPath(r)); pth.setAttribute('pathLength', '1'); $('starG').appendChild(pth); STARS.push(pth); });
+for (let i = 0; i < 8; i++) { const a = i / 8 * Math.PI * 2; const pth = document.createElementNS(SVGNS, 'path'); pth.setAttribute('d', starPath(150)); pth.setAttribute('transform', `translate(${Math.cos(a) * 640} ${Math.sin(a) * 640})`); pth.setAttribute('pathLength', '1'); $('starG').appendChild(pth); STARS.push(pth); }
+
+// sparks from the chest
+const SPK = [...Array(18)].map(() => { const d = document.createElement('div'); d.className = 'abs'; d.style.cssText = 'width:14px; height:14px; transform-origin:center; background:#f0d9a0; clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%)'; $('sparks').appendChild(d); return d; });
+
+// arches: 3 rows x 3
+const ROWS = [['h50', 'h42', 'h52'], ['h14', 'h48', 'h40'], ['h45', 'h46', 'h54']];
+const ARCH = []; ROWS.forEach((row, r) => row.forEach((n, c) => {
+  const a = document.createElement('div'); a.className = 'arch'; a.style.left = (60 + (2 - c) * 340) + 'px'; a.style.top = (230 + r * 580) + 'px';
+  a.innerHTML = `<img src="heritage/${n}.png" style="position:absolute; left:30px; top:${r === 2 ? 100 : 60}px; width:240px; height:300px; object-fit:contain; filter:drop-shadow(0 12px 14px rgba(0,0,0,.4))">`;
+  $('arches').appendChild(a); ARCH.push({ a, im: a.querySelector('img'), r, c, spin: r === 2 && c < 2 });
+}));
+
+// ring of items around the title
+const RING = ['h50', 'h42', 'h52', 'h14', 'h48', 'h40', 'h45', 'h46', 'h54', 'h13', 'h22', 'h6'].map((n) => { const im = document.createElement('img'); im.className = 'st'; im.src = `heritage/${n}.png`; im.style.width = '170px'; $('ring').appendChild(im); return im; });
+
+// uses
+const USES = [['للهدايا', 'h50', '#b5532f'], ['للتوزيعات', 'h48', '#0f4c4a'], ['ولتغليف الطلبات', 'h14', '#d4a24c']].map(([w, n, col], i) => {
+  const d = document.createElement('div'); d.className = 'abs'; d.style.cssText = `left:${60 + (2 - i) * 330}px; top:520px; width:300px; height:1000px; border:6px solid #d4a24c; border-radius:150px 150px 16px 16px; background:${col}; overflow:hidden`;
+  d.innerHTML = `<img src="heritage/${n}.png" style="position:absolute; left:20px; top:180px; width:260px; height:300px; object-fit:contain; filter:drop-shadow(0 14px 16px rgba(0,0,0,.4))"><div style="position:absolute; left:0; top:600px; width:288px; text-align:center; font-weight:700; font-size:${i === 2 ? 50 : 62}px; line-height:1.3; color:${i === 2 ? '#0a3534' : '#f7f0e1'}; white-space:normal">${w}</div>`;
+  $('uses').appendChild(d); return { d, im: d.querySelector('img'), lb: d.querySelector('div'), i };
+});
+
+// printable sheet built from the heritage stickers used in the ad (no religious items)
+['h50', 'h42', 'h52', 'h14', 'h48', 'h40', 'h45', 'h46', 'h54', 'h13', 'h22', 'h6', 'h41', 'h49', 'h53'].forEach((n, i) => { const im = document.createElement('img'); im.src = `heritage/${n}.png`;
+  im.style.cssText = `position:absolute; width:150px; height:130px; object-fit:contain; left:${30 + (i % 3) * 170}px; top:${40 + Math.floor(i / 3) * 145}px`; $('sheet').appendChild(im); });
+// mashrabiya lattice transition
+const LAT = []; for (let y = 0; y < 18; y++) for (let x = 0; x < 10; x++) { const d = document.createElement('div'); d.className = 'lat'; $('lattice').appendChild(d); LAT.push({ d, x: x * 120 - 60 + (y % 2) * 60, y: y * 120 - 60, dist: Math.hypot(x - 4.5, (y - 8.5) * 0.6) }); }
+
+window.render = (t) => {
+  for (const [id, a, b] of SC) $(id).style.display = t >= a && t < b ? 'block' : 'none';
+  $('stage').style.opacity = 1 - p(t, T.end_all - 0.5, T.end_all);
+  // background star: draws on, then turns slowly
+  STARS.forEach((s, i) => { const k = eio(p(t, 0.1 + i * 0.08, 1.2 + i * 0.08)); s.style.strokeDasharray = 1; s.style.strokeDashoffset = 1 - k; });
+  $('starG').setAttribute('transform', `translate(540 980) rotate(${t * 4})`);
+  // lattice wipe at cuts: diamonds grow from the centre outward, then shrink away
+  let lk = -1; CUT.forEach((c) => { if (Math.abs(t - c) < 0.4) lk = p(t, c - 0.4, c + 0.4); });
+  LAT.forEach(({ d, x, y, dist }) => { if (lk < 0) { d.style.opacity = 0; return; }
+    const local = Math.min(1, Math.max(0, lk * 1.6 - dist * 0.06)); const s = Math.sin(local * Math.PI) * 1.5;
+    d.style.opacity = s > 0.01 ? 1 : 0; d.style.transform = `translate(${x}px, ${y}px) rotate(45deg) scale(${s})`; d.style.background = (Math.round(x / 120 + y / 120) % 2) ? '#d4a24c' : '#b5532f'; });
+
+  // S1: the chest rises, rays turn, sparks fly out
+  if (t < CUT[0]) {
+    const k = eb(p(t, 0.1, 0.8)); place($('chest'), 220, 980 + (1 - eo(p(t, 0.1, 0.8))) * 300, k, Math.sin(t * 6) * (t > 1.2 ? 1.5 : 0));
+    $('rays').style.transform = `rotate(${t * 20}deg)`; $('rays').style.opacity = eo(p(t, 1.0, 1.6));
+    SPK.forEach((s, i) => { const a0 = 1.2 + R(i) * 0.6; const kk = p(t, a0, a0 + 1.0); const ang = -Math.PI / 2 + (R(i + 3) - 0.5) * 2.2;
+      s.style.opacity = kk > 0 && kk < 1 ? 1 - kk : 0; s.style.transform = `translate(${540 + Math.cos(ang) * kk * 520}px, ${1100 + Math.sin(ang) * kk * 700}px) rotate(${kk * 180}deg) scale(${1 + R(i) * 2})`; });
+    rise('h1', t, T.h1); rise('h1b', t, T.h1b);
+  }
+  // S2: arches open row by row, items pop in, plates spin
+  if (t >= CUT[0] && t < CUT[1]) {
+    const at = [T.a0 - 0.15, T.a1 - 0.15, T.a2 - 0.15];
+    ['r0', 'r1', 'r2'].forEach((id, r) => rise(id, t, at[r] - 0.05));
+    ARCH.forEach(({ a, im, r, c, spin }) => { const s0 = at[r] + c * 0.12; const k = eb(p(t, s0, s0 + 0.5));
+      a.style.transform = `scaleY(${eo(p(t, s0, s0 + 0.4))})`; a.style.transformOrigin = '50% 100%'; a.style.opacity = p(t, s0, s0 + 0.05);
+      im.style.transform = `translateY(${(1 - eo(p(t, s0 + 0.15, s0 + 0.6))) * 200}px) rotate(${spin ? (t - s0) * 60 : Math.sin(t * 2 + c) * 3}deg) scale(${k})`; });
+  }
+  // S3: items orbit the title
+  if (t >= CUT[1] && t < CUT[2]) {
+    const a = CUT[1]; rise('t1', t, T.title - 0.05); rise('t2', t, T.t2 - 0.05);
+    RING.forEach((im, i) => { const ang = i / RING.length * Math.PI * 2 + (t - a) * 0.35; const k = eb(p(t, a + 0.1 + i * 0.05, a + 0.6 + i * 0.05));
+      place(im, 540 + Math.cos(ang) * 440 - 85, 980 + Math.sin(ang) * 640 - 85, k, Math.sin(t + i) * 8, p(t, a + 0.1 + i * 0.05, a + 0.15 + i * 0.05)); });
+  }
+  // S4: three tall arches rise in sequence
+  if (t >= CUT[2] && t < CUT[3]) {
+    const at = [CUT[2] + 0.1, T.u1 - 0.2, T.u2 - 0.2];
+    USES.forEach(({ d, im, lb, i }) => { const k = eo(p(t, at[i], at[i] + 0.5)); d.style.transform = `translateY(${(1 - k) * 1300}px)`;
+      const s = eb(p(t, at[i] + 0.3, at[i] + 0.8)); im.style.transform = `scale(${s}) rotate(${Math.sin(t * 2 + i) * 3}deg)`; lb.style.opacity = p(t, at[i] + 0.4, at[i] + 0.6); });
+  }
+  // S5
+  if (t >= CUT[3] && t < CUT[4]) {
+    const a = CUT[3]; rise('p1', t, a + 0.1); rise('p2', t, a + 0.45);
+    const k = eo(p(t, a, a + 0.8)); $('sheet').style.transform = `translate(270px, ${600 + (1 - k) * 1400}px) rotate(${-2 + Math.sin(t)}deg)`;
+    place($('ch0'), 100, 1460, eb(p(t, a + 1.0, a + 1.4)), -5, p(t, a + 1.0, a + 1.05)); place($('ch1'), 660, 1320, eb(p(t, a + 1.2, a + 1.6)), 5, p(t, a + 1.2, a + 1.25));
+  }
+  // S6
+  if (t >= CUT[4]) {
+    const a = CUT[4]; rise('e1', t, a + 0.1);
+    const q = eb(p(t, a + 0.2, a + 0.7)); $('qrA').style.transform = `scale(${q})`; $('qr').style.transform = `scale(${q})`; $('qrA').style.opacity = $('qr').style.opacity = p(t, a + 0.2, a + 0.25);
+    place($('eA'), 30, 1080 + Math.sin(t * 1.5) * 8, eb(p(t, a + 0.6, a + 1.0)), -10, p(t, a + 0.6, a + 0.65));
+    place($('eB'), 850, 560 + Math.sin(t * 1.5 + 1) * 8, eb(p(t, a + 0.7, a + 1.1)), 8, p(t, a + 0.7, a + 0.75));
+    rise('e2b', t, T.store - 0.1); rise('e2', t, T.store2 - 0.1); rise('e3', t, T.store2 + 0.3);
+  }
+};
+render(0);
+</script>
+</body></html>
