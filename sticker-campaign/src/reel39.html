@@ -54,6 +54,7 @@
   </div>
   <div id="fade"></div>
 </div>
+<script src="reel39_timeline.js"></script>
 <script>
 const $ = (id) => document.getElementById(id);
 const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
@@ -120,7 +121,7 @@ window.render = (t) => {
   if (si === 4) { if (t >= ua[1] - 0.05) { c1 = EXTRA[1].cap; ca = ua[1]; } else if (t >= ua[0] - 0.05) { c1 = EXTRA[0].cap; ca = ua[0]; } }
   if (si === 3) { $('cap').textContent = (Math.round(116 * eo(p(t, ca, ca + 1.2)))).toLocaleString('ar-EG') + ' ستيكر'; } else $('cap').textContent = c1;
   $('cap2').textContent = c2;
-  const sub = si === 0 ? T.h2 : si === 3 ? T.n2 : ca + 0.5;
+  const sub = si === 0 ? T.h2 : si === 3 ? T.n2 : si === 1 && T.k0b !== undefined ? T.k0b - 0.05 : si === 2 && T.k1b !== undefined ? T.k1b - 0.05 : ca + 0.5;
   const k1 = eb(p(t, si === 0 ? T.h1 : ca, (si === 0 ? T.h1 : ca) + 0.45)), k2 = eb(p(t, sub, sub + 0.45));
   const hide = t >= T.print - 0.25;
   $('cap').style.opacity = hide ? 0 : p(t, si === 0 ? T.h1 : ca, (si === 0 ? T.h1 : ca) + 0.08); $('cap').style.transform = `scale(${k1})`;
