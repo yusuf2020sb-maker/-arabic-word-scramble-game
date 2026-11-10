@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Tajawal:wght@800&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; font-family:'Tajawal',sans-serif; color:#fbf3e4; }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip;
+    background: radial-gradient(circle 700px at 540px 1050px, rgba(255,190,110,.38), transparent 70%), repeating-linear-gradient(90deg, #3b2418 0 46px, #412819 46px 50px, #3b2418 50px 120px); }
+  .line { position:absolute; left:0; width:1080px; text-align:center; line-height:1.25; white-space:nowrap; }
+  .lz { font-family:'Lalezar',sans-serif; }
+  #view { position:absolute; left:0; top:0; width:1080px; height:1920px; perspective:2200px; perspective-origin:540px 700px; }
+  #book { position:absolute; left:60px; top:1020px; width:960px; height:660px; transform-style:preserve-3d; transform:scale(1.12) rotateX(52deg); }
+  .page { position:absolute; top:0; width:480px; height:660px; background:linear-gradient(90deg, #e8d8bb, #f6ecd9 12%, #f6ecd9 88%, #e8d8bb); }
+  #cover { position:absolute; left:-14px; top:-14px; width:988px; height:688px; border-radius:20px; background:#7a3b22; transform:translateZ(-4px); }
+  .pop { position:absolute; left:0; top:0; transform-origin:50% 100%; }
+  .pop img { display:block; filter:drop-shadow(0 10px 8px rgba(60,30,10,.35)); }
+  .pill { position:absolute; left:220px; top:1740px; width:640px; padding:12px 0 22px; text-align:center; border-radius:80px; background:#c0623a; border:4px solid #e2a64a; font-size:56px; }
+</style></head><body><div id="stage">
+<div class="line lz" style="top:200px; font-size:160px">دفا الخريف</div>
+<div class="line lz" style="top:400px; font-size:120px; color:#e2a64a">في كتاب!</div>
+<div id="view"><div id="book"><div id="cover"></div><div class="page" style="left:0"></div><div class="page" style="left:480px"></div>
+  <div class="pop" style="transform:translate(330px,30px) rotateX(-52deg)"><img src="cozy/c98.png" style="width:320px"></div>
+  <div class="pop" style="transform:translate(60px,230px) rotateX(-52deg)"><img src="cozy/c124.png" style="width:300px"></div>
+  <div class="pop" style="transform:translate(660px,330px) rotateX(-52deg)"><img src="cozy/c92.png" style="width:220px"></div>
+  <div class="pop" style="transform:translate(470px,380px) rotateX(-52deg)"><img src="cozy/c101.png" style="width:190px"></div>
+</div></div>
+<div class="line" style="top:560px; font-size:58px; color:#fbf3e4">١١٦ ستيكر بطابع دافي</div>
+<div class="pill" style="white-space:nowrap">متوفرة في متجر دُر</div>
+</div></body></html>
