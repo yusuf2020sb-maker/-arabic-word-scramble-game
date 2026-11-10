@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&family=VT323&display=swap" rel="stylesheet">
+<style>
+  :root { --desk:#2f6f6a; --win:#ece4d4; --hi:#fffaf0; --lo:#4a3a2e; --tb1:#5a3a22; --tb2:#c07a3e; --red:#d8432f; --cream:#fff6e6; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:var(--desk); font-family:'Cairo',sans-serif; color:#2b1d14; }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; }
+  #desk { position:absolute; left:0; top:0; width:1080px; height:1920px; background-color:var(--desk); background-image:linear-gradient(45deg, rgba(0,0,0,.06) 25%, transparent 25%, transparent 75%, rgba(0,0,0,.06) 75%), linear-gradient(45deg, rgba(0,0,0,.06) 25%, transparent 25%, transparent 75%, rgba(0,0,0,.06) 75%); background-size:8px 8px; background-position:0 0, 4px 4px; }
+  #scan { position:absolute; left:0; top:0; width:1080px; height:1920px; background:repeating-linear-gradient(180deg, rgba(0,0,0,.05) 0 2px, transparent 2px 5px); pointer-events:none; z-index:90; }
+  .scene { position:absolute; left:0; top:0; width:1080px; height:1920px; display:none; }
+  .abs { position:absolute; left:0; top:0; }
+  .win { position:absolute; left:0; top:0; background:var(--win); border:5px solid; border-color:var(--hi) var(--lo) var(--lo) var(--hi); box-shadow:10px 10px 0 rgba(0,0,0,.35); transform-origin:50% 50%; will-change:transform; }
+  .tb { height:74px; background:linear-gradient(270deg, var(--tb1), var(--tb2)); color:#fff; font-size:38px; font-weight:900; padding:0 22px; display:flex; align-items:center; justify-content:space-between; white-space:nowrap; }
+  .tb .x { width:50px; height:46px; background:var(--win); border:4px solid; border-color:var(--hi) var(--lo) var(--lo) var(--hi); color:#2b1d14; font:900 34px/38px sans-serif; text-align:center; }
+  .bd { position:relative; padding:30px; }
+  .btn3 { display:inline-block; background:var(--win); border:5px solid; border-color:var(--hi) var(--lo) var(--lo) var(--hi); padding:4px 50px 12px; font-weight:900; }
+  .pix { font-family:'VT323', monospace; direction:ltr; }
+  .line { position:absolute; left:0; width:1080px; text-align:center; font-weight:900; line-height:1.3; white-space:nowrap; }
+  .w { display:inline-block; }
+  .st { position:absolute; left:0; top:0; filter:drop-shadow(0 10px 10px rgba(0,0,0,.3)); will-change:transform; }
+  .icon { position:absolute; width:170px; text-align:center; color:#fff; font-size:30px; font-weight:700; text-shadow:2px 2px 0 #000; }
+  .folder { width:110px; height:84px; margin:0 auto 6px; background:#f0c24a; border:4px solid #7a5a12; border-radius:4px 14px 4px 4px; position:relative; }
+  .folder:before { content:''; position:absolute; right:-4px; top:-22px; width:50px; height:22px; background:#f0c24a; border:4px solid #7a5a12; border-bottom:none; border-radius:8px 8px 0 0; }
+  .bar { height:56px; border:5px solid; border-color:var(--lo) var(--hi) var(--hi) var(--lo); background:#fff; padding:5px; }
+  .bar i { display:block; height:100%; background:repeating-linear-gradient(90deg, var(--tb1) 0 34px, transparent 34px 42px); }
+  #cursor { position:absolute; left:0; top:0; width:70px; z-index:80; filter:drop-shadow(3px 3px 0 rgba(0,0,0,.4)); }
+  #ring { position:absolute; left:0; top:0; width:120px; height:120px; border-radius:50%; border:8px solid #fff; z-index:79; }
+  #taskbar { position:absolute; left:0; top:1800px; width:1080px; height:120px; background:var(--win); border-top:5px solid var(--hi); z-index:70; }
+  .cf { position:absolute; left:0; top:0; width:22px; height:22px; }
+</style></head><body>
+<div id="stage"><div id="desk"></div>
+  <!-- desktop icons (right column for RTL) -->
+  <div class="icon" style="left:880px; top:90px"><div class="folder"></div>ستيكرات</div>
+  <div class="icon" style="left:880px; top:300px"><img src="coffee/p30.png" style="width:100px; display:block; margin:0 auto 6px">قهوة</div>
+  <div id="taskbar">
+    <div class="btn3" style="position:absolute; right:20px; top:18px; font-size:42px; padding:0 34px 6px">☕ ابدأ</div>
+    <div style="position:absolute; left:20px; top:18px; width:220px; height:80px; border:5px solid; border-color:var(--lo) var(--hi) var(--hi) var(--lo); font-size:40px; font-weight:900; text-align:center; line-height:66px">٩ ص</div>
+  </div>
+
+  <!-- S1 hook: system error -->
+  <div class="scene" id="s1">
+    <div id="cascade"></div>
+    <div class="win" id="err" style="left:70px; top:520px; width:940px">
+      <div class="tb"><span>تنبيه</span><span class="x">✕</span></div>
+      <div class="bd" style="height:520px">
+        <div style="position:absolute; right:40px; top:50px; width:150px; height:150px; border-radius:50%; background:var(--red); color:#fff; font:900 110px/150px sans-serif; text-align:center; border:6px solid #8a1e12">✕</div>
+        <div style="position:absolute; right:220px; top:40px; font-size:90px; font-weight:900; white-space:nowrap"><span class="w" id="h1">خطأ في النظام!</span></div>
+        <div style="position:absolute; right:40px; top:250px; font-size:80px; font-weight:900; white-space:nowrap; color:var(--red)"><span class="w" id="h2">السبب: ما فيه قهوة</span></div>
+        <div style="position:absolute; left:0; top:400px; width:880px; text-align:center"><span class="btn3" style="font-size:40px">موافق</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S2 question + loading -->
+  <div class="scene" id="s2">
+    <div class="win" id="qWin" style="left:140px; top:330px; width:800px">
+      <div class="tb"><span>مساعد النظام</span><span class="x">✕</span></div>
+      <div class="bd" style="height:300px; text-align:center"><div style="font-size:150px; font-weight:900; line-height:1.4"><span class="w" id="q">الحل؟</span></div></div>
+    </div>
+    <div class="win" id="aWin" style="left:60px; top:800px; width:960px">
+      <div class="tb"><span>جاري التحميل…</span><span class="x">✕</span></div>
+      <div class="bd" style="height:420px">
+        <div style="text-align:center; font-size:96px; font-weight:900; white-space:nowrap; color:var(--tb1)"><span class="w" id="a">ستيكرات قهوة وميمز!</span></div>
+        <div class="bar" style="margin-top:40px; direction:ltr"><i id="aBar"></i></div>
+        <div class="pix" id="aPct" style="font-size:60px; text-align:center; margin-top:10px">LOADING 0%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S3 sticker viewer windows -->
+  <div class="scene" id="s3"><div id="views"></div></div>
+
+  <!-- S4 count: folder grid -->
+  <div class="scene" id="s4">
+    <div class="win" id="fWin" style="left:50px; top:120px; width:980px; height:1620px">
+      <div class="tb"><span>📁 ستيكرات قهوة وميمز</span><span class="x">✕</span></div>
+      <div id="grid" class="bd" style="height:1520px; background:#fff; margin:12px; border:5px solid; border-color:var(--lo) var(--hi) var(--hi) var(--lo)"></div>
+    </div>
+    <div class="win" id="cWin" style="left:110px; top:600px; width:860px">
+      <div class="tb"><span>خصائص</span><span class="x">✕</span></div>
+      <div class="bd" style="height:580px; text-align:center">
+        <div style="font-size:250px; font-weight:900; line-height:1.05; color:var(--tb1)"><span class="w" id="n114">١١٤</span></div>
+        <div style="font-size:74px; font-weight:900; white-space:nowrap"><span class="w" id="n1">ستيكر</span></div>
+        <div style="font-size:60px; font-weight:900; white-space:nowrap; color:var(--red)"><span class="w" id="n2">تضحّك وتعدّل المزاج</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S5 uses -->
+  <div class="scene" id="s5">
+    <div class="line" style="top:300px; font-size:120px; color:#fff; text-shadow:6px 6px 0 rgba(0,0,0,.35)"><span class="w" id="ucap">للابتوب</span></div>
+    <div id="uses"></div>
+  </div>
+
+  <!-- S6 print -->
+  <div class="scene" id="s6">
+    <div class="win" id="pWin" style="left:80px; top:170px; width:920px">
+      <div class="tb"><span>🖨 طباعة</span><span class="x">✕</span></div>
+      <div class="bd" style="height:440px; text-align:center">
+        <div style="font-size:120px; font-weight:900; line-height:1.3"><span class="w" id="p1">ملف PDF</span></div>
+        <div style="font-size:84px; font-weight:900; color:var(--tb1); line-height:1.3"><span class="w" id="p2">جاهز للطباعة</span></div>
+        <div class="bar" style="margin-top:20px; direction:ltr"><i id="pBar"></i></div>
+      </div>
+    </div>
+    <div id="paper" class="abs" style="width:560px; height:792px; background:#fff; padding:14px; box-shadow:0 10px 0 rgba(0,0,0,.2)"><img src="coffee/sheet3.jpg" style="width:532px; height:764px; object-fit:cover"></div>
+    <div id="printer" class="abs" style="left:170px; top:820px; width:740px; height:220px; background:#d9d0bf; border:6px solid; border-color:var(--hi) var(--lo) var(--lo) var(--hi); box-shadow:10px 10px 0 rgba(0,0,0,.35)">
+      <div style="position:absolute; left:80px; top:150px; width:570px; height:26px; background:#2b1d14; border-radius:6px"></div>
+      <div id="led" style="position:absolute; right:40px; top:40px; width:34px; height:34px; border-radius:50%; background:#5fd35f"></div>
+    </div>
+  </div>
+
+  <!-- S7 end -->
+  <div class="scene" id="s7">
+    <div id="conf"></div>
+    <div class="win" id="eWin" style="left:60px; top:360px; width:960px">
+      <div class="tb"><span>تم بنجاح</span><span class="x">✕</span></div>
+      <div class="bd" style="height:1180px; text-align:center">
+        <div style="margin:10px auto 0; width:170px; height:170px; border-radius:50%; background:#3e9b4f; color:#fff; font:900 120px/170px sans-serif; border:6px solid #1f5a2a">✓</div>
+        <div style="font-size:84px; font-weight:900; white-space:nowrap; margin-top:20px"><span class="w" id="e1">ستيكرات قهوة وميمز</span></div>
+        <img id="eS1" class="st" src="coffee/p33.png" style="width:220px">
+        <img id="eS2" class="st" src="coffee/p54.png" style="width:220px">
+        <div style="position:absolute; left:0; top:640px; width:950px; font-size:70px; font-weight:900"><span class="w" id="e2b">متوفرة في</span></div>
+        <div style="position:absolute; left:0; top:760px; width:950px"><span class="w btn3" id="e2" style="font-size:130px; padding:0 70px 20px; color:var(--tb1)">متجر دُر</span></div>
+        <div class="pix" style="position:absolute; left:0; top:1040px; width:950px; font-size:70px"><span class="w" id="e3">planme.zaher.io</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="ring"></div>
+  <svg id="cursor" viewBox="0 0 24 36"><path d="M2 2 L2 28 L8 22 L12 33 L17 31 L13 20 L21 20 Z" fill="#fff" stroke="#000" stroke-width="2" stroke-linejoin="round"/></svg>
+  <div id="scan"></div>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eio = (x) => (x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const eb = (x) => { const c = 1.7; return x <= 0 ? 0 : 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const place = (e, x, y, s, r, o) => { e.style.transform = `translate(${x}px,${y}px) rotate(${r}deg) scale(${s})`; if (o !== undefined) e.style.opacity = o; };
+// retro "type-in": text revealed in hard steps from the reading side
+const type = (id, t, a, d = 0.45) => { const k = Math.floor(p(t, a, a + d) * 8) / 8; const e = $(id); e.style.clipPath = `inset(-20% 0 -20% ${(1 - k) * 100}%)`; e.style.opacity = k > 0 ? 1 : 0; };
+// window open: snappy stepped scale like an old OS
+const wpop = (e, t, a, d = 0.22) => { const k = p(t, a, a + d); const s = k >= 1 ? 1 : Math.max(0.05, Math.floor(k * 5) / 5); e.style.transform = `scale(${s})`; e.style.opacity = k > 0 ? 1 : 0; };
+
+const D = { h1: 0.3, h2: 1.3, q: 3.0, a: 3.8, c1: 5.6, c2: 7.0, c3: 8.6, count: 10.4, n2: 11.6, u0: 13.2, u1: 14.2, u2: 15.2, print: 16.8, print2: 17.8, brand: 19.4, store: 20.8, store2: 21.5, end_all: 24.2 };
+const T = Object.assign({}, D, window.TL || {});
+const CUT = [T.q - 0.35, T.c1 - 0.35, T.count - 0.35, T.u0 - 0.35, T.print - 0.35, T.brand - 0.35];
+const SC = [['s1', 0, CUT[0]], ['s2', CUT[0], CUT[1]], ['s3', CUT[1], CUT[2]], ['s4', CUT[2], CUT[3]], ['s5', CUT[3], CUT[4]], ['s6', CUT[4], CUT[5]], ['s7', CUT[5], 99]];
+const mkWin = (host, title, w, h, inner) => { const d = document.createElement('div'); d.className = 'win'; d.style.width = w + 'px';
+  d.innerHTML = `<div class="tb"><span>${title}</span><span class="x">✕</span></div><div class="bd" style="height:${h}px">${inner}</div>`; $(host).appendChild(d); return d; };
+
+// S1 cascade of error windows (the classic glitch trail)
+const casc = [...Array(7)].map((_, i) => { const d = mkWin('cascade', 'تنبيه', 560, 170, `<div style="font-size:54px; font-weight:900; color:#d8432f">✕ ما فيه قهوة</div>`); return d; });
+// S3 viewer windows
+const VIEWS = [['p51', 'تحذير: مدمن قهوة', 'تحذير', 70, 260], ['p54', 'قلّل ناس، كثّر قهوة', 'نصيحة', 130, 420], ['p53', 'الحياة تبدأ بعد القهوة', 'حكمة', 40, 580]];
+const views = VIEWS.map(([n, cap, ttl, x, y]) => { const d = mkWin('views', ttl, 900, 880, `<div style="height:640px; background:#fff; border:5px solid; border-color:var(--lo) var(--hi) var(--hi) var(--lo); display:flex; align-items:center; justify-content:center"><img src="coffee/${n}.png" style="max-width:600px; max-height:580px"></div><div class="cap" style="text-align:center; font-size:72px; font-weight:900; white-space:nowrap; margin-top:20px">${cap}</div>`);
+  d.style.left = x + 'px'; d.style.top = y + 'px'; return { d, img: d.querySelector('img') }; });
+// S4 grid of sticker files
+const GRID = ['p8', 'p10', 'p26', 'p30', 'p33', 'p36', 'p46', 'p48', 'p49', 'p51', 'p53', 'p54', 'p73', 'p74', 'p76', 'p94', 'p116', 'p46', 'p33', 'p10'];
+const grid = GRID.map((n, i) => { const c = document.createElement('div'); c.style.cssText = `position:absolute; left:${30 + (i % 4) * 225}px; top:${30 + Math.floor(i / 4) * 290}px; width:200px; text-align:center; font-size:26px; font-weight:700`;
+  c.innerHTML = `<img src="coffee/${n}.png" style="width:180px; height:180px; object-fit:contain"><div class="pix" style="font-size:34px">${n}.png</div>`; $('grid').appendChild(c); return c; });
+// S5 uses
+const LAPTOP = `<div style="position:absolute; left:110px; top:40px; width:640px; height:420px; background:#3b3f46; border-radius:28px"></div><div style="position:absolute; left:50px; top:470px; width:760px; height:40px; background:#2a2d33; border-radius:0 0 30px 30px"></div>`;
+const PHONE = `<div style="position:absolute; left:250px; top:10px; width:360px; height:640px; background:#c98b57; border-radius:56px; border:10px solid #8a5a33"></div><div style="position:absolute; left:290px; top:50px; width:90px; height:90px; background:#2a2d33; border-radius:22px"></div>`;
+const CUP = `<div style="position:absolute; left:220px; top:30px; width:420px; height:60px; background:#4a3426; border-radius:16px"></div><div style="position:absolute; left:240px; top:90px; width:380px; height:560px; background:#d2a679; clip-path:polygon(0 0, 100% 0, 88% 100%, 12% 100%)"></div><div style="position:absolute; left:270px; top:280px; width:320px; height:150px; background:#a46d43; clip-path:polygon(0 0, 100% 0, 97% 100%, 3% 100%)"></div>`;
+const USES = [['للابتوب', 'لابتوب', LAPTOP, [['p33', 160, 80, 220, -8], ['p73', 420, 110, 250, 6], ['p49', 270, 300, 260, -3]]],
+  ['للجوال', 'جوال', PHONE, [['p46', 330, 170, 220, -6], ['p51', 320, 390, 220, 8]]],
+  ['ولأكواب القهوة', 'كوب', CUP, [['p54', 280, 150, 300, -4], ['p36', 320, 450, 180, 10]]]];
+const uses = USES.map(([cap, ttl, art, st], i) => { const d = mkWin('uses', ttl, 900, 700, `<div style="position:absolute; left:20px; top:20px; width:850px; height:660px; background:#fff; border:5px solid; border-color:var(--lo) var(--hi) var(--hi) var(--lo)">${art}</div>`);
+  d.style.left = (60 + i * 30) + 'px'; d.style.top = (560 + i * 120) + 'px';
+  const ims = st.map(([n, x, y, w, r]) => { const im = document.createElement('img'); im.className = 'st'; im.src = `coffee/${n}.png`; im.style.width = w + 'px'; d.querySelector('.bd > div').appendChild(im); return { im, x, y, r }; });
+  return { d, ims, cap }; });
+// S7 confetti (square pixels)
+const conf = [...Array(40)].map((_, i) => { const e = document.createElement('div'); e.className = 'cf'; e.style.background = ['#f0c24a', '#d8432f', '#fff', '#3e9b4f', '#c07a3e'][i % 5]; $('conf').appendChild(e); return e; });
+
+// cursor path: [time, x, y, click?] per scene, interpolated
+const CUR = () => [
+  [0, 1100, 1500], [T.h2 + 0.3, 470, 1000], [T.h2 + 0.7, 470, 1000, 1], [CUT[0] - 0.1, 600, 1300],
+  [T.a - 0.3, 560, 1300], [T.a - 0.05, 560, 1300, 1], [CUT[1] - 0.1, 700, 1500],
+  [T.c1 - 0.25, 520, 900, 1], [T.c2 - 0.25, 580, 1060, 1], [T.c3 - 0.25, 490, 1220, 1], [CUT[2] - 0.1, 800, 1500],
+  [CUT[2] + 0.6, 760, 1300], [T.n2 + 0.4, 600, 1500], [T.u0 - 0.25, 520, 820, 1], [T.u1 - 0.25, 560, 940, 1], [T.u2 - 0.25, 590, 1060, 1],
+  [T.print - 0.2, 760, 640, 1], [T.print2 + 0.6, 860, 1500], [T.store2 - 0.25, 560, 1250], [T.store2 - 0.05, 560, 1250, 1], [99, 560, 1250]];
+const cursorAt = (t) => { const P = CUR(); for (let i = 0; i < P.length - 1; i++) { const [a, x0, y0] = P[i], [b, x1, y1] = P[i + 1]; if (t >= a && t < b) { const k = eio(p(t, a, Math.min(b, a + 0.5))); return [x0 + (x1 - x0) * k, y0 + (y1 - y0) * k]; } } return [P[0][1], P[0][2]]; };
+const clickK = (t) => { let c = -1; CUR().forEach(([a, , , cl]) => { if (cl && t >= a && t < a + 0.35) c = p(t, a, a + 0.35); }); return c; };
+
+window.render = (t) => {
+  for (const [id, a, b] of SC) $(id).style.display = t >= a && t < b ? 'block' : 'none';
+  $('stage').style.opacity = 1 - p(t, T.end_all - 0.5, T.end_all);
+  const [cx, cy] = cursorAt(t); const ck = clickK(t);
+  place($('cursor'), cx, cy, ck >= 0 ? 1 - 0.15 * Math.sin(Math.PI * ck) : 1, 0);
+  place($('ring'), cx - 50, cy - 50, ck >= 0 ? 0.3 + ck : 0, 0, ck >= 0 ? 1 - ck : 0);
+
+  // S1
+  if (t < CUT[0]) {
+    const e = $('err'); const k = p(t, 0.05, 0.3); const shake = Math.sin(t * 90) * 14 * (1 - p(t, 0.3, 0.7)) + Math.sin(t * 90) * 10 * Math.sin(Math.PI * p(t, T.h2, T.h2 + 0.35));
+    e.style.transform = `translateX(${shake}px) scale(${k >= 1 ? 1 : Math.max(.05, Math.floor(k * 5) / 5)})`; e.style.opacity = k > 0 ? 1 : 0;
+    type('h1', t, T.h1); type('h2', t, T.h2);
+    casc.forEach((d, i) => { const a = T.h2 + 0.6 + i * 0.12; place(d, 30 + i * 60, 1140 + i * 55, 1, 0, t >= a ? 1 : 0); d.style.zIndex = i; });
+  }
+  // S2
+  if (t >= CUT[0] && t < CUT[1]) {
+    wpop($('qWin'), t, CUT[0]); type('q', t, T.q - 0.05, 0.35);
+    wpop($('aWin'), t, T.a - 0.2); type('a', t, T.a, 0.6);
+    const lk = p(t, T.a + 0.2, CUT[1] - 0.25); $('aBar').style.width = (Math.floor(lk * 12) / 12 * 100) + '%';
+    $('aPct').textContent = 'LOADING ' + Math.round(Math.floor(lk * 12) / 12 * 100) + '%';
+  }
+  // S3
+  if (t >= CUT[1] && t < CUT[2]) {
+    const at = [T.c1 - 0.25, T.c2 - 0.25, T.c3 - 0.25];
+    views.forEach(({ d, img }, i) => { wpop(d, t, at[i]); d.style.zIndex = i; img.style.transform = `scale(${0.9 + 0.1 * eb(p(t, at[i] + 0.15, at[i] + 0.5))}) rotate(${Math.sin(t * 3 + i) * 2}deg)`; });
+  }
+  // S4
+  if (t >= CUT[2] && t < CUT[3]) {
+    const a = CUT[2]; wpop($('fWin'), t, a);
+    grid.forEach((c, i) => { c.style.opacity = t >= a + 0.25 + i * 0.04 ? 1 : 0; });
+    wpop($('cWin'), t, a + 0.35);
+    $('n114').textContent = Math.round(114 * eo(p(t, a + 0.4, a + 1.3))).toLocaleString('ar-EG');
+    type('n1', t, a + 0.6, 0.3); type('n2', t, T.n2 - 0.05, 0.5);
+  }
+  // S5
+  if (t >= CUT[3] && t < CUT[4]) {
+    const at = [T.u0 - 0.25, T.u1 - 0.25, T.u2 - 0.25]; const st = t < at[1] ? 0 : t < at[2] ? 1 : 2;
+    $('ucap').textContent = uses[st].cap; type('ucap', t, at[st] + 0.1, 0.35);
+    uses.forEach(({ d, ims }, i) => { wpop(d, t, at[i]); d.style.zIndex = i;
+      ims.forEach(({ im, x, y, r }, j) => { const s = at[i] + 0.25 + j * 0.15; place(im, x, y, eb(p(t, s, s + 0.35)), r, p(t, s, s + 0.05)); }); });
+  }
+  // S6
+  if (t >= CUT[4] && t < CUT[5]) {
+    const a = CUT[4]; wpop($('pWin'), t, a); type('p1', t, T.print - 0.05, 0.4); type('p2', t, T.print2 - 0.05, 0.45);
+    const pk = p(t, T.print + 0.1, CUT[5] - 0.3); $('pBar').style.width = (Math.floor(pk * 10) / 10 * 100) + '%';
+    const out = eio(p(t, T.print + 0.2, T.print2 + 0.6)); const jit = Math.sin(t * 60) * 3 * (out > 0 && out < 1 ? 1 : 0);
+    place($('paper'), 260 + jit, 760 + out * 500, 1, 0, 1); place($('printer'), jit, 0, 1, 0);
+    $('led').style.opacity = Math.sin(t * 20) > 0 || out >= 1 ? 1 : 0.3;
+  }
+  // S7
+  if (t >= CUT[5]) {
+    const a = CUT[5]; wpop($('eWin'), t, a); type('e1', t, T.brand - 0.05, 0.55);
+    place($('eS1'), 30, 400 + Math.sin(t * 3) * 8, eb(p(t, a + 0.4, a + 0.8)), -10);
+    place($('eS2'), 680, 420 + Math.sin(t * 3 + 1) * 8, eb(p(t, a + 0.5, a + 0.9)), 8);
+    type('e2b', t, T.store - 0.05, 0.35);
+    const bk = p(t, T.store2 - 0.05, T.store2 + 0.2); $('e2').style.opacity = p(t, T.store2 - 0.1, T.store2 - 0.05);
+    $('e2').style.borderColor = bk > 0 && bk < 1 ? 'var(--lo) var(--hi) var(--hi) var(--lo)' : 'var(--hi) var(--lo) var(--lo) var(--hi)';
+    $('e2').style.transform = `scale(${eb(p(t, T.store2 - 0.1, T.store2 + 0.3))})`;
+    type('e3', t, T.store2 + 0.4, 0.4);
+    conf.forEach((e, i) => { const s = T.store2 + 0.1; const k = p(t, s, s + 2.2); const x = 540 + (R(i) - 0.5) * 1200 * eo(k); const y = 1200 - Math.sin(Math.min(1, k * 2) * Math.PI / 2) * (500 + R(i + 3) * 700) + k * k * 1400;
+      place(e, x, y, 1, Math.floor(k * 8) * 45, k > 0 ? 1 : 0); });
+  }
+};
+render(0);
+</script>
+</body></html>
