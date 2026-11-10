@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Markazi+Text:wght@600;700&family=Tajawal:wght@800&display=swap" rel="stylesheet">
+<style>
+  :root { --black:#0e0c0a; --cream:#f1e6cf; --gold:#c9a45c; --wine:#7a2430; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:var(--black); font-family:'Markazi Text',serif; color:var(--cream); }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; background:radial-gradient(ellipse at 50% 45%, #2b241d, var(--black) 72%); }
+  #film { position:absolute; left:0; top:0; width:1080px; height:1920px; }
+  .scene { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; display:none; }
+  .abs { position:absolute; left:0; top:0; }
+  .line { position:absolute; left:0; width:1080px; text-align:center; font-weight:700; line-height:1.15; white-space:nowrap; }
+  .w { display:inline-block; }
+  .st { position:absolute; left:0; top:0; filter:drop-shadow(0 20px 26px rgba(0,0,0,.6)); }
+  #leader { position:absolute; left:0; top:0; width:1080px; height:1920px; background:#8f8676; }
+  #grain { position:absolute; left:0; top:0; mix-blend-mode:overlay; opacity:.55; pointer-events:none; }
+  .scratch { position:absolute; left:0; top:0; width:3px; height:1920px; background:rgba(255,255,240,.5); pointer-events:none; }
+  #vig { position:absolute; left:0; top:0; width:1080px; height:1920px; background:radial-gradient(ellipse at 50% 50%, transparent 45%, rgba(0,0,0,.75) 100%); pointer-events:none; }
+  .strip { position:absolute; left:0; top:700px; height:560px; background:#151210; border-top:6px solid #2a2520; border-bottom:6px solid #2a2520; }
+  .holes { position:absolute; left:0; width:100%; height:40px; background:repeating-linear-gradient(90deg, transparent 0 24px, #e8dcc4 24px 56px, transparent 56px 80px); opacity:.85; }
+  .frame { position:absolute; top:70px; width:400px; height:420px; background:radial-gradient(circle, #3b3127, #1c1712); border-radius:8px; overflow:hidden; }
+  .frame img { position:absolute; left:50px; top:30px; width:300px; height:360px; object-fit:contain; }
+  .title { position:absolute; left:110px; width:860px; padding:36px 0 50px; text-align:center; background:#0b0a09; border:4px solid var(--cream); outline:2px solid var(--cream); outline-offset:10px; font-size:96px; font-weight:700; }
+  #beam { position:absolute; left:0; top:0; width:1080px; height:1920px; background:conic-gradient(from 200deg at 980px -60px, transparent 0deg, rgba(255,240,200,.16) 8deg, rgba(255,240,200,.28) 16deg, rgba(255,240,200,.16) 24deg, transparent 32deg); }
+  #screen { position:absolute; left:120px; top:520px; width:840px; height:880px; background:radial-gradient(ellipse at 50% 45%, #f6efe0, #d9cdb4 75%); box-shadow:0 0 120px rgba(255,240,200,.25); }
+  .chip { position:absolute; left:0; top:0; padding:10px 34px 16px; border:3px solid var(--cream); color:var(--cream); font-family:'Tajawal'; font-size:42px; font-weight:800; white-space:nowrap; background:#0b0a09; }
+  .chip span { direction:rtl; unicode-bidi:isolate; }
+  #qr { position:absolute; left:340px; top:760px; width:400px; height:400px; background:#fff; padding:22px; }
+  #qr img { width:100%; height:100%; display:block; }
+</style></head><body>
+<div id="stage">
+  <div id="film">
+    <!-- S1 hook: sepia frame, then colour floods in -->
+    <div class="scene" id="s1">
+      <img id="watchG" class="st" src="classic/v12.png" style="width:560px; filter:grayscale(1) sepia(.35) contrast(1.1) drop-shadow(0 20px 26px rgba(0,0,0,.6))">
+      <div id="colorL" class="abs" style="width:1080px; height:1920px; background:radial-gradient(ellipse at 50% 50%, #5a3322, #1a120c 75%)"><img id="watchC" class="st" src="classic/v12.png" style="width:560px">
+        <img class="st" id="cA" src="classic/v60.png" style="width:240px"><img class="st" id="cB" src="classic/v9.png" style="width:240px"></div>
+      <div class="line" style="top:250px; font-size:96px"><span class="w" id="h1">من زمن الأبيض والأسود…</span></div>
+      <div class="line" style="top:1460px; font-size:150px; color:var(--gold)"><span class="w" id="h2">بس بالألوان!</span></div>
+    </div>
+    <!-- S2 film strip -->
+    <div class="scene" id="s2">
+      <div class="line" style="top:280px; font-size:110px"><span class="w" id="kw">ساعات…</span></div>
+      <div class="strip" id="strip"><div class="holes" style="top:12px"></div><div class="holes" style="bottom:12px"></div><div id="frames"></div></div>
+    </div>
+    <!-- S3 projector + count -->
+    <div class="scene" id="s3">
+      <div id="screen"></div>
+      <div class="line" style="top:640px; font-size:360px; line-height:1; color:#2b1d14"><span class="w" id="n62">٦٢</span></div>
+      <div class="line" style="top:1060px; font-size:96px; color:#2b1d14"><span class="w" id="n2">ستيكر فنتج كلاسيكي</span></div>
+      <div id="beam"></div>
+    </div>
+    <!-- S4 intertitles -->
+    <div class="scene" id="s4"><div id="cards"></div></div>
+    <!-- S5 print -->
+    <div class="scene" id="s5">
+      <div class="title" style="top:200px"><span id="p1">ملف PDF… جاهز للطباعة</span></div>
+      <img id="sheet" class="abs" src="classic/sheet.jpg" style="width:540px; border:4px solid #f1e6cf">
+      <div class="chip" id="ch0"><span>A4</span></div><div class="chip" id="ch1"><span>٦٢ تصميم</span></div>
+    </div>
+    <!-- S6 end -->
+    <div class="scene" id="s6">
+      <div class="title" style="top:170px; font-size:84px"><span id="e1">ستيكرات الكلاسيك</span></div>
+      <div id="qr"><img src="qr_store.png"></div>
+      <img id="eA" class="st" src="classic/v42.png" style="width:250px"><img id="eB" class="st" src="classic/v8.png" style="width:200px">
+      <div class="line" style="top:1360px; font-size:70px"><span class="w" id="e2b">متوفرة في</span></div>
+      <div class="line" style="top:1440px; font-size:170px; color:var(--gold)"><span class="w" id="e2">متجر دُر</span></div>
+      <div class="line" style="top:1680px; font-family:'Tajawal'; font-size:48px; font-weight:800; direction:ltr"><span class="w" id="e3">planme.zaher.io</span></div>
+    </div>
+  </div>
+  <div id="leader"><svg width="1080" height="1920"><circle cx="540" cy="960" r="380" fill="none" stroke="#2a2520" stroke-width="10"/><circle cx="540" cy="960" r="300" fill="none" stroke="#2a2520" stroke-width="6"/>
+    <path d="M 0 960 L 1080 960 M 540 0 L 540 1920" stroke="#2a2520" stroke-width="6"/><path id="sweep" fill="rgba(30,26,22,.45)"/>
+    <text id="cnt" x="540" y="1070" text-anchor="middle" font-family="Markazi Text" font-weight="700" font-size="320" fill="#1a1612">٣</text></svg></div>
+  <svg id="grain" width="1080" height="1920"><filter id="n"><feTurbulence id="turb" type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="1"/><feColorMatrix values="0 0 0 0 .5  0 0 0 0 .5  0 0 0 0 .45  0 0 0 .9 0"/></filter><rect width="1080" height="1920" filter="url(#n)"/></svg>
+  <div id="scr"></div>
+  <div id="vig"></div>
+</div>
+<script>
+const $ = (id) => document.getElementById(id);
+const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eio = (x) => (x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const eb = (x) => { const c = 1.5; return x <= 0 ? 0 : 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+
+const D = { h1: 0.9, h2: 2.2, k0: 3.6, k1: 4.4, k2: 5.2, k3: 6.4, k4: 7.2, k5: 8.0, count: 9.6, n2: 10.6, u0: 12.2, u1: 13.5, u2: 14.8, print: 16.4, brand: 18.8, store: 20.0, store2: 20.6, end_all: 23.2 };
+const T = Object.assign({}, D, window.TL || {});
+const LEADER = 0.8;
+const CUT = [T.k0 - 0.3, T.count - 0.25, T.u0 - 0.25, T.print - 0.25, T.brand - 0.25];
+const SC = [['s1', 0, CUT[0]], ['s2', CUT[0], CUT[1]], ['s3', CUT[1], CUT[2]], ['s4', CUT[2], CUT[3]], ['s5', CUT[3], CUT[4]], ['s6', CUT[4], 99]];
+
+const flickIn = (id, t, a) => { const k = p(t, a, a + 0.35); const e = $(id); const fl = k < 1 ? (Math.floor(t * 24) % 2 ? 0.55 : 1) : 1; e.style.opacity = k > 0 ? Math.min(1, k * 1.5) * fl : 0; e.style.transform = `scale(${1.06 - 0.06 * eo(k)})`; };
+const place = (e, x, y, s, r, o) => { e.style.transform = `translate(${x}px,${y}px) rotate(${r}deg) scale(${s})`; if (o !== undefined) e.style.opacity = o; };
+
+const SCR = [...Array(4)].map(() => { const d = document.createElement('div'); d.className = 'scratch'; $('scr').appendChild(d); return d; });
+// film strip frames, laid right-to-left
+const FR = [['ساعات…', 'v12'], ['كاميرات…', 'v42'], ['ومفاتيح', 'v20'], ['كتب…', 'v5'], ['شموع…', 'v8'], ['ورسائل', 'v10']].map(([w, n], i) => {
+  const d = document.createElement('div'); d.className = 'frame'; d.style.left = (3000 + (5 - i) * 460 + 40) + 'px'; d.innerHTML = `<img src="classic/${n}.png">`; $('frames').appendChild(d); return { d, w, i };
+});
+$('strip').style.width = '9000px'; $('strip').style.left = '-3000px';
+// intertitle cards for uses
+const CARDS = [['للجورنال', 'v24', 'v14'], ['للهدايا', 'v9', 'v60'], ['ولتغليف الطلبات', 'v25', 'v10']].map(([w, a, b], i) => {
+  const d = document.createElement('div'); d.className = 'abs'; d.style.cssText = 'width:1080px; height:1920px; background:#0e0c0a';
+  d.innerHTML = `<div class="title" style="top:300px">${w}</div>
+    <div class="abs" style="left:190px; top:760px; width:700px; height:640px; background:${['#efe3c8', '#2a1a14', '#b88d60'][i]}; border-radius:10px; box-shadow:0 30px 60px rgba(0,0,0,.6)"></div>
+    <img class="st" src="classic/${a}.png" style="width:260px"><img class="st" src="classic/${b}.png" style="width:240px">`;
+  $('cards').appendChild(d); const ims = d.querySelectorAll('img'); return { d, a: ims[0], b: ims[1], tl: d.querySelector('.title'), i };
+});
+
+window.render = (t) => {
+  for (const [id, a, b] of SC) $(id).style.display = t >= a && t < b ? 'block' : 'none';
+  // film look: grain changes every frame, flicker, gate weave, scratches
+  const fr = Math.floor(t * 30); $('turb').setAttribute('seed', fr % 97);
+  const flick = 0.92 + 0.08 * R(fr * 0.37); $('film').style.filter = `brightness(${flick}) sepia(.18)`;
+  $('film').style.transform = `translate(${(R(fr) - 0.5) * 3}px, ${(R(fr + 7) - 0.5) * 4}px)`;
+  SCR.forEach((s, i) => { const on = R(Math.floor(t * 6) + i * 13) > 0.6; s.style.opacity = on ? 0.6 : 0; s.style.transform = `translateX(${R(Math.floor(t * 6) * 3 + i) * 1080}px)`; });
+  $('stage').style.opacity = 1 - p(t, T.end_all - 0.5, T.end_all);
+  // countdown leader
+  const lk = t < LEADER; $('leader').style.display = lk ? 'block' : 'none';
+  if (lk) { const seg = LEADER / 3; const n = Math.min(2, Math.floor(t / seg)); $('cnt').textContent = ['٣', '٢', '١'][n]; const a = ((t % seg) / seg) * Math.PI * 2;
+    $('sweep').setAttribute('d', `M 540 960 L 540 ${960 - 900} A 900 900 0 ${a > Math.PI ? 1 : 0} 1 ${540 + Math.sin(a) * 900} ${960 - Math.cos(a) * 900} Z`); }
+
+  // S1: monochrome watch, colour floods in from the centre on "بالألوان"
+  if (t < CUT[0]) {
+    const z = 1 + t * 0.02; place($('watchG'), 260, 520, z, Math.sin(t) * 2); place($('watchC'), 260, 520, z, Math.sin(t) * 2);
+    const ck = eio(p(t, T.h2 - 0.1, T.h2 + 0.6)); $('colorL').style.clipPath = `circle(${ck * 1300}px at 540px 900px)`; $('colorL').style.opacity = ck > 0 ? 1 : 0;
+    place($('cA'), 60, 1080 + Math.sin(t) * 8, eb(p(t, T.h2 + 0.3, T.h2 + 0.8)), -12); place($('cB'), 790, 1120 + Math.sin(t + 1) * 8, eb(p(t, T.h2 + 0.45, T.h2 + 0.95)), 10);
+    flickIn('h1', t, Math.max(T.h1, 0.75)); flickIn('h2', t, T.h2);
+    $('h1').parentElement.style.color = ck > 0.5 ? '#f1e6cf' : '#e8e2d4';
+  }
+  // S2: strip runs right-to-left, settling on each frame as its word is said
+  if (t >= CUT[0] && t < CUT[1]) {
+    const ks = [T.k0, T.k1, T.k2, T.k3, T.k4, T.k5]; let pos = -1 + eio(p(t, CUT[0], ks[0] - 0.1));
+    for (let i = 1; i < ks.length; i++) pos += eio(p(t, ks[i] - 0.35, ks[i] - 0.05));
+    const cx = 540 - ((5 - pos) * 460 + 240); $('strip').style.transform = `translateX(${cx}px) translateY(${Math.sin(t * 40) * 1.5}px)`;
+    let wi = 0; ks.forEach((k, i) => { if (t >= k - 0.2) wi = i; }); $('kw').textContent = FR[wi].w;
+    const kk = eb(p(t, ks[wi] - 0.2, ks[wi] + 0.2)); $('kw').style.transform = `scale(${kk})`; $('kw').style.opacity = t >= ks[0] - 0.2 ? 1 : 0;
+    FR.forEach(({ d, i }) => { const on = Math.max(0, 1 - Math.abs(i - pos)); d.style.filter = `brightness(${0.45 + 0.55 * on}) grayscale(${1 - on})`; d.style.transform = `scale(${0.9 + 0.1 * on})`; });
+  }
+  // S3: projector beam flickers on, number projected
+  if (t >= CUT[1] && t < CUT[2]) {
+    const a = CUT[1]; const on = p(t, a + 0.05, a + 0.1) * (t > a + 0.16 && t < a + 0.22 ? 0.3 : 1);
+    $('screen').style.opacity = 0.15 + 0.85 * on; $('beam').style.opacity = on * (0.85 + 0.15 * Math.sin(t * 30));
+    $('n62').textContent = Math.round(62 * eo(p(t, a + 0.3, a + 1.3))).toLocaleString('ar-EG');
+    flickIn('n62', t, a + 0.3); flickIn('n2', t, T.n2 - 0.05);
+  }
+  // S4: intertitle card, then the sticker mock-up
+  if (t >= CUT[2] && t < CUT[3]) {
+    const at = [CUT[2] + 0.05, T.u1 - 0.2, T.u2 - 0.2]; const st = t < at[1] ? 0 : t < at[2] ? 1 : 2;
+    CARDS.forEach(({ d, a, b, tl, i }) => { d.style.display = i === st ? 'block' : 'none';
+      const k = p(t, at[i], at[i] + 0.3); tl.style.opacity = k > 0 ? (k < 1 && Math.floor(t * 24) % 2 ? 0.5 : 1) : 0;
+      place(a, 260, 820, eb(p(t, at[i] + 0.3, at[i] + 0.7)), -8, p(t, at[i] + 0.3, at[i] + 0.35)); place(b, 580, 1040, eb(p(t, at[i] + 0.45, at[i] + 0.85)), 8, p(t, at[i] + 0.45, at[i] + 0.5)); });
+  }
+  // S5 print
+  if (t >= CUT[3] && t < CUT[4]) {
+    const a = CUT[3]; flickIn('p1', t, a + 0.1);
+    const k = eo(p(t, a + 0.2, a + 1.0)); $('sheet').style.transform = `translate(270px, ${640 + (1 - k) * 1300}px) rotate(${-2 + Math.sin(t) * 0.8}deg)`;
+    place($('ch0'), 110, 1470, eb(p(t, a + 1.1, a + 1.5)), -5, p(t, a + 1.1, a + 1.15)); place($('ch1'), 680, 1330, eb(p(t, a + 1.3, a + 1.7)), 5, p(t, a + 1.3, a + 1.35));
+  }
+  // S6 end
+  if (t >= CUT[4]) {
+    const a = CUT[4]; flickIn('e1', t, T.brand - 0.05);
+    const q = eb(p(t, a + 0.3, a + 0.8)); $('qr').style.transform = `scale(${q})`; $('qr').style.opacity = p(t, a + 0.3, a + 0.35);
+    place($('eA'), 40, 1060 + Math.sin(t) * 6, eb(p(t, a + 0.6, a + 1.0)), -10, p(t, a + 0.6, a + 0.65));
+    place($('eB'), 830, 520 + Math.sin(t + 1) * 6, eb(p(t, a + 0.7, a + 1.1)), 8, p(t, a + 0.7, a + 0.75));
+    flickIn('e2b', t, T.store - 0.1); flickIn('e2', t, T.store2 - 0.1); flickIn('e3', t, T.store2 + 0.3);
+  }
+};
+render(0);
+</script>
+</body></html>
