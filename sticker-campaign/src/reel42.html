@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@800;900&display=swap" rel="stylesheet">
+<style>
+  :root { --board:#1f2a25; --chalk:#f4f1ea; --pink:#f6b7c1; --yellow:#f7d36b; --mint:#a8e0c8; --wood:#7b4f2c; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:var(--wood); font-family:'Tajawal',sans-serif; color:var(--chalk); }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; background:repeating-linear-gradient(90deg, #6e4526 0 40px, #7b4f2c 40px 90px); }
+  #board { position:absolute; left:40px; top:40px; width:1000px; height:1840px; background:radial-gradient(ellipse at 40% 30%, #2a3832, var(--board) 70%); border-radius:10px; box-shadow:inset 0 0 80px rgba(0,0,0,.6), 0 10px 30px rgba(0,0,0,.4); overflow:hidden; }
+  #dust { position:absolute; left:0; top:0; width:1000px; height:1840px; opacity:.35; mix-blend-mode:screen; }
+  .scene { position:absolute; left:0; top:0; width:1000px; height:1840px; display:none; }
+  .abs { position:absolute; left:0; top:0; }
+  .line { position:absolute; left:0; width:1000px; text-align:center; font-weight:900; line-height:1.25; white-space:nowrap; }
+  .chalk { filter:url(#rough); }
+  .w { display:inline-block; }
+  .st { position:absolute; left:0; top:0; filter:drop-shadow(0 10px 12px rgba(0,0,0,.45)); will-change:transform; }
+  svg .c { fill:none; stroke:var(--chalk); stroke-width:6; stroke-linecap:round; stroke-linejoin:round; filter:url(#rough); }
+  .row { position:absolute; left:0; height:180px; width:1000px; }
+  .row .nm { position:absolute; right:300px; top:50px; font-size:74px; font-weight:900; white-space:nowrap; filter:url(#rough); }
+  .row .dots { position:absolute; left:120px; right:300px; top:110px; border-bottom:6px dotted rgba(244,241,234,.6); }
+  #eraser { position:absolute; left:0; top:0; width:260px; height:120px; background:linear-gradient(180deg,#c8a36e 0 55%, #3a3a3a 55%); border-radius:12px; z-index:30; box-shadow:0 10px 20px rgba(0,0,0,.4); }
+  #smudge { position:absolute; left:0; top:0; width:1000px; height:1840px; background:rgba(244,241,234,.06); pointer-events:none; z-index:29; }
+  #qr { position:absolute; left:300px; top:700px; width:400px; height:400px; background:#fff; padding:22px; border-radius:10px; transform:rotate(-2deg); }
+  #qr img { width:100%; height:100%; display:block; }
+  .tape { position:absolute; width:150px; height:46px; background:rgba(247,211,107,.75); }
+</style></head><body>
+<svg width="0" height="0" style="position:absolute"><filter id="rough"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="4"/></filter></svg>
+<div id="stage"><div id="board">
+  <svg id="dust" width="1000" height="1840"><filter id="dn"><feTurbulence type="fractalNoise" baseFrequency=".6" numOctaves="3" seed="8"/><feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .25 0"/></filter><rect width="1000" height="1840" filter="url(#dn)"/></svg>
+
+  <!-- S1 hook -->
+  <div class="scene" id="s1">
+    <svg class="abs" width="1000" height="1840">
+      <path id="cupO" class="c" pathLength="1" d="M 300 900 L 700 900 L 660 1300 Q 650 1360 590 1360 L 410 1360 Q 350 1360 340 1300 Z M 700 980 Q 820 990 800 1100 Q 785 1180 680 1180"/>
+      <path id="steam" class="c" pathLength="1" d="M 430 860 Q 400 800 440 750 Q 480 700 450 640 M 530 860 Q 500 790 540 730 Q 580 670 545 600 M 630 860 Q 600 800 640 750 Q 680 700 650 640"/>
+      <path id="hearts" class="c" pathLength="1" style="stroke:#f6b7c1" d="M 180 640 c -30 -30 -60 0 -30 30 l 30 30 l 30 -30 c 30 -30 0 -60 -30 -30 Z M 840 560 c -24 -24 -48 0 -24 24 l 24 24 l 24 -24 c 24 -24 0 -48 -24 -24 Z"/>
+    </svg>
+    <img id="hookCup" class="st" src="sweets/b9.png" style="width:420px">
+    <div class="line chalk" style="top:220px; font-size:150px"><span class="w" id="h1">قهوة…</span></div>
+    <div class="line chalk" style="top:400px; font-size:170px; color:var(--yellow)"><span class="w" id="h2">تبتسم!</span></div>
+  </div>
+
+  <!-- S2 menu: drinks then sweets -->
+  <div class="scene" id="s2">
+    <div class="line chalk" style="top:90px; font-size:96px; color:var(--yellow)"><span class="w" id="m1">مشروبات</span></div>
+    <div class="line chalk" style="top:930px; font-size:96px; color:var(--pink)"><span class="w" id="m2">حلويات</span></div>
+    <svg class="abs" width="1000" height="1840"><path id="u1" class="c" pathLength="1" d="M 360 230 Q 500 250 640 228"/><path id="u2" class="c" pathLength="1" style="stroke:#f6b7c1" d="M 370 1070 Q 500 1090 630 1068"/></svg>
+    <div id="rows"></div>
+  </div>
+
+  <!-- S3 count -->
+  <div class="scene" id="s3">
+    <svg class="abs" width="1000" height="1840"><ellipse id="ring" class="c" pathLength="1" style="stroke:#f7d36b" cx="500" cy="760" rx="330" ry="260"/></svg>
+    <div class="line chalk" style="top:560px; font-size:330px; line-height:1"><span class="w" id="n68">٦٨</span></div>
+    <div class="line chalk" style="top:1080px; font-size:84px; color:var(--pink)"><span class="w" id="n2">ستيكر قهوة وحلويات</span></div>
+    <div id="crowd"></div>
+  </div>
+
+  <!-- S4 uses -->
+  <div class="scene" id="s4">
+    <div class="line chalk" style="top:220px; font-size:110px; color:var(--yellow)"><span class="w" id="ucap">لأكواب الكافيه</span></div>
+    <div id="uses"></div>
+  </div>
+
+  <!-- S5 print -->
+  <div class="scene" id="s5">
+    <div class="line chalk" style="top:180px; font-size:110px"><span class="w" id="p1">ملف PDF</span></div>
+    <div class="line chalk" style="top:340px; font-size:80px; color:var(--mint)"><span class="w" id="p2">جاهز للطباعة</span></div>
+    <img id="sheet" class="abs" src="sweets/sheet2.jpg" style="width:520px; box-shadow:0 20px 40px rgba(0,0,0,.5)">
+    <div class="tape" id="tp1"></div><div class="tape" id="tp2"></div>
+  </div>
+
+  <!-- S6 end -->
+  <div class="scene" id="s6">
+    <div class="line chalk" style="top:150px; font-size:78px"><span class="w" id="e1">ستيكرات القهوة والحلويات</span></div>
+    <div id="qr"><img src="qr_store.png"></div><div class="tape" id="qt1"></div><div class="tape" id="qt2"></div>
+    <img id="eA" class="st" src="sweets/b17.png" style="width:220px"><img id="eB" class="st" src="sweets/b60.png" style="width:220px">
+    <svg class="abs" width="1000" height="1840"><path id="arrow" class="c" pathLength="1" style="stroke:#f7d36b" d="M 820 1300 Q 860 1200 760 1120 M 750 1170 L 760 1120 L 810 1120"/></svg>
+    <div class="line chalk" style="top:1300px; font-size:64px"><span class="w" id="e2b">متوفرة في</span></div>
+    <div class="line chalk" style="top:1380px; font-size:150px; color:var(--yellow)"><span class="w" id="e2">متجر دُر</span></div>
+    <div class="line" style="top:1610px; font-size:46px; direction:ltr"><span class="w" id="e3">planme.zaher.io</span></div>
+  </div>
+
+  <div id="smudge"></div>
+  <div id="eraser"></div>
+</div></div>
+<script>
+const $ = (id) => document.getElementById(id);
+const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eio = (x) => (x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const eb = (x) => { const c = 1.7; return x <= 0 ? 0 : 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+
+const D = { h1: 0.2, h2: 1.0, d0: 2.6, d1: 3.4, d2: 4.2, s0: 5.6, s1: 6.4, s2: 7.2, count: 8.6, n2: 9.8, u0: 11.4, u1: 12.8, u2: 14.2, print: 15.8, brand: 18.2, store: 19.6, store2: 20.2, end_all: 22.8 };
+const T = Object.assign({}, D, window.TL || {});
+const CUT = [T.d0 - 0.4, T.count - 0.3, T.u0 - 0.3, T.print - 0.3, T.brand - 0.3];
+const SC = [['s1', 0, CUT[0]], ['s2', CUT[0], CUT[1]], ['s3', CUT[1], CUT[2]], ['s4', CUT[2], CUT[3]], ['s5', CUT[3], CUT[4]], ['s6', CUT[4], 99]];
+
+// chalk writing: right-to-left reveal with a slight hand wobble
+const write = (id, t, a, d = 0.55) => { const k = p(t, a, a + d); const e = $(id); e.style.clipPath = `inset(-20% 0 -20% ${(1 - k) * 100}%)`; e.style.opacity = k > 0 ? 1 : 0; e.style.transform = `rotate(${Math.sin(a * 7) * 1.2}deg)`; };
+const draw = (id, t, a, d = 0.5) => { const e = $(id); const k = eio(p(t, a, a + d)); e.style.strokeDasharray = 1; e.style.strokeDashoffset = 1 - k; };
+const place = (e, x, y, s, r, o) => { e.style.transform = `translate(${x}px,${y}px) rotate(${r}deg) scale(${s})`; if (o !== undefined) e.style.opacity = o; };
+const mk = (host, n, w) => { const im = document.createElement('img'); im.className = 'st'; im.src = `sweets/${n}.png`; im.style.width = w + 'px'; $(host).appendChild(im); return im; };
+
+// menu rows (sticker on the left, name on the right, dotted leader between)
+const ROWS = [['لاتيه', 'b9', 260], ['فرابيه', 'b8', 440], ['وماتشا', 'b16', 620], ['كرواسون', 'b40', 1100], ['كوكيز', 'b43', 1280], ['وتيراميسو', 'b63', 1460]].map(([nm, n, y], i) => {
+  const d = document.createElement('div'); d.className = 'row'; d.style.top = y + 'px'; d.innerHTML = `<div class="dots"></div><div class="nm">${nm}</div>`; $('rows').appendChild(d);
+  const im = mk('rows', n, 180); return { d, im, nm: d.querySelector('.nm'), dots: d.querySelector('.dots'), y, i };
+});
+const CROWD = ['b6', 'b17', 'b20', 'b19', 'b22', 'b24', 'b26', 'b49', 'b50', 'b59', 'b60', 'b65', 'b69', 'b73'].map((n, i) => { const a = i / 14 * Math.PI * 2; return { im: mk('crowd', n, 150), x: 500 + Math.cos(a) * 420 - 75, y: 800 + Math.sin(a) * 600 - 75, r: (R(i) - 0.5) * 30 }; });
+const USES = [
+  ['لأكواب الكافيه', '<svg class="abs" width="1000" height="1840"><path class="c" d="M 340 640 L 660 640 L 620 1240 L 380 1240 Z M 320 620 L 680 620 L 680 660 L 320 660 Z" /></svg>', [['b6', 400, 800, 200]]],
+  ['لعلب الحلا', '<svg class="abs" width="1000" height="1840"><path class="c" style="stroke:#f6b7c1" d="M 220 860 L 780 860 L 780 1240 L 220 1240 Z M 200 780 L 800 780 L 800 860 L 200 860 Z M 500 780 L 500 1240" /></svg>', [['b63', 260, 920, 200], ['b65', 560, 920, 200]]],
+  ['ولتغليف الطلبات', '<svg class="abs" width="1000" height="1840"><path class="c" style="stroke:#f7d36b" d="M 180 760 L 820 760 L 820 1260 L 180 1260 Z M 180 960 L 820 960 M 180 1030 L 820 1030" /></svg>', [['b22', 240, 790, 170], ['b73', 600, 1060, 180]]],
+].map(([cap, html, st], i) => {
+  const d = document.createElement('div'); d.className = 'abs'; d.style.cssText = 'width:1000px; height:1840px'; d.innerHTML = html; $('uses').appendChild(d);
+  const pth = d.querySelector('path'); pth.setAttribute('pathLength', '1');
+  const ims = st.map(([n, x, y, w]) => { const im = document.createElement('img'); im.className = 'st'; im.src = `sweets/${n}.png`; im.style.width = w + 'px'; d.appendChild(im); return { im, x, y }; });
+  return { d, cap, ims, pth, i };
+});
+
+window.render = (t) => {
+  for (const [id, a, b] of SC) $(id).style.display = t >= a && t < b ? 'block' : 'none';
+  $('stage').style.opacity = 1 - p(t, T.end_all - 0.5, T.end_all);
+  // eraser sweeps across at each cut, leaving a faint smudge
+  let ek = -1; CUT.forEach((c) => { if (Math.abs(t - c) < 0.35) ek = p(t, c - 0.35, c + 0.35); });
+  if (ek >= 0) { const x = 1050 - ek * 1400; const y = 200 + Math.sin(ek * Math.PI * 6) * 600 + ek * 900; place($('eraser'), x, y, 1, -20 + Math.sin(ek * 20) * 6, 1); $('smudge').style.opacity = Math.sin(ek * Math.PI); }
+  else { $('eraser').style.opacity = 0; $('smudge').style.opacity = 0; }
+
+  // S1
+  if (t < CUT[0]) {
+    write('h1', t, T.h1); write('h2', t, T.h2);
+    draw('cupO', t, 0.2, 0.8); draw('steam', t, 0.8, 0.7); draw('hearts', t, T.h2 + 0.3, 0.5);
+    const k = eb(p(t, T.h2 - 0.1, T.h2 + 0.4)); const smile = 1 + 0.04 * Math.sin(t * 6);
+    place($('hookCup'), 290, 900, k * smile, Math.sin(t * 2) * 3, p(t, T.h2 - 0.1, T.h2 - 0.05));
+  }
+  // S2 menu
+  if (t >= CUT[0] && t < CUT[1]) {
+    write('m1', t, T.d0 - 0.35, 0.4); draw('u1', t, T.d0 - 0.05, 0.3);
+    write('m2', t, T.s0 - 0.35, 0.4); draw('u2', t, T.s0 - 0.05, 0.3);
+    const ks = [T.d0, T.d1, T.d2, T.s0, T.s1, T.s2];
+    ROWS.forEach(({ d, im, nm, dots, y, i }) => { const a = ks[i] - 0.1;
+      nm.style.clipPath = `inset(-20% 0 -20% ${(1 - p(t, a, a + 0.45)) * 100}%)`; nm.style.opacity = t >= a ? 1 : 0;
+      dots.style.clipPath = `inset(0 0 0 ${(1 - p(t, a + 0.2, a + 0.6)) * 100}%)`;
+      place(im, 110, y, eb(p(t, a + 0.25, a + 0.65)), Math.sin(t * 2 + i) * 4, p(t, a + 0.25, a + 0.3)); });
+  }
+  // S3 count
+  if (t >= CUT[1] && t < CUT[2]) {
+    const a = CUT[1]; draw('ring', t, a + 0.1, 0.7);
+    $('n68').textContent = Math.round(68 * eo(p(t, a + 0.2, a + 1.2))).toLocaleString('ar-EG');
+    write('n68', t, a + 0.2, 0.4); write('n2', t, T.n2 - 0.05);
+    CROWD.forEach(({ im, x, y, r }, i) => place(im, x, y, eb(p(t, a + 0.5 + i * 0.06, a + 0.9 + i * 0.06)), r + Math.sin(t * 2 + i) * 3, p(t, a + 0.5 + i * 0.06, a + 0.55 + i * 0.06)));
+  }
+  // S4 uses
+  if (t >= CUT[2] && t < CUT[3]) {
+    const at = [CUT[2] + 0.1, T.u1 - 0.2, T.u2 - 0.2]; const st = t < at[1] ? 0 : t < at[2] ? 1 : 2;
+    $('ucap').textContent = USES[st].cap; write('ucap', t, at[st] + 0.05, 0.45);
+    USES.forEach(({ d, ims, pth, i }) => { d.style.display = i === st ? 'block' : 'none'; const k = eio(p(t, at[i], at[i] + 0.6)); pth.style.strokeDasharray = 1; pth.style.strokeDashoffset = 1 - k;
+      ims.forEach(({ im, x, y }, j) => place(im, x, y, eb(p(t, at[i] + 0.45 + j * 0.15, at[i] + 0.85 + j * 0.15)), (j - 0.5) * 8, p(t, at[i] + 0.45 + j * 0.15, at[i] + 0.5 + j * 0.15))); });
+  }
+  // S5 print
+  if (t >= CUT[3] && t < CUT[4]) {
+    const a = CUT[3]; write('p1', t, a + 0.1); write('p2', t, a + 0.5);
+    const k = eo(p(t, a + 0.1, a + 0.8)); $('sheet').style.transform = `translate(240px, ${560 + (1 - k) * 1300}px) rotate(-2deg)`;
+    place($('tp1'), 190, 540, 1, -30, p(t, a + 0.9, a + 0.91)); place($('tp2'), 690, 1250, 1, -30, p(t, a + 1.0, a + 1.01));
+  }
+  // S6 end
+  if (t >= CUT[4]) {
+    const a = CUT[4]; write('e1', t, T.brand - 0.05, 0.6);
+    const q = p(t, a + 0.3, a + 0.4); $('qr').style.opacity = q; place($('qt1'), 250, 680, 1, -25, p(t, a + 0.45, a + 0.46)); place($('qt2'), 600, 1080, 1, -25, p(t, a + 0.55, a + 0.56));
+    place($('eA'), 40, 520 + Math.sin(t * 2) * 6, eb(p(t, a + 0.6, a + 1.0)), -10, p(t, a + 0.6, a + 0.65));
+    place($('eB'), 760, 1000 + Math.sin(t * 2 + 1) * 6, eb(p(t, a + 0.7, a + 1.1)), 10, p(t, a + 0.7, a + 0.75));
+    write('e2b', t, T.store - 0.1, 0.4); write('e2', t, T.store2 - 0.1, 0.5); write('e3', t, T.store2 + 0.3, 0.4); draw('arrow', t, T.store2 + 0.4, 0.4);
+  }
+};
+render(0);
+</script>
+</body></html>
