@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@800;900&display=swap" rel="stylesheet">
+<style>
+  :root { --board:#1f2a25; --chalk:#f4f1ea; --pink:#f6b7c1; --yellow:#f7d36b; --mint:#a8e0c8; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; font-family:'Tajawal',sans-serif; color:var(--chalk); }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; background:repeating-linear-gradient(90deg, #6e4526 0 40px, #7b4f2c 40px 90px); }
+  #board { position:absolute; left:40px; top:40px; width:1000px; height:1840px; background:radial-gradient(ellipse at 50% 40%, #2d3c35, var(--board) 70%); border-radius:10px; box-shadow:inset 0 0 90px rgba(0,0,0,.65), 0 10px 30px rgba(0,0,0,.4); overflow:hidden; }
+  .abs { position:absolute; left:0; top:0; }
+  .line { position:absolute; left:0; width:1000px; text-align:center; font-weight:900; line-height:1.2; white-space:nowrap; filter:url(#rough); }
+  .st { position:absolute; filter:drop-shadow(0 14px 16px rgba(0,0,0,.5)); }
+  svg .c { fill:none; stroke:var(--chalk); stroke-width:7; stroke-linecap:round; stroke-linejoin:round; filter:url(#rough); }
+  .pill { position:absolute; left:150px; top:1590px; width:700px; padding:14px 0 26px; text-align:center; border-radius:90px; background:var(--yellow); color:#1f2a25; font-size:66px; font-weight:900; white-space:nowrap; box-shadow:0 12px 24px rgba(0,0,0,.45); transform:rotate(-2deg); }
+  .tape { position:absolute; width:150px; height:46px; background:rgba(247,211,107,.75); }
+</style></head><body>
+<svg width="0" height="0" style="position:absolute"><filter id="rough"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="4"/></filter></svg>
+<div id="stage"><div id="board">
+  <svg class="abs" width="1000" height="1840" style="opacity:.35;mix-blend-mode:screen"><filter id="dn"><feTurbulence type="fractalNoise" baseFrequency=".6" numOctaves="3" seed="8"/><feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .25 0"/></filter><rect width="1000" height="1840" filter="url(#dn)"/></svg>
+  <!-- chalk smudges -->
+  <div class="abs" style="left:80px;top:560px;width:840px;height:120px;background:radial-gradient(ellipse, rgba(244,241,234,.07), transparent 70%)"></div>
+  <div class="line" style="top:120px; font-size:64px; color:var(--mint)">☕ منيو اليوم ☕</div>
+  <div class="line" style="top:220px; font-size:170px">قهوة…</div>
+  <div class="line" style="top:410px; font-size:190px; color:var(--yellow)">تبتسم!</div>
+  <svg class="abs" width="1000" height="1840">
+    <path class="c" d="M 410 790 Q 380 740 420 690 Q 460 640 430 590 M 500 780 Q 470 720 510 665 Q 550 610 515 550 M 590 790 Q 560 740 600 690 Q 640 640 610 590"/>
+    <path class="c" style="stroke:var(--pink)" d="M 150 700 c -30 -30 -60 0 -30 30 l 30 30 l 30 -30 c 30 -30 0 -60 -30 -30 Z M 860 640 c -24 -24 -48 0 -24 24 l 24 24 l 24 -24 c 24 -24 0 -48 -24 -24 Z"/>
+    <path class="c" style="stroke:var(--yellow)" d="M 120 1000 l 0 40 M 100 1020 l 40 0 M 890 1000 l 0 40 M 870 1020 l 40 0"/>
+    <path class="c" style="stroke-width:6;opacity:.8" d="M 170 1530 Q 500 1500 830 1530"/>
+  </svg>
+  <img class="st" src="sweets/b16.png" style="left:40px; top:1060px; width:260px; transform:rotate(-10deg)">
+  <img class="st" src="sweets/b65.png" style="left:720px; top:1090px; width:250px; transform:rotate(9deg)">
+  <img class="st" src="sweets/b19.png" style="left:60px; top:760px; width:200px; transform:rotate(-6deg)">
+  <img class="st" src="sweets/b60.png" style="left:760px; top:770px; width:200px; transform:rotate(7deg)">
+  <img class="st" src="sweets/b9.png" style="left:250px; top:760px; width:500px; transform:rotate(-3deg)">
+  <div class="line" style="top:1300px; font-size:110px">٦٨ ستيكر</div>
+  <div class="line" style="top:1430px; font-size:74px; color:var(--pink)">قهوة وحلويات</div>
+  <div class="pill">متوفرة في متجر دُر</div>
+  <div class="tape" style="left:120px; top:1580px; transform:rotate(-30deg)"></div>
+  <div class="tape" style="left:740px; top:1590px; transform:rotate(25deg)"></div>
+</div></div>
+</body></html>
