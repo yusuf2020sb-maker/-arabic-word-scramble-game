@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@900&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; font-family:'Cairo',sans-serif; color:#fbf3e2; }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; background:linear-gradient(180deg, #050912 0%, #0b1a24 60%, #10261f 100%); }
+  canvas { position:absolute; left:0; top:0; }
+  .line { position:absolute; left:0; width:1080px; text-align:center; font-weight:900; line-height:1.3; white-space:nowrap; text-shadow:0 0 18px rgba(240,193,90,.7), 0 0 40px rgba(240,193,90,.35); }
+  .st { position:absolute; filter:drop-shadow(0 0 22px rgba(240,193,90,.5)) drop-shadow(0 16px 20px rgba(0,0,0,.5)); }
+  #sky { position:absolute; left:0; top:1700px; width:1080px; height:220px; background:#040608; clip-path:polygon(0 60%, 6% 55%, 10% 30%, 12% 55%, 20% 50%, 24% 20%, 26% 50%, 36% 45%, 42% 35%, 48% 45%, 58% 40%, 62% 10%, 64% 40%, 74% 45%, 80% 25%, 84% 45%, 92% 40%, 96% 55%, 100% 50%, 100% 100%, 0 100%); }
+  .pill { position:absolute; left:220px; top:1560px; width:640px; padding:12px 0 22px; text-align:center; border-radius:80px; background:#1fa463; border:4px solid #f0c15a; font-size:56px; white-space:nowrap; }
+</style></head><body><div id="stage">
+<canvas id="c" width="1080" height="1920"></canvas>
+<div id="sky"></div>
+<div class="line" style="top:240px; font-size:116px">المناسبة الجاية…</div>
+<div class="line" style="top:430px; font-size:124px; color:#f0c15a">لمستها من التراث!</div>
+<img class="st" src="saudi/b8.png" style="left:330px; top:760px; width:420px">
+<img class="st" src="saudi/b22.png" style="left:60px; top:1060px; width:240px">
+<img class="st" src="saudi/b29.png" style="left:800px; top:1100px; width:210px">
+<img class="st" src="saudi/b28.png" style="left:420px; top:1260px; width:220px">
+<div class="pill">متوفرة في متجر دُر</div>
+<script>
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const c = document.getElementById('c').getContext('2d'); c.globalCompositeOperation = 'lighter';
+const cols = [['#1fa463', '#8ff0b8'], ['#f0c15a', '#fff1c2'], ['#ffffff', '#f0c15a']];
+[[540, 980, 1, 1.5], [220, 760, 0, 0.9], [860, 720, 2, 0.9], [200, 1420, 1, 0.8], [880, 1440, 0, 0.8], [540, 180, 0, 0.7]].forEach(([x, y, k, s], b) => {
+  for (let i = 0; i < 80; i++) { const a = i / 80 * Math.PI * 2; const v = (300 + R(b * 9 + i) * 260) * s * 0.42; const px = x + Math.cos(a) * v, py = y + Math.sin(a) * v + 20;
+    c.globalAlpha = 0.85; c.fillStyle = cols[k][i % 2]; c.beginPath(); c.arc(px, py, 5 * s, 0, 7); c.fill(); c.globalAlpha = 0.3; c.beginPath(); c.arc(px, py, 14 * s, 0, 7); c.fill(); } });
+c.globalAlpha = 1; for (let i = 0; i < 70; i++) { c.globalAlpha = 0.3 + R(i + 3) * 0.6; c.fillStyle = '#fff6d8'; c.fillRect(R(i) * 1080, R(i + 50) * 1300, 2, 2); }
+</script>
+</div></body></html>
