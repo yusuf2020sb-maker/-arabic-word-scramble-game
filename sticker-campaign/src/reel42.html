@@ -52,8 +52,8 @@
   <div class="scene" id="s3">
     <svg class="abs" width="1000" height="1840"><ellipse id="ring" class="c" pathLength="1" style="stroke:#f7d36b" cx="500" cy="760" rx="330" ry="260"/></svg>
     <div class="line chalk" style="top:560px; font-size:330px; line-height:1"><span class="w" id="n68">٦٨</span></div>
-    <div class="line chalk" style="top:1080px; font-size:84px; color:var(--pink)"><span class="w" id="n2">ستيكر قهوة وحلويات</span></div>
-    <div id="crowd"></div>
+    <div class="line chalk" style="top:1080px; font-size:84px; color:var(--pink); z-index:5"><span class="w" id="n2" style="background:rgba(31,42,37,.92); padding:0 30px 10px; border-radius:20px">ستيكر قهوة وحلويات</span></div>
+    <div id="crowd" class="abs" style="z-index:1"></div>
   </div>
 
   <!-- S4 uses -->
@@ -84,6 +84,7 @@
   <div id="smudge"></div>
   <div id="eraser"></div>
 </div></div>
+<script src="reel42_timeline.js"></script>
 <script>
 const $ = (id) => document.getElementById(id);
 const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
