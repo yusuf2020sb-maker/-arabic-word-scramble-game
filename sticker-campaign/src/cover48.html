@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Lemonada:wght@700&family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --cream:#fbf1e6; --amber:#c8742e; --tea:#9c4a18; --brown:#4a2512; --mint:#5f8f5a; --lemon:#f2c33d; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:var(--cream); font-family:'Lemonada','Cairo',sans-serif; color:var(--brown); }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; background:radial-gradient(ellipse at 50% 40%, #fff8ef 0%, var(--cream) 55%, #f1dcc5 100%); }
+  .scene { position:absolute; left:0; top:0; width:1080px; height:1920px; display:none; }
+  .abs { position:absolute; left:0; top:0; }
+  .line { position:absolute; left:0; width:1080px; text-align:center; line-height:1.45; white-space:nowrap; font-weight:700; }
+  .w { display:inline-block; }
+  .st { position:absolute; left:0; top:0; filter:drop-shadow(0 18px 20px rgba(74,37,18,.25)); will-change:transform; }
+  svg .steam { fill:none; stroke:rgba(156,74,24,.35); stroke-width:10; stroke-linecap:round; }
+  #wave { position:absolute; left:0; top:0; z-index:60; pointer-events:none; }
+  .bub { position:absolute; left:0; top:0; border-radius:50%; background:radial-gradient(circle at 30% 28%, rgba(255,255,255,.9), rgba(255,255,255,.25) 22%, rgba(200,116,46,.12) 60%, rgba(200,116,46,.25)); border:3px solid rgba(255,255,255,.7); overflow:hidden; }
+  .bub img { position:absolute; left:12%; top:12%; width:76%; height:76%; object-fit:contain; }
+  .drop { position:absolute; left:0; top:0; width:22px; height:30px; border-radius:50% 50% 50% 50% / 60% 60% 40% 40%; background:var(--amber); opacity:.8; }
+  .pill { display:inline-block; padding:0 56px 14px; border-radius:90px; background:var(--tea); color:#fff6ea; }
+</style></head><body>
+<div id="stage">
+  <div class="line" style="top:90px; font-size:150px">كوب شاي</div>
+  <div class="line" style="top:330px; font-size:140px; color:var(--tea)">يروّق البال!</div>
+  <svg class="abs" width="1080" height="1920"><path class="steam" d="M 430 760 Q 390 700 430 640 Q 470 580 430 540"/><path class="steam" d="M 540 740 Q 500 680 540 620 Q 580 560 540 520"/><path class="steam" d="M 650 760 Q 610 700 650 640 Q 690 580 650 540"/></svg>
+  <img class="st" src="tea/t18.png" style="left:250px; top:700px; width:580px">
+  <img class="st" src="tea/t4.png" style="left:20px; top:1000px; width:290px; transform:rotate(-8deg)">
+  <img class="st" src="tea/t39.png" style="left:790px; top:1010px; width:270px; transform:rotate(8deg)">
+  <svg class="abs" width="1080" height="1920" style="z-index:-0"><path d="M 0 1920 L 0 1470 Q 135 1430 270 1470 T 540 1470 T 810 1470 T 1080 1470 L 1080 1920 Z" fill="#b4611f"/><path d="M 0 1920 L 0 1500 Q 135 1460 270 1500 T 540 1500 T 810 1500 T 1080 1500 L 1080 1920 Z" fill="#8c3e12"/></svg>
+  <div style="position:absolute; left:60px; top:1540px; width:250px; padding:14px; background:#fffaf2; border:5px solid var(--amber); border-radius:20px; box-shadow:0 16px 30px rgba(0,0,0,.3)"><img src="qr_store.png" style="width:212px; height:212px; display:block"><div style="text-align:center; font-family:Cairo; font-weight:700; font-size:20px; direction:ltr; color:var(--tea); margin-top:4px">planme.zaher.io</div></div>
+  <div style="position:absolute; left:340px; top:1560px; width:700px; text-align:center; color:#fff6ea; font-size:54px; line-height:1.4; white-space:nowrap">٣٦ ستيكر شاي وأعشاب</div>
+  <div style="position:absolute; left:340px; top:1700px; width:700px; text-align:center; font-size:52px; white-space:nowrap"><span class="pill" style="background:#fff6ea; color:var(--tea); padding:0 44px 14px">متوفرة في متجر دُر</span></div>
+</div></body></html>
