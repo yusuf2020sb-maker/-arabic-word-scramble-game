@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@700&family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --page:#151515; --cream:#f3e8d2; --gold:#d8b26a; --brass1:#f1d48b; --brass2:#8a6a2c; --red:#c2412d; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:var(--page); font-family:'Reem Kufi','Cairo',sans-serif; color:var(--cream); }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; background:radial-gradient(ellipse at 50% 40%, #222 0%, #151515 60%, #0c0c0c 100%); }
+  #grain { position:absolute; left:0; top:0; width:1080px; height:1920px; opacity:.25; mix-blend-mode:screen; pointer-events:none; }
+  .scene { position:absolute; left:0; top:0; width:1080px; height:1920px; display:none; }
+  .abs { position:absolute; left:0; top:0; }
+  .line { position:absolute; left:0; width:1080px; text-align:center; line-height:1.3; white-space:nowrap; font-weight:700; }
+  .w { display:inline-block; }
+  .label { display:inline-block; background:var(--cream); color:#1b1b1b; padding:4px 50px 18px; border-radius:6px; box-shadow:0 10px 24px rgba(0,0,0,.5); }
+  .strip { position:absolute; left:40px; width:1000px; height:150px; background:linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.05) 40%, rgba(255,255,255,.09)); border-top:2px solid rgba(255,255,255,.28); border-bottom:1px solid rgba(255,255,255,.1); z-index:5; pointer-events:none; }
+  .stp { position:absolute; left:0; top:0; filter:drop-shadow(0 8px 10px rgba(0,0,0,.6)); will-change:transform; }
+  #lens { position:absolute; left:0; top:0; width:640px; height:640px; z-index:20; will-change:transform; }
+  #glass { position:absolute; left:20px; top:20px; width:600px; height:600px; border-radius:50%; overflow:hidden; background:#1b1b1b; box-shadow:inset 0 0 60px rgba(0,0,0,.6); }
+  #glass img { position:absolute; left:50%; top:50%; width:500px; transform:translate(-50%,-50%); }
+  #glass:after { content:''; position:absolute; left:0; top:0; width:100%; height:100%; border-radius:50%; background:radial-gradient(circle at 32% 28%, rgba(255,255,255,.35), transparent 30%), radial-gradient(circle at 70% 75%, rgba(255,255,255,.08), transparent 35%); }
+  #ring { position:absolute; left:0; top:0; width:640px; height:640px; border-radius:50%; border:26px solid; border-color:var(--brass1) var(--brass2) var(--brass2) var(--brass1); box-shadow:0 20px 40px rgba(0,0,0,.6), inset 0 0 0 4px rgba(0,0,0,.3); }
+  #handle { position:absolute; left:520px; top:560px; width:70px; height:300px; border-radius:30px; background:linear-gradient(90deg, #3a2414, #6b4426 50%, #3a2414); transform:rotate(-40deg); transform-origin:50% 0; }
+  .perf { background:var(--cream); border:18px dotted var(--page); border-radius:6px; }
+  .pm { position:absolute; left:0; top:0; width:220px; height:220px; border-radius:50%; border:6px solid rgba(40,40,40,.75); }
+  .pm:after { content:''; position:absolute; left:-140px; top:70px; width:200px; height:70px; background:repeating-linear-gradient(180deg, rgba(40,40,40,.75) 0 6px, transparent 6px 16px); }
+</style></head><body>
+<div id="stage">
+  <svg id="grain" width="1080" height="1920"><filter id="gn"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" seed="4"/><feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .18 0"/></filter><rect width="1080" height="1920" filter="url(#gn)"/></svg>
+  <div class="line" style="top:110px; font-size:130px"><span class="label">هواية الطوابع</span></div>
+  <div class="line" style="top:340px; font-size:150px; color:var(--gold); text-shadow:0 6px 20px rgba(0,0,0,.8)">صارت ستيكرات!</div>
+  <div style="filter:brightness(.6)"><div class="strip" style="top:690px"></div><img class="stp" src="stamps/s6.png" style="width:200px; transform:translate(820px,610px) rotate(-1.7999999999999998deg)"><img class="stp" src="stamps/s7.png" style="width:200px; transform:translate(575px,610px) rotate(-0.6deg)"><img class="stp" src="stamps/s12.png" style="width:200px; transform:translate(330px,610px) rotate(0.6deg)"><img class="stp" src="stamps/s40.png" style="width:200px; transform:translate(85px,610px) rotate(1.7999999999999998deg)"><div class="strip" style="top:990px"></div><img class="stp" src="stamps/s28.png" style="width:200px; transform:translate(820px,910px) rotate(-1.7999999999999998deg)"><img class="stp" src="stamps/s26.png" style="width:200px; transform:translate(575px,910px) rotate(-0.6deg)"><img class="stp" src="stamps/s30.png" style="width:200px; transform:translate(330px,910px) rotate(0.6deg)"><img class="stp" src="stamps/s32.png" style="width:200px; transform:translate(85px,910px) rotate(1.7999999999999998deg)"></div>
+  <div id="lens" style="transform:translate(60px,560px) rotate(0deg)"><div id="handle"></div><div id="glass"><img src="stamps/s36.png" style="transform:translate(-50%,-50%) rotate(-3deg)"></div><div id="ring"></div></div>
+  <div class="abs perf" style="left:60px; top:1330px; width:330px; height:400px; transform:rotate(-4deg)"><div style="position:absolute; left:20px; top:20px; width:254px; height:254px; background:#fff; padding:10px"><img src="qr_store.png" style="width:100%; height:100%; display:block"></div><div style="position:absolute; left:0; top:288px; width:294px; text-align:center; color:#1b1b1b; font-family:Cairo; font-weight:700; font-size:22px; direction:ltr">planme.zaher.io</div></div>
+  <div class="pm" style="transform:translate(820px,1200px) rotate(-12deg) scale(.7)"></div>
+  <div style="position:absolute; left:420px; top:1380px; width:620px; text-align:center; font-size:100px; line-height:1.3"><span style="font-family:Cairo; font-weight:900">٣٥</span> طابع فنتج</div>
+  <div style="position:absolute; left:420px; top:1560px; width:620px; text-align:center; font-size:72px"><span class="label" style="padding:4px 34px 16px">متوفرة في متجر دُر</span></div>
+</div></body></html>
