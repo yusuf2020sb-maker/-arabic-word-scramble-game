@@ -132,6 +132,7 @@
   <div id="scan"></div>
 </div>
 
+<script src="reel44_timeline.js"></script>
 <script>
 const $ = (id) => document.getElementById(id);
 const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
@@ -145,7 +146,7 @@ const type = (id, t, a, d = 0.45) => { const k = Math.floor(p(t, a, a + d) * 8) 
 // window open: snappy stepped scale like an old OS
 const wpop = (e, t, a, d = 0.22) => { const k = p(t, a, a + d); const s = k >= 1 ? 1 : Math.max(0.05, Math.floor(k * 5) / 5); e.style.transform = `scale(${s})`; e.style.opacity = k > 0 ? 1 : 0; };
 
-const D = { h1: 0.3, h2: 1.3, q: 3.0, a: 3.8, c1: 5.6, c2: 7.0, c3: 8.6, count: 10.4, n2: 11.6, u0: 13.2, u1: 14.2, u2: 15.2, print: 16.8, print2: 17.8, brand: 19.4, store: 20.8, store2: 21.5, end_all: 24.2 };
+const D = { h1: 0.3, h2: 1.3, casc: 1.9, q: 3.0, a: 3.8, c1: 5.6, c2: 7.0, c3: 8.6, count: 10.4, n2: 11.6, u0: 13.2, u1: 14.2, u2: 15.2, print: 16.8, print2: 17.8, brand: 19.4, store: 20.8, store2: 21.5, end_all: 24.2 };
 const T = Object.assign({}, D, window.TL || {});
 const CUT = [T.q - 0.35, T.c1 - 0.35, T.count - 0.35, T.u0 - 0.35, T.print - 0.35, T.brand - 0.35];
 const SC = [['s1', 0, CUT[0]], ['s2', CUT[0], CUT[1]], ['s3', CUT[1], CUT[2]], ['s4', CUT[2], CUT[3]], ['s5', CUT[3], CUT[4]], ['s6', CUT[4], CUT[5]], ['s7', CUT[5], 99]];
@@ -178,7 +179,7 @@ const conf = [...Array(40)].map((_, i) => { const e = document.createElement('di
 
 // cursor path: [time, x, y, click?] per scene, interpolated
 const CUR = () => [
-  [0, 1100, 1500], [T.h2 + 0.3, 470, 1000], [T.h2 + 0.7, 470, 1000, 1], [CUT[0] - 0.1, 600, 1300],
+  [0, 1100, 1500], [T.casc - 0.4, 470, 1000], [T.casc - 0.1, 470, 1000, 1], [CUT[0] - 0.1, 600, 1300],
   [T.a - 0.3, 560, 1300], [T.a - 0.05, 560, 1300, 1], [CUT[1] - 0.1, 700, 1500],
   [T.c1 - 0.25, 520, 900, 1], [T.c2 - 0.25, 580, 1060, 1], [T.c3 - 0.25, 490, 1220, 1], [CUT[2] - 0.1, 800, 1500],
   [CUT[2] + 0.6, 760, 1300], [T.n2 + 0.4, 600, 1500], [T.u0 - 0.25, 520, 820, 1], [T.u1 - 0.25, 560, 940, 1], [T.u2 - 0.25, 590, 1060, 1],
@@ -198,7 +199,7 @@ window.render = (t) => {
     const e = $('err'); const k = p(t, 0.05, 0.3); const shake = Math.sin(t * 90) * 14 * (1 - p(t, 0.3, 0.7)) + Math.sin(t * 90) * 10 * Math.sin(Math.PI * p(t, T.h2, T.h2 + 0.35));
     e.style.transform = `translateX(${shake}px) scale(${k >= 1 ? 1 : Math.max(.05, Math.floor(k * 5) / 5)})`; e.style.opacity = k > 0 ? 1 : 0;
     type('h1', t, T.h1); type('h2', t, T.h2);
-    casc.forEach((d, i) => { const a = T.h2 + 0.6 + i * 0.12; place(d, 30 + i * 60, 1140 + i * 55, 1, 0, t >= a ? 1 : 0); d.style.zIndex = i; });
+    casc.forEach((d, i) => { const a = T.casc + i * 0.12; place(d, 30 + i * 60, 1140 + i * 55, 1, 0, t >= a ? 1 : 0); d.style.zIndex = i; });
   }
   // S2
   if (t >= CUT[0] && t < CUT[1]) {
