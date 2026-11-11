@@ -63,16 +63,13 @@
   </div>
 
   <!-- S6: end bouquet with tag -->
-  <div class="scene" id="s6">
-    <div class="line" style="top:130px; font-size:120px"><span class="w" id="e1">ستيكرات ورود فنتج</span></div>
-    <div id="bq2" class="abs" style="width:1080px; height:1920px">
-      <div class="wrapB" style="top:760px; height:640px"></div>
-      <div id="eflowers"></div>
-      <div class="wrapF" style="top:880px; height:540px"></div>
-    </div>
+  <div class="scene" id="s6" style="z-index:41">
+    <div class="line" style="top:190px; font-size:120px"><span class="w" id="e1">ستيكرات ورود فنتج</span></div>
+    <div id="eqrF" class="abs" style="left:290px; top:470px; width:500px; height:560px; border-radius:250px 250px 24px 24px; background:var(--kraft); border:6px solid var(--kraft2); box-shadow:0 30px 50px rgba(80,30,30,.3); transform-origin:50% 50%"></div>
+    <div id="eqr" class="abs" style="left:350px; top:590px; width:380px; height:380px; background:#fff; padding:20px; border-radius:14px; transform-origin:50% 50%"><img src="qr_store.png" style="width:100%; height:100%; display:block"></div>
+    <div id="eflowers"></div>
     <div class="tag" id="etag" style="width:640px; padding-top:56px"><div style="font-size:70px; line-height:1.4"><span class="w" id="e2b">متوفرة في</span></div><div style="font-size:150px; line-height:1.2; color:var(--rose)"><span class="w" id="e2">متجر دُر</span></div></div>
-    <div class="line" style="top:1790px; font-size:46px; font-family:Cairo; font-weight:700; direction:ltr"><span class="w" id="e3">planme.zaher.io</span></div>
-    <div id="eqr" style="position:absolute; z-index:50; left:50px; top:1640px; width:210px; padding:12px 12px 6px; background:#fff; border:4px solid var(--kraft2); border-radius:18px; box-shadow:0 14px 24px rgba(80,30,30,.25); transform-origin:50% 0"><img src="qr_store.png" style="width:178px; height:178px; display:block"></div>
+    <div class="line" style="top:1640px; font-size:50px; font-family:Cairo; font-weight:700; direction:ltr"><span class="w" id="e3">planme.zaher.io</span></div>
   </div>
 </div>
 
@@ -117,7 +114,7 @@ const uses = USES.map(([cap, html, st]) => { const d = document.createElement('d
   const ims = st.map(([n, x, y, w, r]) => { const im = document.createElement('img'); im.className = 'st'; im.src = `roses/${n}.png`; im.style.width = w + 'px'; d.appendChild(im); return { im, x, y, r }; });
   return { d, cap, ims }; });
 // S6 bouquet
-const EF = [['r55', 230, 400, 330, -35], ['r57', 540, 380, 330, 30], ['r46', 200, 520, 300, -12], ['r47', 600, 470, 290, 12], ['r48', 350, 420, 380, 0]];
+const EF = [['r55', 60, 760, 280, -40], ['r57', 760, 400, 280, 35], ['r48', 130, 380, 300, -8], ['r46', 720, 830, 280, 10]];
 const ef = EF.map(([n, x, y, w, r]) => ({ im: mk('eflowers', n, w), x, y, r }));
 
 window.render = (t) => {
@@ -176,11 +173,11 @@ window.render = (t) => {
   // ---- S6 ----
   if (t >= CUT[4]) {
     const a = CUT[4]; bloom('e1', t, T.brand - 0.05, 0.55);
-    ef.forEach(({ im, x, y, r }, i) => drop(im, t, a + 0.1 + i * 0.12, x, y, r));
+    const q = eb(p(t, a + 0.3, a + 0.8)); $('eqrF').style.transform = $('eqr').style.transform = `scale(${q})`; $('eqrF').style.opacity = $('eqr').style.opacity = p(t, a + 0.3, a + 0.35);
+    ef.forEach(({ im, x, y, r }, i) => drop(im, t, a + 0.6 + i * 0.12, x, y, r));
     const tk = p(t, T.store - 0.4, T.store); const sw = Math.sin((t - T.store) * 4) * 6 * Math.exp(-Math.max(0, t - T.store) * 1.2);
-    place($('etag'), 220, 1300 - (1 - eo(tk)) * 900, 1, sw + (1 - eo(tk)) * -10, tk > 0 ? 1 : 0);
+    place($('etag'), 220, 1180 - (1 - eo(tk)) * 900, 1, sw + (1 - eo(tk)) * -10, tk > 0 ? 1 : 0);
     bloom('e2b', t, T.store - 0.05, 0.4); bloom('e2', t, T.store2 - 0.05, 0.5); bloom('e3', t, T.store2 + 0.35, 0.4);
-    const qk = p(t, T.store2 + 0.3, T.store2 + 0.75); $('eqr').style.opacity = qk > 0 ? 1 : 0; $('eqr').style.transform = `scale(${eb(qk)}) rotate(${-4 + Math.sin(t * 2) * 1.5}deg)`;
   }
 };
 render(0);
