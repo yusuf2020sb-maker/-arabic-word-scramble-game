@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@700&family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --gold:#ecc97c; --gold2:#fff1c9; --navy:#0d1430; --ink:#1b2350; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:var(--navy); font-family:'Aref Ruqaa','Cairo',serif; color:var(--gold); }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; background:radial-gradient(ellipse at 50% 30%, #26306a 0%, #141c42 45%, #0a0f26 100%); }
+  canvas { position:absolute; left:0; top:0; }
+  .scene { position:absolute; left:0; top:0; width:1080px; height:1920px; display:none; }
+  .abs { position:absolute; left:0; top:0; }
+  .line { position:absolute; left:0; width:1080px; text-align:center; font-weight:700; line-height:1.35; white-space:nowrap; text-shadow:0 0 24px rgba(236,201,124,.55), 0 0 60px rgba(236,201,124,.25); }
+  .w { display:inline-block; }
+  .st { position:absolute; left:0; top:0; filter:drop-shadow(0 0 26px rgba(255,214,140,.45)) drop-shadow(0 14px 18px rgba(0,0,0,.5)); will-change:transform; }
+  svg .g { fill:none; stroke:var(--gold); stroke-width:4; stroke-linecap:round; stroke-linejoin:round; filter:drop-shadow(0 0 8px rgba(236,201,124,.8)); }
+  .star { position:absolute; left:0; top:0; width:60px; height:60px; background:radial-gradient(circle, #fff 0 12%, rgba(255,241,201,.9) 18%, rgba(236,201,124,.35) 40%, transparent 70%); }
+  .star:before, .star:after { content:''; position:absolute; left:28px; top:0; width:4px; height:60px; background:linear-gradient(180deg, transparent, #fff, transparent); }
+  .star:after { transform:rotate(90deg); }
+  #shoot { position:absolute; left:0; top:0; width:520px; height:6px; border-radius:3px; background:linear-gradient(90deg, transparent, rgba(255,241,201,.9), #fff); z-index:50; filter:drop-shadow(0 0 12px #fff); transform-origin:100% 50%; }
+  .cap { position:absolute; left:0; width:1080px; text-align:center; font-size:96px; white-space:nowrap; }
+</style></head><body>
+<div id="stage">
+  <canvas id="sky" width="1080" height="1920"></canvas>
+
+  <!-- S1 hook -->
+  <div class="scene" id="s1">
+    <img id="moon" class="st" src="journal/j12.png" style="width:520px">
+    <div class="line" style="top:860px; font-size:150px"><span class="w" id="h1">آخر الليل</span></div>
+    <div class="line" style="top:1070px; font-size:170px; color:var(--gold2)"><span class="w" id="h2">وقت الجورنال!</span></div>
+    <img id="jar" class="st" src="journal/j7.png" style="width:330px">
+  </div>
+
+  <!-- S2 constellation of three -->
+  <div class="scene" id="s2">
+    <svg class="abs" width="1080" height="1920"><path id="cl" class="g" pathLength="1" d="M 780 520 L 300 940 L 760 1390" style="stroke-dasharray:10 14"/></svg>
+    <div id="cstars"></div>
+    <img id="k1" class="st" src="journal/j47.png" style="width:330px">
+    <img id="k2" class="st" src="journal/j46.png" style="width:330px">
+    <img id="k3" class="st" src="journal/j11.png" style="width:330px">
+    <div class="cap" id="c1w" style="top:300px"><span class="w" id="c1">شمعة</span></div>
+    <div class="cap" id="c2w" style="top:720px; left:240px; width:1080px"><span class="w" id="c2">وقلم ريشة</span></div>
+    <div class="cap" id="c3w" style="top:1630px"><span class="w" id="c3">وذكريات</span></div>
+  </div>
+
+  <!-- S3 count -->
+  <div class="scene" id="s3">
+    <svg class="abs" width="1080" height="1920" id="net"></svg>
+    <div id="minis"></div>
+    <div class="line" style="top:640px; font-size:330px; line-height:1; color:var(--gold2); font-family:Cairo; font-weight:900"><span class="w" id="n68">٦٨</span></div>
+    <div class="line" style="top:1010px; font-size:120px"><span class="w" id="n1">ستيكر</span></div>
+    <div class="line" style="top:1170px; font-size:100px; color:var(--gold2)"><span class="w" id="n2">بلمسة فنتج</span></div>
+  </div>
+
+  <!-- S4 uses: gold line drawings -->
+  <div class="scene" id="s4">
+    <div class="line" style="top:230px; font-size:130px"><span class="w" id="ucap">للجورنال</span></div>
+    <div id="uses"></div>
+  </div>
+
+  <!-- S5 print -->
+  <div class="scene" id="s5">
+    <div class="line" style="top:170px; font-size:140px"><span class="w" id="p1">ملف PDF</span></div>
+    <div class="line" style="top:360px; font-size:110px; color:var(--gold2)"><span class="w" id="p2">جاهز للطباعة</span></div>
+    <img id="sheet" class="abs" src="journal/sheet2.jpg" style="width:600px; border-radius:10px; box-shadow:0 0 60px rgba(236,201,124,.45), 0 30px 50px rgba(0,0,0,.5)">
+  </div>
+
+  <!-- S6 end -->
+  <div class="scene" id="s6">
+    <svg class="abs" width="1080" height="1920"><path id="eline" class="g" pathLength="1" d="M 160 520 L 330 700 L 540 590 L 750 700 L 920 520" /></svg>
+    <div id="estars"></div>
+    <img id="eM" class="st" src="journal/j12.png" style="width:300px">
+    <img id="eA" class="st" src="journal/j7.png" style="width:220px">
+    <img id="eB" class="st" src="journal/j6.png" style="width:240px">
+    <div class="line" style="top:220px; font-size:110px"><span class="w" id="e1">ستيكرات جورنال فنتج</span></div>
+    <div class="line" style="top:1160px; font-size:90px"><span class="w" id="e2b">متوفرة في</span></div>
+    <div class="line" style="top:1310px; font-size:190px; color:var(--gold2)"><span class="w" id="e2">متجر دُر</span></div>
+    <div class="line" style="top:1610px; font-size:50px; font-family:Cairo; direction:ltr; color:rgba(236,201,124,.85)"><span class="w" id="e3">planme.zaher.io</span></div>
+  </div>
+  <div id="shoot"></div>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eio = (x) => (x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const eb = (x) => { const c = 1.7; return x <= 0 ? 0 : 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const place = (e, x, y, s, r, o) => { e.style.transform = `translate(${x}px,${y}px) rotate(${r}deg) scale(${s})`; if (o !== undefined) e.style.opacity = o; };
+// glow-in: text fades up from a soft blur
+const glow = (id, t, a, d = 0.6) => { const k = p(t, a, a + d); const e = $(id); e.style.opacity = k; e.style.filter = `blur(${(1 - eo(k)) * 14}px)`; e.style.transform = `translateY(${(1 - eo(k)) * 30}px)`; };
+const draw = (id, t, a, d = 0.6) => { const e = $(id); const k = eio(p(t, a, a + d)); e.style.strokeDasharray = `${k} 1`; e.style.strokeDashoffset = 0; };
+const mkStar = (host) => { const s = document.createElement('div'); s.className = 'star'; $(host).appendChild(s); return s; };
+const starAt = (s, t, a, x, y, sz = 1) => { const k = p(t, a, a + 0.35); const tw = 0.85 + 0.15 * Math.sin(t * 9 + x); place(s, x - 30, y - 30, (k < 1 ? eb(k) * 1.8 : 1) * sz * tw, t * 40, k > 0 ? 1 : 0); };
+
+const D = { h1: 0.4, h2: 1.6, c1: 3.4, c2: 4.6, c3: 5.8, count: 7.6, n2: 9.0, u0: 10.6, u1: 11.8, u2: 13.0, print: 14.8, print2: 15.9, brand: 17.6, store: 19.0, store2: 19.7, end_all: 22.6 };
+const T = Object.assign({}, D, window.TL || {});
+const CUT = [T.c1 - 0.45, T.count - 0.35, T.u0 - 0.35, T.print - 0.35, T.brand - 0.35];
+const SC = [['s1', 0, CUT[0]], ['s2', CUT[0], CUT[1]], ['s3', CUT[1], CUT[2]], ['s4', CUT[2], CUT[3]], ['s5', CUT[3], CUT[4]], ['s6', CUT[4], 99]];
+
+// starfield (deterministic twinkle)
+const sky = $('sky').getContext('2d');
+const STARS = [...Array(260)].map((_, i) => [R(i) * 1080, R(i + 500) * 1920, 0.6 + R(i + 900) * 2.2, R(i + 1300) * 6]);
+const drawSky = (t) => { sky.clearRect(0, 0, 1080, 1920);
+  for (const [x, y, r, ph] of STARS) { const a = 0.35 + 0.65 * (0.5 + 0.5 * Math.sin(t * 2.2 + ph)); sky.globalAlpha = a; sky.fillStyle = '#fff4d6'; sky.beginPath(); sky.arc(x, y + Math.sin(t * 0.2 + ph) * 3, r, 0, 7); sky.fill(); }
+  // floating candle-light dust
+  for (let i = 0; i < 40; i++) { const x = (R(i + 2000) * 1080 + t * (10 + R(i) * 20)) % 1080; const y = 1920 - ((R(i + 2100) * 1920 + t * (40 + R(i + 3) * 50)) % 1920); sky.globalAlpha = 0.5 * (0.5 + 0.5 * Math.sin(t * 3 + i)); sky.fillStyle = '#ecc97c'; sky.beginPath(); sky.arc(x, y, 2.5, 0, 7); sky.fill(); }
+  sky.globalAlpha = 1; };
+
+// S2 constellation points
+const CP = [[780, 520], [300, 940], [760, 1390]];
+const cst = CP.map(() => mkStar('cstars'));
+// S3 network of mini stickers around the number
+const MIN = ['j6', 'j7', 'j11', 'j26', 'j30', 'j34', 'j46', 'j47', 'j51', 'j53', 'j56', 'j58', 'j65', 'j12'];
+const mp = MIN.map((n, i) => { const a = i / MIN.length * Math.PI * 2 - Math.PI / 2; return [540 + Math.cos(a) * 420, 900 + Math.sin(a) * 640]; });
+$('net').innerHTML = mp.map(([x, y], i) => { const [x2, y2] = mp[(i + 1) % mp.length]; return `<path class="g" pathLength="1" style="stroke-width:3; opacity:.7" d="M ${x} ${y} L ${x2} ${y2}"/>`; }).join('');
+const netP = [...$('net').querySelectorAll('path')];
+const minis = MIN.map((n) => { const im = document.createElement('img'); im.className = 'st'; im.src = `journal/${n}.png`; im.style.width = '160px'; $('minis').appendChild(im); return im; });
+// S4 uses
+const USES = [
+  ['للجورنال', '<path class="g" pathLength="1" d="M 220 560 L 860 560 L 860 1460 L 220 1460 Z M 270 560 L 270 1460 M 240 640 L 200 640 M 240 760 L 200 760 M 240 880 L 200 880 M 240 1000 L 200 1000 M 240 1120 L 200 1120 M 240 1240 L 200 1240 M 240 1360 L 200 1360"/>', [['j30', 330, 620, 300, -4], ['j26', 600, 820, 230, 8], ['j34', 330, 1060, 110, -12], ['j58', 470, 1250, 320, 0]]],
+  ['للدفاتر', '<path class="g" pathLength="1" d="M 160 640 L 520 600 L 560 1340 L 200 1380 Z M 560 600 L 920 640 L 880 1380 L 520 1340"/>', [['j51', 240, 760, 230, -6], ['j56', 620, 760, 240, 6], ['j53', 640, 1080, 140, 20]]],
+  ['ولبطاقات الإهداء', '<path class="g" pathLength="1" d="M 200 700 L 880 700 L 880 1320 L 200 1320 Z M 200 700 L 540 1000 L 880 700"/>', [['j65', 260, 900, 220, -8], ['j26', 600, 920, 220, 10], ['j34', 470, 760, 100, 90]]],
+];
+const uses = USES.map(([cap, svg, st]) => { const d = document.createElement('div'); d.className = 'abs'; d.style.cssText = 'width:1080px; height:1920px';
+  d.innerHTML = `<svg class="abs" width="1080" height="1920">${svg}</svg>`; $('uses').appendChild(d);
+  const ims = st.map(([n, x, y, w, r]) => { const im = document.createElement('img'); im.className = 'st'; im.src = `journal/${n}.png`; im.style.width = w + 'px'; d.appendChild(im); return { im, x, y, r }; });
+  return { d, cap, ims, path: d.querySelector('path') }; });
+// S6 stars on the end constellation
+const EP = [[160, 520], [330, 700], [540, 590], [750, 700], [920, 520]];
+const est = EP.map(() => mkStar('estars'));
+
+window.render = (t) => {
+  for (const [id, a, b] of SC) $(id).style.display = t >= a && t < b ? 'block' : 'none';
+  $('stage').style.opacity = 1 - p(t, T.end_all - 0.5, T.end_all);
+  drawSky(t);
+  // shooting star across each cut
+  let sk = -1; CUT.forEach((c) => { if (t > c - 0.35 && t < c + 0.25) sk = p(t, c - 0.35, c + 0.25); });
+  if (sk >= 0) { const x = 1300 - sk * 1800; const y = 200 + sk * 900; $('shoot').style.opacity = Math.sin(Math.PI * sk); $('shoot').style.transform = `translate(${x}px, ${y}px) rotate(-26deg)`; }
+  else $('shoot').style.opacity = 0;
+
+  // S1
+  if (t < CUT[0]) {
+    const m = eo(p(t, 0, 1.2)); place($('moon'), 280, 120 + (1 - m) * 300 + Math.sin(t * 1.5) * 8, 0.9 + 0.1 * m, -8 + Math.sin(t) * 2, m);
+    glow('h1', t, T.h1); glow('h2', t, T.h2, 0.55);
+    const j = eb(p(t, T.h2 + 0.2, T.h2 + 0.7)); place($('jar'), 375, 1390 + Math.sin(t * 2) * 6, j, Math.sin(t * 1.3) * 3, j > 0 ? 1 : 0);
+  }
+  // S2
+  if (t >= CUT[0] && t < CUT[1]) {
+    const ks = [T.c1, T.c2, T.c3];
+    const d = $('cl'); const lk = (i) => p(t, ks[i] - 0.45, ks[i] - 0.1);
+    const tot = t < ks[1] - 0.45 ? 0 : t < ks[2] - 0.45 ? 0.5 * lk(1) : 0.5 + 0.5 * lk(2); d.style.strokeDasharray = `${eio(tot)} 1`; d.style.strokeDasharray = tot > 0 ? `${eio(tot) * 0.98} 2` : '0 2';
+    // dashed look: overlay a mask using dashoffset is costly; keep a solid drawn line instead
+    d.style.strokeDasharray = `${eio(tot)} 1`;
+    CP.forEach(([x, y], i) => starAt(cst[i], t, ks[i] - 0.4, x, y));
+    const ims = [$('k1'), $('k2'), $('k3')]; const off = [[-165, -170], [-165, -170], [-165, -170]];
+    ims.forEach((im, i) => { const k = eb(p(t, ks[i] - 0.15, ks[i] + 0.35)); place(im, CP[i][0] + off[i][0], CP[i][1] + off[i][1] + Math.sin(t * 2 + i) * 6, k, (i - 1) * 6, k > 0 ? 1 : 0); });
+    glow('c1', t, T.c1 - 0.05, 0.45); glow('c2', t, T.c2 - 0.05, 0.45); glow('c3', t, T.c3 - 0.05, 0.45);
+    $('c1w').style.cssText += ''; // positions fixed in markup
+  }
+  // S3
+  if (t >= CUT[1] && t < CUT[2]) {
+    const a = CUT[1];
+    $('n68').textContent = Math.round(68 * eo(p(t, a + 0.15, a + 1.2))).toLocaleString('ar-EG');
+    glow('n68', t, a + 0.1, 0.4); glow('n1', t, a + 0.5, 0.4); glow('n2', t, T.n2 - 0.05, 0.5);
+    minis.forEach((im, i) => { const s = a + 0.3 + i * 0.07; const k = eb(p(t, s, s + 0.4)); place(im, mp[i][0] - 80, mp[i][1] - 80 + Math.sin(t * 2 + i) * 6, k * 0.95, (R(i) - 0.5) * 20, k > 0 ? 1 : 0); });
+    netP.forEach((pth, i) => { const s = a + 0.4 + i * 0.07; const k = eio(p(t, s, s + 0.3)); pth.style.strokeDasharray = `${k} 1`; });
+  }
+  // S4
+  if (t >= CUT[2] && t < CUT[3]) {
+    const at = [CUT[2] + 0.05, T.u1 - 0.3, T.u2 - 0.3]; const st = t < at[1] ? 0 : t < at[2] ? 1 : 2;
+    $('ucap').textContent = uses[st].cap; glow('ucap', t, at[st] + 0.1, 0.45);
+    uses.forEach(({ d, ims, path }, i) => { const vis = i === st; d.style.display = vis ? 'block' : 'none';
+      const k = eio(p(t, at[i], at[i] + 0.6)); path.style.strokeDasharray = `${k} 1`;
+      ims.forEach(({ im, x, y, r }, j) => { const s = at[i] + 0.35 + j * 0.13; const q = eb(p(t, s, s + 0.4)); place(im, x, y + Math.sin(t * 2 + j) * 5, q, r, q > 0 ? 1 : 0); }); });
+  }
+  // S5
+  if (t >= CUT[3] && t < CUT[4]) {
+    const a = CUT[3]; glow('p1', t, T.print - 0.05, 0.45); glow('p2', t, T.print2 - 0.05, 0.5);
+    const k = eo(p(t, a + 0.05, a + 0.9)); place($('sheet'), 240, 640 + (1 - k) * 260 + Math.sin(t * 1.6) * 8, 0.85 + 0.15 * k, -2 + Math.sin(t) * 1.5, k);
+  }
+  // S6
+  if (t >= CUT[4]) {
+    const a = CUT[4]; glow('e1', t, T.brand - 0.05, 0.6);
+    draw('eline', t, a + 0.2, 0.9); EP.forEach(([x, y], i) => starAt(est[i], t, a + 0.2 + i * 0.18, x, y, 0.9));
+    const m = eo(p(t, a, a + 0.8)); place($('eM'), 390, 760 + (1 - m) * 120 + Math.sin(t * 1.5) * 6, 1, -6, m);
+    place($('eA'), 90, 820 + Math.sin(t * 2) * 6, eb(p(t, a + 0.5, a + 0.9)), -8, p(t, a + 0.5, a + 0.55));
+    place($('eB'), 760, 830 + Math.sin(t * 2 + 1) * 6, eb(p(t, a + 0.6, a + 1.0)), 8, p(t, a + 0.6, a + 0.65));
+    glow('e2b', t, T.store - 0.05, 0.4); glow('e2', t, T.store2 - 0.05, 0.5); glow('e3', t, T.store2 + 0.35, 0.4);
+  }
+};
+render(0);
+</script>
+</body></html>
