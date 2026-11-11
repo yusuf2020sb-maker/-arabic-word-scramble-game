@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@700&family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --gold:#ecc97c; --gold2:#fff1c9; --navy:#0d1430; --ink:#1b2350; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:var(--navy); font-family:'Aref Ruqaa','Cairo',serif; color:var(--gold); }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; background:radial-gradient(ellipse at 50% 30%, #26306a 0%, #141c42 45%, #0a0f26 100%); }
+  canvas { position:absolute; left:0; top:0; }
+  .scene { position:absolute; left:0; top:0; width:1080px; height:1920px; display:none; }
+  .abs { position:absolute; left:0; top:0; }
+  .line { position:absolute; left:0; width:1080px; text-align:center; font-weight:700; line-height:1.35; white-space:nowrap; text-shadow:0 0 24px rgba(236,201,124,.55), 0 0 60px rgba(236,201,124,.25); }
+  .w { display:inline-block; }
+  .st { position:absolute; left:0; top:0; filter:drop-shadow(0 0 26px rgba(255,214,140,.45)) drop-shadow(0 14px 18px rgba(0,0,0,.5)); will-change:transform; }
+  svg .g { fill:none; stroke:var(--gold); stroke-width:4; stroke-linecap:round; stroke-linejoin:round; filter:drop-shadow(0 0 8px rgba(236,201,124,.8)); }
+  .star { position:absolute; left:0; top:0; width:60px; height:60px; background:radial-gradient(circle, #fff 0 12%, rgba(255,241,201,.9) 18%, rgba(236,201,124,.35) 40%, transparent 70%); }
+  .star:before, .star:after { content:''; position:absolute; left:28px; top:0; width:4px; height:60px; background:linear-gradient(180deg, transparent, #fff, transparent); }
+  .star:after { transform:rotate(90deg); }
+  #shoot { position:absolute; left:0; top:0; width:520px; height:6px; border-radius:3px; background:linear-gradient(90deg, transparent, rgba(255,241,201,.9), #fff); z-index:50; filter:drop-shadow(0 0 12px #fff); transform-origin:100% 50%; }
+  .cap { position:absolute; left:0; width:1080px; text-align:center; font-size:96px; white-space:nowrap; }
+</style></head><body>
+<div id="stage">
+  <canvas id="sky" width="1080" height="1920"></canvas>
+  <svg class="abs" width="1080" height="1920"><path class="g" d="M 150 980 L 300 1160 L 540 1060 L 780 1160 L 930 980" /></svg>
+  <div id="stars"></div>
+  <img class="st" src="journal/j12.png" style="left:330px; top:90px; width:440px; transform:rotate(-8deg)">
+  <div class="line" style="top:520px; font-size:150px">آخر الليل…</div>
+  <div class="line" style="top:720px; font-size:170px; color:var(--gold2)">وقت الجورنال!</div>
+  <img class="st" src="journal/j47.png" style="left:40px; top:1180px; width:300px; transform:rotate(-6deg)">
+  <img class="st" src="journal/j7.png" style="left:400px; top:1110px; width:290px">
+  <img class="st" src="journal/j11.png" style="left:740px; top:1190px; width:300px; transform:rotate(7deg)">
+  <div class="line" style="top:1530px; font-size:84px">٦٨ ستيكر جورنال فنتج</div>
+  <div class="line" style="top:1690px; font-size:96px; color:var(--gold2)">متوفرة في متجر دُر</div>
+</div>
+<script>
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const c = document.getElementById('sky').getContext('2d');
+for (let i = 0; i < 300; i++) { c.globalAlpha = 0.3 + R(i + 7) * 0.7; c.fillStyle = '#fff4d6'; c.beginPath(); c.arc(R(i) * 1080, R(i + 500) * 1920, 0.6 + R(i + 900) * 2.4, 0, 7); c.fill(); }
+[[150,980],[300,1160],[540,1060],[780,1160],[930,980]].forEach(([x,y]) => { const s = document.createElement('div'); s.className = 'star'; s.style.transform = `translate(${x-30}px,${y-30}px)`; document.getElementById('stars').appendChild(s); });
+</script></body></html>
