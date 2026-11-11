@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Lemonada:wght@700&family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --cream:#fbf1e6; --amber:#c8742e; --tea:#9c4a18; --brown:#4a2512; --mint:#5f8f5a; --lemon:#f2c33d; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:var(--cream); font-family:'Lemonada','Cairo',sans-serif; color:var(--brown); }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; background:radial-gradient(ellipse at 50% 40%, #fff8ef 0%, var(--cream) 55%, #f1dcc5 100%); }
+  .scene { position:absolute; left:0; top:0; width:1080px; height:1920px; display:none; }
+  .abs { position:absolute; left:0; top:0; }
+  .line { position:absolute; left:0; width:1080px; text-align:center; line-height:1.45; white-space:nowrap; font-weight:700; }
+  .w { display:inline-block; }
+  .st { position:absolute; left:0; top:0; filter:drop-shadow(0 18px 20px rgba(74,37,18,.25)); will-change:transform; }
+  svg .steam { fill:none; stroke:rgba(156,74,24,.35); stroke-width:10; stroke-linecap:round; }
+  #wave { position:absolute; left:0; top:0; z-index:60; pointer-events:none; }
+  .bub { position:absolute; left:0; top:0; border-radius:50%; background:radial-gradient(circle at 30% 28%, rgba(255,255,255,.9), rgba(255,255,255,.25) 22%, rgba(200,116,46,.12) 60%, rgba(200,116,46,.25)); border:3px solid rgba(255,255,255,.7); overflow:hidden; }
+  .bub img { position:absolute; left:12%; top:12%; width:76%; height:76%; object-fit:contain; }
+  .drop { position:absolute; left:0; top:0; width:22px; height:30px; border-radius:50% 50% 50% 50% / 60% 60% 40% 40%; background:var(--amber); opacity:.8; }
+  .pill { display:inline-block; padding:0 56px 14px; border-radius:90px; background:var(--tea); color:#fff6ea; }
+</style></head><body>
+<div id="stage">
+
+  <!-- S1 hook -->
+  <div class="scene" id="s1">
+    <div class="line" style="top:130px; font-size:140px"><span class="w" id="h1">كوب شاي</span></div>
+    <svg class="abs" width="1080" height="1920"><path id="st1" class="steam" pathLength="1" d="M 430 760 Q 390 700 430 640 Q 470 580 430 520"/><path id="st2" class="steam" pathLength="1" d="M 540 740 Q 500 670 540 600 Q 580 530 540 460"/><path id="st3" class="steam" pathLength="1" d="M 650 760 Q 610 700 650 640 Q 690 580 650 520"/></svg>
+    <img id="hCup" class="st" src="tea/t18.png" style="width:640px">
+    <div class="line" style="top:1450px; font-size:150px; color:var(--tea)"><span class="w" id="h2">يروّق البال!</span></div>
+  </div>
+
+  <!-- S2 flavours carousel -->
+  <div class="scene" id="s2">
+    <div class="line" style="top:170px; font-size:80px; color:var(--amber)"><span class="w" id="fTop">شاي</span></div>
+    <div id="flav"></div>
+    <div id="drops"></div>
+    <div class="line" style="top:1400px; font-size:160px"><span class="w" id="cap"></span></div>
+  </div>
+
+  <!-- S3 bubbles + count -->
+  <div class="scene" id="s3">
+    <div id="bubs"></div>
+    <div class="line" style="top:520px; font-size:320px; line-height:1.1; font-family:Cairo; font-weight:900; color:var(--tea)"><span class="w" id="n36">٣٦</span></div>
+    <div class="line" style="top:1000px; font-size:120px"><span class="w" id="n1">ستيكر</span></div>
+    <div class="line" style="top:1230px; font-size:96px"><span class="w pill" id="n2">شاي وأعشاب</span></div>
+  </div>
+
+  <!-- S4 uses -->
+  <div class="scene" id="s4">
+    <div class="line" style="top:210px; font-size:100px; color:var(--tea)"><span class="w" id="ucap"></span></div>
+    <div id="uses"></div>
+  </div>
+
+  <!-- S5 print -->
+  <div class="scene" id="s5">
+    <div class="line" style="top:150px; font-size:140px"><span class="w" id="p1">ملف PDF</span></div>
+    <div class="line" style="top:380px; font-size:100px"><span class="w pill" id="p2">جاهز للطباعة</span></div>
+    <img id="sheet" class="abs" src="tea/sheet2.jpg" style="width:600px; border-radius:12px; box-shadow:0 30px 60px rgba(74,37,18,.3)">
+    <img id="pA" class="st" src="tea/t39.png" style="width:260px">
+  </div>
+
+  <!-- S6 end: QR on a tea-bag tag -->
+  <div class="scene" id="s6">
+    <div class="line" style="top:120px; font-size:74px; color:var(--tea)"><span class="w" id="e1">ستيكرات شاي وأعشاب</span></div>
+    <div id="tagW" class="abs" style="left:290px; top:300px; width:500px; height:900px; transform-origin:250px 0">
+      <div style="position:absolute; left:248px; top:0; width:4px; height:260px; background:#d9c3a4"></div>
+      <div style="position:absolute; left:20px; top:250px; width:460px; height:560px; background:#fffaf2; border:6px solid var(--amber); border-radius:26px; box-shadow:0 30px 50px rgba(74,37,18,.25)">
+        <div style="position:absolute; left:50%; top:16px; width:30px; height:30px; margin-left:-15px; border-radius:50%; background:var(--cream); border:4px solid var(--amber)"></div>
+        <div style="position:absolute; left:40px; top:70px; width:368px; height:368px; background:#fff; padding:16px; border-radius:12px"><img src="qr_store.png" style="width:100%; height:100%; display:block"></div>
+        <div style="position:absolute; left:0; top:458px; width:448px; text-align:center; font-size:46px; color:var(--tea)">دُر</div>
+      </div>
+    </div>
+    <img id="eA" class="st" src="tea/t4.png" style="width:260px">
+    <img id="eB" class="st" src="tea/t13.png" style="width:250px">
+    <div class="line" style="top:1240px; font-size:80px"><span class="w" id="e2b">متوفرة في</span></div>
+    <div class="line" style="top:1380px; font-size:150px"><span class="w pill" id="e2" style="padding:0 70px 24px">متجر دُر</span></div>
+    <div class="line" style="top:1660px; font-size:50px; font-family:Cairo; direction:ltr; color:var(--tea)"><span class="w" id="e3">planme.zaher.io</span></div>
+  </div>
+
+  <svg id="wave" width="1080" height="1920"><defs><linearGradient id="tg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d98a3e"/><stop offset="1" stop-color="#8c3e12"/></linearGradient></defs><path id="wp" fill="url(#tg)"/><path id="wp2" fill="rgba(255,220,170,.35)"/></svg>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eio = (x) => (x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const eb = (x) => { const c = 1.7; return x <= 0 ? 0 : 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const place = (e, x, y, s, r, o) => { e.style.transform = `translate(${x}px,${y}px) rotate(${r}deg) scale(${s})`; if (o !== undefined) e.style.opacity = o; };
+// float-in text: rises like steam and settles with a soft wobble
+const rise = (id, t, a, d = 0.5) => { const k = p(t, a, a + d); const e = $(id); e.style.opacity = p(t, a, a + 0.15); e.style.transform = `translateY(${(1 - eo(k)) * 60}px) scale(${0.85 + 0.15 * eb(k)})`; e.style.filter = `blur(${(1 - eo(k)) * 8}px)`; };
+const draw = (id, t, a, d = 0.6) => { const e = $(id); const k = eio(p(t, a, a + d)); e.style.strokeDasharray = `${k} 1`; };
+
+const D = { h1: 0.3, h2: 1.4, c1: 3.2, c2: 4.5, c3: 5.8, count: 7.6, n2: 9.0, u0: 10.6, u1: 11.8, u2: 13.0, print: 14.8, print2: 15.9, brand: 17.6, store: 19.1, store2: 19.8, end_all: 22.8 };
+const T = Object.assign({}, D, window.TL || {});
+const CUT = [T.c1 - 0.4, T.count - 0.35, T.u0 - 0.35, T.print - 0.35, T.brand - 0.35];
+const SC = [['s1', 0, CUT[0]], ['s2', CUT[0], CUT[1]], ['s3', CUT[1], CUT[2]], ['s4', CUT[2], CUT[3]], ['s5', CUT[3], CUT[4]], ['s6', CUT[4], 99]];
+
+// tea wave wipe: rises over the screen before each cut and drains after it
+const waveLevel = (t) => { for (const c of CUT) { if (t >= c - 0.4 && t < c) return 2000 - eio(p(t, c - 0.4, c)) * 2200; if (t >= c && t < c + 0.45) return -200 + eio(p(t, c, c + 0.45)) * 2300; } return 2200; };
+const wavePath = (lvl, t, amp, ph) => { let d = `M 0 1920 L 0 ${lvl}`; for (let x = 0; x <= 1080; x += 40) d += ` L ${x} ${lvl + Math.sin(x / 120 + t * 6 + ph) * amp}`; return d + ' L 1080 1920 Z'; };
+
+// S2 flavours
+const FL = [['بالليمون', 't4'], ['بالنعناع', 't39'], ['وبالقرفة', 't12']];
+const flav = FL.map(([cap, n]) => { const im = document.createElement('img'); im.className = 'st'; im.src = `tea/${n}.png`; im.style.width = '720px'; $('flav').appendChild(im); return { cap, im }; });
+const drops = [...Array(16)].map(() => { const e = document.createElement('div'); e.className = 'drop'; $('drops').appendChild(e); return e; });
+// S3 bubbles
+const BN = ['t5', 't6', 't7', 't8', 't9', 't10', 't11', 't13', 't15', 't16', 't19', 't21', 't22', 't25', 't28', 't30', 't33', 't36'];
+const bubs = BN.map((n, i) => { const d = document.createElement('div'); d.className = 'bub'; const sz = 170 + R(i) * 110; d.style.width = d.style.height = sz + 'px'; d.innerHTML = `<img src="tea/${n}.png">`; $('bubs').appendChild(d); return { d, sz, x: (i % 6) * 180 + R(i + 3) * 60 - 20, sp: 220 + R(i + 7) * 160, ph: R(i + 11) * 2200 }; });
+// S4 uses
+const MUG = `<div style="position:absolute; left:250px; top:620px; width:520px; height:640px; background:#fffaf2; border-radius:30px 30px 120px 120px; box-shadow:0 30px 50px rgba(74,37,18,.25)"></div><div style="position:absolute; left:720px; top:740px; width:200px; height:300px; border:44px solid #fffaf2; border-left:none; border-radius:0 150px 150px 0; box-shadow:10px 10px 30px rgba(74,37,18,.15)"></div><div style="position:absolute; left:270px; top:630px; width:480px; height:60px; border-radius:30px; background:#b4611f"></div>`;
+const TIN = `<div style="position:absolute; left:120px; top:640px; width:380px; height:620px; background:#8aa27e; border-radius:26px; box-shadow:0 30px 50px rgba(74,37,18,.25)"></div><div style="position:absolute; left:100px; top:600px; width:420px; height:90px; background:#6d855f; border-radius:20px"></div><div style="position:absolute; left:580px; top:700px; width:360px; height:560px; background:rgba(255,255,255,.55); border:6px solid rgba(255,255,255,.9); border-radius:40px 40px 30px 30px; box-shadow:0 30px 50px rgba(74,37,18,.2)"></div><div style="position:absolute; left:600px; top:640px; width:320px; height:80px; background:#c9a173; border-radius:16px"></div>`;
+const GIFT = `<div style="position:absolute; left:200px; top:800px; width:680px; height:560px; background:#e7c9a1; border-radius:12px; box-shadow:0 30px 50px rgba(74,37,18,.25)"></div><div style="position:absolute; left:170px; top:720px; width:740px; height:120px; background:#d6b386; border-radius:12px"></div><div style="position:absolute; left:510px; top:720px; width:60px; height:640px; background:#5f8f5a"></div>`;
+const USES = [['لأكواب الشاي', MUG, [['t13', 330, 790, 360, -4]]], ['لعلب الأعشاب', TIN, [['t11', 150, 820, 320, -6], ['t30', 600, 840, 320, 6]]], ['ولتغليف الهدايا', GIFT, [['t36', 230, 880, 290, -6], ['t21', 590, 900, 270, 6]]]];
+const uses = USES.map(([cap, html, st]) => { const d = document.createElement('div'); d.className = 'abs'; d.style.cssText = 'width:1080px; height:1920px'; d.innerHTML = html; $('uses').appendChild(d);
+  const ims = st.map(([n, x, y, w, r]) => { const im = document.createElement('img'); im.className = 'st'; im.src = `tea/${n}.png`; im.style.width = w + 'px'; d.appendChild(im); return { im, x, y, r }; });
+  return { d, cap, ims }; });
+
+window.render = (t) => {
+  for (const [id, a, b] of SC) $(id).style.display = t >= a && t < b ? 'block' : 'none';
+  $('stage').style.opacity = 1 - p(t, T.end_all - 0.5, T.end_all);
+  const lvl = waveLevel(t); $('wp').setAttribute('d', wavePath(lvl, t, 34, 0)); $('wp2').setAttribute('d', wavePath(lvl + 26, t, 26, 2));
+
+  // S1
+  if (t < CUT[0]) {
+    rise('h1', t, T.h1); rise('h2', t, T.h2, 0.55);
+    const k = eb(p(t, 0.05, 0.6)); place($('hCup'), 220, 640 + Math.sin(t * 2) * 6, k, Math.sin(t * 1.4) * 2, k > 0 ? 1 : 0);
+    ['st1', 'st2', 'st3'].forEach((id, i) => { const a = 0.5 + i * 0.15; draw(id, t, a, 0.8); $(id).style.transform = `translateY(${-((t - a) * 30 % 60)}px)`; $(id).style.opacity = 0.5 + 0.5 * Math.sin(t * 3 + i); });
+  }
+  // S2
+  if (t >= CUT[0] && t < CUT[1]) {
+    const ks = [T.c1, T.c2, T.c3]; let cur = 0; ks.forEach((k, i) => { if (t >= k - 0.3) cur = i; });
+    rise('fTop', t, CUT[0] + 0.1, 0.4);
+    flav.forEach(({ im }, i) => { const inK = eo(p(t, ks[i] - 0.3, ks[i] + 0.1)); const outK = i < 2 ? eio(p(t, ks[i + 1] - 0.35, ks[i + 1] - 0.05)) : 0;
+      const x = 180 - (1 - inK) * 1100 + outK * 1100; place(im, x, 420 + Math.sin(t * 2 + i) * 8, 0.9 + 0.1 * inK, (1 - inK) * -12 + outK * 12, inK > 0 && outK < 1 ? 1 : 0); });
+    drops.forEach((e, j) => { const a = ks[cur] + 0.05; const k = p(t, a, a + 0.7); const ang = -Math.PI / 2 + (R(j + cur * 20) - 0.5) * 2.4; const sp = 300 + R(j + 5) * 300;
+      place(e, 530 + Math.cos(ang) * sp * k, 700 + Math.sin(ang) * sp * k + k * k * 500, 1 - 0.5 * k, ang * 57 + 90, k > 0 && k < 1 ? 0.85 : 0); });
+    $('cap').textContent = flav[cur].cap; rise('cap', t, ks[cur] - 0.1, 0.4);
+  }
+  // S3
+  if (t >= CUT[1] && t < CUT[2]) {
+    const a = CUT[1];
+    bubs.forEach(({ d, sz, x, sp, ph }, i) => { const y = 1950 - ((t - a) * sp + ph) % 2300; place(d, x + Math.sin(t * 1.5 + i) * 30, y, 1, Math.sin(t + i) * 10, p(t, a + 0.1, a + 0.4) * 0.6); });
+    $('n36').textContent = Math.round(36 * eo(p(t, a + 0.15, a + 1.1))).toLocaleString('ar-EG');
+    rise('n36', t, a + 0.1, 0.45); rise('n1', t, a + 0.45); rise('n2', t, T.n2 - 0.05);
+  }
+  // S4
+  if (t >= CUT[2] && t < CUT[3]) {
+    const at = [CUT[2] + 0.1, T.u1 - 0.3, T.u2 - 0.3]; const st = t < at[1] ? 0 : t < at[2] ? 1 : 2;
+    $('ucap').textContent = uses[st].cap; rise('ucap', t, at[st] + 0.1, 0.4);
+    uses.forEach(({ d, ims }, i) => { d.style.display = i === st ? 'block' : 'none'; const k = eo(p(t, at[i], at[i] + 0.45)); d.style.transform = `translateX(${-(1 - k) * 1100}px)`;
+      ims.forEach(({ im, x, y, r }, j) => { const s = at[i] + 0.35 + j * 0.15; const q = eb(p(t, s, s + 0.35)); place(im, x, y, q, r, q > 0 ? 1 : 0); }); });
+  }
+  // S5
+  if (t >= CUT[3] && t < CUT[4]) {
+    const a = CUT[3]; rise('p1', t, T.print - 0.05); rise('p2', t, T.print2 - 0.05);
+    const k = eo(p(t, a + 0.1, a + 0.9)); place($('sheet'), 240, 620 + (1 - k) * 1300, 1, -3 + Math.sin(t) * 1.2, 1);
+    place($('pA'), 760, 1320 + Math.sin(t * 2) * 6, eb(p(t, a + 0.8, a + 1.2)), 10, p(t, a + 0.8, a + 0.85));
+  }
+  // S6
+  if (t >= CUT[4]) {
+    const a = CUT[4]; rise('e1', t, T.brand - 0.05, 0.5);
+    const dk = p(t, a + 0.25, a + 0.75); const sw = Math.sin((t - a - 0.75) * 3.5) * 6 * Math.exp(-Math.max(0, t - a - 0.75) * 0.9);
+    $('tagW').style.transform = `translateY(${-(1 - eo(dk)) * 1100}px) rotate(${dk < 1 ? 0 : sw}deg)`; $('tagW').style.opacity = dk > 0 ? 1 : 0;
+    place($('eA'), 30, 760 + Math.sin(t * 2) * 6, eb(p(t, a + 0.6, a + 1.0)), -10, p(t, a + 0.6, a + 0.65));
+    place($('eB'), 800, 840 + Math.sin(t * 2 + 1) * 6, eb(p(t, a + 0.7, a + 1.1)), 9, p(t, a + 0.7, a + 0.75));
+    rise('e2b', t, T.store - 0.05, 0.4); rise('e2', t, T.store2 - 0.05, 0.45); rise('e3', t, T.store2 + 0.35, 0.4);
+  }
+};
+render(0);
+</script>
+</body></html>
