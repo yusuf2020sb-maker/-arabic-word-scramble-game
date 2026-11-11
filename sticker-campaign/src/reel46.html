@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Rakkas&family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --blush:#f4e3da; --kraft:#c9a173; --kraft2:#a77d50; --wine:#6b1f2e; --rose:#b34a5a; --cream:#fff7ee; --sage:#7d8c6a; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:var(--blush); font-family:'Rakkas','Cairo',serif; color:var(--wine); }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; background:radial-gradient(ellipse at 50% 35%, #fbefe8 0%, var(--blush) 55%, #e9cfc3 100%); }
+  .scene { position:absolute; left:0; top:0; width:1080px; height:1920px; display:none; }
+  .abs { position:absolute; left:0; top:0; }
+  .line { position:absolute; left:0; width:1080px; text-align:center; line-height:1.3; white-space:nowrap; }
+  .w { display:inline-block; }
+  .st { position:absolute; left:0; top:0; filter:drop-shadow(0 16px 18px rgba(80,30,30,.28)); will-change:transform; transform-origin:50% 90%; }
+  .petal { position:absolute; left:0; top:0; width:34px; height:24px; border-radius:60% 0 60% 0; background:linear-gradient(135deg, #c9566a, #7a2033); opacity:.85; }
+  #bq { position:absolute; left:0; top:0; width:1080px; height:1920px; transform-origin:540px 1250px; }
+  .wrapB { position:absolute; left:250px; top:1010px; width:580px; height:720px; background:linear-gradient(90deg, var(--kraft2), var(--kraft) 40%, #d9b88e 60%, var(--kraft2)); clip-path:polygon(0 0, 100% 0, 58% 100%, 42% 100%); }
+  .wrapF { position:absolute; left:210px; top:1150px; width:660px; height:600px; background:linear-gradient(90deg, #b88d5f, #d8b58a 45%, #c79c6c 55%, #a77d50); clip-path:polygon(0 0, 50% 22%, 100% 0, 57% 100%, 43% 100%); }
+  .wrapF:after { content:''; position:absolute; left:0; top:0; width:100%; height:100%; background:repeating-linear-gradient(100deg, rgba(255,255,255,.05) 0 6px, transparent 6px 18px); }
+  .ribbon { position:absolute; left:380px; top:1470px; width:320px; height:150px; }
+  .tag { position:absolute; left:0; top:0; background:var(--cream); border:4px solid var(--kraft2); border-radius:18px; padding:20px 50px 34px; text-align:center; box-shadow:0 18px 30px rgba(80,30,30,.25); transform-origin:50% -60px; }
+  .tag:before { content:''; position:absolute; left:50%; top:-64px; width:4px; height:64px; background:var(--wine); }
+  .tag:after { content:''; position:absolute; left:calc(50% - 14px); top:14px; width:28px; height:28px; border-radius:50%; background:var(--blush); border:3px solid var(--kraft2); }
+  .obj { position:absolute; left:0; top:0; }
+</style></head><body>
+<div id="stage">
+  <div id="petals"></div>
+
+  <!-- S1+S2: build the bouquet -->
+  <div class="scene" id="s12">
+    <div class="line" style="top:130px; font-size:210px"><span class="w" id="h1">بوكيه</span></div>
+    <div class="line" style="top:400px; font-size:175px; color:var(--rose)"><span class="w" id="h2">ما يذبل أبد!</span></div>
+    <div class="line" id="capW" style="top:200px; font-size:200px"><span class="w" id="cap"></span></div>
+    <div id="bq">
+      <div class="wrapB" id="wB"></div>
+      <div id="flowers"></div>
+      <div class="wrapF" id="wF"></div>
+      <svg class="ribbon" id="rib" viewBox="0 0 320 150"><path d="M160 70 C 100 10, 30 20, 40 70 C 50 110, 120 100, 160 70 Z M160 70 C 220 10, 290 20, 280 70 C 270 110, 200 100, 160 70 Z" fill="#7a2033"/><path d="M150 75 L 120 150 L 140 140 L 160 150 Z M170 75 L 200 150 L 180 140 L 160 150 Z" fill="#5c1626"/><circle cx="160" cy="72" r="20" fill="#8e2b3f"/></svg>
+    </div>
+  </div>
+
+  <!-- S3: wreath count -->
+  <div class="scene" id="s3">
+    <div id="wreath"></div>
+    <div class="line" style="top:620px; font-size:300px; line-height:1.1; font-family:Cairo; font-weight:900; color:var(--wine)"><span class="w" id="n63">٦٣</span></div>
+    <div class="line" style="top:930px; font-size:130px"><span class="w" id="n1">ستيكر</span></div>
+    <div class="line" style="top:1560px; font-size:120px; color:var(--rose)"><span class="w" id="n2">ورد فنتج يدوم</span></div>
+  </div>
+
+  <!-- S4: uses -->
+  <div class="scene" id="s4">
+    <div class="line" style="top:200px; font-size:140px"><span class="w" id="ucap"></span></div>
+    <div id="uses"></div>
+  </div>
+
+  <!-- S5: print sheet unrolls -->
+  <div class="scene" id="s5">
+    <div class="line" style="top:150px; font-size:150px"><span class="w" id="p1">ملف PDF</span></div>
+    <div class="line" style="top:350px; font-size:110px; color:var(--rose)"><span class="w" id="p2">جاهز للطباعة</span></div>
+    <div id="roll" class="abs" style="left:250px; top:600px; width:580px; height:820px; overflow:hidden; box-shadow:0 30px 50px rgba(80,30,30,.3)"><img src="roses/sheet2.jpg" style="width:580px; height:820px; object-fit:cover; display:block"></div>
+    <div id="rod" class="abs" style="left:220px; top:0; width:640px; height:44px; border-radius:22px; background:linear-gradient(180deg, #d9b88e, #8a6238)"></div>
+    <img id="pS1" class="st" src="roses/r46.png" style="width:240px">
+    <img id="pS2" class="st" src="roses/r50.png" style="width:280px">
+  </div>
+
+  <!-- S6: end bouquet with tag -->
+  <div class="scene" id="s6">
+    <div class="line" style="top:130px; font-size:120px"><span class="w" id="e1">ستيكرات ورود فنتج</span></div>
+    <div id="bq2" class="abs" style="width:1080px; height:1920px">
+      <div class="wrapB" style="top:760px; height:640px"></div>
+      <div id="eflowers"></div>
+      <div class="wrapF" style="top:880px; height:540px"></div>
+    </div>
+    <div class="tag" id="etag" style="width:640px"><div style="font-size:70px; line-height:1.4"><span class="w" id="e2b">متوفرة في</span></div><div style="font-size:150px; line-height:1.2; color:var(--rose)"><span class="w" id="e2">متجر دُر</span></div></div>
+    <div class="line" style="top:1790px; font-size:46px; font-family:Cairo; font-weight:700; direction:ltr"><span class="w" id="e3">planme.zaher.io</span></div>
+  </div>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eio = (x) => (x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const eb = (x) => { const c = 1.7; return x <= 0 ? 0 : 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const place = (e, x, y, s, r, o) => { e.style.transform = `translate(${x}px,${y}px) rotate(${r}deg) scale(${s})`; if (o !== undefined) e.style.opacity = o; };
+// bloom-in text: grows from a small, soft state with a little settle
+const bloom = (id, t, a, d = 0.5) => { const k = p(t, a, a + d); const e = $(id); e.style.opacity = p(t, a, a + 0.12); e.style.transform = `scale(${0.4 + 0.6 * eb(k)}) rotate(${(1 - eo(k)) * -6}deg)`; };
+// a flower dropping in: falls, then sways with a springy settle
+const drop = (e, t, a, x, y, r, s = 1) => { const k = p(t, a, a + 0.55); const f = eo(Math.min(1, k * 1.6)); const sway = Math.sin(k * 14) * (1 - k) * 10;
+  place(e, x, y - (1 - f) * 900, s, r + sway + Math.sin(t * 1.6 + x) * 1.5, k > 0 ? 1 : 0); };
+const mk = (host, n, w) => { const im = document.createElement('img'); im.className = 'st'; im.src = `roses/${n}.png`; im.style.width = w + 'px'; $(host).appendChild(im); return im; };
+
+const D = { h1: 0.3, h2: 1.3, c1: 3.0, c2: 4.2, c3: 5.4, count: 7.4, n2: 8.8, u0: 10.4, u1: 11.6, u2: 12.8, print: 14.6, print2: 15.7, brand: 17.4, store: 18.8, store2: 19.5, end_all: 22.4 };
+const T = Object.assign({}, D, window.TL || {});
+const CUT = [T.c1 - 0.4, T.count - 0.35, T.u0 - 0.35, T.print - 0.35, T.brand - 0.35];
+const SC = [['s12', 0, CUT[1]], ['s3', CUT[1], CUT[2]], ['s4', CUT[2], CUT[3]], ['s5', CUT[3], CUT[4]], ['s6', CUT[4], 99]];
+
+// falling petals (always on)
+const petals = [...Array(26)].map((_, i) => { const e = document.createElement('div'); e.className = 'petal'; e.style.zIndex = 40; $('petals').appendChild(e); return e; });
+// bouquet: leaves first (hook), then the three named flowers
+const LEAVES = [['r55', 200, 640, 360, -35], ['r57', 560, 620, 360, 30], ['r50', 330, 560, 380, -8], ['r10', 430, 600, 260, 4]];
+const leaves = LEAVES.map(([n, x, y, w, r]) => ({ im: mk('flowers', n, w), x, y, r }));
+const hookRose = { im: mk('flowers', 'r28', 380), x: 350, y: 780, r: -4 };
+const NAMED = [['ورد جوري', 'r48', 330, 640, 420, 0], ['داليا', 'r46', 140, 760, 360, -14], ['وتوليب', 'r47', 650, 700, 330, 12]];
+const named = NAMED.map(([cap, n, x, y, w, r]) => ({ cap, im: mk('flowers', n, w), x, y, r }));
+// S3 wreath
+const WR = ['r50', 'r48', 'r52', 'r22', 'r55', 'r46', 'r57', 'r28', 'r65', 'r44', 'r50', 'r18', 'r52', 'r14'];
+const wreath = WR.map((n, i) => mk('wreath', n, i % 2 ? 230 : 200));
+// S4 uses
+const GIFT = `<div style="position:absolute; left:240px; top:860px; width:600px; height:520px; background:#c9a173; border-radius:10px; box-shadow:0 30px 40px rgba(80,30,30,.25)"></div><div style="position:absolute; left:210px; top:780px; width:660px; height:120px; background:#b88d5f; border-radius:10px"></div><div style="position:absolute; left:510px; top:780px; width:60px; height:600px; background:#7a2033"></div>`;
+const CARD = `<div style="position:absolute; left:220px; top:700px; width:640px; height:860px; background:#fff7ee; border:3px solid #c9a173; border-radius:20px; box-shadow:0 30px 40px rgba(80,30,30,.2)"><div style="position:absolute; left:60px; right:60px; top:540px; height:10px; border-radius:5px; background:#e9cfc3"></div><div style="position:absolute; left:120px; right:120px; top:600px; height:10px; border-radius:5px; background:#e9cfc3"></div><div style="position:absolute; left:90px; right:90px; top:660px; height:10px; border-radius:5px; background:#e9cfc3"></div></div>`;
+const BOOK = `<div style="position:absolute; left:150px; top:700px; width:780px; height:820px; background:#efe2d2; border-radius:16px; box-shadow:0 30px 40px rgba(80,30,30,.2)"><div style="position:absolute; left:386px; top:0; width:8px; height:820px; background:#d6c1a6"></div></div>`;
+const USES = [['لتغليف الهدايا', GIFT, [['r48', 330, 560, 420, -4]]], ['للدعوات', CARD, [['r22', 370, 760, 340, 0], ['r57', 280, 1290, 300, -8], ['r55', 520, 1290, 300, 8]]], ['وللجورنال', BOOK, [['r10', 210, 760, 300, -6], ['r38', 560, 800, 330, 6], ['r65', 600, 1200, 260, -12]]]];
+const uses = USES.map(([cap, html, st]) => { const d = document.createElement('div'); d.className = 'obj'; d.style.cssText = 'width:1080px; height:1920px'; d.innerHTML = html; $('uses').appendChild(d);
+  const ims = st.map(([n, x, y, w, r]) => { const im = document.createElement('img'); im.className = 'st'; im.src = `roses/${n}.png`; im.style.width = w + 'px'; d.appendChild(im); return { im, x, y, r }; });
+  return { d, cap, ims }; });
+// S6 bouquet
+const EF = [['r55', 230, 400, 330, -35], ['r57', 540, 380, 330, 30], ['r46', 200, 520, 300, -12], ['r47', 600, 470, 290, 12], ['r48', 350, 420, 380, 0]];
+const ef = EF.map(([n, x, y, w, r]) => ({ im: mk('eflowers', n, w), x, y, r }));
+
+window.render = (t) => {
+  for (const [id, a, b] of SC) $(id).style.display = t >= a && t < b ? 'block' : 'none';
+  $('stage').style.opacity = 1 - p(t, T.end_all - 0.5, T.end_all);
+  petals.forEach((e, i) => { const sp = 70 + R(i) * 90; const y = ((R(i + 40) * 2200 + t * sp) % 2200) - 120; const x = R(i + 80) * 1080 + Math.sin(t * 1.2 + i) * 60;
+    place(e, x, y, 0.7 + R(i + 9) * 0.8, t * (40 + R(i) * 80) + i * 30, 0.5 + 0.4 * R(i + 3)); });
+  // scene-change flourish: a burst of petals sweeps through at each cut
+  // (handled by the always-on petals + a quick scale "breath" on the new scene)
+  CUT.forEach((c) => { if (t >= c && t < c + 0.35) { const k = eo(p(t, c, c + 0.35)); const id = SC.find(([, a]) => a === c); if (id) $(id[0]).style.transform = `scale(${1.06 - 0.06 * k})`; } });
+
+  // ---- S1 + S2 ----
+  if (t < CUT[1]) {
+    const hk = 1 - p(t, CUT[0] - 0.3, CUT[0]);
+    bloom('h1', t, T.h1); bloom('h2', t, T.h2, 0.55);
+    $('h1').parentNode.style.opacity = hk; $('h2').parentNode.style.opacity = hk;
+    const wk = eo(p(t, 0, 0.6)); $('wB').style.transform = $('wF').style.transform = `translateY(${(1 - wk) * 900}px)`;
+    leaves.forEach(({ im, x, y, r }, i) => drop(im, t, 0.35 + i * 0.12, x, y, r));
+    drop(hookRose.im, t, T.h2 - 0.1, hookRose.x, hookRose.y, hookRose.r);
+    hookRose.im.style.opacity = (t >= T.h2 - 0.1 ? 1 : 0) * (1 - p(t, T.c1 - 0.3, T.c1 - 0.1));
+    const ks = [T.c1, T.c2, T.c3]; let cur = -1; ks.forEach((k, i) => { if (t >= k - 0.15) cur = i; });
+    named.forEach(({ im, x, y, r }, i) => drop(im, t, ks[i] - 0.25, x, y, r));
+    named[0].im.style.zIndex = 3;
+    if (cur >= 0) { $('cap').textContent = named[cur].cap; bloom('cap', t, ks[cur] - 0.1, 0.45); } else $('cap').style.opacity = 0;
+    // ribbon ties after the last flower; whole bouquet sways
+    const rb = eb(p(t, T.c3 + 0.6, T.c3 + 1.0)); $('rib').style.transform = `scale(${rb})`; $('rib').style.opacity = rb > 0 ? 1 : 0;
+    $('bq').style.transform = `rotate(${Math.sin(t * 1.4) * 1.5}deg)`;
+  }
+
+  // ---- S3 ----
+  if (t >= CUT[1] && t < CUT[2]) {
+    const a = CUT[1];
+    $('n63').textContent = Math.round(63 * eo(p(t, a + 0.15, a + 1.2))).toLocaleString('ar-EG');
+    bloom('n63', t, a + 0.1, 0.45); bloom('n1', t, a + 0.45); bloom('n2', t, T.n2 - 0.05, 0.5);
+    const spin = t * 6;
+    wreath.forEach((im, i) => { const ang = (i / wreath.length) * 360 + spin; const rad = ang * Math.PI / 180; const k = eb(p(t, a + 0.2 + i * 0.05, a + 0.6 + i * 0.05));
+      const w = i % 2 ? 230 : 200; place(im, 540 + Math.cos(rad) * 400 - w / 2, 860 + Math.sin(rad) * 400 - w / 2, k * 0.95, ang + 90, k > 0 ? 1 : 0); });
+  }
+
+  // ---- S4 ----
+  if (t >= CUT[2] && t < CUT[3]) {
+    const at = [CUT[2] + 0.05, T.u1 - 0.3, T.u2 - 0.3]; const st = t < at[1] ? 0 : t < at[2] ? 1 : 2;
+    $('ucap').textContent = uses[st].cap; bloom('ucap', t, at[st] + 0.1);
+    uses.forEach(({ d, ims }, i) => { d.style.display = i === st ? 'block' : 'none'; const k = eo(p(t, at[i], at[i] + 0.45));
+      d.style.transform = `translateY(${(1 - k) * 600}px)`;
+      ims.forEach(({ im, x, y, r }, j) => drop(im, t, at[i] + 0.3 + j * 0.15, x, y, r)); });
+  }
+
+  // ---- S5 ----
+  if (t >= CUT[3] && t < CUT[4]) {
+    const a = CUT[3]; bloom('p1', t, T.print - 0.05); bloom('p2', t, T.print2 - 0.05);
+    const k = eio(p(t, a + 0.1, a + 1.0)); $('roll').style.height = (820 * k) + 'px'; place($('rod'), 0, 580 + 820 * k, 1, 0);
+    drop($('pS1'), t, a + 1.0, 70, 1240, -12); drop($('pS2'), t, a + 1.15, 760, 1260, 18);
+  }
+
+  // ---- S6 ----
+  if (t >= CUT[4]) {
+    const a = CUT[4]; bloom('e1', t, T.brand - 0.05, 0.55);
+    ef.forEach(({ im, x, y, r }, i) => drop(im, t, a + 0.1 + i * 0.12, x, y, r));
+    const tk = p(t, T.store - 0.4, T.store); const sw = Math.sin((t - T.store) * 4) * 6 * Math.exp(-Math.max(0, t - T.store) * 1.2);
+    place($('etag'), 220, 1300 - (1 - eo(tk)) * 900, 1, sw + (1 - eo(tk)) * -10, tk > 0 ? 1 : 0);
+    bloom('e2b', t, T.store - 0.05, 0.4); bloom('e2', t, T.store2 - 0.05, 0.5); bloom('e3', t, T.store2 + 0.35, 0.4);
+  }
+};
+render(0);
+</script>
+</body></html>
