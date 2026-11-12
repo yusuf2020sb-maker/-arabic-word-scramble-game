@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:#2a1a12; font-family:'Lalezar','Cairo',sans-serif; }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; background:radial-gradient(ellipse at 50% 55%, #b5733c 0%, #7a4526 40%, #3a2216 75%, #22140d 100%); }
+  .abs { position:absolute; left:0; top:0; }
+  .bok { position:absolute; left:0; top:0; border-radius:50%; filter:blur(10px); }
+  .st { position:absolute; left:0; top:0; filter:drop-shadow(0 18px 20px rgba(0,0,0,.45)); will-change:transform; }
+  .grp { position:absolute; left:0; top:0; width:1080px; height:1920px; display:none; }
+  canvas { position:absolute; left:0; top:0; }
+  #frame { position:absolute; left:0; top:0; width:1080px; height:1920px; border:34px solid #5a3a22; border-bottom-width:0; box-shadow:inset 0 0 0 6px #7a5232, inset 0 0 40px rgba(0,0,0,.5); pointer-events:none; }
+  #sill { position:absolute; left:0; top:1840px; width:1080px; height:80px; background:linear-gradient(180deg, #8a5c36, #5a3a22); box-shadow:0 -6px 16px rgba(0,0,0,.4); }
+  #url { position:absolute; left:0; top:1700px; width:1080px; text-align:center; font-family:Cairo; font-weight:800; font-size:50px; color:#fff7ea; direction:ltr; text-shadow:0 3px 12px rgba(0,0,0,.6); opacity:0; }
+</style></head><body>
+<div id="stage">
+  <div id="bokeh"></div>
+  <!-- content behind the glass -->
+  <div class="grp" id="g1"><img id="s1a" class="st" src="cozy/c98.png" style="width:560px"><img id="s1b" class="st" src="cozy/c138.png" style="width:240px"></div>
+  <div class="grp" id="g2"><img id="k1" class="st" src="cozy/c94.png" style="width:660px"><img id="k2" class="st" src="cozy/c92.png" style="width:600px"><img id="k3" class="st" src="cozy/c95.png" style="width:560px"></div>
+  <div class="grp" id="g3"></div>
+  <div class="grp" id="g4"></div>
+  <div class="grp" id="g5"><img id="sheet" class="abs" src="cozy/sheet2.jpg" style="width:580px; border-radius:8px; box-shadow:0 30px 50px rgba(0,0,0,.5)"></div>
+  <div class="grp" id="g6">
+    <div id="qr" class="abs" style="left:320px; top:430px; width:440px; height:440px; background:#fff; padding:22px; border-radius:18px; box-shadow:0 30px 50px rgba(0,0,0,.5)"><img src="qr_store.png" style="width:100%; height:100%; display:block"></div>
+    <img id="eA" class="st" src="cozy/c92.png" style="width:240px"><img id="eB" class="st" src="cozy/c101.png" style="width:230px">
+  </div>
+  <canvas id="fog" width="1080" height="1920"></canvas>
+  <canvas id="rain" width="1080" height="1920"></canvas>
+  <div id="url">planme.zaher.io</div>
+  <div id="frame"></div><div id="sill"></div>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eio = (x) => (x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const eb = (x) => { const c = 1.7; return x <= 0 ? 0 : 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const place = (e, x, y, s, r, o) => { e.style.transform = `translate(${x}px,${y}px) rotate(${r}deg) scale(${s})`; if (o !== undefined) e.style.opacity = o; };
+
+const D = { h1: 0.3, h2: 1.5, c1: 3.4, c2: 4.8, c3: 6.2, count: 8.0, n2: 9.4, u0: 11.0, u1: 12.2, u2: 13.4, print: 15.2, print2: 16.3, brand: 18.0, store: 19.6, store2: 20.3, end_all: 23.4 };
+const T = Object.assign({}, D, window.TL || {});
+const CUT = [T.c1 - 0.4, T.count - 0.35, T.u0 - 0.35, T.print - 0.35, T.brand - 0.35];
+const GR = [['g1', 0, CUT[0]], ['g2', CUT[0], CUT[1]], ['g3', CUT[1], CUT[2]], ['g4', CUT[2], CUT[3]], ['g5', CUT[3], CUT[4]], ['g6', CUT[4], 99]];
+const sceneAt = (t) => GR.findIndex(([, a, b]) => t >= a && t < b);
+
+// warm bokeh lights of the room
+[...Array(16)].forEach((_, i) => { const b = document.createElement('div'); b.className = 'bok'; const s = 60 + R(i) * 160; b.style.cssText += `width:${s}px; height:${s}px; background:rgba(${255},${170 + R(i + 1) * 60 | 0},${80 + R(i + 2) * 60 | 0},${0.18 + R(i + 3) * 0.25})`; b.dataset.i = i; $('bokeh').appendChild(b); });
+const boks = [...$('bokeh').children];
+
+// fog texture (pre-rendered once)
+const fogTex = document.createElement('canvas'); fogTex.width = 1080; fogTex.height = 1920;
+{ const g = fogTex.getContext('2d'); const gr = g.createLinearGradient(0, 0, 0, 1920); gr.addColorStop(0, 'rgba(214,222,230,.90)'); gr.addColorStop(1, 'rgba(196,206,216,.86)'); g.fillStyle = gr; g.fillRect(0, 0, 1080, 1920);
+  for (let i = 0; i < 2600; i++) { g.fillStyle = `rgba(255,255,255,${0.05 + R(i + 40) * 0.12})`; g.beginPath(); g.arc(R(i) * 1080, R(i + 9000) * 1920, 1 + R(i + 77) * 4, 0, 7); g.fill(); } }
+const fog = $('fog').getContext('2d'), rain = $('rain').getContext('2d');
+
+// finger-written words in the fog: [scene, key, text, cx, baseline, size, dur, font]
+const W = () => [
+  [0, T.h1, 'برا مطر', 540, 470, 210, 0.6], [0, T.h2, 'وجوّا دفا!', 540, 740, 220, 0.6],
+  [1, T.c1 - 0.05, 'بطانية', 540, 1560, 190, 0.45, 0, T.c2 - 0.35], [1, T.c2 - 0.05, 'كاكاو حار', 540, 1560, 190, 0.5, 0, T.c3 - 0.35], [1, T.c3 - 0.05, 'وكتاب حلو', 540, 1560, 190, 0.5],
+  [2, CUT[1] + 0.1, '١١٦', 540, 930, 360, 0.45, 'Cairo'], [2, CUT[1] + 0.45, 'ستيكر', 540, 1110, 150, 0.35], [2, T.n2 - 0.05, 'بروح الشتا', 540, 1720, 150, 0.5],
+  [3, CUT[2] + 0.1, 'للجورنال', 540, 400, 160, 0.4, 0, T.u1 - 0.35], [3, T.u1 - 0.2, 'لأغلفة الكتب', 540, 400, 150, 0.45, 0, T.u2 - 0.35], [3, T.u2 - 0.2, 'ولتغليف الهدايا', 540, 400, 140, 0.5],
+  [4, T.print - 0.05, 'ملف PDF', 540, 330, 170, 0.45], [4, T.print2 - 0.05, 'جاهز للطباعة', 540, 520, 140, 0.5],
+  [5, T.brand - 0.05, 'ستيكرات الشتا الدافي', 540, 300, 110, 0.6], [5, T.store - 0.05, 'متوفرة في', 540, 1150, 120, 0.4], [5, T.store2 - 0.05, 'متجر دُر', 540, 1460, 270, 0.5]];
+// wiped patches revealing what is behind: [scene, t0, cx, cy, rx, ry, t1]
+const B = () => [
+  [0, T.h2 + 0.25, 540, 1250, 420, 360], [1, T.c1 - 0.3, 540, 980, 440, 380, T.c2 - 0.35], [1, T.c2 - 0.3, 540, 980, 420, 380, T.c3 - 0.35], [1, T.c3 - 0.3, 540, 980, 420, 380],
+  [4, CUT[3] + 0.2, 540, 1250, 360, 520]];
+
+// S3 stickers ring and S4 objects
+const RN = ['c15', 'c19', 'c31', 'c32', 'c33', 'c49', 'c72', 'c93', 'c96', 'c124', 'c128', 'c142'];
+const ring = RN.map((n, i) => { const im = document.createElement('img'); im.className = 'st'; im.src = `cozy/${n}.png`; im.style.width = '230px'; $('g3').appendChild(im); const a = i / RN.length * Math.PI * 2 - Math.PI / 2; return { im, x: 540 + Math.cos(a) * 400, y: 880 + Math.sin(a) * 560 }; });
+const JRN = `<div style="position:absolute; left:180px; top:620px; width:720px; height:900px; background:#f3e6d0; border-radius:12px; box-shadow:0 30px 50px rgba(0,0,0,.45); background-image:repeating-linear-gradient(180deg, transparent 0 66px, rgba(120,90,60,.2) 66px 68px)"></div>`;
+const BOOK = `<div style="position:absolute; left:250px; top:600px; width:580px; height:860px; background:#6b3b2a; border-radius:10px 24px 24px 10px; box-shadow:0 30px 50px rgba(0,0,0,.45)"></div><div style="position:absolute; left:250px; top:600px; width:60px; height:860px; background:#4e2a1d; border-radius:10px 0 0 10px"></div>`;
+const GIFT = `<div style="position:absolute; left:200px; top:800px; width:680px; height:600px; background:#c58a55; border-radius:12px; box-shadow:0 30px 50px rgba(0,0,0,.45)"></div><div style="position:absolute; left:170px; top:720px; width:740px; height:120px; background:#b07a48; border-radius:12px"></div><div style="position:absolute; left:510px; top:720px; width:60px; height:680px; background:#7d8c6a"></div>`;
+const USES = [[JRN, [['c33', 260, 680, 330, -5], ['c93', 600, 760, 250, 6], ['c96', 280, 1080, 260, 4], ['c131', 600, 1140, 260, -6]]], [BOOK, [['c124', 370, 760, 360, 0], ['c19', 380, 1150, 170, -8], ['c142', 600, 1160, 200, 8]]], [GIFT, [['c15', 230, 900, 280, -6], ['c49', 620, 900, 220, 6]]]];
+const uses = USES.map(([html, st]) => { const d = document.createElement('div'); d.className = 'abs'; d.style.cssText = 'width:1080px; height:1920px'; d.innerHTML = html; $('g4').appendChild(d);
+  const ims = st.map(([n, x, y, w, r]) => { const im = document.createElement('img'); im.className = 'st'; im.src = `cozy/${n}.png`; im.style.width = w + 'px'; d.appendChild(im); return { im, x, y, r }; }); return { d, ims }; });
+
+// rain: sliding drops + static beads
+const DR = [...Array(46)].map((_, i) => ({ x: 50 + R(i) * 980, sp: 260 + R(i + 1) * 420, ph: R(i + 2) * 2400, r: 5 + R(i + 3) * 7 }));
+const BE = [...Array(240)].map((_, i) => ({ x: R(i + 300) * 1080, y: R(i + 600) * 1920, r: 1.5 + R(i + 900) * 4 }));
+
+const holeText = (txt, cx, by, size, k, font) => { if (k <= 0) return; fog.save(); fog.font = `${font === 'Cairo' ? '900 ' : ''}${size}px ${font === 'Cairo' ? 'Cairo' : 'Lalezar'}`; fog.textAlign = 'center'; fog.direction = 'rtl';
+  const w = fog.measureText(txt).width + 40; fog.beginPath(); fog.rect(cx + w / 2 - w * k, by - size * 1.2, w * k, size * 1.6); fog.clip();
+  fog.globalCompositeOperation = 'destination-out'; fog.filter = 'blur(2px)'; fog.fillStyle = '#000'; fog.fillText(txt, cx, by); fog.restore(); };
+const holeBlob = (cx, cy, rx, ry, k, a) => { if (k <= 0 || a <= 0) return; fog.save(); fog.globalCompositeOperation = 'destination-out'; fog.globalAlpha = a;
+  const g = fog.createRadialGradient(cx, cy, 0, cx, cy, 1); g.addColorStop(0, '#000'); g.addColorStop(0.78, '#000'); g.addColorStop(1, 'rgba(0,0,0,0)');
+  fog.translate(cx, cy); fog.scale(rx * k, ry * k); fog.translate(-cx, -cy); fog.fillStyle = g; fog.beginPath(); fog.arc(cx, cy, 1, 0, 7); fog.fill(); fog.restore(); };
+
+window.render = (t) => {
+  const sc = sceneAt(t);
+  GR.forEach(([id], i) => ($(id).style.display = i === sc ? 'block' : 'none'));
+  $('stage').style.opacity = 1 - p(t, T.end_all - 0.5, T.end_all);
+  boks.forEach((b, i) => place(b, R(i + 20) * 1080 - 80 + Math.sin(t * 0.4 + i) * 30, R(i + 30) * 1920 - 80 + Math.cos(t * 0.3 + i) * 30, 1, 0, 0.6 + 0.4 * Math.sin(t * 1.5 + i)));
+
+  // fog: re-fogs at each cut (breath on the glass), holes only for the current scene
+  fog.globalCompositeOperation = 'source-over'; fog.clearRect(0, 0, 1080, 1920); fog.globalAlpha = 1; fog.drawImage(fogTex, 0, 0);
+  for (const [s, a, txt, cx, by, size, d, font, end] of W()) if (s === sc) { const fade = end ? 1 - p(t, end - 0.25, end) : 1; if (fade > 0) { fog.save(); fog.globalAlpha = fade; holeText(txt, cx, by, size, eio(p(t, a, a + d)), font); fog.restore(); } }
+  for (const [s, a, cx, cy, rx, ry, end] of B()) if (s === sc) holeBlob(cx, cy, rx, ry, eo(p(t, a, a + 0.45)), end ? 1 - p(t, end - 0.25, end) : 1);
+  if (sc === 2) ring.forEach(({ x, y }, i) => holeBlob(x, y, 160, 160, eo(p(t, CUT[1] + 0.3 + i * 0.07, CUT[1] + 0.6 + i * 0.07)), 1));
+  if (sc === 3) { const at = [CUT[2] + 0.05, T.u1 - 0.3, T.u2 - 0.3]; at.forEach((a, i) => holeBlob(540, 1080, 470, 560, eo(p(t, a, a + 0.45)), i < 2 ? 1 - p(t, at[i + 1] - 0.2, at[i + 1]) : 1)); }
+  if (sc === 5) { const a = CUT[4]; holeBlob(540, 650, 380, 380, eo(p(t, a + 0.25, a + 0.6)), 1); fog.save(); fog.globalCompositeOperation = 'destination-out'; fog.globalAlpha = p(t, a + 0.4, a + 0.7); fog.fillRect(300, 410, 480, 480); fog.restore();
+    holeBlob(150, 860, 150, 150, eo(p(t, a + 0.6, a + 0.9)), 1); holeBlob(930, 930, 150, 150, eo(p(t, a + 0.7, a + 1.0)), 1); }
+  // a soft re-fog "breath" pulse right after each cut
+  CUT.forEach((c) => { const k = p(t, c, c + 0.35); if (k > 0 && k < 1) { fog.save(); fog.globalAlpha = 0.5 * Math.sin(Math.PI * k); fog.fillStyle = '#e8eef3'; fog.fillRect(0, 0, 1080, 1920); fog.restore(); } });
+
+  // rain drops on top
+  rain.clearRect(0, 0, 1080, 1920);
+  for (const { x, y, r } of BE) { if (sc === 5 && x > 300 && x < 780 && y > 410 && y < 890) continue; rain.fillStyle = 'rgba(255,255,255,.35)'; rain.beginPath(); rain.arc(x, y, r, 0, 7); rain.fill(); rain.fillStyle = 'rgba(40,50,60,.18)'; rain.beginPath(); rain.arc(x + r * 0.3, y + r * 0.4, r * 0.7, 0, 7); rain.fill(); }
+  for (const { x, sp, ph, r } of DR) { const y = (ph + t * sp) % 2300 - 200; if (sc === 5 && x > 290 && x < 790 && y > 380 && y < 920) continue;
+    const tr = rain.createLinearGradient(x, y - 160, x, y); tr.addColorStop(0, 'rgba(255,255,255,0)'); tr.addColorStop(1, 'rgba(255,255,255,.32)'); rain.fillStyle = tr; rain.fillRect(x - r * 0.35, y - 160, r * 0.7, 160);
+    rain.fillStyle = 'rgba(255,255,255,.55)'; rain.beginPath(); rain.ellipse(x, y, r * 0.8, r * 1.15, 0, 0, 7); rain.fill(); rain.fillStyle = 'rgba(255,255,255,.9)'; rain.beginPath(); rain.arc(x - r * 0.3, y - r * 0.4, r * 0.28, 0, 7); rain.fill(); }
+
+  // content motion
+  if (sc === 0) { place($('s1a'), 260, 980 + Math.sin(t * 2) * 5, 1, 0, 1); place($('s1b'), 760, 1300 + Math.sin(t * 2 + 1) * 5, 1, 6, 1); }
+  if (sc === 1) { const ks = [T.c1, T.c2, T.c3]; [$('k1'), $('k2'), $('k3')].forEach((im, i) => { const on = t >= ks[i] - 0.35 && (i === 2 || t < ks[i + 1] - 0.35); const w = [660, 600, 560][i]; place(im, 540 - w / 2, 980 - w * 0.45 + Math.sin(t * 2) * 6, 1, Math.sin(t * 1.3) * 2, on ? 1 : 0); }); }
+  if (sc === 2) ring.forEach(({ im, x, y }, i) => place(im, x - 115, y - 115 + Math.sin(t * 2 + i) * 5, 1, (R(i) - 0.5) * 14, 1));
+  if (sc === 3) { const at = [CUT[2] + 0.05, T.u1 - 0.3, T.u2 - 0.3]; const st = t < at[1] ? 0 : t < at[2] ? 1 : 2;
+    uses.forEach(({ d, ims }, i) => { d.style.display = i === st ? 'block' : 'none'; ims.forEach(({ im, x, y, r }, j) => { const s = at[i] + 0.3 + j * 0.12; const q = eb(p(t, s, s + 0.35)); place(im, x, y, q, r, q > 0 ? 1 : 0); }); }); }
+  if (sc === 4) { const k = eo(p(t, CUT[3] + 0.1, CUT[3] + 0.8)); place($('sheet'), 250, 830 + (1 - k) * 300, 1, -2, 1); }
+  if (sc === 5) { const a = CUT[4]; const q = eb(p(t, a + 0.3, a + 0.75)); $('qr').style.transform = `scale(${q})`; $('qr').style.opacity = p(t, a + 0.3, a + 0.35);
+    place($('eA'), 30, 740 + Math.sin(t * 2) * 6, eb(p(t, a + 0.6, a + 0.95)), -8, p(t, a + 0.6, a + 0.65)); place($('eB'), 815, 820 + Math.sin(t * 2 + 1) * 6, eb(p(t, a + 0.7, a + 1.05)), 8, p(t, a + 0.7, a + 0.75));
+    $('url').style.opacity = p(t, T.store2 + 0.35, T.store2 + 0.7); }
+  else $('url').style.opacity = 0;
+};
+render(0);
+</script>
+</body></html>
