@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@700&family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --sage:#7f9a6f; --cream:#fbf5ea; --brown:#4a2a1a; --terra:#b5582c; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:#e9e0cf; font-family:'Readex Pro','Cairo',sans-serif; color:var(--brown); }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; }
+  #world { position:absolute; left:0; top:0; width:2160px; height:6400px; transform-origin:0 0; will-change:transform;
+    background: linear-gradient(90deg, rgba(127,154,111,.30) 50%, transparent 50%) 0 0 / 140px 140px, linear-gradient(rgba(127,154,111,.30) 50%, transparent 50%) 0 0 / 140px 140px, var(--cream); }
+  .abs { position:absolute; left:0; top:0; }
+  .st { position:absolute; left:0; top:0; filter:drop-shadow(14px 22px 16px rgba(60,40,20,.28)); }
+  .doily { position:absolute; border-radius:50%; background:radial-gradient(circle, #fff 0 55%, #f3ece0 56% 58%, #fff 59% 66%, transparent 67%), repeating-conic-gradient(#fff 0 6deg, transparent 6deg 12deg); box-shadow:0 10px 20px rgba(60,40,20,.12); }
+  .card { position:absolute; background:#fffdf8; border-radius:14px; box-shadow:10px 16px 20px rgba(60,40,20,.22); text-align:center; white-space:nowrap; padding:18px 60px 34px; border:3px solid #e6d8c2; }
+  .leaf { position:absolute; width:70px; height:30px; border-radius:100% 0; background:linear-gradient(135deg, #6f9a5a, #4f7a3e); box-shadow:4px 6px 6px rgba(0,0,0,.15); }
+  .lem { position:absolute; width:110px; height:110px; border-radius:50%; background:repeating-conic-gradient(#f7d64a 0 26deg, #fff3b0 26deg 30deg); border:10px solid #f2c230; box-shadow:6px 10px 10px rgba(0,0,0,.15); }
+  svg .stm { fill:none; stroke:rgba(255,255,255,.85); stroke-width:14; stroke-linecap:round; filter:blur(3px); }
+  .ov { position:absolute; left:0; width:1080px; text-align:center; white-space:nowrap; line-height:1.4; z-index:20; }
+  .w { display:inline-block; }
+  .pill { display:inline-block; padding:4px 56px 22px; border-radius:90px; background:var(--brown); color:var(--cream); box-shadow:0 14px 30px rgba(0,0,0,.25); }
+  .note { display:inline-block; padding:10px 56px 26px; background:#fffdf8; border-radius:16px; box-shadow:0 14px 30px rgba(60,40,20,.25); border:3px solid #e6d8c2; }
+</style></head><body>
+<div id="stage">
+  <div id="world">
+    <div id="scatter"></div>
+    <!-- A hook -->
+    <div class="doily" style="left:700px; top:480px; width:760px; height:760px"></div>
+    <img class="st" src="tea/t38.png" style="left:790px; top:560px; width:580px">
+    <div class="card" id="cA" style="left:640px; top:200px; width:880px; font-size:120px">جلسة شاي…</div>
+    <div class="card" id="cB" style="left:600px; top:1300px; width:960px; font-size:96px; color:var(--terra)">وكل كوب له حكاية!</div>
+    <div class="lem" style="left:1530px; top:700px"></div><div class="leaf" style="left:600px; top:900px; transform:rotate(30deg)"></div><div class="leaf" style="left:640px; top:960px; transform:rotate(-20deg)"></div>
+    <!-- B cups -->
+    <div id="cups"></div>
+    <!-- D uses -->
+    <div id="uses"></div>
+    <!-- E print -->
+    <img class="abs" src="tea/sheet2.jpg" style="left:200px; top:4300px; width:600px; transform:rotate(-3deg); box-shadow:14px 22px 24px rgba(60,40,20,.3)">
+    <div class="leaf" style="left:860px; top:4900px; transform:rotate(60deg)"></div><div class="lem" style="left:820px; top:4320px"></div>
+    <!-- F end -->
+    <div class="doily" style="left:1180px; top:5020px; width:760px; height:760px"></div>
+    <div class="abs" id="qrW" style="left:1330px; top:5170px; width:460px; height:460px; background:#fff; padding:22px; border-radius:20px; box-shadow:12px 20px 24px rgba(60,40,20,.3)"><img src="qr_store.png" style="width:100%; height:100%; display:block"></div>
+    <img class="st" src="tea/t13.png" style="left:1040px; top:4940px; width:260px; transform:rotate(-12deg)">
+    <img class="st" src="tea/t4.png" style="left:1800px; top:5560px; width:260px; transform:rotate(10deg)">
+    <svg id="steam" class="abs" width="2160" height="6400"></svg>
+  </div>
+  <!-- screen overlays -->
+  <div class="ov" style="top:640px; font-size:110px"><span class="w note" id="nBox"><span id="n36" style="display:block; font-family:Cairo; font-weight:900; font-size:260px; line-height:1.05; color:var(--terra)">٣٦</span><span style="display:block">ستيكر</span></span></div>
+  <div class="ov" style="top:1340px; font-size:96px"><span class="w pill" id="n2">لكل مزاج</span></div>
+  <div class="ov" style="top:150px; font-size:120px"><span class="w note" id="ucap"></span></div>
+  <div class="ov" style="top:160px; font-size:120px"><span class="w note" id="p1">ملف PDF</span></div>
+  <div class="ov" style="top:390px; font-size:90px"><span class="w pill" id="p2">جاهز للطباعة</span></div>
+  <div class="ov" style="top:120px; font-size:92px"><span class="w note" id="e1">ستيكرات شاي وأعشاب</span></div>
+  <div class="ov" style="top:1270px; font-size:72px"><span class="w note" id="e2b" style="padding:4px 44px 16px">متوفرة في</span></div>
+  <div class="ov" style="top:1410px; font-size:150px"><span class="w pill" id="e2" style="padding:0 70px 26px">متجر دُر</span></div>
+  <div class="ov" style="top:1690px; font-size:50px; font-family:Cairo; direction:ltr"><span class="w note" id="e3" style="padding:4px 40px 10px; font-size:46px">planme.zaher.io</span></div>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eio = (x) => (x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const eb = (x) => { const c = 1.7; return x <= 0 ? 0 : 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const place = (e, x, y, s, r, o) => { e.style.transform = `translate(${x}px,${y}px) rotate(${r}deg) scale(${s})`; if (o !== undefined) e.style.opacity = o; };
+const pop = (id, t, a, d = 0.4) => { const k = p(t, a, a + d); const e = $(id); e.style.opacity = p(t, a, a + 0.1); e.style.transform = `translateY(${(1 - eo(k)) * 40}px) scale(${0.7 + 0.3 * eb(k)})`; };
+const hide = (...ids) => ids.forEach((id) => ($(id).style.opacity = 0));
+
+const D = { h1: 0.3, h2: 1.5, c1: 3.4, c2: 4.8, c3: 6.2, count: 8.0, n2: 9.4, u0: 11.0, u1: 12.2, u2: 13.4, print: 15.2, print2: 16.3, brand: 18.0, store: 19.6, store2: 20.3, end_all: 23.4 };
+const T = Object.assign({}, D, window.TL || {});
+const CUT = [T.c1 - 0.4, T.count - 0.35, T.u0 - 0.35, T.print - 0.35, T.brand - 0.35];
+
+// B: three cups on doilies with name cards
+const CUPS = [['كركديه', 't13', 620, 2080], ['بابونج', 't30', 1540, 2420], ['وزنجبيل', 't11', 640, 2840]];
+CUPS.forEach(([cap, n, x, y], i) => { const w = $('cups');
+  w.insertAdjacentHTML('beforeend', `<div class="doily" style="left:${x - 330}px; top:${y - 330}px; width:660px; height:660px"></div><img class="st" src="tea/${n}.png" style="left:${x - 260}px; top:${y - 250}px; width:520px"><div class="card cupc" style="left:${x - 290}px; top:${y + 300}px; width:580px; font-size:110px">${cap}</div>`); });
+const cupCards = [...document.querySelectorAll('.cupc')];
+// D: uses spots
+const USE = [['للدفاتر', 1560, 3600, `<div class="abs" style="left:1240px; top:3320px; width:640px; height:760px; background:#d9c3a0; border-radius:12px 30px 30px 12px; box-shadow:14px 22px 24px rgba(60,40,20,.3)"></div><div class="abs" style="left:1240px; top:3320px; width:60px; height:760px; background:#b89b72; border-radius:12px 0 0 12px"></div>`, [['t7', 1330, 3380, 300, -6], ['t36', 1560, 3600, 280, 6], ['t19', 1330, 3720, 280, 4]]],
+  ['لعلب الشاي', 560, 3720, `<div class="abs" style="left:330px; top:3430px; width:460px; height:600px; background:#8aa27e; border-radius:30px; box-shadow:14px 22px 24px rgba(60,40,20,.3)"></div><div class="abs" style="left:300px; top:3390px; width:520px; height:100px; background:#6d855f; border-radius:24px"></div>`, [['t37', 400, 3560, 320, 0]]],
+  ['وللهدايا', 1080, 4320, `<div class="abs" style="left:1060px; top:4420px; width:0; height:0"></div>`, []]];
+// gift spot shares the end area: put a small gift box near the QR instead of a separate spot
+USE[2] = ['وللهدايا', 1560, 4700, `<div class="abs" style="left:1260px; top:4440px; width:600px; height:500px; background:#e7c9a1; border-radius:12px; box-shadow:14px 22px 24px rgba(60,40,20,.3)"></div><div class="abs" style="left:1530px; top:4440px; width:60px; height:500px; background:#b5582c"></div><div class="abs" style="left:1260px; top:4660px; width:600px; height:60px; background:#b5582c"></div>`, [['t21', 1300, 4470, 240, -6], ['t16', 1620, 4480, 220, 8]]];
+USE.forEach(([, , , html, st]) => { $('uses').insertAdjacentHTML('beforeend', html + st.map(([n, x, y, w, r]) => `<img class="st" src="tea/${n}.png" style="left:${x}px; top:${y}px; width:${w}px; transform:rotate(${r}deg)">`).join('')); });
+// scattered extras for the zoom-out
+const SC = ['t5', 't6', 't8', 't9', 't10', 't12', 't14', 't15', 't17', 't18', 't20', 't22', 't23', 't24', 't25', 't26', 't27', 't28', 't29', 't31', 't32', 't33', 't34', 't35', 't39'];
+const SPOTS = [[180, 1700], [1800, 1700], [1180, 1900], [1900, 2100], [180, 2400], [1100, 2620], [1800, 2800], [1300, 3000], [200, 3000], [1000, 1700], [1700, 1300], [150, 1250], [1950, 2550], [1100, 3150], [400, 1500], [1900, 3050], [150, 2700], [1350, 1450], [500, 3250], [1450, 2700], [850, 2250], [1300, 2050], [250, 1950], [1650, 3550], [900, 3700]];
+SC.forEach((n, i) => $('scatter').insertAdjacentHTML('beforeend', `<img class="st" src="tea/${n}.png" style="left:${SPOTS[i][0] - 110}px; top:${SPOTS[i][1] - 110}px; width:230px; transform:rotate(${(R(i) - 0.5) * 40}deg)">`));
+// rising steam above the cups/teapot
+const STM = [[1080, 640], [620, 1880], [1540, 2220], [640, 2640], [1560, 5140]];
+$('steam').innerHTML = STM.map(([x, y], i) => [0, 1, 2].map((j) => `<path class="stm" data-i="${i}" data-j="${j}" d="M ${x - 60 + j * 60} ${y} q -30 -60 0 -120 q 30 -60 0 -120"/>`).join('')).join('');
+const steams = [...document.querySelectorAll('.stm')];
+
+// camera keyframes [t, x, y, scale]
+const CAM = () => [[0, 1080, 860, 1.3], [0.8, 1080, 860, 1.0], [CUT[0] - 0.05, 1080, 860, 1.0], [T.c1 - 0.05, 620, 2160, 1.0], [T.c2 - 0.35, 620, 2160, 1.0], [T.c2 - 0.05, 1540, 2500, 1.0], [T.c3 - 0.35, 1540, 2500, 1.0], [T.c3 - 0.05, 640, 2920, 1.0],
+  [CUT[1] - 0.05, 640, 2920, 1.0], [CUT[1] + 0.6, 1080, 2400, 0.42], [CUT[2] - 0.05, 1080, 2450, 0.44], [T.u0 - 0.05, 1560, 3700, 1.0], [T.u1 - 0.35, 1560, 3700, 1.0], [T.u1 - 0.05, 560, 3720, 1.0],
+  [T.u2 - 0.35, 560, 3720, 1.0], [T.u2 - 0.05, 1560, 4700, 1.0], [CUT[3] - 0.05, 1560, 4700, 1.0], [CUT[3] + 0.5, 500, 4680, 1.05], [CUT[4] - 0.05, 500, 4680, 1.05], [CUT[4] + 0.55, 1560, 5400, 1.0], [99, 1560, 5400, 1.0]];
+const camAt = (t) => { const K = CAM(); for (let i = 0; i < K.length - 1; i++) { const [a, x0, y0, s0] = K[i], [b, x1, y1, s1] = K[i + 1]; if (t >= a && t < b) { const k = eio(p(t, a, b)); return [x0 + (x1 - x0) * k, y0 + (y1 - y0) * k, s0 + (s1 - s0) * k, k > 0 && k < 1 && (x0 !== x1 || y0 !== y1)]; } } return [1560, 5400, 1, false]; };
+
+window.render = (t) => {
+  $('stage').style.opacity = 1 - p(t, T.end_all - 0.5, T.end_all);
+  const [cx, cy, s] = camAt(t);
+  $('world').style.transform = `translate(${540 - cx * s}px, ${960 - cy * s}px) scale(${s})`;
+  steams.forEach((e) => { const i = +e.dataset.i, j = +e.dataset.j; const ph = ((t * 0.7 + j * 0.33 + i * 0.2) % 1); e.style.transform = `translateY(${-ph * 160}px)`; e.style.opacity = Math.sin(Math.PI * ph) * 0.9; });
+  // hook cards drop onto the table
+  const ca = p(t, T.h1, T.h1 + 0.35), cb = p(t, T.h2, T.h2 + 0.35);
+  $('cA').style.transform = `scale(${ca < 1 ? 1.4 - 0.4 * eo(ca) : 1}) rotate(${-3 + (1 - ca) * -6}deg)`; $('cA').style.opacity = ca > 0 ? 1 : 0;
+  $('cB').style.transform = `scale(${cb < 1 ? 1.4 - 0.4 * eo(cb) : 1}) rotate(${2 + (1 - cb) * 6}deg)`; $('cB').style.opacity = cb > 0 ? 1 : 0;
+  [T.c1, T.c2, T.c3].forEach((k, i) => { const q = p(t, k - 0.05, k + 0.3); cupCards[i].style.transform = `scale(${q < 1 ? 1.4 - 0.4 * eo(q) : 1}) rotate(${(i - 1) * 3}deg)`; cupCards[i].style.opacity = q > 0 && t < CUT[1] + 0.3 ? 1 : 0; });
+  hide('nBox', 'n2', 'ucap', 'p1', 'p2', 'e1', 'e2b', 'e2', 'e3');
+  if (t >= CUT[1] && t < CUT[2]) { $('n36').textContent = Math.round(36 * eo(p(t, CUT[1] + 0.4, CUT[1] + 1.3))).toLocaleString('ar-EG'); pop('nBox', t, CUT[1] + 0.35); pop('n2', t, T.n2 - 0.05); }
+  if (t >= CUT[2] && t < CUT[3]) { const at = [T.u0 - 0.1, T.u1 - 0.1, T.u2 - 0.1]; const st = t < at[1] ? 0 : t < at[2] ? 1 : 2; $('ucap').textContent = USE[st][0]; pop('ucap', t, at[st], 0.35); }
+  if (t >= CUT[3] && t < CUT[4]) { pop('p1', t, T.print - 0.05); pop('p2', t, T.print2 - 0.05); }
+  if (t >= CUT[4]) { pop('e1', t, T.brand - 0.05); pop('e2b', t, T.store - 0.05); pop('e2', t, T.store2 - 0.05, 0.45); pop('e3', t, T.store2 + 0.35); }
+};
+render(2.2);
+document.getElementById('world').style.transform = 'translate(-540px, -60px) scale(1)';
+const st = document.getElementById('stage');
+st.insertAdjacentHTML('beforeend', `<div style="position:absolute; left:40px; top:1500px; width:1000px; height:360px; background:#fffdf8; border-radius:30px; border:4px solid #e6d8c2; box-shadow:0 20px 40px rgba(60,40,20,.3); z-index:30">
+  <div style="position:absolute; left:30px; top:30px; width:300px; height:300px; background:#fff; padding:10px; border-radius:16px; border:3px solid #e6d8c2"><img src="qr_store.png" style="width:100%; height:100%; display:block"></div>
+  <div style="position:absolute; left:340px; top:50px; width:640px; text-align:center; font-size:60px; white-space:nowrap">٣٦ ستيكر شاي وأعشاب</div>
+  <div style="position:absolute; left:340px; top:180px; width:640px; text-align:center; font-size:56px; white-space:nowrap"><span class="pill" style="padding:0 36px 14px">متوفرة في متجر دُر</span></div></div>`);
+</script>
+</body></html>
