@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --pink:#f39bb3; --pink2:#d9708f; --mint:#9fe0cf; --cream:#fff4ea; --choc:#4a2a1e; --neon:#fff0a8; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:#f7d9e0; font-family:'Lalezar','Cairo',sans-serif; color:var(--choc); }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; background:repeating-linear-gradient(90deg, #fbe3e9 0 60px, #f7d4dd 60px 120px); }
+  .abs { position:absolute; left:0; top:0; }
+  .st { position:absolute; left:0; top:0; filter:drop-shadow(0 12px 14px rgba(74,42,30,.3)); will-change:transform; }
+  #mach { position:absolute; left:0; top:0; width:1080px; height:1920px; transform-origin:540px 960px; will-change:transform; }
+  #body { position:absolute; left:40px; top:40px; width:1000px; height:1850px; border-radius:70px; background:linear-gradient(180deg, var(--pink), var(--pink2)); box-shadow:inset 0 -20px 0 rgba(0,0,0,.08), 0 30px 60px rgba(74,42,30,.3); }
+  #sign { position:absolute; left:90px; top:70px; width:900px; height:300px; border-radius:40px; background:#3b1d2a; box-shadow:inset 0 0 30px rgba(0,0,0,.6); overflow:hidden; }
+  .neon { position:absolute; left:0; width:900px; text-align:center; white-space:nowrap; color:var(--neon); text-shadow:0 0 10px #fff3b0, 0 0 30px #ffb3c8, 0 0 60px #ff7aa2; }
+  #glass { position:absolute; left:90px; top:380px; width:900px; height:880px; border-radius:30px; background:linear-gradient(160deg, rgba(255,255,255,.55), rgba(220,245,240,.35)); border:10px solid #fff; overflow:hidden; box-shadow:inset 0 0 40px rgba(0,0,0,.12); }
+  #glare { position:absolute; left:-200px; top:0; width:260px; height:880px; background:linear-gradient(90deg, transparent, rgba(255,255,255,.55), transparent); transform:skewX(-18deg); }
+  .shelf { position:absolute; left:0; width:880px; height:14px; background:#e8c8d2; box-shadow:0 4px 0 rgba(0,0,0,.08); }
+  .coil { position:absolute; left:0; top:0; width:220px; height:50px; }
+  #led { position:absolute; left:90px; top:1290px; width:900px; height:170px; border-radius:24px; background:#123329; box-shadow:inset 0 0 24px rgba(0,0,0,.7); overflow:hidden; }
+  .ledt { position:absolute; left:0; width:900px; top:14px; text-align:center; font-family:Cairo; font-weight:900; font-size:96px; line-height:1.3; white-space:nowrap; color:#7dffcf; text-shadow:0 0 12px #3dffb0; }
+  .key { position:absolute; width:110px; height:84px; border-radius:20px; background:var(--cream); box-shadow:0 8px 0 #c98a9c; font-family:Cairo; font-weight:900; font-size:46px; line-height:84px; text-align:center; }
+  #tray { position:absolute; left:190px; top:1690px; width:700px; height:160px; border-radius:30px; background:#3b1d2a; box-shadow:inset 0 20px 30px rgba(0,0,0,.6); }
+  #trayFlap { position:absolute; left:190px; top:1690px; width:700px; height:70px; border-radius:30px 30px 10px 10px; background:rgba(255,255,255,.35); transform-origin:50% 0; }
+  .grp { position:absolute; left:0; top:0; width:1080px; height:1920px; display:none; }
+  .pill { display:inline-block; padding:0 54px 14px; border-radius:90px; background:var(--choc); color:var(--cream); }
+  .line { position:absolute; left:0; width:1080px; text-align:center; white-space:nowrap; line-height:1.35; }
+  .w { display:inline-block; }
+</style></head><body>
+<div id="stage">
+  <div id="mach">
+    <div id="body"></div>
+    <div id="sign"><div class="neon" id="nA" style="top:12px; font-size:118px"></div><div class="neon" id="nB" style="top:150px; font-size:118px"></div></div>
+    <div id="glass"><div id="slots"></div><div id="dim" class="abs" style="width:900px; height:880px; background:rgba(255,244,234,.75); opacity:0"></div><div id="big"></div><div id="qrBox" class="abs" style="left:200px; top:150px; width:480px; height:480px; background:#fff; padding:22px; border-radius:20px; box-shadow:0 20px 40px rgba(74,42,30,.3); opacity:0"><img src="qr_store.png" style="width:100%; height:100%; display:block"></div><div id="glare"></div></div>
+    <div id="led"><div class="ledt" id="ledT"></div></div>
+    <div id="keys"></div>
+    <div id="tray"></div><div id="drop"></div><div id="trayFlap"></div>
+  </div>
+  <!-- S4 uses (outside the machine) -->
+  <div class="grp" id="g4"><div class="line" style="top:240px; font-size:130px"><span class="w" id="ucap"></span></div><div id="uses"></div></div>
+  <div id="sheetW" class="abs" style="width:560px; opacity:0"><img src="sweets/sheet2.jpg" style="width:560px; display:block; border-radius:8px; box-shadow:0 30px 50px rgba(74,42,30,.35)"></div>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eio = (x) => (x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const eb = (x) => { const c = 1.7; return x <= 0 ? 0 : 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const place = (e, x, y, s, r, o) => { e.style.transform = `translate(${x}px,${y}px) rotate(${r}deg) scale(${s})`; if (o !== undefined) e.style.opacity = o; };
+// neon flicker-on: a couple of quick blinks then steady
+const neon = (id, txt, t, a) => { const e = $(id); e.textContent = txt; const k = t - a; e.style.opacity = k < 0 ? 0 : k < 0.06 ? 1 : k < 0.1 ? 0.2 : k < 0.16 ? 1 : k < 0.2 ? 0.4 : 1; };
+const pop = (e, t, a, d = 0.35) => { const k = p(t, a, a + d); e.style.opacity = k > 0 ? 1 : 0; e.style.transform = `scale(${0.6 + 0.4 * eb(k)})`; };
+
+const D = { h1: 0.3, h2: 1.5, c1: 3.4, c2: 4.8, c3: 6.2, count: 8.0, n2: 9.4, u0: 11.0, u1: 12.2, u2: 13.4, print: 15.2, print2: 16.3, brand: 18.0, store: 19.6, store2: 20.3, end_all: 23.4 };
+const T = Object.assign({}, D, window.TL || {});
+const CUT = [T.c1 - 0.4, T.count - 0.35, T.u0 - 0.35, T.print - 0.35, T.brand - 0.35];
+
+// glass slots: 3 rows x 3 cols, each with a coil and a sticker
+const SL = [['b6', 'b8', 'b9'], ['b60', 'b65', 'b56'], ['b40', 'b43', 'b63']];
+const slots = [];
+SL.forEach((row, r) => { const sh = document.createElement('div'); sh.className = 'shelf'; sh.style.top = (270 + r * 290) + 'px'; $('slots').appendChild(sh);
+  row.forEach((n, c) => { const x = 620 - c * 290, y = 270 + r * 290; const coil = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); coil.setAttribute('class', 'coil'); coil.setAttribute('viewBox', '0 0 220 50');
+    coil.innerHTML = [...Array(6)].map((_, i) => `<ellipse cx="${20 + i * 36}" cy="25" rx="16" ry="22" fill="none" stroke="#b9c3c9" stroke-width="5"/>`).join(''); coil.style.transform = `translate(${x + 20}px, ${y - 40}px)`; $('slots').appendChild(coil);
+    const im = document.createElement('img'); im.className = 'st'; im.src = `sweets/${n}.png`; im.style.width = '210px'; $('slots').appendChild(im); slots.push({ im, coil, x: x + 25, y: y - 230, n }); }); });
+const POOL = ['b7', 'b10', 'b11', 'b12', 'b13', 'b14', 'b16', 'b17', 'b19', 'b20', 'b22', 'b24', 'b26', 'b41', 'b42', 'b44', 'b46', 'b48', 'b49', 'b50', 'b51', 'b52', 'b54', 'b58', 'b59', 'b61', 'b62', 'b64', 'b66', 'b67', 'b68', 'b69', 'b70', 'b71', 'b72', 'b73'];
+// keypad
+const KEYS = ['١', '٢', '٣', '٤', '٥', '٦'];
+const keys = KEYS.map((k, i) => { const d = document.createElement('div'); d.className = 'key'; d.textContent = k; d.style.left = (830 - i * 140) + 'px'; d.style.top = '1500px'; $('keys').appendChild(d); return d; });
+// dispensed items: [caption, slot index, key index]
+const PICK = [['دونات', 3, 0], ['ماكرون', 4, 2], ['وآيس لاتيه', 5, 4]];
+const dropped = PICK.map(([, si]) => { const im = document.createElement('img'); im.className = 'st'; im.src = `sweets/${slots[si].n}.png`; im.style.width = '210px'; $('drop').appendChild(im); return im; });
+const bigs = PICK.map(([, si]) => { const im = document.createElement('img'); im.className = 'st'; im.src = `sweets/${slots[si].n}.png`; im.style.width = '560px'; $('big').appendChild(im); return im; });
+// S4 uses
+const BOX = `<div style="position:absolute; left:190px; top:780px; width:700px; height:560px; background:#fff; border-radius:16px; box-shadow:0 30px 50px rgba(74,42,30,.25)"></div><div style="position:absolute; left:160px; top:700px; width:760px; height:120px; background:#f6c6d3; border-radius:16px"></div>`;
+const BAG = `<div style="position:absolute; left:270px; top:640px; width:540px; height:820px; background:#c9a173; clip-path:polygon(4% 8%, 96% 8%, 100% 100%, 0 100%); box-shadow:0 30px 50px rgba(74,42,30,.25)"></div><div style="position:absolute; left:420px; top:560px; width:240px; height:160px; border:18px solid #a77d50; border-bottom:none; border-radius:120px 120px 0 0"></div>`;
+const MENU = `<div style="position:absolute; left:220px; top:600px; width:640px; height:920px; background:#fff4ea; border:8px solid #4a2a1e; border-radius:24px; box-shadow:0 30px 50px rgba(74,42,30,.25)"><div style="position:absolute; left:60px; right:60px; top:700px; height:12px; border-radius:6px; background:#f3c9d4"></div><div style="position:absolute; left:100px; right:100px; top:760px; height:12px; border-radius:6px; background:#f3c9d4"></div></div>`;
+const USES = [['لعلب الحلا', BOX, [['b65', 250, 880, 260, -6], ['b60', 580, 900, 250, 6]]], ['لأكياس الطلبات', BAG, [['b17', 360, 860, 360, 0]]], ['ولمنيو الكافيه', MENU, [['b9', 300, 680, 260, -5], ['b63', 560, 700, 240, 5], ['b40', 400, 960, 260, 0]]]];
+const uses = USES.map(([cap, html, st]) => { const d = document.createElement('div'); d.className = 'abs'; d.style.cssText = 'width:1080px; height:1920px'; d.innerHTML = html; $('uses').appendChild(d);
+  const ims = st.map(([n, x, y, w, r]) => { const im = document.createElement('img'); im.className = 'st'; im.src = `sweets/${n}.png`; im.style.width = w + 'px'; d.appendChild(im); return { im, x, y, r }; }); return { d, cap, ims }; });
+
+window.render = (t) => {
+  $('stage').style.opacity = 1 - p(t, T.end_all - 0.5, T.end_all);
+  const inUses = t >= CUT[2] && t < CUT[3];
+  // machine: zoom in at start, slides away for the uses scene and back for print
+  const enter = eo(p(t, 0, 0.6)); const away = eio(p(t, CUT[2] - 0.2, CUT[2] + 0.3)) - eio(p(t, CUT[3] - 0.2, CUT[3] + 0.3));
+  $('mach').style.transform = `translateX(${away * 1200}px) scale(${0.85 + 0.15 * enter})`; $('mach').style.opacity = enter;
+  $('g4').style.display = inUses || (t > CUT[2] - 0.2 && t < CUT[3] + 0.3) ? 'block' : 'none'; $('g4').style.transform = `translateX(${-(1 - away) * 1200}px)`;
+  $('glare').style.transform = `translateX(${((t * 260) % 1500)}px) skewX(-18deg)`;
+
+  // neon sign + LED text per moment
+  let nA = '', nB = '', aA = 0, aB = 0, led = '', aL = 0;
+  if (t < CUT[0]) { nA = 'مزاج القهوة'; aA = T.h1; nB = 'والحلا جاهز!'; aB = T.h2; led = 'اختيارات اليوم'; aL = 0.6; }
+  else if (t < CUT[1]) { nA = 'قهوة'; aA = CUT[0]; nB = 'وحلويات'; aB = CUT[0] + 0.15; const ks = [T.c1, T.c2, T.c3]; let cur = 0; ks.forEach((k, i) => { if (t >= k - 0.15) cur = i; }); led = PICK[cur][0]; aL = ks[cur] - 0.1; }
+  else if (t < CUT[2]) { nA = `${Math.round(68 * eo(p(t, CUT[1] + 0.15, CUT[1] + 1.1))).toLocaleString('ar-EG')}`; aA = CUT[1] + 0.1; nB = 'ستيكر'; aB = CUT[1] + 0.4; led = 'قهوة وحلويات'; aL = T.n2 - 0.05; }
+  else if (t < CUT[4]) { nA = 'ملف PDF'; aA = T.print - 0.05; nB = ''; led = 'جاهز للطباعة'; aL = T.print2 - 0.05; }
+  else { nA = t < T.store2 - 0.1 ? 'ستيكرات قهوة' : 'متجر دُر'; aA = t < T.store2 - 0.1 ? T.brand - 0.05 : T.store2 - 0.1; nB = t < T.store2 - 0.1 ? 'وحلويات' : ''; aB = T.brand + 0.2; led = 'متوفرة في'; aL = T.store - 0.05; }
+  neon('nA', nA, t, aA); neon('nB', nB, t, aB);
+  $('nA').style.fontSize = t >= CUT[1] && t < CUT[2] ? '180px' : (t >= T.store2 - 0.1 ? '190px' : (nB ? '118px' : '160px')); $('nA').style.top = t >= CUT[1] && t < CUT[2] ? '20px' : (t >= T.store2 - 0.1 ? '30px' : (nB ? '12px' : '50px'));
+  if (t >= CUT[1] && t < CUT[2]) { $('nB').style.left = '-260px'; $('nB').style.top = '110px'; } else { $('nB').style.left = '0px'; $('nB').style.top = '150px'; }
+  $('ledT').textContent = led; const lk = p(t, aL, aL + 0.35); $('ledT').style.clipPath = `inset(0 0 0 ${(1 - lk) * 100}%)`;
+
+  // slots: idle bob; in the count scene they refill quickly with new designs
+  slots.forEach(({ im, coil, x, y }, i) => { let n = SL[Math.floor(i / 3)][i % 3];
+    if (t >= CUT[1] && t < CUT[2]) { const step = Math.floor(Math.max(0, t - CUT[1] - 0.2) / 0.12); n = POOL[(i * 5 + step) % POOL.length]; }
+    if (im.dataset.n !== n) { im.src = `sweets/${n}.png`; im.dataset.n = n; }
+    let off = 0; const pk = PICK.findIndex(([, si]) => si === i); let vis = 1;
+    if (pk >= 0) { const k = [T.c1, T.c2, T.c3][pk]; off = eio(p(t, k - 0.4, k - 0.15)) * 40; if (t >= k - 0.15 && t < CUT[1]) vis = 0; }
+    place(im, x, y + Math.sin(t * 2 + i) * 3 + off, 1, 0, vis); coil.style.transform = `translate(${x - 5}px, ${y + 190}px) scaleX(${pk >= 0 && t > [T.c1, T.c2, T.c3][pk] - 0.4 && t < [T.c1, T.c2, T.c3][pk] - 0.15 ? 1 + 0.08 * Math.sin(t * 60) : 1})`; });
+
+  // keypad press + falling item + big reveal
+  const ks = [T.c1, T.c2, T.c3];
+  keys.forEach((k, i) => { const hit = PICK.some(([, , ki], j) => ki === i && t > ks[j] - 0.6 && t < ks[j] - 0.4) && t >= CUT[0] && t < CUT[1]; k.style.transform = hit ? 'translateY(6px)' : 'none'; k.style.boxShadow = hit ? '0 2px 0 #c98a9c' : '0 8px 0 #c98a9c'; k.style.background = hit ? '#fff0a8' : 'var(--cream)'; });
+  PICK.forEach(([, si], j) => { const k = ks[j]; const s = slots[si]; const fall = p(t, k - 0.15, k + 0.25); const inS = t >= CUT[0] && t < CUT[1];
+    const dy = 380 + s.y + fall * fall * (1700 - 380 - s.y - 200); place(dropped[j], 90 + s.x, Math.min(dy, 1650), 1, fall * 30, inS && fall > 0 && fall < 1 ? 1 : 0);
+    const bk = eb(p(t, k + 0.2, k + 0.55)); const next = j < 2 ? ks[j + 1] - 0.2 : CUT[1]; place(bigs[j], 170, 120 + Math.sin(t * 2) * 6, bk, Math.sin(t * 1.5) * 3, inS && t >= k + 0.2 && t < next ? 1 : 0); });
+  $('dim').style.opacity = t >= CUT[0] && t < CUT[1] && ks.some((k) => t >= k + 0.2) ? Math.min(1, p(t, T.c1 + 0.2, T.c1 + 0.4)) : (t >= CUT[4] ? p(t, CUT[4] + 0.2, CUT[4] + 0.5) : 0);
+  $('trayFlap').style.transform = `rotateX(${ks.some((k) => t > k + 0.1 && t < k + 0.35) && t < CUT[1] ? 55 : 0}deg)`;
+
+  // print: sheet comes out of the tray and rises up
+  if (t >= CUT[3] && t < CUT[4]) { const k = eo(p(t, CUT[3] + 0.4, CUT[3] + 1.3)); place($('sheetW'), 260, 1720 - k * 1340, 0.3 + 0.7 * k, -2 * k, 1); } else $('sheetW').style.opacity = 0;
+  // end: QR appears in the glass
+  const q = eb(p(t, CUT[4] + 0.3, CUT[4] + 0.8)); $('qrBox').style.opacity = t >= CUT[4] ? p(t, CUT[4] + 0.3, CUT[4] + 0.35) : 0; $('qrBox').style.transform = `scale(${q})`;
+  if (t >= CUT[4] || (t >= CUT[3] && t < CUT[4])) slots.forEach(({ im }) => (im.style.opacity = t >= CUT[4] ? 1 - p(t, CUT[4], CUT[4] + 0.3) : im.style.opacity));
+
+  // uses scene content
+  if (inUses) { const at = [CUT[2] + 0.1, T.u1 - 0.3, T.u2 - 0.3]; const st = t < at[1] ? 0 : t < at[2] ? 1 : 2;
+    $('ucap').textContent = uses[st].cap; pop($('ucap'), t, at[st] + 0.1);
+    uses.forEach(({ d, ims }, i) => { d.style.display = i === st ? 'block' : 'none'; ims.forEach(({ im, x, y, r }, j) => { const s = at[i] + 0.3 + j * 0.13; const qq = eb(p(t, s, s + 0.35)); place(im, x, y, qq, r, qq > 0 ? 1 : 0); }); }); }
+};
+render(0);
+</script>
+</body></html>
