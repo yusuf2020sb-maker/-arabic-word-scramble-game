@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Kufam:wght@800&family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --red:#9e1b1b; --black:#1d1512; --cream:#f1e6cd; --orange:#d9822b; --green:#2f6b4f; --white:#fbf6ea; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:var(--cream); font-family:'Kufam','Cairo',sans-serif; color:var(--black); }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; background:radial-gradient(ellipse at 50% 40%, #f8efd9 0%, var(--cream) 60%, #e4d3ae 100%); }
+  .scene { position:absolute; left:0; top:0; width:1080px; height:1920px; display:none; }
+  .abs { position:absolute; left:0; top:0; }
+  .line { position:absolute; left:0; width:1080px; text-align:center; line-height:1.4; white-space:nowrap; font-weight:800; }
+  .w { display:inline-block; }
+  .st { position:absolute; left:0; top:0; filter:drop-shadow(0 16px 18px rgba(29,21,18,.3)); will-change:transform; }
+  /* Sadu-style weave patterns */
+  .zig { background:
+      linear-gradient(135deg, var(--c1) 25%, transparent 25%) -40px 0 / 80px 80px,
+      linear-gradient(225deg, var(--c1) 25%, transparent 25%) -40px 0 / 80px 80px,
+      linear-gradient(315deg, var(--c1) 25%, transparent 25%) 0 0 / 80px 80px,
+      linear-gradient(45deg, var(--c1) 25%, var(--c2) 25%) 0 0 / 80px 80px; }
+  .dia { background:
+      linear-gradient(45deg, transparent 38%, var(--c1) 38% 62%, transparent 62%) 0 0 / 60px 60px,
+      linear-gradient(-45deg, transparent 38%, var(--c1) 38% 62%, transparent 62%) 0 0 / 60px 60px, var(--c2); }
+  .stp { background:repeating-linear-gradient(90deg, var(--c1) 0 20px, var(--c2) 20px 40px); }
+  .row { position:absolute; left:0; width:1080px; will-change:transform; }
+  .frame { position:absolute; left:0; top:0; padding:34px; --c1:var(--red); --c2:var(--black); box-shadow:0 24px 40px rgba(29,21,18,.35); }
+  .frame .in { width:100%; height:100%; background:var(--white); display:flex; align-items:center; justify-content:center; position:relative; }
+  .frame .in img { max-width:86%; max-height:86%; filter:drop-shadow(0 12px 14px rgba(29,21,18,.25)); }
+  .pill { display:inline-block; padding:0 54px 16px; background:var(--red); color:var(--white); border-radius:14px; }
+</style></head><body>
+<div id="stage"><div class="row zig" style="top:0px; height:50px; --c1:#9e1b1b; --c2:#1d1512"></div><div class="row stp" style="top:50px; height:40px; --c1:#f1e6cd; --c2:#1d1512"></div><div class="row dia" style="top:90px; height:50px; --c1:#d9822b; --c2:#9e1b1b"></div><div class="row dia" style="top:1780px; height:50px; --c1:#d9822b; --c2:#9e1b1b"></div><div class="row stp" style="top:1830px; height:40px; --c1:#f1e6cd; --c2:#1d1512"></div><div class="row zig" style="top:1870px; height:50px; --c1:#9e1b1b; --c2:#1d1512"></div>
+  <div class="line" style="top:200px; font-size:140px">ريحة الماضي</div>
+  <div class="line" style="top:410px; font-size:140px"><span class="pill">على ستيكر!</span></div>
+  <div class="frame zig" style="left:250px; top:680px; width:580px; height:640px"><div class="in"><img src="heritage/h50.png" style="max-width:80%; max-height:80%"></div></div>
+  <img class="st" src="heritage/h54.png" style="left:30px; top:1080px; width:250px; transform:rotate(-10deg)">
+  <img class="st" src="heritage/h14.png" style="left:800px; top:620px; width:250px; transform:rotate(10deg)">
+  <img class="st" src="heritage/h52.png" style="left:820px; top:1120px; width:200px; transform:rotate(8deg)">
+  <div class="frame stp" style="left:60px; top:1420px; width:300px; height:300px; padding:18px; --c1:#9e1b1b; --c2:#1d1512"><div class="in"><img src="qr_store.png" style="max-width:94%; max-height:94%; filter:none"></div></div>
+  <div style="position:absolute; left:400px; top:1440px; width:640px; text-align:center; font-size:76px; line-height:1.4; white-space:nowrap">٥٠ ستيكر تراثي</div>
+  <div style="position:absolute; left:400px; top:1580px; width:640px; text-align:center; font-size:64px; white-space:nowrap"><span class="pill" style="padding:0 36px 12px">متوفرة في متجر دُر</span></div>
+</div></body></html>
