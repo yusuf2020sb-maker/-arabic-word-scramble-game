@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:#2a1a12; font-family:'Lalezar','Cairo',sans-serif; }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; background:radial-gradient(ellipse at 50% 55%, #b5733c 0%, #7a4526 40%, #3a2216 75%, #22140d 100%); }
+  .abs { position:absolute; left:0; top:0; }
+  .bok { position:absolute; left:0; top:0; border-radius:50%; filter:blur(10px); }
+  .st { position:absolute; left:0; top:0; filter:drop-shadow(0 18px 20px rgba(0,0,0,.45)); will-change:transform; }
+  .grp { position:absolute; left:0; top:0; width:1080px; height:1920px; display:none; }
+  canvas { position:absolute; left:0; top:0; }
+  #frame { position:absolute; left:0; top:0; width:1080px; height:1920px; border:34px solid #5a3a22; border-bottom-width:0; box-shadow:inset 0 0 0 6px #7a5232, inset 0 0 40px rgba(0,0,0,.5); pointer-events:none; }
+  #sill { position:absolute; left:0; top:1840px; width:1080px; height:80px; background:linear-gradient(180deg, #8a5c36, #5a3a22); box-shadow:0 -6px 16px rgba(0,0,0,.4); }
+  #url { position:absolute; left:0; top:1700px; width:1080px; text-align:center; font-family:Cairo; font-weight:800; font-size:50px; color:#fff7ea; direction:ltr; text-shadow:0 3px 12px rgba(0,0,0,.6); opacity:0; }
+</style></head><body>
+<div id="stage">
+<div style="position:absolute; left:0; top:0; opacity:0; pointer-events:none"><span style="font-family:Lalezar">برا مطر وجوّا دفا ستيكر متجر دُر PDF</span><span style="font-family:Cairo; font-weight:900">١١٦</span></div>
+
+  <div id="bokeh"></div>
+  <img class="st" src="cozy/c98.png" style="left:240px; top:860px; width:600px">
+  <img class="st" src="cozy/c92.png" style="left:40px; top:1120px; width:260px; transform:rotate(-8deg)">
+  <img class="st" src="cozy/c94.png" style="left:770px; top:1200px; width:280px; transform:rotate(8deg)">
+  <div class="abs" style="left:60px; top:1480px; width:270px; height:270px; background:#fff; padding:14px; border-radius:16px; box-shadow:0 20px 40px rgba(0,0,0,.5)"><img src="qr_store.png" style="width:100%; height:100%; display:block"></div>
+  <canvas id="fog" width="1080" height="1920"></canvas>
+  <canvas id="rain" width="1080" height="1920"></canvas>
+  <div style="position:absolute; left:350px; top:1755px; width:0"></div>
+  <div style="position:absolute; left:60px; top:1760px; width:270px; text-align:center; font-family:Cairo; font-weight:800; font-size:22px; color:#fff7ea; direction:ltr; text-shadow:0 2px 8px rgba(0,0,0,.7)">planme.zaher.io</div>
+  <div id="frame"></div><div id="sill"></div>
+</div>
+<script>
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+for (let i = 0; i < 16; i++) { const b = document.createElement('div'); b.className = 'bok'; const s = 60 + R(i) * 160; b.style.cssText += `width:${s}px; height:${s}px; background:rgba(255,${170 + R(i + 1) * 60 | 0},${80 + R(i + 2) * 60 | 0},${0.18 + R(i + 3) * 0.25}); transform:translate(${R(i + 20) * 1080 - 80}px,${R(i + 30) * 1920 - 80}px)`; document.getElementById('bokeh').appendChild(b); }
+Promise.all([document.fonts.load('220px Lalezar', 'برا مطر'), document.fonts.load('900 100px Cairo', '١١٦')]).then(() => {
+  const f = document.getElementById('fog').getContext('2d'), r = document.getElementById('rain').getContext('2d');
+  const gr = f.createLinearGradient(0, 0, 0, 1920); gr.addColorStop(0, 'rgba(214,222,230,.90)'); gr.addColorStop(1, 'rgba(196,206,216,.86)'); f.fillStyle = gr; f.fillRect(0, 0, 1080, 1920);
+  for (let i = 0; i < 2600; i++) { f.fillStyle = `rgba(255,255,255,${0.05 + R(i + 40) * 0.12})`; f.beginPath(); f.arc(R(i) * 1080, R(i + 9000) * 1920, 1 + R(i + 77) * 4, 0, 7); f.fill(); }
+  f.globalCompositeOperation = 'destination-out'; f.filter = 'blur(2px)'; f.fillStyle = '#000'; f.textAlign = 'center'; f.direction = 'rtl';
+  f.font = '220px Lalezar'; f.fillText('برا مطر', 540, 400); f.font = '230px Lalezar'; f.fillText('وجوّا دفا!', 540, 680);
+  f.font = '96px Lalezar'; f.fillText('١١٦ ستيكر شتوي', 690, 1600); f.font = '84px Lalezar'; f.fillText('متوفرة في متجر دُر', 690, 1740);
+  f.filter = 'none';
+  const blob = (cx, cy, rx, ry) => { f.save(); const g = f.createRadialGradient(cx, cy, 0, cx, cy, 1); g.addColorStop(0, '#000'); g.addColorStop(0.78, '#000'); g.addColorStop(1, 'rgba(0,0,0,0)'); f.translate(cx, cy); f.scale(rx, ry); f.translate(-cx, -cy); f.fillStyle = g; f.beginPath(); f.arc(cx, cy, 1, 0, 7); f.fill(); f.restore(); };
+  blob(540, 1130, 440, 330); blob(170, 1250, 170, 170); blob(910, 1330, 170, 170); f.fillRect(50, 1470, 290, 330);
+  for (let i = 0; i < 240; i++) { const x = R(i + 300) * 1080, y = R(i + 600) * 1920, rr = 1.5 + R(i + 900) * 4; if (x > 40 && x < 350 && y > 1460 && y < 1800) continue; r.fillStyle = 'rgba(255,255,255,.35)'; r.beginPath(); r.arc(x, y, rr, 0, 7); r.fill(); }
+  for (let i = 0; i < 46; i++) { const x = 50 + R(i) * 980, y = (R(i + 2) * 2400 + 3 * (260 + R(i + 1) * 420)) % 2300 - 200, rr = 5 + R(i + 3) * 7; if (x > 30 && x < 360 && y > 1440 && y < 1820) continue;
+    const tr = r.createLinearGradient(x, y - 160, x, y); tr.addColorStop(0, 'rgba(255,255,255,0)'); tr.addColorStop(1, 'rgba(255,255,255,.32)'); r.fillStyle = tr; r.fillRect(x - rr * 0.35, y - 160, rr * 0.7, 160);
+    r.fillStyle = 'rgba(255,255,255,.55)'; r.beginPath(); r.ellipse(x, y, rr * 0.8, rr * 1.15, 0, 0, 7); r.fill(); }
+});
+</script></body></html>
