@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@700&family=Cairo:wght@800;900&display=swap" rel="stylesheet">
+<style>
+  :root { --cream:#f6eedf; --paper:#fffaf1; --terra:#c8643b; --sage:#7f9a6f; --brown:#3b2a20; --mustard:#e0a83a; --rose:#e9a8a0; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:var(--cream); font-family:'El Messiri','Cairo',sans-serif; color:var(--brown); }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; }
+  #bg { position:absolute; left:0; top:0; width:1080px; height:1920px; background-color:var(--cream); background-image:radial-gradient(rgba(59,42,32,.10) 3px, transparent 3.5px); background-size:46px 46px; }
+  .scene { position:absolute; left:0; top:0; width:1080px; height:1920px; display:none; }
+  .abs { position:absolute; left:0; top:0; }
+  .line { position:absolute; left:0; width:1080px; text-align:center; font-weight:700; line-height:1.3; white-space:nowrap; }
+  .w { display:inline-block; }
+  .card { position:absolute; left:0; top:0; width:720px; height:960px; border-radius:56px; background:var(--paper); box-shadow:0 30px 60px rgba(59,42,32,.22), 0 4px 0 rgba(59,42,32,.08); overflow:hidden; will-change:transform; }
+  .card .ph { position:absolute; left:40px; top:40px; width:640px; height:700px; border-radius:36px; display:flex; align-items:center; justify-content:center; }
+  .card .ph img { max-width:520px; max-height:560px; filter:drop-shadow(0 16px 18px rgba(59,42,32,.28)); }
+  .card .lb { position:absolute; left:0; top:770px; width:720px; text-align:center; font-size:84px; font-weight:700; white-space:nowrap; }
+  .card .sub { position:absolute; left:0; top:880px; width:720px; text-align:center; font-family:'Cairo'; font-size:30px; font-weight:800; color:rgba(59,42,32,.45); }
+  .badge { position:absolute; left:60px; top:70px; width:150px; height:150px; border-radius:50%; background:var(--terra); color:#fff; font-size:90px; line-height:150px; text-align:center; transform:rotate(-15deg); box-shadow:0 10px 20px rgba(0,0,0,.2); font-family:sans-serif; }
+  .btn { position:absolute; width:150px; height:150px; border-radius:50%; background:var(--paper); box-shadow:0 14px 30px rgba(59,42,32,.2); font-size:72px; line-height:150px; text-align:center; font-family:sans-serif; }
+  .slot { position:absolute; top:250px; width:180px; height:180px; border-radius:36px; border:6px dashed rgba(59,42,32,.25); }
+  .mini { position:absolute; left:0; top:0; width:150px; filter:drop-shadow(0 8px 10px rgba(59,42,32,.3)); }
+  .st { position:absolute; left:0; top:0; filter:drop-shadow(0 14px 16px rgba(59,42,32,.3)); will-change:transform; }
+  .pill { display:inline-block; padding:8px 50px 22px; border-radius:90px; }
+  .heart { position:absolute; left:0; top:0; font-size:60px; font-family:sans-serif; color:var(--terra); }
+</style></head><body>
+<div id="stage"><div id="bg"></div>
+
+  <!-- S1+S2: swipe stack -->
+  <div class="scene" id="s12">
+    <div class="line" id="hA" style="top:150px; font-size:96px"><span class="w" id="h1">وش يخلّي البيت دافي؟</span></div>
+    <div class="line" id="hB" style="top:290px; font-size:140px; color:var(--terra)"><span class="w" id="h2">تفاصيل صغيرة!</span></div>
+    <div id="slots"></div>
+    <div id="stack"></div>
+    <div class="btn" id="bx" style="left:330px; top:1600px; color:#b9a99a">✕</div>
+    <div class="btn" id="bh" style="left:600px; top:1600px; color:var(--terra)">♥</div>
+  </div>
+
+  <!-- S3: count + fan -->
+  <div class="scene" id="s3">
+    <div id="fan"></div>
+    <div class="line" style="top:420px; font-size:340px; line-height:1; color:var(--terra); font-family:Cairo; font-weight:900"><span class="w" id="n136">١٣٦</span></div>
+    <div class="line" style="top:830px; font-size:110px"><span class="w" id="n1">ستيكر</span></div>
+    <div class="line" style="top:990px; font-size:78px; color:var(--sage)"><span class="w" id="n2">بروح البيت الدافي</span></div>
+  </div>
+
+  <!-- S4: uses carousel -->
+  <div class="scene" id="s4">
+    <div class="line" style="top:190px; font-size:120px; color:var(--terra)"><span class="w" id="ucap">للجورنال</span></div>
+    <div id="dots" class="abs" style="left:440px; top:1620px; width:200px; height:40px"></div>
+    <div id="strip" class="abs"></div>
+  </div>
+
+  <!-- S5: flip to print sheet -->
+  <div class="scene" id="s5">
+    <div class="line" style="top:150px; font-size:130px"><span class="w" id="p1">ملف PDF</span></div>
+    <div class="line" style="top:320px; font-size:96px; color:var(--sage)"><span class="w" id="p2">جاهز للطباعة</span></div>
+    <div id="flipW" class="abs" style="left:180px; top:560px; width:720px; height:1000px; perspective:2200px">
+      <div id="flip" style="position:absolute; left:0; top:0; width:720px; height:1000px; transform-style:preserve-3d">
+        <div class="card" style="height:1000px; backface-visibility:hidden; display:flex; align-items:center; justify-content:center">
+          <div style="position:relative; width:400px; height:520px; background:#fff; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,.15); clip-path:polygon(0 0, 75% 0, 100% 18%, 100% 100%, 0 100%)">
+            <div style="position:absolute; right:0; top:0; width:100px; height:94px; background:#eadcc6; border-bottom-left-radius:20px"></div>
+            <div style="position:absolute; left:50px; top:300px; width:300px; padding:6px 0 16px; border-radius:16px; background:var(--terra); color:#fff; text-align:center; font-family:Cairo; font-size:80px; font-weight:900; direction:ltr">PDF</div>
+            <div style="position:absolute; left:50px; top:120px; width:220px; height:18px; border-radius:9px; background:#e8ddd0"></div>
+            <div style="position:absolute; left:50px; top:170px; width:300px; height:18px; border-radius:9px; background:#e8ddd0"></div>
+            <div style="position:absolute; left:50px; top:220px; width:260px; height:18px; border-radius:9px; background:#e8ddd0"></div>
+          </div>
+        </div>
+        <div class="card" style="height:1000px; backface-visibility:hidden; transform:rotateY(180deg); background:#fff">
+          <img src="home/sheet2.jpg" style="position:absolute; left:20px; top:20px; width:680px; height:960px; object-fit:cover; border-radius:40px">
+        </div>
+      </div>
+    </div>
+    <div id="sparks"></div>
+  </div>
+
+  <!-- S6: match end card -->
+  <div class="scene" id="s6">
+    <div class="line" style="top:170px; font-size:100px; color:var(--terra)"><span class="w" id="e1">ستيكرات البيت الدافي</span></div>
+    <div id="mA" class="card" style="width:400px; height:540px"><div class="ph" style="left:20px; top:20px; width:360px; height:500px; background:#f1e2cc"><img src="home/b106.png" style="max-width:320px; max-height:420px"></div></div>
+    <div id="mB" class="card" style="width:400px; height:540px"><div class="ph" style="left:20px; top:20px; width:360px; height:500px; background:#e3ead8"><img src="home/b16.png" style="max-width:320px; max-height:420px"></div></div>
+    <div id="qrC" class="card" style="width:500px; height:540px; z-index:4"><div style="position:absolute; left:40px; top:40px; width:420px; height:420px; background:#fff"><img src="qr_store.png" style="width:100%; height:100%; display:block"></div><div style="position:absolute; left:0; top:470px; width:500px; text-align:center; font-size:44px; color:var(--terra)">♥ دُر</div></div>
+    <div id="bigH" class="abs" style="width:260px; height:260px; border-radius:50%; background:var(--terra); color:#fff; font-size:150px; line-height:260px; text-align:center; font-family:sans-serif; box-shadow:0 20px 40px rgba(200,100,59,.4)">♥</div>
+    <div id="hearts"></div>
+    <div class="line" style="top:1250px; font-size:76px"><span class="w" id="e2b">متوفرة في</span></div>
+    <div class="line" style="top:1370px; font-size:150px"><span class="w pill" id="e2" style="background:var(--terra); color:#fff">متجر دُر</span></div>
+    <div class="line" style="top:1640px; font-size:48px; direction:ltr; font-family:Cairo; font-weight:800; color:rgba(59,42,32,.7)"><span class="w" id="e3">planme.zaher.io</span></div>
+  </div>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eio = (x) => (x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const eb = (x) => { const c = 1.7; return x <= 0 ? 0 : 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const place = (e, x, y, s, r, o) => { e.style.transform = `translate(${x}px,${y}px) rotate(${r}deg) scale(${s})`; if (o !== undefined) e.style.opacity = o; };
+// word pop: scale-bounce in, from the reading side
+const pop = (id, t, a, d = 0.4) => { const k = p(t, a, a + d); const e = $(id); e.style.opacity = p(t, a, a + 0.08); e.style.transform = `translateY(${(1 - eo(k)) * 40}px) scale(${0.6 + 0.4 * eb(k)})`; };
+
+const D = { h1: 0.3, h2: 1.6, c1: 3.2, c2: 4.4, c3: 5.6, c4: 6.8, count: 8.6, n2: 9.9, u0: 11.6, u1: 12.8, u2: 14.0, print: 15.8, print2: 16.8, brand: 18.6, store: 20.0, store2: 20.7, end_all: 23.4 };
+const T = Object.assign({}, D, window.TL || {});
+const CUT = [T.c1 - 0.45, T.count - 0.35, T.u0 - 0.35, T.print - 0.35, T.brand - 0.35];
+const SC = [['s12', 0, CUT[1]], ['s3', CUT[1], CUT[2]], ['s4', CUT[2], CUT[3]], ['s5', CUT[3], CUT[4]], ['s6', CUT[4], 99]];
+
+// ---------- swipe stack ----------
+const CARDS = [['b106', 'بيت صغير', '#f1e2cc'], ['b31', 'فنجال شاهي', '#e3ead8'], ['b48', 'شمعة', '#f6dcd3'], ['b95', 'كتب', '#e9e0f0'], ['b98', 'دفاية الشتا', '#f3e3c3']];
+// each card leaves when the next line starts; the last one leaves at the scene cut
+const OUT = () => [T.c1 - 0.45, T.c2 - 0.35, T.c3 - 0.35, T.c4 - 0.35, CUT[1] - 0.05];
+const stack = CARDS.map(([n, lb, col], i) => {
+  const d = document.createElement('div'); d.className = 'card'; d.style.zIndex = 20 - i;
+  d.innerHTML = `<div class="ph" style="background:${col}"><img src="home/${n}.png"></div><div class="lb">${lb}</div><div class="sub">${i === 0 ? 'ستيكرات البيت الدافي' : (i) + ' / ٤'}</div><div class="badge">♥</div>`;
+  $('stack').appendChild(d); return { d, badge: d.querySelector('.badge'), n };
+});
+const SLOTX = [790, 580, 370, 160];
+const slots = SLOTX.map((x) => { const s = document.createElement('div'); s.className = 'slot'; s.style.left = x + 'px'; $('slots').appendChild(s); return s; });
+const minis = CARDS.slice(1).map(([n]) => { const im = document.createElement('img'); im.className = 'mini'; im.src = `home/${n}.png`; $('slots').appendChild(im); return im; });
+
+// ---------- count fan ----------
+const FAN = ['b12', 'b15', 'b23', 'b30', 'b34', 'b43', 'b49', 'b65', 'b97', 'b102', 'b124', 'b128', 'b132', 'b141', 'b142'];
+const fan = FAN.map((n, i) => {
+  const d = document.createElement('div'); d.className = 'card'; d.style.cssText += 'width:230px; height:300px; border-radius:30px';
+  d.innerHTML = `<img src="home/${n}.png" style="position:absolute; left:25px; top:30px; width:180px; height:240px; object-fit:contain">`;
+  $('fan').appendChild(d); return d;
+});
+
+// ---------- uses carousel ----------
+const USES = [
+  ['للجورنال', '#efe3cf', [['b133', 150, 170, 420, -6], ['b36', 40, 560, 220, 10], ['b17', 470, 560, 180, -8]]],
+  ['للمكتبة', '#e3ead8', [['b38', 90, 130, 540, 0], ['b123', 60, 520, 230, -6], ['b45', 380, 560, 240, 18]]],
+  ['ولتغليف الهدايا', '#f6dcd3', [['b35', 70, 140, 300, -10], ['b12', 340, 170, 300, 8], ['b29', 180, 470, 340, 0]]],
+];
+const uses = USES.map(([cap, col, st], i) => {
+  const d = document.createElement('div'); d.className = 'card'; d.style.height = '1000px';
+  d.innerHTML = `<div class="ph" style="height:920px; background:${col}"></div>`;
+  const ims = st.map(([n, x, y, w, r]) => { const im = document.createElement('img'); im.className = 'st'; im.src = `home/${n}.png`; im.style.width = w + 'px'; d.appendChild(im); return { im, x, y, r }; });
+  $('strip').appendChild(d); return { d, ims, cap };
+});
+const dots = USES.map((_, i) => { const e = document.createElement('div'); e.style.cssText = `position:absolute; top:10px; left:${140 - i * 60}px; width:24px; height:24px; border-radius:12px; background:var(--brown)`; $('dots').appendChild(e); return e; });
+
+// ---------- sparks / hearts ----------
+const sparks = [...Array(14)].map((_, i) => { const e = document.createElement('div'); e.className = 'heart'; e.textContent = i % 2 ? '✦' : '♥'; e.style.color = ['#c8643b', '#e0a83a', '#7f9a6f'][i % 3]; $('sparks').appendChild(e); return e; });
+const hearts = [...Array(18)].map((_, i) => { const e = document.createElement('div'); e.className = 'heart'; e.textContent = '♥'; e.style.color = ['#c8643b', '#e9a8a0', '#e0a83a', '#7f9a6f'][i % 4]; $('hearts').appendChild(e); return e; });
+const burst = (arr, t, a, cx, cy, rad) => arr.forEach((e, i) => { const k = p(t, a, a + 0.9); const ang = i / arr.length * Math.PI * 2 + R(i) * 0.4; const rr = rad * (0.6 + R(i + 5) * 0.6) * eo(k);
+  place(e, cx + Math.cos(ang) * rr - 25, cy + Math.sin(ang) * rr - 35 + k * k * 120, 0.6 + R(i + 9) * 0.8, ang * 30, k > 0 ? 1 - p(t, a + 0.6, a + 1.0) : 0); });
+
+window.render = (t) => {
+  for (const [id, a, b] of SC) $(id).style.display = t >= a && t < b ? 'block' : 'none';
+  $('stage').style.opacity = 1 - p(t, T.end_all - 0.5, T.end_all);
+  // the dotted wallpaper drifts slowly
+  $('bg').style.backgroundPosition = `${t * 12}px ${t * 20}px`;
+
+  // ---- S1 + S2 ----
+  if (t < CUT[1]) {
+    const hk = 1 - p(t, CUT[0] - 0.3, CUT[0]);
+    pop('h1', t, T.h1); pop('h2', t, T.h2, 0.45);
+    $('hA').style.opacity = hk; $('hB').style.opacity = hk;
+    // slots appear when the hook leaves
+    const sk = p(t, CUT[0] - 0.1, CUT[0] + 0.3);
+    slots.forEach((s, i) => { s.style.opacity = p(t, CUT[0] + i * 0.06, CUT[0] + 0.2 + i * 0.06); s.style.transform = `scale(${0.7 + 0.3 * eb(p(t, CUT[0] + i * 0.06, CUT[0] + 0.35 + i * 0.06))})`; });
+    const out = OUT();
+    // continuous depth: cards above that already left lift the rest
+    const left = out.map((s) => eio(p(t, s, s + 0.4)));
+    const enter = eo(p(t, 0.0, 0.6));
+    stack.forEach(({ d, badge }, i) => {
+      const s = out[i]; const k = eio(p(t, s, s + 0.45)); const pre = eio(p(t, s - 0.3, s)) * (1 - k);
+      let depth = i; for (let j = 0; j < i; j++) depth -= left[j];
+      depth = Math.max(0, depth);
+      const sc = 1 - Math.min(depth, 3) * 0.06; const y = 560 + Math.min(depth, 3) * 46 + (1 - enter) * (1400 + i * 120);
+      const x = 180 + pre * 70 + k * 1150; const r = pre * 7 + k * 28 + (depth > 0 ? (i % 2 ? 2 : -2) : 0);
+      d.style.transform = `translate(${x}px, ${y - k * 160}px) rotate(${r}deg) scale(${sc})`;
+      d.style.opacity = depth > 3.5 ? 0 : 1;
+      badge.style.opacity = p(t, s - 0.3, s - 0.15); badge.style.transform = `rotate(-15deg) scale(${eb(p(t, s - 0.3, s))})`;
+    });
+    // liked stickers fly into the top slots (cards 1..4 = indices 1..4)
+    minis.forEach((im, j) => { const s = out[j + 1]; const k = eio(p(t, s + 0.05, s + 0.5));
+      const x0 = 465, y0 = 820, x1 = SLOTX[j] + 15, y1 = 265;
+      place(im, x0 + (x1 - x0) * k, y0 + (y1 - y0) * k - Math.sin(k * Math.PI) * 200, 0.6 + 0.4 * k, (1 - k) * 40, k > 0.02 ? 1 : 0); });
+    // heart button pulses at each swipe, ✕ stays calm
+    let pulse = 0; out.forEach((s) => { pulse = Math.max(pulse, Math.sin(Math.PI * p(t, s - 0.2, s + 0.15))); });
+    const bin = eb(p(t, 0.4, 0.9));
+    $('bh').style.transform = `scale(${bin * (1 + 0.25 * pulse)})`; $('bh').style.background = pulse > 0.3 ? 'var(--terra)' : 'var(--paper)'; $('bh').style.color = pulse > 0.3 ? '#fff' : 'var(--terra)';
+    $('bx').style.transform = `scale(${bin})`;
+  }
+
+  // ---- S3 count ----
+  if (t >= CUT[1] && t < CUT[2]) {
+    const a = CUT[1];
+    $('n136').textContent = Math.round(136 * eo(p(t, a + 0.15, a + 1.3))).toLocaleString('ar-EG');
+    pop('n136', t, a + 0.1, 0.4); pop('n1', t, a + 0.5); pop('n2', t, T.n2 - 0.05);
+    fan.forEach((d, i) => { const n = fan.length; const f = (i - (n - 1) / 2) / ((n - 1) / 2); const k = eo(p(t, a + 0.3 + i * 0.05, a + 0.9 + i * 0.05));
+      const ang = f * 62 * k; const rad = 980; const cx = 425, cy = 1290 + 980;
+      const x = cx + Math.sin(ang * Math.PI / 180) * rad; const y = cy - Math.cos(ang * Math.PI / 180) * rad + Math.sin(t * 2 + i) * 6;
+      d.style.zIndex = i; place(d, x, y + (1 - k) * 500, 1, ang, k > 0 ? 1 : 0); });
+  }
+
+  // ---- S4 uses ----
+  if (t >= CUT[2] && t < CUT[3]) {
+    const at = [CUT[2] + 0.05, T.u1 - 0.3, T.u2 - 0.3];
+    const sh = eio(p(t, at[1], at[1] + 0.45)) + eio(p(t, at[2], at[2] + 0.45));
+    const st = t < at[1] + 0.2 ? 0 : t < at[2] + 0.2 ? 1 : 2;
+    $('ucap').textContent = uses[st].cap; pop('ucap', t, at[st] + 0.1);
+    uses.forEach(({ d, ims }, i) => { const off = i - sh; const x = 180 - off * 800; const ent = eo(p(t, CUT[2], CUT[2] + 0.5));
+      d.style.transform = `translate(${x + (1 - ent) * -900}px, ${520 + Math.abs(off) * 60}px) rotate(${off * -4}deg) scale(${1 - Math.min(1, Math.abs(off)) * 0.12})`;
+      ims.forEach(({ im, x: ix, y, r }, j) => { const s = at[i] + 0.25 + j * 0.15; place(im, ix, y, eb(p(t, s, s + 0.4)), r + Math.sin(t * 2 + j) * 3, p(t, s, s + 0.05)); }); });
+    dots.forEach((e, i) => { const on = Math.max(0, 1 - Math.abs(i - sh)); e.style.width = (24 + on * 30) + 'px'; e.style.opacity = 0.25 + on * 0.75; });
+  }
+
+  // ---- S5 flip ----
+  if (t >= CUT[3] && t < CUT[4]) {
+    const a = CUT[3]; pop('p1', t, T.print - 0.05); pop('p2', t, T.print2 - 0.05);
+    const ent = eb(p(t, a, a + 0.5)); const fk = eio(p(t, T.print2 - 0.35, T.print2 + 0.25));
+    $('flipW').style.transform = `scale(${ent}) translateY(${Math.sin(t * 2) * 6}px)`;
+    $('flip').style.transform = `rotateY(${fk * 180}deg) rotateZ(${(1 - fk) * -3 + fk * 2}deg)`;
+    burst(sparks, t, T.print2 + 0.2, 540, 1060, 520);
+  }
+
+  // ---- S6 match ----
+  if (t >= CUT[4]) {
+    const a = CUT[4]; pop('e1', t, T.brand - 0.05, 0.45);
+    const m = eio(p(t, a + 0.05, a + 0.6)); const bump = Math.sin(Math.PI * p(t, a + 0.55, a + 0.85));
+    place($('mA'), 700 + (1 - m) * 700 - bump * 20, 520, 0.72, 10 - bump * 4);
+    place($('mB'), -20 - (1 - m) * 700 + bump * 20, 520, 0.72, -10 + bump * 4);
+    const q = eb(p(t, a + 0.3, a + 0.75)); place($('qrC'), 290, 380, q, 0, p(t, a + 0.3, a + 0.35));
+    const hk = eb(p(t, a + 0.7, a + 1.05)); place($('bigH'), 690, 300, 0.55 * hk * (1 + 0.06 * Math.sin(t * 8)), 0, hk > 0 ? 1 : 0); $('bigH').style.zIndex = 5;
+    burst(hearts, t, a + 0.75, 540, 650, 600);
+    pop('e2b', t, T.store - 0.05); pop('e2', t, T.store2 - 0.05, 0.45); pop('e3', t, T.store2 + 0.35);
+  }
+};
+render(2.3); document.getElementById('hA').style.opacity = 1; document.getElementById('hB').style.opacity = 1; document.querySelector('.badge').style.opacity = 1; document.querySelector('.badge').style.transform = 'rotate(-15deg)';
+document.getElementById('bx').style.display = 'none'; document.getElementById('bh').style.display = 'none';
+document.getElementById('stack').style.transform = 'translateY(-90px)';
+document.getElementById('stage').insertAdjacentHTML('beforeend', `<div style="position:absolute; left:40px; top:1520px; width:1000px; height:340px; background:var(--paper); border-radius:40px; box-shadow:0 20px 40px rgba(59,42,32,.2); z-index:30">
+  <div style="position:absolute; left:26px; top:26px; width:288px; height:288px; background:#fff; padding:10px; border-radius:20px; box-shadow:inset 0 0 0 3px #eadfce"><img src="qr_store.png" style="width:100%; height:100%; display:block"></div>
+  <div style="position:absolute; left:330px; top:44px; width:650px; text-align:center; font-size:70px; white-space:nowrap">١٣٦ ستيكر دافي</div>
+  <div style="position:absolute; left:330px; top:176px; width:650px; text-align:center; font-size:58px; white-space:nowrap"><span class="pill" style="background:var(--terra); color:#fff; padding:4px 40px 16px">متوفرة في متجر دُر</span></div></div>`);
+</script>
+</body></html>
