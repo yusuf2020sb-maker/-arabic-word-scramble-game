@@ -79,6 +79,7 @@
     <div class="line" style="top:170px; font-size:100px; color:var(--terra)"><span class="w" id="e1">ستيكرات البيت الدافي</span></div>
     <div id="mA" class="card" style="width:400px; height:540px"><div class="ph" style="left:20px; top:20px; width:360px; height:500px; background:#f1e2cc"><img src="home/b106.png" style="max-width:320px; max-height:420px"></div></div>
     <div id="mB" class="card" style="width:400px; height:540px"><div class="ph" style="left:20px; top:20px; width:360px; height:500px; background:#e3ead8"><img src="home/b16.png" style="max-width:320px; max-height:420px"></div></div>
+    <div id="qrC" class="card" style="width:500px; height:540px; z-index:4"><div style="position:absolute; left:40px; top:40px; width:420px; height:420px; background:#fff"><img src="qr_store.png" style="width:100%; height:100%; display:block"></div><div style="position:absolute; left:0; top:470px; width:500px; text-align:center; font-size:44px; color:var(--terra)">♥ دُر</div></div>
     <div id="bigH" class="abs" style="width:260px; height:260px; border-radius:50%; background:var(--terra); color:#fff; font-size:150px; line-height:260px; text-align:center; font-family:sans-serif; box-shadow:0 20px 40px rgba(200,100,59,.4)">♥</div>
     <div id="hearts"></div>
     <div class="line" style="top:1250px; font-size:76px"><span class="w" id="e2b">متوفرة في</span></div>
@@ -87,6 +88,7 @@
   </div>
 </div>
 
+<script src="reel43_timeline.js"></script>
 <script>
 const $ = (id) => document.getElementById(id);
 const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
@@ -219,10 +221,11 @@ window.render = (t) => {
   if (t >= CUT[4]) {
     const a = CUT[4]; pop('e1', t, T.brand - 0.05, 0.45);
     const m = eio(p(t, a + 0.05, a + 0.6)); const bump = Math.sin(Math.PI * p(t, a + 0.55, a + 0.85));
-    place($('mA'), 560 + (1 - m) * 700 - bump * 20, 480, 1, 8 - bump * 4);
-    place($('mB'), 120 - (1 - m) * 700 + bump * 20, 480, 1, -8 + bump * 4);
-    const hk = eb(p(t, a + 0.6, a + 1.0)); place($('bigH'), 410, 630, hk * (1 + 0.06 * Math.sin(t * 8)), 0, hk > 0 ? 1 : 0);
-    burst(hearts, t, a + 0.65, 540, 760, 560);
+    place($('mA'), 700 + (1 - m) * 700 - bump * 20, 520, 0.72, 10 - bump * 4);
+    place($('mB'), -20 - (1 - m) * 700 + bump * 20, 520, 0.72, -10 + bump * 4);
+    const q = eb(p(t, a + 0.3, a + 0.75)); place($('qrC'), 290, 380, q, 0, p(t, a + 0.3, a + 0.35));
+    const hk = eb(p(t, a + 0.7, a + 1.05)); place($('bigH'), 690, 300, 0.55 * hk * (1 + 0.06 * Math.sin(t * 8)), 0, hk > 0 ? 1 : 0); $('bigH').style.zIndex = 5;
+    burst(hearts, t, a + 0.75, 540, 650, 600);
     pop('e2b', t, T.store - 0.05); pop('e2', t, T.store2 - 0.05, 0.45); pop('e3', t, T.store2 + 0.35);
   }
 };
