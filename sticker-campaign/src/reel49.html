@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Kufam:wght@800&family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --red:#9e1b1b; --black:#1d1512; --cream:#f1e6cd; --orange:#d9822b; --green:#2f6b4f; --white:#fbf6ea; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:var(--cream); font-family:'Kufam','Cairo',sans-serif; color:var(--black); }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; background:radial-gradient(ellipse at 50% 40%, #f8efd9 0%, var(--cream) 60%, #e4d3ae 100%); }
+  .scene { position:absolute; left:0; top:0; width:1080px; height:1920px; display:none; }
+  .abs { position:absolute; left:0; top:0; }
+  .line { position:absolute; left:0; width:1080px; text-align:center; line-height:1.4; white-space:nowrap; font-weight:800; }
+  .w { display:inline-block; }
+  .st { position:absolute; left:0; top:0; filter:drop-shadow(0 16px 18px rgba(29,21,18,.3)); will-change:transform; }
+  /* Sadu-style weave patterns */
+  .zig { background:
+      linear-gradient(135deg, var(--c1) 25%, transparent 25%) -40px 0 / 80px 80px,
+      linear-gradient(225deg, var(--c1) 25%, transparent 25%) -40px 0 / 80px 80px,
+      linear-gradient(315deg, var(--c1) 25%, transparent 25%) 0 0 / 80px 80px,
+      linear-gradient(45deg, var(--c1) 25%, var(--c2) 25%) 0 0 / 80px 80px; }
+  .dia { background:
+      linear-gradient(45deg, transparent 38%, var(--c1) 38% 62%, transparent 62%) 0 0 / 60px 60px,
+      linear-gradient(-45deg, transparent 38%, var(--c1) 38% 62%, transparent 62%) 0 0 / 60px 60px, var(--c2); }
+  .stp { background:repeating-linear-gradient(90deg, var(--c1) 0 20px, var(--c2) 20px 40px); }
+  .row { position:absolute; left:0; width:1080px; will-change:transform; }
+  .frame { position:absolute; left:0; top:0; padding:34px; --c1:var(--red); --c2:var(--black); box-shadow:0 24px 40px rgba(29,21,18,.35); }
+  .frame .in { width:100%; height:100%; background:var(--white); display:flex; align-items:center; justify-content:center; position:relative; }
+  .frame .in img { max-width:86%; max-height:86%; filter:drop-shadow(0 12px 14px rgba(29,21,18,.25)); }
+  .pill { display:inline-block; padding:0 54px 16px; background:var(--red); color:var(--white); border-radius:14px; }
+</style></head><body>
+<div id="stage">
+  <div id="borders"></div>
+
+  <!-- S1 hook -->
+  <div class="scene" id="s1">
+    <div class="line" style="top:280px; font-size:130px"><span class="w" id="h1">ريحة الماضي</span></div>
+    <img id="hD" class="st" src="heritage/h50.png" style="width:560px">
+    <div class="line" style="top:1350px; font-size:150px"><span class="w pill" id="h2">على ستيكر!</span></div>
+  </div>
+
+  <!-- S2 three items in woven frames -->
+  <div class="scene" id="s2"><div id="items"></div><div class="line" style="top:1380px; font-size:110px"><span class="w" id="cap"></span></div></div>
+
+  <!-- S3 count -->
+  <div class="scene" id="s3">
+    <div id="tiles"></div>
+    <div class="frame" id="cF" style="left:240px; top:620px; width:600px; height:560px; z-index:5"><div class="in" style="flex-direction:column"><div style="font-family:Cairo; font-weight:900; font-size:250px; line-height:1; color:var(--red)"><span class="w" id="n50">٥٠</span></div><div style="font-size:84px; line-height:1.5"><span class="w" id="n1">ستيكر</span></div></div></div>
+    <div class="line" style="top:1260px; font-size:96px; z-index:6"><span class="w pill" id="n2">بروح تراثية</span></div>
+  </div>
+
+  <!-- S4 uses -->
+  <div class="scene" id="s4"><div class="line" style="top:250px; font-size:120px; color:var(--red)"><span class="w" id="ucap"></span></div><div id="uses"></div></div>
+
+  <!-- S5 print: custom clean sheet -->
+  <div class="scene" id="s5">
+    <div class="line" style="top:230px; font-size:130px"><span class="w" id="p1">ملف PDF</span></div>
+    <div class="line" style="top:430px; font-size:96px"><span class="w pill" id="p2">جاهز للطباعة</span></div>
+    <div id="sheet" class="abs" style="width:580px; height:820px; background:#fffdf6; box-shadow:0 30px 50px rgba(29,21,18,.3); border-radius:6px"></div>
+  </div>
+
+  <!-- S6 end: QR in a woven frame -->
+  <div class="scene" id="s6">
+    <div class="line" style="top:250px; font-size:100px; color:var(--red)"><span class="w" id="e1">ستيكرات تراثية عربية</span></div>
+    <div class="frame zig" id="qF" style="left:300px; top:450px; width:480px; height:480px; transform-origin:50% 50%"><div class="in"><img src="qr_store.png" style="max-width:92%; max-height:92%; filter:none"></div></div>
+    <img id="eA" class="st" src="heritage/h54.png" style="width:220px">
+    <img id="eB" class="st" src="heritage/h14.png" style="width:230px">
+    <div class="line" style="top:1040px; font-size:80px"><span class="w" id="e2b">متوفرة في</span></div>
+    <div class="line" style="top:1170px; font-size:150px"><span class="w pill" id="e2" style="padding:0 70px 24px">متجر دُر</span></div>
+    <div class="line" style="top:1440px; font-size:50px; font-family:Cairo; direction:ltr; color:var(--red)"><span class="w" id="e3">planme.zaher.io</span></div>
+  </div>
+
+  <div id="loom"></div>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eio = (x) => (x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const eb = (x) => { const c = 1.7; return x <= 0 ? 0 : 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const place = (e, x, y, s, r, o) => { e.style.transform = `translate(${x}px,${y}px) rotate(${r}deg) scale(${s})`; if (o !== undefined) e.style.opacity = o; };
+// woven text: revealed right-to-left in thread-like horizontal slices
+const weave = (id, t, a, d = 0.45) => { const k = eo(p(t, a, a + d)); const e = $(id); e.style.opacity = k > 0 ? 1 : 0; e.style.clipPath = `inset(-20% 0 -20% ${(1 - k) * 100}%)`; e.style.transform = `translateX(${(1 - k) * -20}px)`; };
+
+const D = { h1: 0.3, h2: 1.4, c1: 3.2, c2: 4.6, c3: 6.0, count: 7.8, n2: 9.2, u0: 10.8, u1: 12.0, u2: 13.2, print: 15.0, print2: 16.1, brand: 17.8, store: 19.4, store2: 20.1, end_all: 23.0 };
+const T = Object.assign({}, D, window.TL || {});
+const CUT = [T.c1 - 0.4, T.count - 0.35, T.u0 - 0.35, T.print - 0.35, T.brand - 0.35];
+const SC = [['s1', 0, CUT[0]], ['s2', CUT[0], CUT[1]], ['s3', CUT[1], CUT[2]], ['s4', CUT[2], CUT[3]], ['s5', CUT[3], CUT[4]], ['s6', CUT[4], 99]];
+
+// palette sets for rows: [pattern, c1, c2]
+const PAL = [['zig', '#9e1b1b', '#1d1512'], ['stp', '#f1e6cd', '#1d1512'], ['dia', '#d9822b', '#9e1b1b'], ['stp', '#9e1b1b', '#f1e6cd'], ['zig', '#1d1512', '#f1e6cd'], ['dia', '#fbf6ea', '#2f6b4f']];
+const mkRow = (host, y, h, i) => { const d = document.createElement('div'); const [cls, c1, c2] = PAL[i % PAL.length]; d.className = 'row ' + cls; d.style.cssText += `top:${y}px; height:${h}px; --c1:${c1}; --c2:${c2}`; $(host).appendChild(d); return d; };
+// fixed top/bottom woven borders
+const BR = [[0, 50, 0], [50, 40, 1], [90, 50, 2], [1780, 50, 2], [1830, 40, 1], [1870, 50, 0]].map(([y, h, i]) => mkRow('borders', y, h, i));
+// full-screen loom transition: 16 rows
+const LOOM = [...Array(16)].map((_, i) => mkRow('loom', i * 120, 120, i));
+LOOM.forEach((d) => (d.style.zIndex = 60));
+
+// S2 items
+const IT = [['دلّة وفناجيل', ['h50', 'h53']], ['مبخرة ودهن عود', ['h52', 'h40']], ['وصندوق المندوس', ['h49']]];
+const items = IT.map(([cap, ns], i) => { const f = document.createElement('div'); f.className = 'frame ' + ['zig', 'dia', 'stp'][i]; f.style.cssText += `width:760px; height:860px; --c1:${['#9e1b1b', '#d9822b', '#9e1b1b'][i]}; --c2:${['#1d1512', '#9e1b1b', '#f1e6cd'][i]}`;
+  f.innerHTML = `<div class="in">${ns.map((n, j) => `<img src="heritage/${n}.png" style="${ns.length > 1 ? `max-width:${j ? 30 : 58}%; max-height:${j ? 44 : 70}%; position:absolute; ${j ? 'left:62%; top:48%' : 'left:6%; top:8%'}` : ''}">`).join('')}</div>`; $('items').appendChild(f); return { f, cap }; });
+// S3 tiles
+const TN = ['h6', 'h13', 'h14', 'h22', 'h30', 'h41', 'h42', 'h45', 'h46', 'h48', 'h53', 'h54'];
+const TP = [[40, 230], [380, 230], [720, 230], [40, 1360], [380, 1450], [720, 1360], [40, 640], [40, 1000], [800, 640], [800, 1000], [200, 1600], [600, 1600]];
+const tiles = TN.map((n, i) => { const f = document.createElement('div'); f.className = 'frame ' + ['zig', 'dia', 'stp'][i % 3]; const pal = PAL[(i + 2) % PAL.length]; f.style.cssText += `width:280px; height:280px; padding:18px; --c1:${pal[1]}; --c2:${pal[2]}`; f.innerHTML = `<div class="in"><img src="heritage/${n}.png"></div>`; $('tiles').appendChild(f); return f; });
+// S4 uses
+const CARD = `<div style="position:absolute; left:200px; top:560px; width:680px; height:900px; background:#fbf6ea; border-radius:10px; box-shadow:0 30px 50px rgba(29,21,18,.3)"></div><div class="row zig" style="left:200px; top:560px; width:680px; height:70px; --c1:#9e1b1b; --c2:#1d1512"></div><div class="row zig" style="left:200px; top:1390px; width:680px; height:70px; --c1:#9e1b1b; --c2:#1d1512"></div><div style="position:absolute; left:300px; top:1240px; width:480px; height:14px; border-radius:7px; background:#e4d3ae"></div><div style="position:absolute; left:360px; top:1290px; width:360px; height:14px; border-radius:7px; background:#e4d3ae"></div>`;
+const GIFT = `<div style="position:absolute; left:180px; top:760px; width:720px; height:620px; background:#c9a173; border-radius:10px; box-shadow:0 30px 50px rgba(29,21,18,.3)"></div><div class="row dia" style="left:500px; top:680px; width:80px; height:700px; --c1:#d9822b; --c2:#9e1b1b"></div><div style="position:absolute; left:150px; top:680px; width:780px; height:120px; background:#b88d5f; border-radius:10px"></div><div class="row dia" style="left:500px; top:680px; width:80px; height:120px; --c1:#d9822b; --c2:#9e1b1b"></div>`;
+const JRN = `<div style="position:absolute; left:160px; top:560px; width:760px; height:960px; background:#f6ecd6; border-radius:12px; box-shadow:0 30px 50px rgba(29,21,18,.3)"></div><div class="row stp" style="left:160px; top:560px; width:70px; height:960px; --c1:#9e1b1b; --c2:#1d1512"></div>`;
+const USES = [['للمناسبات', CARD, [['h54', 380, 720, 320, 0], ['h42', 220, 900, 170, -8], ['h53', 700, 900, 130, 8]]], ['لتغليف الهدايا', GIFT, [['h50', 230, 880, 260, -6], ['h46', 640, 900, 230, 8]]], ['وللجورنال', JRN, [['h14', 300, 640, 300, -6], ['h48', 600, 880, 260, 6], ['h6', 320, 1100, 200, -4], ['h22', 600, 1180, 260, 4]]]];
+const uses = USES.map(([cap, html, st]) => { const d = document.createElement('div'); d.className = 'abs'; d.style.cssText = 'width:1080px; height:1920px'; d.innerHTML = html; $('uses').appendChild(d);
+  const ims = st.map(([n, x, y, w, r]) => { const im = document.createElement('img'); im.className = 'st'; im.src = `heritage/${n}.png`; im.style.width = w + 'px'; d.appendChild(im); return { im, x, y, r }; });
+  return { d, cap, ims }; });
+// S5 custom print sheet: 3 x 4 grid of safe designs
+const SH = ['h50', 'h54', 'h14', 'h6', 'h48', 'h52', 'h46', 'h13', 'h42', 'h49', 'h40', 'h22'];
+$('sheet').innerHTML = `<div style="position:absolute; left:0; top:24px; width:580px; text-align:center; font-family:Cairo; font-weight:700; font-size:24px; color:#9e1b1b">ستيكرات تراثية</div>` + SH.map((n, i) => `<img src="heritage/${n}.png" style="position:absolute; left:${40 + (i % 3) * 175}px; top:${80 + Math.floor(i / 3) * 180}px; width:150px; height:150px; object-fit:contain">`).join('');
+
+window.render = (t) => {
+  for (const [id, a, b] of SC) $(id).style.display = t >= a && t < b ? 'block' : 'none';
+  $('stage').style.opacity = 1 - p(t, T.end_all - 0.5, T.end_all);
+  // borders weave in at the start, patterns drift like a moving loom
+  BR.forEach((d, i) => { const k = eo(p(t, 0.05 + i * 0.05, 0.45 + i * 0.05)); d.style.transform = `translateX(${(1 - k) * (i % 2 ? -1100 : 1100)}px)`; d.style.backgroundPositionX = `${t * (i % 2 ? -30 : 30)}px`; });
+  // loom transition: rows shuttle in from the right, then out to the left
+  let any = false; LOOM.forEach((d, i) => { let x = 1100; for (const c of CUT) { const a = c - 0.42 + i * 0.016, b = c + 0.05 + i * 0.016; if (t >= a && t < b + 0.35) { any = true; x = t < b ? (1 - eio(p(t, a, a + 0.18))) * 1100 : -eio(p(t, b, b + 0.3)) * 1100; } } d.style.transform = `translateX(${x}px)`; });
+  $('loom').style.display = any ? 'block' : 'none';
+
+  // S1
+  if (t < CUT[0]) {
+    weave('h1', t, T.h1, 0.5); weave('h2', t, T.h2, 0.45);
+    const k = eb(p(t, 0.35, 0.9)); place($('hD'), 260, 540 + Math.sin(t * 2) * 6, k, Math.sin(t * 1.4) * 2, k > 0 ? 1 : 0);
+  }
+  // S2
+  if (t >= CUT[0] && t < CUT[1]) {
+    const ks = [T.c1, T.c2, T.c3]; let cur = 0; ks.forEach((k, i) => { if (t >= k - 0.3) cur = i; });
+    items.forEach(({ f }, i) => { const inK = eo(p(t, ks[i] - 0.3, ks[i] + 0.1)); const outK = i < 2 ? eio(p(t, ks[i + 1] - 0.35, ks[i + 1] - 0.05)) : 0;
+      place(f, 160 - (1 - inK) * 1100 + outK * 1100, 420, 1, (1 - inK) * -6 + outK * 6, inK > 0 && outK < 1 ? 1 : 0); f.style.backgroundPositionX = `${t * 25}px`; });
+    $('cap').textContent = items[cur].cap; weave('cap', t, ks[cur] - 0.1, 0.4);
+  }
+  // S3
+  if (t >= CUT[1] && t < CUT[2]) {
+    const a = CUT[1];
+    tiles.forEach((f, i) => { const s = a + 0.2 + i * 0.06; const k = eb(p(t, s, s + 0.35)); place(f, TP[i][0], TP[i][1] + Math.sin(t * 2 + i) * 5, k, (R(i) - 0.5) * 8, k > 0 ? 1 : 0); });
+    const ck = eb(p(t, a + 0.1, a + 0.5)); $('cF').style.transform = `scale(${ck})`; $('cF').style.opacity = ck > 0 ? 1 : 0;
+    $('n50').textContent = Math.round(50 * eo(p(t, a + 0.2, a + 1.2))).toLocaleString('ar-EG');
+    weave('n1', t, a + 0.5, 0.35); weave('n2', t, T.n2 - 0.05, 0.45);
+  }
+  // S4
+  if (t >= CUT[2] && t < CUT[3]) {
+    const at = [CUT[2] + 0.1, T.u1 - 0.3, T.u2 - 0.3]; const st = t < at[1] ? 0 : t < at[2] ? 1 : 2;
+    $('ucap').textContent = uses[st].cap; weave('ucap', t, at[st] + 0.1, 0.4);
+    uses.forEach(({ d, ims }, i) => { d.style.display = i === st ? 'block' : 'none'; const k = eo(p(t, at[i], at[i] + 0.45)); d.style.transform = `translateX(${-(1 - k) * 1100}px)`;
+      ims.forEach(({ im, x, y, r }, j) => { const s = at[i] + 0.35 + j * 0.13; const q = eb(p(t, s, s + 0.35)); place(im, x, y, q, r, q > 0 ? 1 : 0); }); });
+  }
+  // S5
+  if (t >= CUT[3] && t < CUT[4]) {
+    const a = CUT[3]; weave('p1', t, T.print - 0.05); weave('p2', t, T.print2 - 0.05);
+    const k = eo(p(t, a + 0.1, a + 0.9)); place($('sheet'), 250, 640 + (1 - k) * 1300, 1, -2 + Math.sin(t) * 1.2, 1);
+  }
+  // S6
+  if (t >= CUT[4]) {
+    const a = CUT[4]; weave('e1', t, T.brand - 0.05, 0.55);
+    const q = eb(p(t, a + 0.3, a + 0.8)); $('qF').style.transform = `scale(${q})`; $('qF').style.opacity = p(t, a + 0.3, a + 0.35); $('qF').style.backgroundPositionX = `${t * 20}px`;
+    place($('eA'), 40, 640 + Math.sin(t * 2) * 6, eb(p(t, a + 0.6, a + 1.0)), -10, p(t, a + 0.6, a + 0.65));
+    place($('eB'), 810, 700 + Math.sin(t * 2 + 1) * 6, eb(p(t, a + 0.7, a + 1.1)), 9, p(t, a + 0.7, a + 0.75));
+    weave('e2b', t, T.store - 0.05, 0.4); weave('e2', t, T.store2 - 0.05, 0.45); weave('e3', t, T.store2 + 0.35, 0.4);
+  }
+};
+render(0);
+</script>
+</body></html>
