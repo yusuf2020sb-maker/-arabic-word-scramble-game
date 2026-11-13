@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Almarai:wght@800&family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --gold:#e2c27d; --cream:#f6eddc; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:#1b1716; font-family:'Almarai','Cairo',sans-serif; color:var(--cream); }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; background:radial-gradient(ellipse 70% 45% at 50% 52%, #4a3a30 0%, #2a211d 55%, #151110 100%); }
+  #spot { position:absolute; left:140px; top:-200px; width:800px; height:1500px; background:linear-gradient(180deg, rgba(255,238,200,.22), rgba(255,238,200,0) 80%); clip-path:polygon(40% 0, 60% 0, 100% 100%, 0 100%); filter:blur(6px); }
+  #floor { position:absolute; left:0; top:1250px; width:1080px; height:670px; background:linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,.55)); }
+  #disc { position:absolute; left:140px; top:1180px; width:800px; height:170px; border-radius:50%; background:radial-gradient(ellipse, rgba(226,194,125,.35), rgba(226,194,125,.05) 65%, transparent 70%); }
+  .it { position:absolute; left:0; top:0; will-change:transform; transform-origin:50% 50%; }
+  .it img { display:block; filter:drop-shadow(0 18px 18px rgba(0,0,0,.55)); }
+  .ref { position:absolute; left:0; top:0; transform:scaleY(-1); opacity:.18; filter:blur(2px); mask-image:linear-gradient(0deg, #000 0%, transparent 60%); -webkit-mask-image:linear-gradient(0deg, #000 0%, transparent 60%); }
+  .ov { position:absolute; left:0; width:1080px; text-align:center; white-space:nowrap; line-height:1.4; z-index:60; }
+  .w { display:inline-block; }
+  .gold { color:var(--gold); text-shadow:0 0 30px rgba(226,194,125,.35); }
+  .pill { display:inline-block; padding:4px 54px 20px; border-radius:90px; background:var(--gold); color:#2a211d; }
+  .grp { position:absolute; left:0; top:0; width:1080px; height:1920px; display:none; z-index:50; }
+  .frame { position:absolute; padding:26px; background:linear-gradient(135deg, #f3dc9e, #b8924a 40%, #f0d592 60%, #9c7a38); box-shadow:0 30px 60px rgba(0,0,0,.6), inset 0 0 0 4px rgba(0,0,0,.2); }
+</style></head><body>
+<div id="stage">
+  <div id="spot"></div><div id="floor"></div><div id="disc"></div>
+  <div id="ring"></div>
+  <img id="hero" class="abs" style="position:absolute; left:0; top:0; z-index:55; filter:drop-shadow(0 30px 30px rgba(0,0,0,.6)); opacity:0">
+  <div class="grp" id="uses"></div>
+  <div class="grp" id="g5"><div class="frame" id="shF" style="left:250px; top:560px"><img src="vase/sheet3.jpg" style="width:530px; display:block"></div></div>
+  <div class="grp" id="g6"><div class="frame" id="qF" style="left:270px; top:420px"><div style="background:#fff; padding:20px"><img src="qr_store.png" style="width:440px; height:440px; display:block"></div></div>
+    <div id="plaque" style="position:absolute; left:390px; top:1000px; width:300px; padding:10px 0 16px; text-align:center; background:linear-gradient(135deg, #f3dc9e, #b8924a); color:#2a211d; font-size:40px; border-radius:6px">دُر</div></div>
+  <div class="ov" style="top:150px; font-size:150px"><span class="w" id="h1">مزهرية…</span></div>
+  <div class="ov" style="top:370px; font-size:140px"><span class="w gold" id="h2">بكل لون!</span></div>
+  <div class="ov" style="top:1470px; font-size:130px"><span class="w gold" id="cap"></span></div>
+  <div class="ov" style="top:120px; font-size:300px; line-height:1.1; font-family:Cairo; font-weight:900"><span class="w gold" id="n16">١٦</span></div>
+  <div class="ov" style="top:460px; font-size:110px"><span class="w" id="n1">ستيكر</span></div>
+  <div class="ov" style="top:1500px; font-size:100px"><span class="w pill" id="n2">بألوان فنتج</span></div>
+  <div class="ov" style="top:170px; font-size:140px"><span class="w gold" id="ucap"></span></div>
+  <div class="ov" style="top:150px; font-size:140px"><span class="w" id="p1">ملف PDF</span></div>
+  <div class="ov" style="top:360px; font-size:96px"><span class="w pill" id="p2">جاهز للطباعة</span></div>
+  <div class="ov" style="top:170px; font-size:110px"><span class="w gold" id="e1">ستيكرات المزهريات</span></div>
+  <div class="ov" style="top:1180px; font-size:84px"><span class="w" id="e2b">متوفرة في</span></div>
+  <div class="ov" style="top:1320px; font-size:170px"><span class="w pill" id="e2" style="padding:0 70px 26px">متجر دُر</span></div>
+  <div class="ov" style="top:1640px; font-size:50px; font-family:Cairo; direction:ltr"><span class="w" id="e3" style="color:rgba(246,237,220,.8)">planme.zaher.io</span></div>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eio = (x) => (x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const eb = (x) => { const c = 1.7; return x <= 0 ? 0 : 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const place = (e, x, y, s, r, o) => { e.style.transform = `translate(${x}px,${y}px) rotate(${r}deg) scale(${s})`; if (o !== undefined) e.style.opacity = o; };
+const pop = (id, t, a, d = 0.4) => { const k = p(t, a, a + d); const e = $(id); e.style.opacity = p(t, a, a + 0.1); e.style.transform = `translateY(${(1 - eo(k)) * 40}px) scale(${0.7 + 0.3 * eb(k)})`; };
+const off = (...ids) => ids.forEach((id) => ($(id).style.opacity = 0));
+
+const D = { h1: 0.3, h2: 1.5, c1: 3.4, c2: 4.8, c3: 6.2, count: 8.0, n2: 9.4, u0: 11.0, u1: 12.2, u2: 13.4, print: 15.2, print2: 16.3, brand: 18.0, store: 19.6, store2: 20.3, end_all: 23.4 };
+const T = Object.assign({}, D, window.TL || {});
+const CUT = [T.c1 - 0.4, T.count - 0.35, T.u0 - 0.35, T.print - 0.35, T.brand - 0.35];
+const sceneAt = (t) => (t < CUT[0] ? 0 : t < CUT[1] ? 1 : t < CUT[2] ? 2 : t < CUT[3] ? 3 : t < CUT[4] ? 4 : 5);
+
+const NS = [...Array(16)].map((_, i) => `b${6 + i}`);
+const ring = NS.map((n) => { const d = document.createElement('div'); d.className = 'it'; d.innerHTML = `<img src="vase/${n}.png" style="width:240px">`; $('ring').appendChild(d);
+  const r = document.createElement('div'); r.className = 'it ref'; r.innerHTML = `<img src="vase/${n}.png" style="width:240px">`; $('ring').appendChild(r); return { d, r }; });
+const STEP = Math.PI * 2 / 16;
+// featured picks: index into NS
+const PICK = [['أزرق هادي', 0], ['أحمر دافي', 4], ['وأصفر مشمس', 6]];
+// ring angle over time: spin-in, then settle on each pick, spin during count, slow after
+const angleAt = (t) => {
+  const tgt = (i) => -PICK[i][1] * STEP;
+  if (t < CUT[0]) return -(1 - eo(p(t, 0, 1.6))) * Math.PI * 3 + t * 0.15;
+  if (t < CUT[1]) { const ks = [T.c1, T.c2, T.c3]; let a = CUT[0] * 0.15; for (let i = 0; i < 3; i++) { const from = i === 0 ? CUT[0] * 0.15 : tgt(i - 1) - Math.PI * 2 * i; const to = tgt(i) - Math.PI * 2 * (i + 1) + 0; const k = eio(p(t, ks[i] - 0.45, ks[i] - 0.05)); if (t >= ks[i] - 0.45) a = from + (to - from) * k; } return a; }
+  const base = tgt(2) - Math.PI * 6; return base - eio(p(t, CUT[1], CUT[1] + 1.4)) * Math.PI * 2 - Math.max(0, t - CUT[1] - 1.4) * 0.35;
+};
+const hero = $('hero');
+// uses mockups
+const PHONE = `<div style="position:absolute; left:340px; top:560px; width:400px; height:800px; border-radius:60px; background:#c9b49a; box-shadow:0 30px 60px rgba(0,0,0,.6)"><div style="position:absolute; left:40px; top:40px; width:110px; height:110px; border-radius:30px; background:#2a211d"></div></div>`;
+const MUG = `<div style="position:absolute; left:300px; top:720px; width:440px; height:520px; border-radius:20px 20px 90px 90px; background:#f4eee4; box-shadow:0 30px 60px rgba(0,0,0,.6)"></div><div style="position:absolute; left:700px; top:820px; width:170px; height:260px; border:40px solid #f4eee4; border-left:none; border-radius:0 130px 130px 0"></div>`;
+const CARD = `<div style="position:absolute; left:250px; top:600px; width:580px; height:780px; background:#f6eddc; border-radius:14px; box-shadow:0 30px 60px rgba(0,0,0,.6)"><div style="position:absolute; left:80px; right:80px; top:620px; height:12px; border-radius:6px; background:#e3d5bd"></div><div style="position:absolute; left:130px; right:130px; top:670px; height:12px; border-radius:6px; background:#e3d5bd"></div></div>`;
+const US = [['للجوال', PHONE, [['b14', 410, 760, 260]]], ['للأكواب', MUG, [['b8', 400, 800, 240]]], ['وللبطاقات', CARD, [['b11', 400, 660, 280]]]];
+const uses = US.map(([cap, html, st]) => { const d = document.createElement('div'); d.className = 'abs'; d.style.cssText = 'position:absolute; width:1080px; height:1920px'; d.innerHTML = html; $('uses').appendChild(d);
+  const ims = st.map(([n, x, y, w]) => { const im = document.createElement('img'); im.src = `vase/${n}.png`; im.style.cssText = `position:absolute; left:0; top:0; width:${w}px; filter:drop-shadow(0 10px 10px rgba(0,0,0,.3))`; d.appendChild(im); return { im, x, y }; }); return { d, cap, ims }; });
+
+window.render = (t) => {
+  const sc = sceneAt(t);
+  $('stage').style.opacity = 1 - p(t, T.end_all - 0.5, T.end_all);
+  const ringVis = sc <= 2 ? 1 : sc === 5 ? 0.0 : 0; const dim = sc === 1 ? 0.45 : 1;
+  const A = angleAt(t); const RX = 470, RZ = 260, CY = 920;
+  ring.forEach(({ d, r }, i) => { const a = A + i * STEP; const x = Math.sin(a) * RX, z = Math.cos(a); const s = 0.5 + 0.55 * (z + 1) / 2; const y = CY - z * 70;
+    const front = sc === 1 && PICK.some(([, pi]) => pi === i) && Math.abs(((a % (Math.PI * 2)) + Math.PI * 3) % (Math.PI * 2) - Math.PI) > Math.PI - 0.2;
+    const op = ringVis * (0.35 + 0.65 * (z + 1) / 2) * (front ? 1 : dim);
+    d.style.transform = `translate(${540 + x - 120}px, ${y - 170}px) scale(${s}) rotateY(${-Math.sin(a) * 25}deg)`; d.style.opacity = op; d.style.zIndex = Math.round(100 + z * 50); d.style.filter = `brightness(${0.5 + 0.5 * (z + 1) / 2})`;
+    r.style.transform = `translate(${540 + x - 120}px, ${y + 170 * s + 10}px) scale(${s}) scaleY(-1)`; r.style.opacity = op * 0.25; r.style.zIndex = Math.round(100 + z * 50); });
+  // hero: the picked vase lifts forward and grows
+  if (sc === 1) { const ks = [T.c1, T.c2, T.c3]; let cur = 0; ks.forEach((k, i) => { if (t >= k - 0.15) cur = i; }); const k = eb(p(t, ks[cur] - 0.1, ks[cur] + 0.35)); const out = cur < 2 ? p(t, ks[cur + 1] - 0.45, ks[cur + 1] - 0.25) : 0;
+    hero.src = `vase/${NS[PICK[cur][1]]}.png`; hero.style.width = '560px'; place(hero, 260, 420 + Math.sin(t * 2) * 6, k * (1 - out * 0.5), Math.sin(t * 1.4) * 2, (k > 0 ? 1 : 0) * (1 - out)); }
+  else hero.style.opacity = 0;
+  // groups
+  $('uses').style.display = sc === 3 ? 'block' : 'none'; $('g5').style.display = sc === 4 ? 'block' : 'none'; $('g6').style.display = sc === 5 ? 'block' : 'none';
+  if (sc === 3) { const at = [CUT[2] + 0.1, T.u1 - 0.3, T.u2 - 0.3]; const st = t < at[1] ? 0 : t < at[2] ? 1 : 2;
+    uses.forEach(({ d, ims }, i) => { d.style.display = i === st ? 'block' : 'none'; const k = eo(p(t, at[i], at[i] + 0.45)); d.style.transform = `translateY(${(1 - k) * 900}px)`; ims.forEach(({ im, x, y }, j) => { const q = eb(p(t, at[i] + 0.35, at[i] + 0.7)); place(im, x, y, q, 0, q > 0 ? 1 : 0); }); }); }
+  if (sc === 4) { const k = eb(p(t, CUT[3] + 0.1, CUT[3] + 0.6)); $('shF').style.transform = `scale(${k})`; }
+  if (sc === 5) { const k = eb(p(t, CUT[4] + 0.25, CUT[4] + 0.7)); $('qF').style.transform = `scale(${k})`; $('qF').style.opacity = p(t, CUT[4] + 0.25, CUT[4] + 0.3); $('plaque').style.opacity = p(t, CUT[4] + 0.6, CUT[4] + 0.8); }
+  off('h1', 'h2', 'cap', 'n16', 'n1', 'n2', 'ucap', 'p1', 'p2', 'e1', 'e2b', 'e2', 'e3');
+  if (sc === 0) { pop('h1', t, T.h1); pop('h2', t, T.h2, 0.45); }
+  if (sc === 1) { const ks = [T.c1, T.c2, T.c3]; let cur = 0; ks.forEach((k, i) => { if (t >= k - 0.15) cur = i; }); $('cap').textContent = PICK[cur][0]; pop('cap', t, ks[cur] - 0.1); }
+  if (sc === 2) { $('n16').textContent = Math.round(16 * eo(p(t, CUT[1] + 0.15, CUT[1] + 1.0))).toLocaleString('ar-EG'); pop('n16', t, CUT[1] + 0.1); pop('n1', t, CUT[1] + 0.4); pop('n2', t, T.n2 - 0.05); }
+  if (sc === 3) { const at = [CUT[2] + 0.1, T.u1 - 0.3, T.u2 - 0.3]; const st = t < at[1] ? 0 : t < at[2] ? 1 : 2; $('ucap').textContent = uses[st].cap; pop('ucap', t, at[st] + 0.1); }
+  if (sc === 4) { pop('p1', t, T.print - 0.05); pop('p2', t, T.print2 - 0.05); }
+  if (sc === 5) { pop('e1', t, T.brand - 0.05); pop('e2b', t, T.store - 0.05); pop('e2', t, T.store2 - 0.05, 0.45); pop('e3', t, T.store2 + 0.35); }
+};
+render(0);
+</script>
+</body></html>
