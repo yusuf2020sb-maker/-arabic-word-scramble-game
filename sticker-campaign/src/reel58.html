@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@800&family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --cream:#fff4e2; --terra:#b9582f; --brown:#4a2c1c; --warm:#ffcf7a; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:#16203a; font-family:'Baloo Bhaijaan 2','Cairo',sans-serif; color:var(--cream); }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; background:linear-gradient(180deg, #121a33 0%, #23305a 55%, #3a3a5e 100%); }
+  canvas { position:absolute; left:0; top:0; }
+  #ground { position:absolute; left:0; top:1690px; width:1080px; height:230px; background:linear-gradient(180deg, #e9eef6, #c9d3e3); border-radius:50% 50% 0 0 / 40px 40px 0 0; }
+  #house { position:absolute; left:0; top:0; width:1080px; height:1920px; transform-origin:0 0; will-change:transform; }
+  #roof { position:absolute; left:100px; top:250px; width:880px; height:330px; background:linear-gradient(180deg, #c4643a, #9c4626); clip-path:polygon(50% 0, 100% 100%, 0 100%); }
+  #roof:after { content:''; position:absolute; left:0; top:0; width:100%; height:100%; background:repeating-linear-gradient(0deg, transparent 0 34px, rgba(0,0,0,.12) 34px 38px); }
+  #chim { position:absolute; left:720px; top:300px; width:80px; height:170px; background:#7a3a22; box-shadow:inset 0 14px 0 #5a2a18; }
+  #body { position:absolute; left:140px; top:560px; width:800px; height:1140px; background:#6b4a36; box-shadow:0 30px 60px rgba(0,0,0,.45); }
+  .room { position:absolute; left:20px; width:760px; height:350px; overflow:hidden; }
+  .room .wall { position:absolute; inset:0; }
+  .room .floor { position:absolute; left:0; bottom:0; width:760px; height:56px; background:repeating-linear-gradient(90deg, #a4744c 0 90px, #966944 90px 94px); }
+  .room .dark { position:absolute; inset:0; background:rgba(8,12,30,.78); z-index:5; }
+  .room .glow { position:absolute; left:230px; top:-120px; width:300px; height:420px; background:radial-gradient(ellipse at 50% 20%, rgba(255,214,140,.55), transparent 70%); z-index:4; mix-blend-mode:screen; }
+  .room .bulb { position:absolute; left:368px; top:0; width:24px; height:60px; z-index:6; }
+  .room .bulb:before { content:''; position:absolute; left:11px; top:0; width:2px; height:36px; background:#2a1a12; }
+  .room .bulb:after { content:''; position:absolute; left:0; top:34px; width:24px; height:24px; border-radius:50%; background:#ffe3a3; box-shadow:0 0 30px 10px rgba(255,214,140,.7); }
+  .st { position:absolute; left:0; top:0; filter:drop-shadow(0 10px 10px rgba(40,20,10,.35)); will-change:transform; z-index:3; }
+  #front { position:absolute; left:140px; top:560px; width:800px; height:1140px; transform-origin:0 50%; z-index:20; background:#ead6b4; box-shadow:inset 0 0 0 14px #c9a77c; backface-visibility:hidden; }
+  .win { position:absolute; width:180px; height:210px; background:#ffd88a; border:12px solid #7a4a2c; box-shadow:0 0 60px rgba(255,210,120,.7); }
+  .win:before { content:''; position:absolute; left:72px; top:0; width:12px; height:100%; background:#7a4a2c; }
+  .win:after { content:''; position:absolute; left:0; top:87px; width:100%; height:12px; background:#7a4a2c; }
+  #door { position:absolute; left:310px; top:800px; width:180px; height:340px; background:#7a3a22; border-radius:90px 90px 0 0; box-shadow:inset 0 0 0 10px #5a2a18; }
+  #wreath { position:absolute; left:345px; top:830px; width:110px; height:110px; border-radius:50%; border:22px solid #4f7a3e; }
+  .ov { position:absolute; left:0; width:1080px; text-align:center; white-space:nowrap; line-height:1.35; z-index:60; }
+  .w { display:inline-block; }
+  .glowT { text-shadow:0 0 20px rgba(255,207,122,.6), 0 4px 0 rgba(0,0,0,.25); }
+  .pill { display:inline-block; padding:0 54px 14px; border-radius:90px; background:var(--terra); color:var(--cream); box-shadow:0 10px 30px rgba(0,0,0,.35); }
+  .grp { position:absolute; left:0; top:0; width:1080px; height:1920px; display:none; z-index:40; }
+  .card { position:absolute; background:#fff4e2; border-radius:16px; box-shadow:0 30px 50px rgba(0,0,0,.4); }
+</style></head><body>
+<div id="stage">
+  <canvas id="sky" width="1080" height="1920"></canvas>
+  <div id="ground"></div>
+  <div id="house" style="perspective:2400px">
+    <div id="chim"></div><div id="roof"></div>
+    <div id="body"><div id="rooms"></div></div>
+    <div id="front">
+      <div class="win" style="left:110px; top:90px"></div><div class="win" style="left:510px; top:90px"></div>
+      <div class="win" style="left:110px; top:450px"></div><div class="win" style="left:510px; top:450px"></div>
+      <div id="sign" style="position:absolute; left:140px; top:40px; width:520px; height:520px; z-index:3; background:#fff; padding:16px; border-radius:14px; border:10px solid #7a4a2c; opacity:0"><img src="qr_store.png" style="width:100%; height:100%; display:block"></div>
+      <div id="door"></div><div id="wreath"></div>
+    </div>
+  </div>
+  <canvas id="snow" width="1080" height="1920" style="z-index:30"></canvas>
+  <div class="grp" id="uses" style="background:linear-gradient(180deg, #3b2a22, #20160f)"></div>
+  <div class="grp" id="g5" style="background:linear-gradient(180deg, #3b2a22, #20160f)"><img id="sheet" src="home/sheet2.jpg" style="position:absolute; left:250px; top:620px; width:580px; border-radius:8px; box-shadow:0 30px 60px rgba(0,0,0,.5)"></div>
+  <div class="ov" style="top:80px; font-size:150px"><span class="w glowT" id="h1">بيت صغير…</span></div>
+  <div class="ov" style="top:1730px; font-size:100px; color:var(--brown)"><span class="w" id="h2">وكل غرفة لها حكاية!</span></div>
+  <div class="ov" style="top:90px; font-size:150px"><span class="w glowT" id="cap"></span></div>
+  <div class="ov" style="top:20px; font-size:210px; line-height:1.1; font-family:Cairo; font-weight:900"><span class="w glowT" id="n136">١٣٦</span></div>
+  <div class="ov" style="top:1730px; font-size:96px"><span class="w pill" id="n2">ستيكر بروح البيت</span></div>
+  <div class="ov" style="top:170px; font-size:140px"><span class="w glowT" id="ucap"></span></div>
+  <div class="ov" style="top:150px; font-size:140px"><span class="w glowT" id="p1">ملف PDF</span></div>
+  <div class="ov" style="top:360px; font-size:96px"><span class="w pill" id="p2">جاهز للطباعة</span></div>
+  <div class="ov" style="top:70px; font-size:110px"><span class="w glowT" id="e1">ستيكرات البيت الدافي</span></div>
+  <div class="ov" style="top:1590px; font-size:70px; color:var(--brown)"><span class="w" id="e2b" style="background:rgba(255,244,226,.9); border-radius:40px; padding:0 40px 10px">متوفرة في</span></div>
+  <div class="ov" style="top:1705px; font-size:130px"><span class="w pill" id="e2" style="padding:0 60px 20px">متجر دُر</span></div>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eio = (x) => (x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const eb = (x) => { const c = 1.7; return x <= 0 ? 0 : 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const place = (e, x, y, s, r, o) => { e.style.transform = `translate(${x}px,${y}px) rotate(${r}deg) scale(${s})`; if (o !== undefined) e.style.opacity = o; };
+const pop = (id, t, a, d = 0.4) => { const k = p(t, a, a + d); const e = $(id); e.style.opacity = p(t, a, a + 0.1); e.style.transform = `translateY(${(1 - eo(k)) * 40}px) scale(${0.7 + 0.3 * eb(k)})`; };
+const off = (...ids) => ids.forEach((id) => ($(id).style.opacity = 0));
+
+const D = { h1: 0.3, h2: 1.5, c1: 3.4, c2: 4.8, c3: 6.2, count: 8.0, n2: 9.4, u0: 11.0, u1: 12.2, u2: 13.4, print: 15.2, print2: 16.3, brand: 18.0, store: 19.6, store2: 20.3, end_all: 23.4 };
+const T = Object.assign({}, D, window.TL || {});
+const CUT = [T.c1 - 0.4, T.count - 0.35, T.u0 - 0.35, T.print - 0.35, T.brand - 0.35];
+const sceneAt = (t) => (t < CUT[0] ? 0 : t < CUT[1] ? 1 : t < CUT[2] ? 2 : t < CUT[3] ? 3 : t < CUT[4] ? 4 : 5);
+
+// rooms: top = reading nook, middle = living room, bottom = kitchen
+const WALL = ['repeating-linear-gradient(90deg, #a9bd98 0 40px, #9cb38a 40px 80px)', 'radial-gradient(circle, rgba(255,255,255,.25) 0 6px, transparent 7px) 0 0 / 46px 46px, #c9774f', 'linear-gradient(45deg, rgba(255,255,255,.35) 25%, transparent 25% 75%, rgba(255,255,255,.35) 75%) 0 0 / 60px 60px, linear-gradient(45deg, rgba(255,255,255,.35) 25%, transparent 25% 75%, rgba(255,255,255,.35) 75%) 30px 30px / 60px 60px, #efe0c4'];
+const ROOMS = [
+  { y: 20, main: [['b124', 40, 90, 230, 0], ['b122', 280, 70, 110, 0], ['b136', 430, 150, 170, -4], ['b138', 620, 170, 110, 0]], extra: [['b95', 560, 40, 150, 4], ['b129', 200, 30, 120, -6], ['b134', 330, 210, 100, 8]] },
+  { y: 390, main: [['b98', 260, 60, 250, 0], ['b94', 40, 170, 200, -4], ['b101', 560, 170, 150, 6], ['b107', 520, 20, 200, 0]], extra: [['b96', 40, 20, 150, 0], ['b93', 620, 70, 120, 0], ['b137', 160, 190, 110, -6]] },
+  { y: 760, main: [['b100', 60, 140, 200, -4], ['b16', 300, 170, 150, 4], ['b49', 470, 160, 130, 0], ['b15', 600, 140, 160, 6]], extra: [['b48', 60, 20, 120, 0], ['b33', 300, 20, 150, 0], ['b19', 560, 20, 90, 0]] },
+];
+const rooms = ROOMS.map((r, i) => { const d = document.createElement('div'); d.className = 'room'; d.style.top = r.y + 'px';
+  d.innerHTML = `<div class="wall" style="background:${WALL[i]}"></div><div class="floor"></div><div class="glow"></div><div class="bulb"></div><div class="dark"></div>`;
+  const mk = ([n, x, y, w, rot]) => { const im = document.createElement('img'); im.className = 'st'; im.src = `home/${n}.png`; im.style.width = w + 'px'; d.appendChild(im); return { im, x, y, rot }; };
+  const main = r.main.map(mk), extra = r.extra.map(mk); $('rooms').appendChild(d); return { d, dark: d.querySelector('.dark'), glow: d.querySelector('.glow'), main, extra, cy: 560 + r.y + 175 }; });
+// S2 visit order: living room, kitchen, reading nook
+const VISIT = [['الصالة', 1], ['المطبخ', 2], ['وركن القراءة', 0]];
+// uses
+const JRN = `<div class="card" style="left:150px; top:600px; width:780px; height:940px; background:#f3e6cf; background-image:repeating-linear-gradient(180deg, transparent 0 62px, rgba(120,90,60,.2) 62px 64px)"></div>`;
+const CRD = `<div class="card" style="left:240px; top:620px; width:600px; height:820px"><div style="position:absolute; left:80px; right:80px; top:640px; height:12px; border-radius:6px; background:#ead9bd"></div><div style="position:absolute; left:130px; right:130px; top:690px; height:12px; border-radius:6px; background:#ead9bd"></div></div>`;
+const GFT = `<div class="card" style="left:200px; top:780px; width:680px; height:600px; background:#c58a55"></div><div style="position:absolute; left:510px; top:780px; width:60px; height:600px; background:#b9582f"></div><div class="card" style="left:170px; top:700px; width:740px; height:120px; background:#b07a48"></div>`;
+const US = [['للجورنال', JRN, [['b106', 220, 660, 280, -5], ['b16', 600, 700, 220, 6], ['b98', 230, 1040, 260, 4], ['b138', 620, 1100, 190, -6]]], ['للبطاقات', CRD, [['b96', 380, 700, 320, 0]]], ['ولتغليف الهدايا', GFT, [['b100', 230, 880, 240, -6], ['b107', 600, 900, 240, 6]]]];
+const uses = US.map(([cap, html, st]) => { const d = document.createElement('div'); d.style.cssText = 'position:absolute; left:0; top:0; width:1080px; height:1920px'; d.innerHTML = html; $('uses').appendChild(d);
+  const ims = st.map(([n, x, y, w, r]) => { const im = document.createElement('img'); im.className = 'st'; im.src = `home/${n}.png`; im.style.width = w + 'px'; im.style.zIndex = 5; d.appendChild(im); return { im, x, y, r }; }); return { d, cap, ims }; });
+
+// sky stars + snow
+const sky = $('sky').getContext('2d'); const sn = $('snow').getContext('2d');
+const ST = [...Array(160)].map((_, i) => [R(i) * 1080, R(i + 300) * 1300, 0.8 + R(i + 600) * 2, R(i + 900) * 6]);
+const SN = [...Array(120)].map((_, i) => [R(i + 40) * 1080, R(i + 80) * 2000, 2 + R(i + 120) * 5, 40 + R(i + 160) * 80]);
+
+// camera: [scale, centreX, centreY] of the house world
+const camAt = (t, sc) => { const full = [1, 540, 960];
+  if (sc === 1) { const ks = [T.c1, T.c2, T.c3]; let cur = 0; ks.forEach((k, i) => { if (t >= k - 0.4) cur = i; });
+    const tg = (i) => [1.38, 540, rooms[VISIT[i][1]].cy]; const from = cur === 0 ? full : tg(cur - 1); const to = tg(cur); const k = eio(p(t, ks[cur] - 0.45, ks[cur] - 0.05));
+    return from.map((v, j) => v + (to[j] - v) * k); }
+  if (sc === 2) { const k = eio(p(t, CUT[1], CUT[1] + 0.5)); const from = [1.38, 540, rooms[0].cy], to = [0.84, 540, 1010]; return from.map((v, j) => v + (to[j] - v) * k); }
+  if (sc === 5) return [0.8, 540, 1090];
+  return full; };
+
+window.render = (t) => {
+  const sc = sceneAt(t);
+  $('stage').style.opacity = 1 - p(t, T.end_all - 0.5, T.end_all);
+  sky.clearRect(0, 0, 1080, 1920); for (const [x, y, r, ph] of ST) { sky.globalAlpha = 0.4 + 0.6 * (0.5 + 0.5 * Math.sin(t * 2 + ph)); sky.fillStyle = '#fff'; sky.beginPath(); sky.arc(x, y, r, 0, 7); sky.fill(); }
+  sn.clearRect(0, 0, 1080, 1920); sn.fillStyle = 'rgba(255,255,255,.85)'; for (const [x, y0, r, sp] of SN) { const y = (y0 + t * sp) % 2000 - 40; sn.beginPath(); sn.arc(x + Math.sin(t + y0) * 20, y, r, 0, 7); sn.fill(); }
+  $('snow').style.opacity = sc === 5 ? 1 - 0.8 * p(t, CUT[4], CUT[4] + 0.5) : 1;
+  const [s, cx, cy] = camAt(t, sc);
+  $('house').style.transform = `translate(${540 - cx * s}px, ${960 - cy * s}px) scale(${s})`;
+  $('house').style.display = sc === 3 || sc === 4 ? 'none' : 'block';
+  // front wall swings open after the hook, closes again for the end
+  const open = sc === 0 ? eio(p(t, T.h2 + 0.6, CUT[0])) : sc === 5 ? 1 - eio(p(t, CUT[4], CUT[4] + 0.5)) : 1;
+  $('front').style.transform = `rotateY(${-open * 100}deg)`; $('front').style.opacity = open > 0.98 ? 0 : 1;
+  const sg = sc === 5 ? eb(p(t, CUT[4] + 0.5, CUT[4] + 0.9)) : 0; $('sign').style.opacity = sg > 0 ? 1 : 0; $('sign').style.transform = `scale(${sg})`;
+  // rooms: lights and stickers
+  rooms.forEach((rm, i) => { let lit = 0, mainK = 0, extraK = 0;
+    if (sc === 0) { lit = 0; }
+    if (sc === 1) { const vi = VISIT.findIndex(([, r]) => r === i); const k = [T.c1, T.c2, T.c3][vi]; lit = p(t, k - 0.1, k + 0.05); mainK = t - (k - 0.05); }
+    if (sc >= 2) { lit = 1; mainK = 99; extraK = sc === 2 ? t - (CUT[1] + 0.4 + i * 0.15) : 99; }
+    const flick = lit > 0 && lit < 1 ? (Math.sin(t * 90) > 0 ? 1 : 0.4) : 1;
+    rm.dark.style.opacity = 1 - lit * flick; rm.glow.style.opacity = lit * flick;
+    rm.main.forEach(({ im, x, y, rot }, j) => { const q = eb(p(mainK, j * 0.1, j * 0.1 + 0.35)); place(im, x, y, q, rot + Math.sin(t * 2 + j) * 2, q > 0 ? 1 : 0); });
+    rm.extra.forEach(({ im, x, y, rot }, j) => { const q = eb(p(extraK, j * 0.08, j * 0.08 + 0.3)); place(im, x, y, q, rot, q > 0 ? 1 : 0); }); });
+  // groups
+  $('uses').style.display = sc === 3 ? 'block' : 'none'; $('g5').style.display = sc === 4 ? 'block' : 'none';
+  if (sc === 3) { const at = [CUT[2] + 0.1, T.u1 - 0.3, T.u2 - 0.3]; const st = t < at[1] ? 0 : t < at[2] ? 1 : 2;
+    uses.forEach(({ d, ims }, i) => { d.style.display = i === st ? 'block' : 'none'; d.style.transform = `translateY(${(1 - eo(p(t, at[i], at[i] + 0.45))) * 900}px)`; ims.forEach(({ im, x, y, r }, j) => { const q = eb(p(t, at[i] + 0.3 + j * 0.12, at[i] + 0.65 + j * 0.12)); place(im, x, y, q, r, q > 0 ? 1 : 0); }); }); }
+  if (sc === 4) { const k = eo(p(t, CUT[3] + 0.1, CUT[3] + 0.8)); $('sheet').style.transform = `translateY(${(1 - k) * 1300}px) rotate(-2deg)`; }
+  off('h1', 'h2', 'cap', 'n136', 'n2', 'ucap', 'p1', 'p2', 'e1', 'e2b', 'e2');
+  if (sc === 0) { pop('h1', t, T.h1); pop('h2', t, T.h2, 0.45); }
+  if (sc === 1) { const ks = [T.c1, T.c2, T.c3]; let cur = 0; ks.forEach((k, i) => { if (t >= k - 0.15) cur = i; }); $('cap').textContent = VISIT[cur][0]; pop('cap', t, ks[cur] - 0.1); }
+  if (sc === 2) { $('n136').textContent = Math.round(136 * eo(p(t, CUT[1] + 0.3, CUT[1] + 1.3))).toLocaleString('ar-EG'); pop('n136', t, CUT[1] + 0.3); pop('n2', t, T.n2 - 0.05); }
+  if (sc === 3) { const at = [CUT[2] + 0.1, T.u1 - 0.3, T.u2 - 0.3]; const st = t < at[1] ? 0 : t < at[2] ? 1 : 2; $('ucap').textContent = uses[st].cap; pop('ucap', t, at[st] + 0.1); }
+  if (sc === 4) { pop('p1', t, T.print - 0.05); pop('p2', t, T.print2 - 0.05); }
+  if (sc === 5) { pop('e1', t, T.brand - 0.05); pop('e2b', t, T.store - 0.05); pop('e2', t, T.store2 - 0.05, 0.45); }
+};
+render(0);
+</script>
+</body></html>
