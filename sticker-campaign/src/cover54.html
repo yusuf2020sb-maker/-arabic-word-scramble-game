@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --ink:#3d3322; --green:#5d7a43; --rose:#a8524a; --cream:#fbf6e8; --soil:#5a3d27; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:#eef0df; font-family:'Amiri','Cairo',serif; color:var(--ink); }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; background:linear-gradient(180deg, #f7f2e2 0%, #eaefd9 60%, #dfe7cc 100%); }
+  #rays { position:absolute; left:-300px; top:-500px; width:1700px; height:1700px; background:repeating-conic-gradient(from 0deg at 50% 50%, rgba(255,250,220,.35) 0 6deg, transparent 6deg 18deg); border-radius:50%; mask-image:radial-gradient(circle, #000 30%, transparent 70%); -webkit-mask-image:radial-gradient(circle, #000 30%, transparent 70%); }
+  #soil { position:absolute; left:0; top:1600px; width:1080px; height:320px; background:radial-gradient(circle at 20% 30%, rgba(0,0,0,.18) 0 6px, transparent 7px) 0 0 / 70px 60px, radial-gradient(circle at 70% 60%, rgba(255,255,255,.08) 0 5px, transparent 6px) 0 0 / 90px 70px, linear-gradient(180deg, #7a5536, #4e331f); z-index:6; }
+  #soil:before { content:''; position:absolute; left:0; top:-26px; width:1080px; height:40px; background:radial-gradient(ellipse at 50% 100%, #7a5536 60%, transparent 62%) 0 0 / 90px 40px; }
+  #grass { position:absolute; left:0; top:1560px; width:1080px; height:60px; z-index:7; background:repeating-linear-gradient(100deg, transparent 0 10px, rgba(93,122,67,.85) 10px 13px, transparent 13px 26px); mask-image:linear-gradient(180deg, transparent, #000 60%); -webkit-mask-image:linear-gradient(180deg, transparent, #000 60%); }
+  .layer { position:absolute; left:0; top:0; width:1080px; height:1920px; will-change:transform; }
+  .plant { position:absolute; left:0; top:0; width:1080px; height:1920px; pointer-events:none; }
+  svg .stem { fill:none; stroke:#5d7a43; stroke-width:12; stroke-linecap:round; }
+  .lf { position:absolute; left:0; top:0; width:90px; height:40px; border-radius:100% 0; background:linear-gradient(135deg, #7da15d, #4f6e38); transform-origin:0 50%; }
+  .bl { position:absolute; left:0; top:0; filter:drop-shadow(0 14px 16px rgba(61,51,34,.3)); transform-origin:50% 80%; }
+  .ov { position:absolute; left:0; width:1080px; text-align:center; white-space:nowrap; line-height:1.35; z-index:20; }
+  .w { display:inline-block; }
+  .pill { display:inline-block; padding:0 54px 14px; border-radius:90px; background:var(--green); color:var(--cream); }
+  .sign { position:absolute; left:0; top:0; z-index:8; }
+  .stake { position:absolute; width:46px; background:linear-gradient(90deg, #8a6038, #b88a5a 50%, #7a5330); border-radius:6px; }
+  .board { position:absolute; background:linear-gradient(180deg, #c9a173, #b08454); border-radius:14px; box-shadow:0 18px 30px rgba(61,51,34,.35); border:6px solid #8a6038; }
+</style></head><body>
+<div id="stage">
+  <div id="rays"></div>
+  <div class="layer" id="L"></div>
+  <div id="grass"></div><div id="soil"></div>
+  <div class="ov" style="top:170px; font-size:150px"><span class="w" id="h1">بذرة صغيرة…</span></div>
+  <div class="ov" style="top:390px; font-size:150px; color:var(--rose)"><span class="w" id="h2">صارت حديقة!</span></div>
+  <div class="ov" style="top:170px; font-size:160px"><span class="w" id="cap"></span></div>
+  <div class="ov" style="top:330px; font-size:330px; line-height:1.1; font-family:Cairo; font-weight:900; color:var(--rose)"><span class="w" id="n46">٤٦</span></div>
+  <div class="ov" style="top:700px; font-size:120px"><span class="w" id="n1">ستيكر</span></div>
+  <div class="ov" style="top:880px; font-size:96px"><span class="w pill" id="n2">من الحديقة</span></div>
+  <div class="ov" style="top:170px; font-size:140px"><span class="w" id="ucap"></span></div>
+  <div class="ov" style="top:150px; font-size:140px"><span class="w" id="p1">ملف PDF</span></div>
+  <div class="ov" style="top:360px; font-size:96px"><span class="w pill" id="p2">جاهز للطباعة</span></div>
+  <div class="ov" style="top:110px; font-size:110px; color:var(--green)"><span class="w" id="e1">ستيكرات نباتية فنتج</span></div>
+  <div class="ov" style="top:1640px; font-size:70px; color:var(--cream); z-index:21"><span class="w" id="e2b">متوفرة في</span></div>
+  <div class="ov" style="top:1745px; font-size:44px; font-family:Cairo; font-weight:800; direction:ltr; color:#f1e2c8; z-index:21"><span class="w" id="e3">planme.zaher.io</span></div>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eio = (x) => (x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const eb = (x) => { const c = 1.7; return x <= 0 ? 0 : 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const place = (e, x, y, s, r, o) => { e.style.transform = `translate(${x}px,${y}px) rotate(${r}deg) scale(${s})`; if (o !== undefined) e.style.opacity = o; };
+const grow = (id, t, a, d = 0.5) => { const k = p(t, a, a + d); const e = $(id); e.style.opacity = p(t, a, a + 0.12); e.style.transform = `translateY(${(1 - eo(k)) * 50}px) scale(${0.75 + 0.25 * eb(k)})`; };
+const off = (...ids) => ids.forEach((id) => ($(id).style.opacity = 0));
+
+const D = { h1: 0.3, h2: 1.5, c1: 3.4, c2: 4.8, c3: 6.2, count: 8.0, n2: 9.4, u0: 11.0, u1: 12.2, u2: 13.4, print: 15.2, print2: 16.3, brand: 18.0, store: 19.6, store2: 20.3, end_all: 23.4 };
+const T = Object.assign({}, D, window.TL || {});
+const CUT = [T.c1 - 0.4, T.count - 0.35, T.u0 - 0.35, T.print - 0.35, T.brand - 0.35];
+const sceneAt = (t) => (t < CUT[0] ? 0 : t < CUT[1] ? 1 : t < CUT[2] ? 2 : t < CUT[3] ? 3 : t < CUT[4] ? 4 : 5);
+
+// plants: each lives in a scene group; x,h = base x and stem height; n = flower sticker; w = sticker width; a = grow start (fn of T)
+const groups = [...Array(6)].map((_, i) => { const g = document.createElement('div'); g.className = 'layer'; g.style.display = 'none'; $('L').appendChild(g); return g; });
+const plants = [];
+const mkPlant = (sc, x, h, n, w, aFn, bend = 0, leaves = 2, gx = 0) => {
+  const g = groups[sc]; const d = document.createElement('div'); d.className = 'plant'; g.appendChild(d);
+  const base = 1610, top = base - h; const cx = x + bend;
+  d.innerHTML = `<svg width="1080" height="1920" style="position:absolute; left:0; top:0; overflow:visible"><path class="stem" pathLength="1" d="M ${x} ${base} C ${x} ${base - h * 0.4}, ${cx} ${base - h * 0.6}, ${cx} ${top}"/></svg>`;
+  const path = d.querySelector('path');
+  const lfs = [...Array(leaves)].map((_, i) => { const l = document.createElement('div'); l.className = 'lf'; d.appendChild(l); const at = 0.3 + i * 0.25; const pt = path.getPointAtLength ? null : null; return { l, at, side: i % 2 ? 1 : -1 }; });
+  const im = document.createElement('img'); im.className = 'bl'; im.src = `botan/${n}.png`; im.style.width = w + 'px'; d.appendChild(im);
+  plants.push({ sc, d, path, lfs, im, x, cx, h, top, w, aFn, base, gx });
+};
+// S1: seed packet + three plants
+const packet = document.createElement('img'); packet.className = 'bl'; packet.src = 'botan/b27.png'; packet.style.width = '260px'; groups[0].appendChild(packet);
+mkPlant(0, 260, 620, 'b9', 330, () => T.h2 - 0.6, -30, 2); mkPlant(0, 540, 700, 'b15', 360, () => T.h2 - 0.45, 10, 3); mkPlant(0, 820, 640, 'b18', 330, () => T.h2 - 0.3, 30, 2);
+// S2: one big plant per item, laid out along a long garden (pan between them)
+const S2 = [['توليب', 'b31'], ['لافندر', 'b14'], ['وعبّاد الشمس', 'b13']];
+S2.forEach(([, n], i) => mkPlant(1, 540 - i * 1080, 820, n, 480, () => [T.c1, T.c2, T.c3][i] - 0.5, (i - 1) * 30, 3));
+// S3: meadow
+const MD = ['b41', 'b42', 'b43', 'b44', 'b45', 'b46', 'b47', 'b48', 'b49', 'b50', 'b5', 'b6', 'b7', 'b8', 'b11', 'b17', 'b20', 'b22', 'b39', 'b24'];
+MD.forEach((n, i) => mkPlant(2, 40 + (i % 10) * 110 + (i >= 10 ? 55 : 0), (i >= 10 ? 330 : 520) + R(i) * 160, n, 170 + R(i + 4) * 50, () => CUT[1] + 0.1 + i * 0.05, (R(i + 8) - 0.5) * 60, 1));
+// S4: uses — stems grow out of objects resting on the soil
+const OBJ = [`<div style="position:absolute; left:220px; top:1180px; width:640px; height:440px; background:#efe3cc; border-radius:10px; box-shadow:0 20px 30px rgba(61,51,34,.3); background-image:repeating-linear-gradient(180deg, transparent 0 56px, rgba(120,100,70,.2) 56px 58px)"><div style="position:absolute; left:316px; top:0; width:8px; height:440px; background:#d8c7a8"></div></div>`,
+  `<div style="position:absolute; left:230px; top:1200px; width:620px; height:420px; background:#ead9bb; border-radius:10px; box-shadow:0 20px 30px rgba(61,51,34,.3)"><div style="position:absolute; left:0; top:0; width:620px; height:210px; background:#dcc7a2; clip-path:polygon(0 0, 100% 0, 50% 100%)"></div></div>`,
+  `<div style="position:absolute; left:250px; top:1160px; width:580px; height:460px; background:#d8b98d; border-radius:10px; box-shadow:0 20px 30px rgba(61,51,34,.3)"><div style="position:absolute; left:260px; top:0; width:60px; height:460px; background:#a8524a"></div></div>`];
+const objs = OBJ.map((h) => { const d = document.createElement('div'); d.className = 'layer'; d.innerHTML = h; groups[3].appendChild(d); return d; });
+const U = [['للجورنال', ['b29', 'b10']], ['للظروف', ['b35', 'b26']], ['ولتغليف الهدايا', ['b33', 'b16']]];
+const uat = () => [CUT[2] + 0.1, T.u1 - 0.3, T.u2 - 0.3];
+U.forEach(([, ns], i) => { mkPlant(3, 400, 640 + 0, ns[0], 300, () => uat()[i] + 0.2, -40, 2); mkPlant(3, 680, 760, ns[1], 320, () => uat()[i] + 0.35, 40, 2); });
+// S5: print sheet on a stake
+const s5 = document.createElement('div'); s5.className = 'sign'; s5.innerHTML = `<div class="stake" style="left:517px; top:1240px; height:420px"></div><img src="botan/sheet2.jpg" style="position:absolute; left:250px; top:560px; width:580px; border-radius:6px; box-shadow:0 20px 30px rgba(61,51,34,.35)">`; groups[4].appendChild(s5);
+mkPlant(4, 120, 560, 'b23', 260, () => CUT[3] + 0.6, 20, 2); mkPlant(4, 960, 600, 'b12', 270, () => CUT[3] + 0.7, -20, 2);
+// S6: QR on a garden sign + flowers
+const s6 = document.createElement('div'); s6.className = 'sign'; s6.innerHTML = `<div class="stake" style="left:517px; top:1080px; height:600px"></div><div class="board" style="left:265px; top:330px; width:550px; height:800px"><div style="position:absolute; left:45px; top:40px; width:448px; height:448px; background:#fff; padding:20px; border-radius:12px"><img src="qr_store.png" style="width:100%; height:100%; display:block"></div><div id="e2w" style="position:absolute; left:0; top:520px; width:538px; text-align:center; font-size:130px; color:#fbf6e8; text-shadow:0 4px 0 rgba(0,0,0,.25); line-height:1.3"><span class="w" id="e2">متجر دُر</span></div></div>`; groups[5].appendChild(s6);
+mkPlant(5, 130, 760, 'b10', 260, () => CUT[4] + 0.5, 20, 2); mkPlant(5, 950, 820, 'b16', 260, () => CUT[4] + 0.6, -20, 2); mkPlant(5, 200, 420, 'b44', 200, () => CUT[4] + 0.7, 10, 1); mkPlant(5, 880, 440, 'b48', 200, () => CUT[4] + 0.8, -10, 1);
+
+// leaf positions along each stem (computed once paths exist in the DOM)
+requestAnimationFrame(() => 0);
+const leafPos = (pl) => { if (pl.L) return; const L = pl.path.getTotalLength(); if (!L) return; pl.L = L; pl.lfs.forEach((lf) => { const pt = pl.path.getPointAtLength(L * (1 - lf.at)); lf.x = pt.x; lf.y = pt.y; }); };
+
+window.render = (t) => {
+  const sc = sceneAt(t);
+  groups.forEach((g, i) => (g.style.display = i === sc || (i === sc - 1 && t < CUT[sc - 1] + 0.5) ? 'block' : 'none'));
+  $('stage').style.opacity = 1 - p(t, T.end_all - 0.5, T.end_all);
+  $('rays').style.transform = `rotate(${t * 4}deg)`;
+  // scene pan: outgoing group slides right, incoming comes from the left (RTL)
+  groups.forEach((g, i) => { let x = 0; if (i > 0) { const c = CUT[i - 1]; x += -(1 - eio(p(t, c - 0.1, c + 0.5))) * 1100; } if (i < 5) { const c = CUT[i]; x += eio(p(t, c - 0.1, c + 0.5)) * 1100; }
+    if (i === 1) { const pan = eio(p(t, T.c2 - 0.6, T.c2 - 0.2)) + eio(p(t, T.c3 - 0.6, T.c3 - 0.2)); x += pan * 1080; }
+    g.style.transform = `translateX(${x}px)`; });
+  // plants
+  for (const pl of plants) { if (pl.sc !== sc && !(pl.sc === sc - 1)) continue; const a = pl.aFn(); const gk = eo(p(t, a, a + 0.55)); const bk = eb(p(t, a + 0.4, a + 0.8));
+    pl.path.style.strokeDasharray = `${gk} 1`; pl.d.style.opacity = t >= a ? 1 : 0;
+    const sway = Math.sin(t * 1.6 + pl.x * 0.01) * 3;
+    pl.d.style.transform = `rotate(${sway * 0.3}deg)`; pl.d.style.transformOrigin = `${pl.x}px 1610px`;
+    leafPos(pl);
+    pl.lfs.forEach((lf) => { if (lf.x === undefined) return; const lk = eb(p(t, a + lf.at * 0.4, a + lf.at * 0.4 + 0.35)); lf.l.style.transform = `translate(${lf.x}px, ${lf.y - 20}px) rotate(${lf.side > 0 ? -30 : 210}deg) scale(${lk})`; });
+    place(pl.im, pl.cx - pl.w / 2, pl.top - pl.w * 0.75, bk, sway, bk > 0 ? 1 : 0); }
+  // packet drop (S1)
+  if (sc === 0) { const k = p(t, 0.1, 0.7); place(packet, 410, -400 + eio(k) * 1360 - Math.max(0, p(t, T.h2 - 0.8, T.h2 - 0.3)) * 400, 1, (1 - k) * 20, 1 - p(t, T.h2 - 0.6, T.h2 - 0.3)); }
+  // overlays
+  off('h1', 'h2', 'cap', 'n46', 'n1', 'n2', 'ucap', 'p1', 'p2', 'e1', 'e2b', 'e3');
+  if (sc === 0) { grow('h1', t, T.h1); grow('h2', t, T.h2, 0.55); }
+  if (sc === 1) { const ks = [T.c1, T.c2, T.c3]; let cur = 0; ks.forEach((k, i) => { if (t >= k - 0.15) cur = i; }); $('cap').textContent = S2[cur][0]; grow('cap', t, ks[cur] - 0.1, 0.4); }
+  if (sc === 2) { $('n46').textContent = Math.round(46 * eo(p(t, CUT[1] + 0.2, CUT[1] + 1.2))).toLocaleString('ar-EG'); grow('n46', t, CUT[1] + 0.1); grow('n1', t, CUT[1] + 0.45); grow('n2', t, T.n2 - 0.05); }
+  if (sc === 3) { const at = uat(); const st = t < at[1] ? 0 : t < at[2] ? 1 : 2; $('ucap').textContent = U[st][0]; grow('ucap', t, at[st] + 0.05, 0.4);
+    objs.forEach((o, i) => { o.style.display = i === st ? 'block' : 'none'; o.style.transform = `translateY(${(1 - eo(p(t, at[i], at[i] + 0.35))) * 500}px)`; });
+    plants.filter((pl) => pl.sc === 3).forEach((pl, j) => { const i = Math.floor(j / 2); if (i !== st) pl.d.style.opacity = 0; }); }
+  if (sc === 4) { grow('p1', t, T.print - 0.05); grow('p2', t, T.print2 - 0.05); s5.style.transform = `translateY(${(1 - eo(p(t, CUT[3] + 0.1, CUT[3] + 0.8))) * 1300}px)`; }
+  if (sc === 5) { grow('e1', t, T.brand - 0.05); s6.style.transform = `translateY(${(1 - eo(p(t, CUT[4] + 0.15, CUT[4] + 0.75))) * 1400}px)`; grow('e2b', t, T.store - 0.05, 0.4); grow('e2', t, T.store2 - 0.05, 0.45); grow('e3', t, T.store2 + 0.35, 0.4); }
+};
+render(2.7);
+document.getElementById('h1').style.opacity = 1; document.getElementById('h1').style.transform = 'none'; document.getElementById('h2').style.opacity = 1; document.getElementById('h2').style.transform = 'none';
+document.getElementById('stage').insertAdjacentHTML('beforeend', `<div style="position:absolute; left:40px; top:1560px; width:1000px; height:330px; background:#fbf6e8; border-radius:30px; border:6px solid #8a6038; box-shadow:0 20px 40px rgba(61,51,34,.35); z-index:30">
+  <div style="position:absolute; left:22px; top:22px; width:274px; height:274px; background:#fff; padding:10px; border-radius:16px"><img src="qr_store.png" style="width:100%; height:100%; display:block"></div>
+  <div style="position:absolute; left:320px; top:30px; width:660px; text-align:center; font-size:82px; white-space:nowrap">٤٦ ستيكر نباتي فنتج</div>
+  <div style="position:absolute; left:320px; top:170px; width:660px; text-align:center; font-size:70px; white-space:nowrap"><span class="pill" style="padding:0 40px 14px">متوفرة في متجر دُر</span></div></div>`);
+</script>
+</body></html>
