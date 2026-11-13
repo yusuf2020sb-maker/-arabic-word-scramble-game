@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Mirza:wght@700&family=Cairo:wght@700;900&family=Cormorant+Garamond:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root { --brass:#c8a35a; --brass2:#8a6a2c; --cream:#f3e7cf; --wood:#1c1310; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:var(--wood); font-family:'Mirza','Cairo',serif; color:var(--cream); }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; background:radial-gradient(ellipse at 50% 48%, #3d2a20 0%, #22170f 55%, #120c08 100%); }
+  #gears { position:absolute; left:0; top:0; width:1080px; height:1920px; opacity:.35; }
+  #gears path { fill:none; stroke:var(--brass); stroke-width:6; }
+  #dialW { position:absolute; left:0; top:0; width:1080px; height:1920px; transform-origin:540px 960px; will-change:transform; }
+  #dial { position:absolute; left:140px; top:560px; width:800px; height:800px; border-radius:50%; background:radial-gradient(circle, #fbf3e0 0%, #efe0bf 70%, #d9c497 100%); box-shadow:0 0 0 22px var(--brass), 0 0 0 30px var(--brass2), 0 40px 80px rgba(0,0,0,.7), inset 0 0 40px rgba(120,90,40,.35); }
+  .num { position:absolute; width:120px; text-align:center; font-family:'Cormorant Garamond',serif; font-size:64px; color:#3a2a18; }
+  .tick { position:absolute; left:396px; top:14px; width:8px; height:30px; background:#3a2a18; transform-origin:4px 386px; }
+  .hand { position:absolute; left:536px; transform-origin:4px 100%; background:#2a1c10; border-radius:4px; }
+  #hub { position:absolute; left:518px; top:938px; width:44px; height:44px; border-radius:50%; background:radial-gradient(circle at 35% 35%, #f5dfa6, #8a6a2c); z-index:5; }
+  .st { position:absolute; left:0; top:0; filter:drop-shadow(0 16px 18px rgba(0,0,0,.6)); will-change:transform; }
+  .ov { position:absolute; left:0; width:1080px; text-align:center; white-space:nowrap; line-height:1.4; z-index:40; }
+  .w { display:inline-block; }
+  .gold { color:#f0d38c; text-shadow:0 0 24px rgba(200,163,90,.45); }
+  .pill { display:inline-block; padding:4px 54px 20px; border-radius:90px; background:var(--brass); color:#1c1310; }
+  .grp { position:absolute; left:0; top:0; width:1080px; height:1920px; display:none; z-index:30; }
+</style></head><body>
+<div id="stage">
+  <svg id="gears" width="1080" height="1920"></svg>
+  <div id="dialW">
+    <div id="dial"></div>
+    <div id="ticks"></div>
+    <div class="hand" id="hH" style="top:760px; width:12px; height:200px"></div>
+    <div class="hand" id="hM" style="top:640px; width:8px; height:320px"></div>
+    <div id="hub"></div>
+    <div id="qrIn" style="position:absolute; left:290px; top:710px; width:500px; height:500px; background:#fff; padding:24px; border-radius:16px; opacity:0; z-index:6"><img src="qr_store.png" style="width:100%; height:100%; display:block"></div>
+  </div>
+  <div id="ring"></div>
+  <img id="hero" class="st" style="z-index:35; opacity:0">
+  <div class="grp" id="uses"></div>
+  <div class="grp" id="g5"><div id="shF" style="position:absolute; left:250px; top:560px; padding:22px; background:linear-gradient(135deg, #f0d592, #8a6a2c 50%, #e9c97c); box-shadow:0 30px 60px rgba(0,0,0,.6)"><img src="classic/sheet.jpg" style="width:540px; display:block"></div></div>
+  <div class="ov" style="top:130px; font-size:150px"><span class="w gold" id="h1">الوقت يمشي…</span></div>
+  <div class="ov" style="top:1440px; font-size:140px"><span class="w" id="h2">والكلاسيك يبقى!</span></div>
+  <div class="ov" style="top:1500px; font-size:150px"><span class="w gold" id="cap"></span></div>
+  <div class="ov" style="top:830px; font-size:220px; line-height:1; font-family:Cairo; font-weight:900; color:#3a2a18"><span class="w" id="n62">٦٢</span></div>
+  <div class="ov" style="top:1050px; font-size:70px; color:#3a2a18"><span class="w" id="n1">ستيكر</span></div>
+  <div class="ov" style="top:1560px; font-size:100px"><span class="w pill" id="n2">بطابع عتيق</span></div>
+  <div class="ov" style="top:170px; font-size:140px"><span class="w gold" id="ucap"></span></div>
+  <div class="ov" style="top:150px; font-size:140px"><span class="w gold" id="p1">ملف PDF</span></div>
+  <div class="ov" style="top:360px; font-size:96px"><span class="w pill" id="p2">جاهز للطباعة</span></div>
+  <div class="ov" style="top:200px; font-size:96px"><span class="w gold" id="e1">ستيكرات فنتج كلاسيكية</span></div>
+  <div class="ov" style="top:1440px; font-size:84px"><span class="w" id="e2b">متوفرة في</span></div>
+  <div class="ov" style="top:1570px; font-size:160px"><span class="w pill" id="e2" style="padding:0 70px 26px">متجر دُر</span></div>
+  <div class="ov" style="top:1830px; font-size:46px; font-family:Cairo; direction:ltr"><span class="w" id="e3" style="color:rgba(243,231,207,.8)">planme.zaher.io</span></div>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eio = (x) => (x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const eb = (x) => { const c = 1.7; return x <= 0 ? 0 : 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const place = (e, x, y, s, r, o) => { e.style.transform = `translate(${x}px,${y}px) rotate(${r}deg) scale(${s})`; if (o !== undefined) e.style.opacity = o; };
+const pop = (id, t, a, d = 0.4) => { const k = p(t, a, a + d); const e = $(id); e.style.opacity = p(t, a, a + 0.1); e.style.transform = `translateY(${(1 - eo(k)) * 40}px) scale(${0.7 + 0.3 * eb(k)})`; };
+const off = (...ids) => ids.forEach((id) => ($(id).style.opacity = 0));
+
+const D = { h1: 0.3, h2: 1.5, c1: 3.4, c2: 4.8, c3: 6.2, count: 8.0, n2: 9.4, u0: 11.0, u1: 12.2, u2: 13.4, print: 15.2, print2: 16.3, brand: 18.0, store: 19.6, store2: 20.3, end_all: 23.4 };
+const T = Object.assign({}, D, window.TL || {});
+const CUT = [T.c1 - 0.4, T.count - 0.35, T.u0 - 0.35, T.print - 0.35, T.brand - 0.35];
+const sceneAt = (t) => (t < CUT[0] ? 0 : t < CUT[1] ? 1 : t < CUT[2] ? 2 : t < CUT[3] ? 3 : t < CUT[4] ? 4 : 5);
+
+// gears (outline paths) rotating in the background
+const gearPath = (cx, cy, r, n) => { let d = ''; for (let i = 0; i < n * 2; i++) { const a0 = i / (n * 2) * Math.PI * 2, a1 = (i + 1) / (n * 2) * Math.PI * 2; const rr = i % 2 ? r : r + 26;
+  d += `${i ? 'L' : 'M'} ${cx + Math.cos(a0) * rr} ${cy + Math.sin(a0) * rr} L ${cx + Math.cos(a1) * rr} ${cy + Math.sin(a1) * rr} `; } return d + `Z M ${cx + r * 0.35} ${cy} A ${r * 0.35} ${r * 0.35} 0 1 0 ${cx - r * 0.35} ${cy} A ${r * 0.35} ${r * 0.35} 0 1 0 ${cx + r * 0.35} ${cy}`; };
+const GEARS = [[120, 300, 160, 14, 1], [960, 420, 120, 11, -1.3], [80, 1620, 200, 16, -0.8], [990, 1700, 150, 12, 1.1], [540, 120, 90, 9, 1.6], [860, 1150, 70, 8, -2]];
+$('gears').innerHTML = GEARS.map(([x, y, r, n], i) => `<g id="gear${i}" style="transform-origin:${x}px ${y}px"><path d="${gearPath(x, y, r, n)}"/></g>`).join('');
+// dial numerals and ticks
+const ROM = ['XII', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI'];
+ROM.forEach((r, i) => { const a = i / 12 * Math.PI * 2; const n = document.createElement('div'); n.className = 'num'; n.textContent = r; n.style.left = (540 + Math.sin(a) * 320 - 60) + 'px'; n.style.top = (960 - Math.cos(a) * 320 - 44) + 'px'; $('ticks').appendChild(n); });
+[...Array(60)].forEach((_, i) => { const tk = document.createElement('div'); tk.className = 'tick'; tk.style.left = (140 + 396) + 'px'; tk.style.top = (560 + 14) + 'px'; tk.style.height = (i % 5 ? 18 : 30) + 'px'; tk.style.transform = `rotate(${i * 6}deg)`; tk.style.opacity = i % 5 ? 0.5 : 0.9; $('ticks').appendChild(tk); });
+// 12 stickers at the hour marks (count scene)
+const RN = ['v12', 'v5', 'v8', 'v9', 'v10', 'v11', 'v14', 'v18', 'v20', 'v24', 'v29', 'v42'];
+const ring = RN.map((n) => { const im = document.createElement('img'); im.className = 'st'; im.src = `classic/${n}.png`; im.style.width = '200px'; $('ring').appendChild(im); return im; });
+// featured picks with the hour each one sits on
+const PICK = [['ساعة جيب', 'v12', 3], ['ريشة وحبر', 'v14', 7], ['وكتب قديمة', 'v5', 10]];
+// uses
+const JRN = `<div style="position:absolute; left:140px; top:580px; width:800px; height:960px; background:#e9dcc0; border-radius:12px; box-shadow:0 30px 60px rgba(0,0,0,.6); background-image:repeating-linear-gradient(180deg, transparent 0 64px, rgba(80,60,40,.15) 64px 66px)"><div style="position:absolute; left:396px; top:0; width:8px; height:960px; background:#d2c1a0"></div></div>`;
+const LET = `<div style="position:absolute; left:150px; top:760px; width:780px; height:540px; background:#e6d6b6; border-radius:10px; box-shadow:0 30px 60px rgba(0,0,0,.6)"><div style="position:absolute; left:0; top:0; width:780px; height:270px; background:#d8c6a0; clip-path:polygon(0 0, 100% 0, 50% 100%)"></div></div>`;
+const BOOK = `<div style="position:absolute; left:250px; top:560px; width:580px; height:900px; background:#5a2a22; border-radius:10px 26px 26px 10px; box-shadow:0 30px 60px rgba(0,0,0,.6)"><div style="position:absolute; left:0; top:0; width:60px; height:900px; background:#3e1c16; border-radius:10px 0 0 10px"></div><div style="position:absolute; left:110px; top:60px; width:420px; height:780px; border:4px solid #c8a35a; border-radius:8px"></div></div>`;
+const US = [['للجورنال', JRN, [['v57', 200, 640, 300, -4], ['v24', 580, 660, 280, 8], ['v26', 240, 1060, 280, -6], ['v60', 600, 1040, 260, 4]]], ['للرسائل', LET, [['v25', 460, 900, 180, 0], ['v14', 180, 520, 280, -10], ['v52', 700, 560, 220, 8]]], ['ولأغلفة الكتب', BOOK, [['v18', 380, 680, 320, 0], ['v37', 400, 1060, 180, 0]]]];
+const uses = US.map(([cap, html, st]) => { const d = document.createElement('div'); d.style.cssText = 'position:absolute; left:0; top:0; width:1080px; height:1920px'; d.innerHTML = html; $('uses').appendChild(d);
+  const ims = st.map(([n, x, y, w, r]) => { const im = document.createElement('img'); im.className = 'st'; im.src = `classic/${n}.png`; im.style.width = w + 'px'; d.appendChild(im); return { im, x, y, r }; }); return { d, cap, ims }; });
+
+// hands: minute angle in degrees over time; hour hand follows/12, but jumps to picks in S2
+const handAngles = (t) => { let m = t * 90; let h = 300 + t * 15;
+  const sc = sceneAt(t);
+  if (sc === 1) { const ks = [T.c1, T.c2, T.c3]; for (let i = 0; i < 3; i++) { const k = eio(p(t, ks[i] - 0.45, ks[i] - 0.05)); if (t >= ks[i] - 0.45) { const target = PICK[i][2] * 30 + 720 * (i + 1); h = (i ? PICK[i - 1][2] * 30 + 720 * i : 300 + (ks[0] - 0.45) * 15) * (1 - k) + target * k; m = h * 12; } } }
+  if (sc === 2) { m = t * 900; h = t * 75; }
+  return [h, m]; };
+
+window.render = (t) => {
+  const sc = sceneAt(t);
+  $('stage').style.opacity = 1 - p(t, T.end_all - 0.5, T.end_all);
+  GEARS.forEach(([, , , , sp], i) => ($(`gear${i}`).style.transform = `rotate(${t * 20 * sp}deg)`));
+  // dial placement per scene: centre, small top in uses/print, centre again at the end
+  const dialVis = sc <= 2 || sc === 5; const enter = eb(p(t, 0, 0.6));
+  $('dialW').style.opacity = dialVis ? 1 : 0; $('dialW').style.transform = `scale(${sc === 0 ? enter : 1})`;
+  const [h, m] = handAngles(t); $('hH').style.transform = `rotate(${h}deg)`; $('hM').style.transform = `rotate(${m}deg)`;
+  const showHands = sc !== 5; $('hH').style.opacity = $('hM').style.opacity = $('hub').style.opacity = showHands ? 1 : 0;
+  const q = sc === 5 ? eb(p(t, CUT[4] + 0.25, CUT[4] + 0.7)) : 0; $('qrIn').style.opacity = q > 0 ? 1 : 0; $('qrIn').style.transform = `scale(${q})`;
+  // ring stickers at the hour marks (S3)
+  ring.forEach((im, i) => { const a = i / 12 * Math.PI * 2; const k = sc === 2 ? eb(p(t, CUT[1] + 0.2 + i * 0.07, CUT[1] + 0.55 + i * 0.07)) : 0; place(im, 540 + Math.sin(a) * 470 - 100, 960 - Math.cos(a) * 470 - 100, k, Math.sin(t * 2 + i) * 4, k > 0 ? 1 : 0); });
+  // hero pick (S2): pops out from its hour mark and grows in front of the dial
+  if (sc === 1) { const ks = [T.c1, T.c2, T.c3]; let cur = 0; ks.forEach((k, i) => { if (t >= k - 0.15) cur = i; }); const k = eo(p(t, ks[cur] - 0.1, ks[cur] + 0.35)); const out = cur < 2 ? p(t, ks[cur + 1] - 0.45, ks[cur + 1] - 0.25) : 0;
+    const a = PICK[cur][2] / 12 * Math.PI * 2; const sx = 540 + Math.sin(a) * 320, sy = 960 - Math.cos(a) * 320;
+    $('hero').src = `classic/${PICK[cur][1]}.png`; $('hero').style.width = '520px'; $('hero').style.height = '600px'; $('hero').style.objectFit = 'contain';
+    place($('hero'), (sx - 260) * (1 - k) + 280 * k, (sy - 260) * (1 - k) + 640 * k, 0.3 + 0.7 * eb(Math.min(1, k * 1.1)), (1 - k) * 20, (k > 0 ? 1 : 0) * (1 - out)); }
+  else $('hero').style.opacity = 0;
+  $('uses').style.display = sc === 3 ? 'block' : 'none'; $('g5').style.display = sc === 4 ? 'block' : 'none';
+  if (sc === 3) { const at = [CUT[2] + 0.1, T.u1 - 0.3, T.u2 - 0.3]; const st = t < at[1] ? 0 : t < at[2] ? 1 : 2;
+    uses.forEach(({ d, ims }, i) => { d.style.display = i === st ? 'block' : 'none'; d.style.transform = `translateY(${(1 - eo(p(t, at[i], at[i] + 0.45))) * 900}px)`; ims.forEach(({ im, x, y, r }, j) => { const s = at[i] + 0.3 + j * 0.12; const qq = eb(p(t, s, s + 0.35)); place(im, x, y, qq, r, qq > 0 ? 1 : 0); }); }); }
+  if (sc === 4) { $('shF').style.transform = `scale(${eb(p(t, CUT[3] + 0.1, CUT[3] + 0.6))}) rotate(${Math.sin(t) * 1.2}deg)`; }
+  off('h1', 'h2', 'cap', 'n62', 'n1', 'n2', 'ucap', 'p1', 'p2', 'e1', 'e2b', 'e2', 'e3');
+  if (sc === 0) { pop('h1', t, T.h1); pop('h2', t, T.h2, 0.45); }
+  if (sc === 1) { const ks = [T.c1, T.c2, T.c3]; let cur = 0; ks.forEach((k, i) => { if (t >= k - 0.15) cur = i; }); $('cap').textContent = PICK[cur][0]; pop('cap', t, ks[cur] - 0.1); }
+  if (sc === 2) { $('n62').textContent = Math.round(62 * eo(p(t, CUT[1] + 0.15, CUT[1] + 1.1))).toLocaleString('ar-EG'); pop('n62', t, CUT[1] + 0.1); pop('n1', t, CUT[1] + 0.4); pop('n2', t, T.n2 - 0.05);
+    $('hH').style.opacity = $('hM').style.opacity = 0.25; }
+  if (sc === 3) { const at = [CUT[2] + 0.1, T.u1 - 0.3, T.u2 - 0.3]; const st = t < at[1] ? 0 : t < at[2] ? 1 : 2; $('ucap').textContent = uses[st].cap; pop('ucap', t, at[st] + 0.1); }
+  if (sc === 4) { pop('p1', t, T.print - 0.05); pop('p2', t, T.print2 - 0.05); }
+  if (sc === 5) { pop('e1', t, T.brand - 0.05); pop('e2b', t, T.store - 0.05); pop('e2', t, T.store2 - 0.05, 0.45); pop('e3', t, T.store2 + 0.35); }
+};
+render(2.6);
+['h1','h2'].forEach((id) => { const e = document.getElementById(id); e.style.opacity = 1; e.style.transform = 'none'; });
+document.getElementById('hH').style.transform = 'rotate(300deg)'; document.getElementById('hM').style.transform = 'rotate(60deg)';
+const st = document.getElementById('stage');
+[['v12', 40, 520, 230, -10], ['v14', 840, 480, 210, 10], ['v5', 30, 1160, 250, -6], ['v57', 830, 1180, 220, 8]].forEach(([n, x, y, w, r]) => st.insertAdjacentHTML('beforeend', `<img class="st" src="classic/${n}.png" style="width:${w}px; transform:translate(${x}px,${y}px) rotate(${r}deg); z-index:35">`));
+document.getElementById('h2').parentNode.style.top = '1380px';
+st.insertAdjacentHTML('beforeend', `<div style="position:absolute; left:40px; top:1560px; width:1000px; height:320px; border-radius:30px; background:rgba(28,19,16,.9); border:3px solid #c8a35a; box-shadow:0 20px 40px rgba(0,0,0,.5); z-index:70">
+  <div style="position:absolute; left:20px; top:20px; width:280px; height:280px; background:#fff; padding:10px; border-radius:14px"><img src="qr_store.png" style="width:100%; height:100%; display:block"></div>
+  <div style="position:absolute; left:320px; top:34px; width:660px; text-align:center; font-size:76px; white-space:nowrap" class="gold">٦٢ ستيكر كلاسيكي</div>
+  <div style="position:absolute; left:320px; top:170px; width:660px; text-align:center; font-size:68px; white-space:nowrap"><span class="pill" style="padding:0 40px 16px">متوفرة في متجر دُر</span></div></div>`);
+</script>
+</body></html>
