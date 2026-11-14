@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --wine:#6b1f2e; --rose:#b34a5a; --cream:#fff7ee; --blush:#f4e3da; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:var(--blush); font-family:'Lalezar','Cairo',sans-serif; color:var(--wine); }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; }
+  .world { position:absolute; left:0; top:0; width:1080px; height:1920px; transform-origin:0 0; display:none; will-change:transform, filter; }
+  .bg { position:absolute; inset:0; background:radial-gradient(ellipse at 50% 40%, #fbefe8, #f1d9cf 70%, #e3c2b6); }
+  .table { position:absolute; left:0; top:1250px; width:1080px; height:670px; background:linear-gradient(180deg, #d9b79a, #c49a78); }
+  .table:before { content:''; position:absolute; left:0; top:0; width:1080px; height:20px; background:rgba(0,0,0,.08); }
+  .st { position:absolute; left:0; top:0; filter:drop-shadow(0 8px 10px rgba(80,30,30,.3)); }
+  .sheet { position:absolute; background:#d4b896; border-radius:30px; box-shadow:0 20px 40px rgba(80,30,30,.25); }
+  .sheet:after { content:''; position:absolute; inset:18px; border:3px dashed rgba(255,255,255,.55); border-radius:20px; }
+  .ov { position:absolute; left:0; width:1080px; text-align:center; white-space:nowrap; line-height:1.35; z-index:60; }
+  .w { display:inline-block; }
+  .wt { color:#fff; text-shadow:0 4px 24px rgba(0,0,0,.45), 0 2px 0 rgba(0,0,0,.2); }
+  .stamp { display:inline-block; padding:6px 60px 24px; border:10px solid var(--wine); border-radius:24px; color:var(--wine); background:rgba(255,247,238,.92); }
+  .pill { display:inline-block; padding:0 54px 16px; border-radius:90px; background:var(--wine); color:var(--cream); }
+  #flash { position:absolute; inset:0; background:#fff; z-index:55; opacity:0; pointer-events:none; }
+  #vig { position:absolute; inset:0; z-index:54; pointer-events:none; background:radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(60,20,20,.35)); }
+</style></head><body>
+<div id="stage">
+  <div id="worlds"></div>
+  <div id="vig"></div><div id="flash"></div>
+  <div class="ov" style="top:200px; font-size:170px"><span class="w wt" id="h1">هذي الوردة...</span></div>
+  <div class="ov" style="top:200px; font-size:140px"><span class="w stamp" id="h2">طلعت ستيكر!</span></div>
+  <div class="ov" style="top:1600px; font-size:150px"><span class="w" id="cap"></span></div>
+  <div class="ov" style="top:160px; font-size:300px; line-height:1.05; font-family:Cairo; font-weight:900"><span class="w" id="n63" style="color:var(--wine); text-shadow:0 0 0 #fff, 0 8px 0 rgba(255,255,255,.8)">٦٣</span></div>
+  <div class="ov" style="top:500px; font-size:110px"><span class="w pill" id="n1">ستيكر ورد</span></div>
+  <div class="ov" style="top:1640px; font-size:110px"><span class="w stamp" id="n2">تبان حقيقية!</span></div>
+  <div class="ov" style="top:200px; font-size:130px"><span class="w" id="ucap"></span></div>
+  <div class="ov" style="top:150px; font-size:140px"><span class="w" id="p1">ملف PDF</span></div>
+  <div class="ov" style="top:350px; font-size:96px"><span class="w pill" id="p2">جاهز للطباعة</span></div>
+  <div class="ov" style="top:150px; font-size:110px"><span class="w" id="e1">ستيكرات ورود فنتج</span></div>
+  <div class="ov" style="top:1430px; font-size:80px"><span class="w" id="e2b" style="background:rgba(255,247,238,.95); border-radius:40px; padding:0 40px 12px">متوفرة في</span></div>
+  <div class="ov" style="top:1560px; font-size:170px"><span class="w pill" id="e2" style="padding:0 70px 26px">متجر دُر</span></div>
+  <div class="ov" style="top:1820px; font-size:46px; font-family:Cairo; font-weight:800; direction:ltr"><span class="w" id="e3">planme.zaher.io</span></div>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eio = (x) => (x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const eb = (x) => { const c = 1.7; return x <= 0 ? 0 : 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const pop = (id, t, a, d = 0.4) => { const k = p(t, a, a + d); const e = $(id); e.style.opacity = p(t, a, a + 0.1); e.style.transform = `scale(${0.6 + 0.4 * eb(k)}) rotate(${(1 - eo(k)) * -6}deg)`; };
+const off = (...ids) => ids.forEach((id) => ($(id).style.opacity = 0));
+
+const D = { h1: 0.3, h2: 1.5, c1: 3.4, c2: 4.8, c3: 6.2, count: 8.0, n2: 9.4, u0: 11.0, u1: 12.2, u2: 13.4, print: 15.2, print2: 16.3, brand: 18.0, store: 19.6, store2: 20.3, end_all: 23.4 };
+const T = Object.assign({}, D, window.TL || {});
+
+const st = (n, x, y, w, r = 0) => `<img class="st" src="roses/${n}.png" style="width:${w}px; transform:translate(${x}px,${y}px) rotate(${r}deg)">`;
+const BOX = (x, y, w, h, col = '#f6d6dc', rib = '#6b1f2e') => `<div style="position:absolute; left:${x}px; top:${y}px; width:${w}px; height:${h}px; background:${col}; border-radius:12px; box-shadow:0 30px 50px rgba(80,30,30,.25)"></div><div style="position:absolute; left:${x - 30}px; top:${y - 90}px; width:${w + 60}px; height:130px; background:${col}; filter:brightness(.95); border-radius:12px; box-shadow:0 10px 20px rgba(80,30,30,.2)"></div><div style="position:absolute; left:${x + w / 2 - 30}px; top:${y - 90}px; width:60px; height:${h + 90}px; background:${rib}"></div>`;
+const CARD = `<div style="position:absolute; left:220px; top:520px; width:640px; height:900px; background:#fffaf2; border:6px solid #e9cfc3; border-radius:18px; box-shadow:0 30px 50px rgba(80,30,30,.25)"><div style="position:absolute; left:80px; right:80px; top:700px; height:12px; border-radius:6px; background:#f0dcd4"></div><div style="position:absolute; left:130px; right:130px; top:750px; height:12px; border-radius:6px; background:#f0dcd4"></div></div>`;
+const MUG = `<div style="position:absolute; left:250px; top:620px; width:480px; height:640px; background:#fffaf2; border-radius:24px 24px 110px 110px; box-shadow:0 30px 50px rgba(80,30,30,.25)"></div><div style="position:absolute; left:690px; top:740px; width:190px; height:300px; border:46px solid #fffaf2; border-left:none; border-radius:0 150px 150px 0"></div>`;
+const SHEET = (n, w) => `<div class="sheet" style="left:${540 - w / 2 - 70}px; top:${860 - w * 0.62 - 70}px; width:${w + 140}px; height:${w * 1.24 + 140}px"></div>${st(n, 540 - w / 2, 860 - w * 0.62, w)}`;
+// worlds: html, focus point (sticker centre), start zoom, zoom-out window [a, b], and where it shows
+const WORLDS = [
+  { html: `<div class="bg"></div><div class="table"></div>${BOX(240, 980, 600, 520)}${st('r28', 340, 760, 400, -6)}`, f: [540, 960], z: 7.5, out: () => [T.h2 - 0.05, T.h2 + 0.5], show: () => [0, T.c1 - 0.45] },
+  { html: `<div class="bg"></div>${SHEET('r48', 520)}`, f: [540, 860], z: 5.5, out: () => [T.c1 - 0.1, T.c1 + 0.4], show: () => [T.c1 - 0.45, T.c2 - 0.45] },
+  { html: `<div class="bg"></div>${SHEET('r46', 520)}`, f: [540, 860], z: 5.5, out: () => [T.c2 - 0.1, T.c2 + 0.4], show: () => [T.c2 - 0.45, T.c3 - 0.45] },
+  { html: `<div class="bg"></div>${SHEET('r47', 480)}`, f: [540, 860], z: 5.5, out: () => [T.c3 - 0.1, T.c3 + 0.4], show: () => [T.c3 - 0.45, T.count - 0.45] },
+  { html: `<div class="bg"></div>${['r10', 'r14', 'r16', 'r18', 'r22', 'r38', 'r44', 'r46', 'r47', 'r50', 'r52', 'r55', 'r57', 'r65', 'r28', 'r48'].map((n, i) => st(n, 30 + (i % 4) * 260, 700 + Math.floor(i / 4) * 300, 240, (R(i) - 0.5) * 12)).join('')}`, f: [400, 1150], z: 6, out: () => [T.count - 0.3, T.count + 0.35], show: () => [T.count - 0.45, T.u0 - 0.45] },
+  { html: `<div class="bg"></div><div class="table"></div>${BOX(240, 980, 600, 520, '#f3e1c9', '#b34a5a')}${st('r48', 380, 800, 320, 0)}`, f: [540, 960], z: 5.5, out: () => [T.u0 - 0.1, T.u0 + 0.4], show: () => [T.u0 - 0.45, T.u1 - 0.45] },
+  { html: `<div class="bg"></div>${CARD}${st('r22', 360, 600, 360, 0)}${st('r57', 270, 1060, 260, -8)}${st('r55', 560, 1060, 260, 8)}`, f: [540, 780], z: 5.5, out: () => [T.u1 - 0.1, T.u1 + 0.4], show: () => [T.u1 - 0.45, T.u2 - 0.45] },
+  { html: `<div class="bg"></div><div class="table"></div>${MUG}${st('r46', 360, 760, 260, 0)}`, f: [490, 890], z: 6, out: () => [T.u2 - 0.1, T.u2 + 0.4], show: () => [T.u2 - 0.45, T.print - 0.45] },
+  { html: `<div class="bg"></div><img src="roses/sheet2.jpg" style="position:absolute; left:250px; top:560px; width:580px; border-radius:8px; box-shadow:0 30px 50px rgba(80,30,30,.3); transform:rotate(-2deg)">`, f: [540, 900], z: 5, out: () => [T.print - 0.3, T.print + 0.3], show: () => [T.print - 0.45, T.brand - 0.45] },
+  { html: `<div class="bg"></div><div class="table"></div>${BOX(240, 1060, 600, 420)}
+      <div style="position:absolute; left:270px; top:340px; width:540px; height:700px; background:#fffaf2; border:6px solid #c9a173; border-radius:24px; box-shadow:0 20px 40px rgba(80,30,30,.3)"><div style="position:absolute; left:45px; top:45px; width:438px; height:438px; background:#fff; padding:14px"><img src="qr_store.png" style="width:100%; height:100%; display:block"></div><div style="position:absolute; left:0; top:520px; width:528px; text-align:center; font-size:70px; color:#6b1f2e">دُر</div></div>
+      ${st('r48', 70, 380, 260, -12)}${st('r50', 760, 640, 260, 12)}`, f: [540, 650], z: 4, out: () => [T.brand - 0.3, T.brand + 0.35], show: () => [T.brand - 0.45, 99] },
+];
+const worlds = WORLDS.map((w) => { const d = document.createElement('div'); d.className = 'world'; d.innerHTML = w.html; $('worlds').appendChild(d); return { ...w, d }; });
+
+window.render = (t) => {
+  $('stage').style.opacity = 1 - p(t, T.end_all - 0.5, T.end_all);
+  let flash = 0;
+  worlds.forEach((w, i) => { const [s0, s1] = w.show(); const vis = t >= s0 && t < s1; w.d.style.display = vis ? 'block' : 'none'; if (!vis) return;
+    const [a, b] = w.out(); const k = eio(p(t, a, b));
+    const push = 1 + 0.08 * p(t, s0, a); // slow macro creep before the snap
+    const s = (w.z * push) * (1 - k) + 1 * k; const cx = w.f[0] * (1 - k) + 540 * k, cy = w.f[1] * (1 - k) + 960 * k;
+    w.d.style.transform = `translate(${540 - cx * s}px, ${960 - cy * s}px) scale(${s})`;
+    w.d.style.filter = `blur(${(1 - k) * (i === 0 ? 3 : 2)}px) saturate(${1.15 - 0.15 * k})`;
+    flash = Math.max(flash, Math.sin(Math.PI * p(t, b - 0.05, b + 0.15)) * 0.55); });
+  $('flash').style.opacity = flash;
+  off('h1', 'h2', 'cap', 'n63', 'n1', 'n2', 'ucap', 'p1', 'p2', 'e1', 'e2b', 'e2', 'e3');
+  // h1 is on screen from the very first frame (no fade) to stop the scroll
+  if (t < T.c1 - 0.45) { if (t < T.h2 - 0.05) { $('h1').style.opacity = 1; $('h1').style.transform = `scale(${1 + 0.03 * Math.sin(t * 3)})`; } else pop('h2', t, T.h2 + 0.35, 0.35); }
+  const ks = [T.c1, T.c2, T.c3], names = ['جوري', 'داليا', 'وتوليب'];
+  if (t >= T.c1 - 0.45 && t < T.count - 0.45) { let cur = 0; ks.forEach((k, i) => { if (t >= k - 0.45) cur = i; }); $('cap').textContent = names[cur]; pop('cap', t, ks[cur] + 0.2); }
+  if (t >= T.count - 0.45 && t < T.u0 - 0.45) { $('n63').textContent = Math.round(63 * eo(p(t, T.count + 0.1, T.count + 1.0))).toLocaleString('ar-EG'); pop('n63', t, T.count + 0.1); pop('n1', t, T.count + 0.35); pop('n2', t, T.n2 - 0.05); }
+  if (t >= T.u0 - 0.45 && t < T.print - 0.45) { const us = [T.u0, T.u1, T.u2], nm = ['لعلب الهدايا', 'للبطاقات', 'ولأكواب القهوة']; let cur = 0; us.forEach((k, i) => { if (t >= k - 0.45) cur = i; }); $('ucap').textContent = nm[cur]; pop('ucap', t, us[cur] + 0.2); }
+  if (t >= T.print - 0.45 && t < T.brand - 0.45) { pop('p1', t, T.print + 0.2); pop('p2', t, T.print2 - 0.05); }
+  if (t >= T.brand - 0.45) { pop('e1', t, T.brand + 0.2); pop('e2b', t, T.store - 0.05); pop('e2', t, T.store2 - 0.05, 0.45); pop('e3', t, T.store2 + 0.35); }
+};
+render(2.4);
+const h1=document.getElementById('h1'); h1.style.opacity=1; h1.style.transform='none'; h1.style.color='#6e1f2e'; h1.style.webkitTextStroke='0'; h1.style.textShadow='0 6px 18px rgba(255,240,235,.9)'; h1.parentNode.style.top='90px'; h1.parentNode.style.fontSize='150px';
+document.getElementById('h2').parentNode.style.top='330px';
+document.getElementById('stage').insertAdjacentHTML('beforeend', `<div style="position:absolute; left:40px; top:1540px; width:1000px; height:340px; background:#fbf3e3; border-radius:30px; box-shadow:0 18px 40px rgba(60,10,20,.35); z-index:300">
+  <div style="position:absolute; left:22px; top:22px; width:296px; height:296px; background:#fff; padding:10px; border-radius:16px; box-sizing:border-box"><img src="qr_store.png" style="width:100%; height:100%; display:block"></div>
+  <div style="position:absolute; left:340px; top:34px; width:640px; text-align:center; font-size:80px; white-space:nowrap; color:#6e1f2e">٦٣ ستيكر ورد فنتج</div>
+  <div style="position:absolute; left:340px; top:176px; width:640px; text-align:center; font-size:66px; white-space:nowrap"><span class="pill" style="padding:0 40px 16px">متوفرة في متجر دُر</span></div>
+</div>`);
+</script>
+</body></html>
