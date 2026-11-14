@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --ink:#2a1d14; --kraft:#c9a173; --cream:#fbf3e3; --rust:#a8401f; --navy:#1b2350; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:#1a1410; font-family:'Lalezar','Cairo',sans-serif; color:var(--ink); }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; }
+  .page { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:hidden; display:none; }
+  .flapW { position:absolute; left:0; top:0; width:1080px; height:1920px; pointer-events:none; filter:drop-shadow(-18px 18px 22px rgba(0,0,0,.45)); display:none; }
+  .flap { position:absolute; left:0; top:0; width:1080px; height:1920px; transform-origin:0 0; background:linear-gradient(135deg, #ffffff, #efe9dc 60%, #e2d9c6); }
+  .flap:after { content:''; position:absolute; inset:0; background:repeating-linear-gradient(45deg, rgba(0,0,0,.025) 0 2px, transparent 2px 12px); }
+  .paper { background:radial-gradient(circle, rgba(42,29,20,.14) 0 3px, transparent 4px) 0 0 / 44px 44px, var(--cream); }
+  .kraft { background:linear-gradient(rgba(255,255,255,.12) 2px, transparent 2px) 0 0 / 60px 60px, linear-gradient(90deg, rgba(255,255,255,.12) 2px, transparent 2px) 0 0 / 60px 60px, #b98e5e; }
+  .st { position:absolute; left:0; top:0; filter:drop-shadow(0 14px 14px rgba(42,29,20,.35)); will-change:transform; }
+  .t { position:absolute; left:0; width:1080px; text-align:center; white-space:nowrap; line-height:1.35; }
+  .w { display:inline-block; }
+  .pill { display:inline-block; padding:4px 54px 20px; border-radius:90px; background:var(--ink); color:var(--cream); }
+  .tape { position:absolute; width:180px; height:56px; background:rgba(240,214,150,.8); box-shadow:0 2px 4px rgba(0,0,0,.15); }
+</style></head><body>
+<div id="stage"></div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eio = (x) => (x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const eb = (x) => { const c = 1.7; return x <= 0 ? 0 : 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const place = (e, x, y, s, r, o) => { e.style.transform = `translate(${x}px,${y}px) rotate(${r}deg) scale(${s})`; if (o !== undefined) e.style.opacity = o; };
+const W = 1080, H = 1920, DIAG = Math.hypot(W, H);
+
+const D = { h1: 0.3, h2: 1.5, c1: 3.4, c2: 4.8, c3: 6.2, count: 8.0, n2: 9.4, u0: 11.0, u1: 12.2, u2: 13.4, print: 15.2, print2: 16.3, brand: 18.0, store: 19.6, store2: 20.3, end_all: 23.4 };
+const T = Object.assign({}, D, window.TL || {});
+
+// ---- pages (top to bottom). Each: html, peel corner, peel start time, peel duration ----
+const img = (n, x, y, w, r = 0, extra = '') => `<img class="st" src="journal/${n}.png" style="width:${w}px; transform:translate(${x}px,${y}px) rotate(${r}deg); ${extra}" data-x="${x}" data-y="${y}" data-r="${r}">`;
+const cap = (txt, y, fs, cls = '') => `<div class="t" style="top:${y}px; font-size:${fs}px"><span class="w ${cls}">${txt}</span></div>`;
+const PAGES = [
+  // 0 cover: sticker backing that begs to be peeled
+  { cls: 'kraft', html: `${cap('لا تقشّر', 520, 230)}${cap('هذا!', 800, 330, '')}
+      <div class="t" style="top:1290px; font-size:60px; color:rgba(42,29,20,.75)">⬇ ⬇ ⬇</div>
+      <svg style="position:absolute; left:760px; top:1440px" width="260" height="380" viewBox="0 0 260 380"><path d="M 30 20 C 120 80, 180 200, 200 330" fill="none" stroke="#2a1d14" stroke-width="12" stroke-linecap="round" stroke-dasharray="4 26"/><path d="M 160 300 L 205 345 L 235 285" fill="none" stroke="#2a1d14" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+    corner: 'br', at: () => T.h2 + 0.25, dur: 0.75, teaseUntil: () => T.h2 + 0.25 },
+  // 1 journal spread revealed
+  { cls: 'paper', html: `<div style="position:absolute; left:536px; top:0; width:8px; height:1920px; background:rgba(42,29,20,.12)"></div>
+      ${img('j12', 590, 120, 380, -6)}${img('j7', 120, 160, 300, 5)}${img('j47', 90, 620, 360, -4)}${img('j46', 620, 640, 330, 6)}${img('j11', 160, 1120, 380, 3)}${img('j58', 600, 1160, 360, -5)}
+      <div class="tape" style="left:640px; top:110px; transform:rotate(-8deg)"></div><div class="tape" style="left:170px; top:1100px; transform:rotate(6deg)"></div>`,
+    corner: 'bl', at: () => T.c1 - 0.5, dur: 0.45, pop: true },
+  // 2-4 featured items
+  { cls: 'paper', html: `${img('j12', 230, 380, 620, -4)}${cap('قمر ونجوم', 1420, 150)}<div class="tape" style="left:450px; top:350px; transform:rotate(-4deg)"></div>`, corner: 'br', at: () => T.c2 - 0.45, dur: 0.45, pop: true },
+  { cls: 'paper', html: `${img('j47', 120, 400, 480, -5)}${img('j46', 560, 440, 420, 6)}${cap('شموع وريشة', 1420, 150)}`, corner: 'bl', at: () => T.c3 - 0.45, dur: 0.45, pop: true },
+  { cls: 'paper', html: `${img('j11', 200, 360, 680, 3)}${cap('وذكريات', 1420, 160)}<div class="tape" style="left:460px; top:330px; transform:rotate(5deg)"></div>`, corner: 'tr', at: () => T.count - 0.45, dur: 0.45, pop: true },
+  // 5 count
+  { cls: 'kraft', html: `${['j6', 'j7', 'j11', 'j12', 'j26', 'j30', 'j34', 'j46', 'j47', 'j51', 'j53', 'j56'].map((n, i) => img(n, [60, 400, 740][i % 3], [80, 380, 1290, 1590][Math.floor(i / 3)], 260, (R(i) - 0.5) * 16)).join('')}
+      <div style="position:absolute; left:220px; top:690px; width:640px; height:560px; background:var(--cream); border-radius:30px; box-shadow:0 20px 40px rgba(0,0,0,.3)"></div>
+      <div class="t" style="top:700px; font-size:290px; line-height:1.1; font-family:Cairo; font-weight:900; color:var(--rust)"><span class="w" id="n68">٦٨</span></div>
+      <div class="t" style="top:1040px; font-size:100px"><span class="w">ستيكر لجورنالك</span></div>`, corner: 'bl', at: () => T.u0 - 0.45, dur: 0.5, pop: true },
+  // 6-8 uses
+  { cls: 'paper', html: `${cap('للجورنال', 150, 140)}<div style="position:absolute; left:150px; top:420px; width:780px; height:1100px; background:#f3e6cf; border-radius:12px; box-shadow:0 20px 40px rgba(0,0,0,.25); background-image:repeating-linear-gradient(180deg, transparent 0 66px, rgba(120,90,60,.2) 66px 68px)"></div>${img('j30', 220, 500, 300, -5)}${img('j26', 580, 560, 280, 6)}${img('j53', 230, 960, 280, 4)}${img('j65', 590, 1020, 260, -6)}`, corner: 'br', at: () => T.u1 - 0.4, dur: 0.4, pop: true },
+  { cls: 'kraft', html: `${cap('للمخطط الأسبوعي', 150, 120)}<div style="position:absolute; left:120px; top:420px; width:840px; height:1100px; background:var(--cream); border-radius:12px; box-shadow:0 20px 40px rgba(0,0,0,.25)">${[...Array(7)].map((_, i) => `<div style="position:absolute; left:40px; right:40px; top:${40 + i * 150}px; height:120px; border-bottom:4px solid rgba(42,29,20,.15)"></div>`).join('')}</div>${img('j51', 660, 470, 240, 6)}${img('j56', 200, 800, 240, -6)}${img('j34', 640, 1150, 160, 10)}`, corner: 'tl', at: () => T.u2 - 0.4, dur: 0.4, pop: true },
+  { cls: 'paper', html: `${cap('ولبطاقات الإهداء', 150, 120)}<div style="position:absolute; left:220px; top:440px; width:640px; height:900px; background:#fffaf0; border:8px solid var(--kraft); border-radius:18px; box-shadow:0 20px 40px rgba(0,0,0,.25)"></div>${img('j65', 330, 520, 420, 0)}${img('j6', 300, 1020, 200, -8)}${img('j34', 600, 1060, 160, 12)}`, corner: 'bl', at: () => T.print - 0.45, dur: 0.45, pop: true },
+  // 9 print
+  { cls: 'kraft', html: `${cap('ملف PDF', 120, 150)}<div class="t" style="top:340px; font-size:96px"><span class="w pill">جاهز للطباعة</span></div><img src="journal/sheet2.jpg" style="position:absolute; left:240px; top:560px; width:600px; border-radius:8px; box-shadow:0 30px 50px rgba(0,0,0,.35); transform:rotate(-2deg)">`, corner: 'br', at: () => T.brand - 0.45, dur: 0.5 },
+  // 10 end
+  { cls: 'paper', html: `${cap('ستيكرات جورنال فنتج', 140, 110)}
+      <div style="position:absolute; left:260px; top:430px; width:560px; height:560px; background:#fff; padding:28px; border-radius:24px; box-shadow:0 24px 50px rgba(0,0,0,.3)"><img src="qr_store.png" style="width:100%; height:100%; display:block"></div>
+      <div class="tape" style="left:250px; top:410px; transform:rotate(-30deg)"></div><div class="tape" style="left:660px; top:960px; transform:rotate(-30deg)"></div>
+      ${img('j12', 20, 900, 240, -10)}${img('j7', 840, 380, 220, 10)}
+      <div class="t" style="top:1170px; font-size:84px"><span class="w" id="e2b">متوفرة في</span></div>
+      <div class="t" style="top:1310px; font-size:180px"><span class="w pill" id="e2" style="background:var(--rust); padding:0 74px 28px">متجر دُر</span></div>
+      <div class="t" style="top:1620px; font-size:50px; font-family:Cairo; font-weight:800; direction:ltr"><span class="w" id="e3">planme.zaher.io</span></div>`, corner: null },
+];
+const pages = PAGES.map((pg, i) => { const d = document.createElement('div'); d.className = `page ${pg.cls}`; d.style.zIndex = 100 - i * 2; d.innerHTML = pg.html; $('stage').appendChild(d);
+  const fw = document.createElement('div'); fw.className = 'flapW'; fw.style.zIndex = 101 - i * 2; const f = document.createElement('div'); f.className = 'flap'; fw.appendChild(f); $('stage').appendChild(fw);
+  return { ...pg, d, fw, f, ims: [...d.querySelectorAll('img.st')] }; });
+
+// ---- peel geometry ----
+const CORN = { br: [W, H], bl: [0, H], tr: [W, 0], tl: [0, 0] };
+const clipHalf = (poly, n, c, keepGreater) => { const out = []; const side = (q) => (q[0] * n[0] + q[1] * n[1] - c) * (keepGreater ? 1 : -1);
+  for (let i = 0; i < poly.length; i++) { const a = poly[i], b = poly[(i + 1) % poly.length]; const sa = side(a), sb = side(b);
+    if (sa >= 0) out.push(a); if ((sa >= 0) !== (sb >= 0)) { const k = sa / (sa - sb); out.push([a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k]); } } return out; };
+const RECT = [[0, 0], [W, 0], [W, H], [0, H]];
+const poly2css = (pl) => pl.length ? `polygon(${pl.map(([x, y]) => `${x.toFixed(1)}px ${y.toFixed(1)}px`).join(',')})` : 'polygon(0 0,0 0,0 0)';
+// k: 0..1 peel amount; returns nothing, styles the page + flap
+const peel = (pg, k) => { const C = CORN[pg.corner]; const n = [(W / 2 - C[0]) / Math.hypot(W / 2 - C[0], H / 2 - C[1]), (H / 2 - C[1]) / Math.hypot(W / 2 - C[0], H / 2 - C[1])];
+  const s = k * DIAG * 1.02; const c = n[0] * C[0] + n[1] * C[1] + s;
+  if (k <= 0) { pg.d.style.clipPath = 'none'; pg.fw.style.display = 'none'; return; }
+  pg.d.style.clipPath = poly2css(clipHalf(RECT, n, c, true));
+  pg.fw.style.display = 'block'; pg.f.style.clipPath = poly2css(clipHalf(RECT, n, c, false));
+  const a = 1 - 2 * n[0] * n[0], b = -2 * n[0] * n[1], d2 = 1 - 2 * n[1] * n[1];
+  pg.f.style.transform = `matrix(${a},${b},${b},${d2},${2 * c * n[0]},${2 * c * n[1]})`; };
+
+window.render = (t) => {
+  $('stage').style.opacity = 1 - p(t, T.end_all - 0.5, T.end_all);
+  let shown = 0; // first page not fully peeled
+  pages.forEach((pg, i) => { if (pg.corner && t >= pg.at() + pg.dur) shown = i + 1; });
+  pages.forEach((pg, i) => { const vis = i === shown || i === shown + 1; pg.d.style.display = vis ? 'block' : 'none'; if (!vis) { pg.fw.style.display = 'none'; return; }
+    if (!pg.corner) return;
+    let k = eio(p(t, pg.at(), pg.at() + pg.dur));
+    if (pg.teaseUntil && t < pg.teaseUntil()) k = 0.035 + 0.02 * Math.sin(t * 7) + 0.03 * p(t, T.h1, T.h1 + 0.4);
+    if (i === shown) peel(pg, k); else { pg.d.style.clipPath = 'none'; pg.fw.style.display = 'none'; } });
+  // sticker pops on the page that just got revealed
+  pages.forEach((pg, i) => { if (!pg.pop || (i !== shown && i !== shown + 1)) return; const a = i > 0 ? pages[i - 1].at() + pages[i - 1].dur * 0.5 : 0;
+    pg.ims.forEach((im, j) => { const q = eb(p(t, a + j * 0.06, a + j * 0.06 + 0.35)); im.style.transform = `translate(${im.dataset.x}px,${im.dataset.y}px) rotate(${+im.dataset.r + Math.sin(t * 2 + j) * 1.5}deg) scale(${q})`; }); });
+  const n68 = $('n68'); if (n68) n68.textContent = Math.round(68 * eo(p(t, pages[4].at() + 0.3, pages[4].at() + 1.4))).toLocaleString('ar-EG');
+  // end texts timed to the voice
+  const s1 = (id, a) => { const e = $(id); const k = p(t, a, a + 0.35); e.style.opacity = p(t, a, a + 0.08); e.style.transform = `scale(${0.6 + 0.4 * eb(k)})`; };
+  s1('e2b', T.store - 0.05); s1('e2', T.store2 - 0.05); s1('e3', T.store2 + 0.35);
+};
+render(0);
+</script>
+</body></html>
