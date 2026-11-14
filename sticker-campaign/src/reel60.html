@@ -20,6 +20,7 @@
 </style></head><body>
 <div id="stage"></div>
 
+<script src="reel60_timeline.js"></script>
 <script>
 const $ = (id) => document.getElementById(id);
 const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
@@ -41,7 +42,7 @@ const PAGES = [
   { cls: 'kraft', html: `${cap('لا تقشّر', 520, 230)}${cap('هذا!', 800, 330, '')}
       <div class="t" style="top:1290px; font-size:60px; color:rgba(42,29,20,.75)">⬇ ⬇ ⬇</div>
       <svg style="position:absolute; left:760px; top:1440px" width="260" height="380" viewBox="0 0 260 380"><path d="M 30 20 C 120 80, 180 200, 200 330" fill="none" stroke="#2a1d14" stroke-width="12" stroke-linecap="round" stroke-dasharray="4 26"/><path d="M 160 300 L 205 345 L 235 285" fill="none" stroke="#2a1d14" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
-    corner: 'br', at: () => T.h2 + 0.25, dur: 0.75, teaseUntil: () => T.h2 + 0.25 },
+    corner: 'br', at: () => (T.peel0 !== undefined ? T.peel0 : T.h2 + 0.25), dur: 0.75, teaseUntil: () => (T.peel0 !== undefined ? T.peel0 : T.h2 + 0.25) },
   // 1 journal spread revealed
   { cls: 'paper', html: `<div style="position:absolute; left:536px; top:0; width:8px; height:1920px; background:rgba(42,29,20,.12)"></div>
       ${img('j12', 590, 120, 380, -6)}${img('j7', 120, 160, 300, 5)}${img('j47', 90, 620, 360, -4)}${img('j46', 620, 640, 330, 6)}${img('j11', 160, 1120, 380, 3)}${img('j58', 600, 1160, 360, -5)}
