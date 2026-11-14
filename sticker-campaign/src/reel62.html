@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Cairo:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root { --navy:#1d3557; --red:#c0392b; --cream:#f8efdf; --kraft:#d6b07c; --kraft2:#c49a62; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:var(--navy); font-family:'Lalezar','Cairo',sans-serif; color:var(--cream); }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; background:radial-gradient(ellipse at 50% 42%, #2f5480, #1d3557 60%, #12233b); }
+  .dots { position:absolute; inset:0; background-image:radial-gradient(rgba(255,255,255,.06) 2px, transparent 2.5px); background-size:44px 44px; }
+  .sc { position:absolute; left:0; top:0; width:1080px; height:1920px; display:none; }
+  .st { position:absolute; left:0; top:0; filter:drop-shadow(0 10px 14px rgba(0,0,0,.35)); }
+  .air { background:repeating-linear-gradient(-45deg, var(--red) 0 34px, var(--cream) 34px 56px, #2a4f86 56px 90px, var(--cream) 90px 112px); }
+  .ov { position:absolute; left:0; width:1080px; text-align:center; white-space:nowrap; line-height:1.35; z-index:60; }
+  .w { display:inline-block; }
+  .sh { text-shadow:0 6px 24px rgba(0,0,0,.45), 0 3px 0 rgba(0,0,0,.25); }
+  .tag { display:inline-block; padding:4px 56px 22px; border:10px solid var(--red); border-radius:22px; color:var(--red); background:var(--cream); box-shadow:0 14px 30px rgba(0,0,0,.35); }
+  .pill { display:inline-block; padding:0 54px 16px; border-radius:90px; background:var(--red); color:var(--cream); box-shadow:0 12px 26px rgba(0,0,0,.3); }
+  .pm { position:absolute; width:230px; height:230px; border-radius:50%; border:7px solid rgba(40,40,60,.55); }
+  .pm:before { content:''; position:absolute; inset:22px; border-radius:50%; border:5px solid rgba(40,40,60,.45); }
+  .pm:after { content:''; position:absolute; left:200px; top:62px; width:240px; height:100px; background:repeating-linear-gradient(180deg, transparent 0 14px, rgba(40,40,60,.5) 14px 20px); border-radius:40px; }
+  .line { position:absolute; height:14px; border-radius:7px; background:rgba(60,40,20,.22); }
+  #flash { position:absolute; inset:0; background:#fff; z-index:55; opacity:0; pointer-events:none; }
+</style></head><body>
+<div id="stage">
+  <div class="dots"></div>
+
+  <!-- scene A: envelope + flying hero stamps -->
+  <div class="sc" id="scA">
+    <div id="hero" style="position:absolute; left:0; top:0; width:1080px; height:1920px"></div>
+    <div id="env" style="position:absolute; left:110px; top:780px; width:860px; height:560px; transform-origin:50% 50%; perspective:1600px">
+      <div class="air" style="position:absolute; inset:0; border-radius:18px; box-shadow:0 40px 60px rgba(0,0,0,.45)"></div>
+      <div id="inside" style="position:absolute; left:24px; top:24px; width:812px; height:512px; background:#8c6a40; border-radius:6px"></div>
+      <div id="peek" style="position:absolute; left:24px; top:-500px; width:812px; height:1036px; overflow:hidden"></div>
+      <div id="front" style="position:absolute; left:24px; top:24px; width:812px; height:512px; z-index:5">
+        <div style="position:absolute; inset:0; background:var(--kraft2); clip-path:polygon(0 0, 50% 58%, 0 100%)"></div>
+        <div style="position:absolute; inset:0; background:var(--kraft2); clip-path:polygon(100% 0, 50% 58%, 100% 100%)"></div>
+        <div style="position:absolute; inset:0; background:var(--kraft); clip-path:polygon(0 100%, 50% 46%, 100% 100%)"></div>
+      </div>
+      <div id="flap" style="position:absolute; left:24px; top:24px; width:812px; height:330px; transform-origin:50% 0; z-index:6">
+        <div id="flapf" style="position:absolute; inset:0; background:#dfbd8c; clip-path:polygon(0 0, 100% 0, 50% 100%); filter:drop-shadow(0 6px 6px rgba(0,0,0,.3))"></div>
+      </div>
+      <div id="seal" style="position:absolute; left:360px; top:270px; width:140px; height:140px; border-radius:50%; background:radial-gradient(circle at 40% 35%, #e05a4a, #a3241a 70%); box-shadow:0 6px 12px rgba(0,0,0,.4), inset 0 0 0 12px rgba(0,0,0,.12); z-index:8; text-align:center; font-size:84px; line-height:130px; color:#f6d2c6">دُ</div>
+      <img id="envst" class="st" src="stamps/s7.png" style="width:190px; transform:translate(640px,40px) rotate(8deg); z-index:9">
+      <div class="pm" style="left:560px; top:70px; z-index:10; transform:scale(.8)"></div>
+      <div id="badge" style="position:absolute; left:790px; top:-60px; width:120px; height:120px; border-radius:50%; background:#e63946; color:#fff; font-family:Cairo; font-weight:900; font-size:76px; line-height:116px; text-align:center; box-shadow:0 8px 20px rgba(0,0,0,.4); z-index:12">١</div>
+    </div>
+  </div>
+
+  <!-- scene B: perforated sheet grid -->
+  <div class="sc" id="scB">
+    <div id="sheet" style="position:absolute; left:70px; top:650px; width:940px; height:940px; background:var(--cream); border-radius:24px; box-shadow:0 30px 60px rgba(0,0,0,.45)"></div>
+    <div id="grid"></div>
+    <div id="edit" style="position:absolute; left:250px; top:700px; width:580px; transform-origin:50% 50%">
+      <img class="st" src="stamps/s30.png" style="position:relative; width:580px">
+      <div style="position:absolute; left:70px; top:600px; width:440px; height:150px; background:var(--cream); border:5px dashed var(--red); border-radius:16px; text-align:center; font-size:96px; line-height:140px; color:var(--navy)"><span id="typed"></span><span id="cur" style="display:inline-block; width:8px; height:96px; background:var(--red); vertical-align:middle; margin-right:6px"></span></div>
+    </div>
+  </div>
+
+  <!-- scene C: uses, whip-panned -->
+  <div class="sc" id="scC">
+    <div id="strip" style="position:absolute; left:0; top:0; width:3240px; height:1920px">
+      <!-- parcel -->
+      <div style="position:absolute; left:0; top:0; width:1080px; height:1920px">
+        <div style="position:absolute; left:150px; top:700px; width:780px; height:760px; background:linear-gradient(160deg, #d3a46a, #b98950); border-radius:14px; box-shadow:0 40px 60px rgba(0,0,0,.45)"></div>
+        <div style="position:absolute; left:528px; top:700px; width:24px; height:760px; background:#efe3c8"></div>
+        <div style="position:absolute; left:150px; top:1068px; width:780px; height:24px; background:#efe3c8"></div>
+        <div style="position:absolute; left:200px; top:760px; width:300px; height:260px; background:#fffaf0; border-radius:8px; transform:rotate(-3deg); box-shadow:0 6px 12px rgba(0,0,0,.2)"><div class="line" style="left:30px; right:30px; top:60px"></div><div class="line" style="left:30px; right:80px; top:110px"></div><div class="line" style="left:30px; right:50px; top:160px"></div></div>
+        <img class="st" src="stamps/s36.png" style="width:250px; transform:translate(620px,740px) rotate(8deg)">
+        <img class="st" src="stamps/s28.png" style="width:220px; transform:translate(230px,1130px) rotate(-9deg)">
+        <img class="st" src="stamps/s12.png" style="width:230px; transform:translate(640px,1140px) rotate(5deg)">
+      </div>
+      <!-- letter -->
+      <div style="position:absolute; left:1080px; top:0; width:1080px; height:1920px">
+        <div class="air" style="position:absolute; left:90px; top:760px; width:900px; height:600px; border-radius:16px; box-shadow:0 40px 60px rgba(0,0,0,.45)"><div style="position:absolute; inset:24px; background:#fbf4e6; border-radius:6px"></div></div>
+        <div class="line" style="left:200px; width:420px; top:1110px"></div><div class="line" style="left:200px; width:360px; top:1170px"></div><div class="line" style="left:200px; width:400px; top:1230px"></div>
+        <img class="st" src="stamps/s25.png" style="width:230px; transform:translate(710px,800px) rotate(6deg)">
+        <img class="st" src="stamps/s40.png" style="width:240px; transform:translate(440px,820px) rotate(-5deg)">
+        <div class="pm" style="left:610px; top:880px; transform:scale(.9)"></div>
+      </div>
+      <!-- journal -->
+      <div style="position:absolute; left:2160px; top:0; width:1080px; height:1920px">
+        <div style="position:absolute; left:60px; top:700px; width:960px; height:800px; background:#6d4a33; border-radius:24px; box-shadow:0 40px 60px rgba(0,0,0,.45)"></div>
+        <div style="position:absolute; left:84px; top:720px; width:452px; height:760px; background:repeating-linear-gradient(180deg, #fbf3e3 0 58px, #e8d9bd 58px 61px); border-radius:10px 0 0 10px"></div>
+        <div style="position:absolute; left:544px; top:720px; width:452px; height:760px; background:repeating-linear-gradient(180deg, #fbf3e3 0 58px, #e8d9bd 58px 61px); border-radius:0 10px 10px 0"></div>
+        <div style="position:absolute; left:526px; top:720px; width:28px; height:760px; background:linear-gradient(90deg, rgba(0,0,0,.05), rgba(0,0,0,.28), rgba(0,0,0,.05))"></div>
+        <img class="st" src="stamps/s6.png" style="width:270px; transform:translate(150px,800px) rotate(-7deg)">
+        <img class="st" src="stamps/s18.png" style="width:230px; transform:translate(660px,790px) rotate(6deg)">
+        <img class="st" src="stamps/s32.png" style="width:280px; transform:translate(620px,1130px) rotate(-4deg)">
+        <img class="st" src="stamps/s8.png" style="width:220px; transform:translate(190px,1170px) rotate(5deg)">
+        <div style="position:absolute; left:130px; top:770px; width:180px; height:54px; background:rgba(192,57,43,.6); transform:rotate(-20deg)"></div>
+        <div style="position:absolute; left:780px; top:1100px; width:170px; height:54px; background:rgba(42,79,134,.55); transform:rotate(14deg)"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- scene D: mail slot print -->
+  <div class="sc" id="scD">
+    <div style="position:absolute; left:140px; top:540px; width:800px; height:90px; background:linear-gradient(180deg, #d9b45a, #a8832e); border-radius:20px; box-shadow:0 16px 30px rgba(0,0,0,.4)"><div style="position:absolute; left:40px; right:40px; top:30px; height:30px; background:#1a1a1a; border-radius:12px"></div></div>
+    <div style="position:absolute; left:190px; top:600px; width:700px; height:1320px; overflow:hidden">
+      <img id="ps" src="stamps/sheet2.jpg" style="position:absolute; left:60px; top:0; width:580px; box-shadow:0 20px 40px rgba(0,0,0,.4)">
+    </div>
+  </div>
+
+  <!-- scene E: postcard end -->
+  <div class="sc" id="scE">
+    <div id="card" style="position:absolute; left:170px; top:330px; width:740px; height:980px; transform-origin:50% 50%">
+      <div class="air" style="position:absolute; inset:0; border-radius:22px; box-shadow:0 40px 70px rgba(0,0,0,.5)"><div style="position:absolute; inset:26px; background:#fbf4e6; border-radius:8px"></div></div>
+      <div style="position:absolute; left:100px; top:120px; width:540px; height:540px; background:#fff; padding:18px; border:6px solid var(--navy); border-radius:18px"><img src="qr_store.png" style="width:100%; height:100%; display:block"></div>
+      <div style="position:absolute; left:0; top:690px; width:740px; text-align:center; font-size:84px; color:var(--navy)">امسح الكود</div>
+      <div class="line" style="left:150px; width:440px; top:860px"></div>
+      <img class="st" src="stamps/s14.png" style="width:200px; transform:translate(590px,-70px) rotate(9deg)">
+      <div class="pm" style="left:500px; top:-30px; transform:scale(.75)"></div>
+    </div>
+  </div>
+
+  <div id="flash"></div>
+  <div class="ov sh" style="top:250px; font-size:180px"><span class="w" id="h1">وصلك ظرف!</span></div>
+  <div class="ov" style="top:260px; font-size:150px"><span class="w tag" id="h2">وش فيه؟</span></div>
+  <div class="ov sh" style="top:200px; font-size:150px"><span class="w" id="cap"></span></div>
+  <div class="ov sh" style="top:110px; font-size:300px; line-height:1.05; font-family:Cairo; font-weight:900"><span class="w" id="n35">٣٥</span></div>
+  <div class="ov" style="top:450px; font-size:110px"><span class="w pill" id="n1">طابع ستيكر</span></div>
+  <div class="ov" style="top:1610px; font-size:120px"><span class="w tag" id="n2">قابلة للتعديل!</span></div>
+  <div class="ov" style="top:200px; font-size:130px"><span class="w pill" id="ucap"></span></div>
+  <div class="ov sh" style="top:130px; font-size:150px"><span class="w" id="p1">ملف PDF</span></div>
+  <div class="ov" style="top:340px; font-size:96px"><span class="w pill" id="p2">جاهز للطباعة</span></div>
+  <div class="ov sh" style="top:120px; font-size:90px"><span class="w" id="e1">ستيكرات الطوابع الكلاسيكية</span></div>
+  <div class="ov" style="top:1400px; font-size:84px"><span class="w" id="e2b" style="background:var(--cream); color:var(--navy); border-radius:44px; padding:0 44px 12px">متوفرة في</span></div>
+  <div class="ov" style="top:1540px; font-size:170px"><span class="w pill" id="e2" style="padding:0 70px 26px">متجر دُر</span></div>
+  <div class="ov" style="top:1820px; font-size:46px; font-family:Cairo; font-weight:800; direction:ltr"><span class="w" id="e3">planme.zaher.io</span></div>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eio = (x) => (x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const eb = (x) => { const c = 1.7; return x <= 0 ? 0 : 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const pop = (id, t, a, d = 0.4) => { const k = p(t, a, a + d); const e = $(id); e.style.opacity = p(t, a, a + 0.1); e.style.transform = `scale(${0.6 + 0.4 * eb(k)}) rotate(${(1 - eo(k)) * -6}deg)`; };
+const off = (...ids) => ids.forEach((id) => ($(id).style.opacity = 0));
+const show = (id, v) => ($(id).style.display = v ? 'block' : 'none');
+
+const D = { h1: 0.05, h2: 1.6, c1: 3.2, c2: 4.5, c3: 5.8, count: 7.4, n2: 9.0, u0: 10.8, u1: 12.2, u2: 13.5, print: 15.2, print2: 16.3, brand: 18.0, store: 19.8, store2: 20.6, end_all: 23.6 };
+const T = Object.assign({}, D, window.TL || {});
+
+// hero stamps fly out of the envelope on c1..c3
+const HEROES = ['s36', 's40', 's26'];
+HEROES.forEach((n, i) => $('hero').insertAdjacentHTML('beforeend', `<img class="st" id="hs${i}" src="stamps/${n}.png" style="width:520px; z-index:${4}">`));
+// peeking stamp edges inside the open envelope
+['s30', 's12', 's6'].forEach((n, i) => $('peek').insertAdjacentHTML('beforeend', `<img class="st" id="pk${i}" src="stamps/${n}.png" style="width:240px">`));
+// grid
+const GRID = ['s6', 's7', 's8', 's10', 's12', 's14', 's18', 's25', 's26', 's28', 's30', 's32', 's36', 's40', 's7', 's12'];
+GRID.forEach((n, i) => $('grid').insertAdjacentHTML('beforeend', `<img class="st" id="gd${i}" src="stamps/${n}.png" style="width:196px">`));
+const sheetLines = []; for (let k = 1; k < 4; k++) { sheetLines.push(`<div style="position:absolute; left:${k * 230}px; top:12px; width:0; height:916px; border-left:5px dotted rgba(29,53,87,.35)"></div>`, `<div style="position:absolute; top:${k * 230}px; left:12px; height:0; width:916px; border-top:5px dotted rgba(29,53,87,.35)"></div>`); }
+$('sheet').innerHTML = sheetLines.join('');
+
+window.render = (t) => {
+  $('stage').style.opacity = 1 - p(t, T.end_all - 0.5, T.end_all);
+  const sA = t < T.count - 0.2, sB = t >= T.count - 0.45 && t < T.u0 - 0.1, sC = t >= T.u0 - 0.45 && t < T.print - 0.1, sD = t >= T.print - 0.45 && t < T.brand - 0.1, sE = t >= T.brand - 0.45;
+  show('scA', sA); show('scB', sB); show('scC', sC); show('scD', sD); show('scE', sE);
+  let flash = 0;
+  off('h1', 'h2', 'cap', 'n35', 'n1', 'n2', 'ucap', 'p1', 'p2', 'e1', 'e2b', 'e2', 'e3');
+
+  if (sA) {
+    // vibrating envelope (phone-buzz bursts) until it opens
+    const open = p(t, T.h2 - 0.5, T.h2 - 0.1);
+    const burst = (t % 0.9) < 0.5 ? 1 : 0.15; const live = 1 - p(t, T.h2 - 0.6, T.h2 - 0.5);
+    const shake = Math.sin(t * 55) * 3.2 * burst * live, jx = Math.sin(t * 47) * 9 * burst * live;
+    const drop = p(t, T.c1 - 0.7, T.c1 - 0.3), out = p(t, T.count - 0.45, T.count - 0.15);
+    const ey = 560 * eio(drop) + 900 * eio(out), es = 1 - 0.08 * eio(drop);
+    $('env').style.transform = `translate(${jx}px, ${ey}px) rotate(${shake}deg) scale(${es * (1 + 0.025 * Math.sin(t * 6) * live)})`;
+    $('badge').style.opacity = 1 - open; $('badge').style.transform = `scale(${1 + 0.12 * Math.abs(Math.sin(t * 5))})`;
+    // seal pops off, flap swings open
+    const sk = p(t, T.h2 - 0.55, T.h2 - 0.25);
+    $('seal').style.transform = `translate(${-340 * eo(sk)}px, ${-500 * sk + 900 * sk * sk}px) rotate(${-260 * sk}deg) scale(${1 + 0.3 * Math.sin(Math.PI * sk)})`;
+    $('seal').style.opacity = 1 - p(t, T.h2 - 0.3, T.h2 - 0.15);
+    const ang = 180 * eo(open);
+    $('flap').style.transform = `rotateX(${ang}deg)`; $('flap').style.zIndex = ang > 90 ? 1 : 6;
+    $('flapf').style.background = ang > 90 ? '#b38a56' : '#dfbd8c';
+    // peeking stamps wiggle in the open envelope until heroes fly
+    ['pk0', 'pk1', 'pk2'].forEach((id, i) => { const k = eo(p(t, T.h2 - 0.15 + i * 0.08, T.h2 + 0.35 + i * 0.08)); const gone = p(t, T.c1 - 0.5, T.c1 - 0.4);
+      $(id).style.opacity = (1 - gone) * p(t, T.h2 - 0.3, T.h2 - 0.15); $(id).style.transform = `translate(${126 + i * 210}px, ${500 + 360 - 260 * k + 8 * Math.sin(t * 7 + i)}px) rotate(${(i - 1) * 9 + 3 * Math.sin(t * 5 + i)}deg)`; });
+    // heroes: out of envelope to centre, then tossed aside by the next
+    const ks = [T.c1, T.c2, T.c3]; const envCy = 780 + 560 + 120;
+    HEROES.forEach((n, i) => { const e = $(`hs${i}`); const k = ks[i]; const a = p(t, k - 0.45, k - 0.1); const nx = i < 2 ? ks[i + 1] : T.count; const g = p(t, nx - 0.45, nx - 0.15);
+      if (a <= 0 || g >= 1) { e.style.opacity = 0; return; }
+      const ea = eo(a), y0 = envCy - 300, y1 = 600; const y = y0 + (y1 - y0) * ea - 160 * Math.sin(Math.PI * a);
+      const gx = (i % 2 ? 1 : -1) * 1100 * eio(g), gr = (i % 2 ? 1 : -1) * 40 * g;
+      e.style.opacity = 1; e.style.zIndex = a > 0.35 ? 7 : 2; $('hero').style.zIndex = a > 0.35 ? 7 : 0;
+      e.style.transform = `translate(${280 + gx}px, ${y}px) rotate(${(1 - ea) * (i % 2 ? -25 : 25) + gr + 2 * Math.sin(t * 3 + i)}deg) scale(${0.35 + 0.65 * ea})`;
+      flash = Math.max(flash, 0.3 * Math.sin(Math.PI * p(t, k - 0.12, k + 0.05))); });
+    $('hero').style.zIndex = t > T.c1 - 0.3 ? 7 : 0;
+    if (t < T.h2 - 0.5) { $('h1').style.opacity = 1; $('h1').style.transform = `rotate(${Math.sin(t * 55) * 1.2 * burst}deg) scale(${1 + 0.03 * Math.sin(t * 4)})`; }
+    else if (t < T.c1 - 0.45) pop('h2', t, T.h2 - 0.05, 0.35);
+    const names = ['طوابع ورد', 'وزهور', 'وسفن قديمة']; let cur = -1; ks.forEach((k, i) => { if (t >= k - 0.45) cur = i; });
+    if (cur >= 0 && t < T.count - 0.45) { $('cap').textContent = names[cur]; pop('cap', t, ks[cur] - 0.05); }
+  }
+
+  if (sB) {
+    GRID.forEach((n, i) => { const e = $(`gd${i}`); const k = eo(p(t, T.count - 0.45 + i * 0.025, T.count - 0.05 + i * 0.025));
+      const tx = 70 + 12 + (i % 4) * 230 + 4, ty = 650 + 12 + Math.floor(i / 4) * 230 + 4, sx = 540 - 98, sy = 2100;
+      e.style.transform = `translate(${sx + (tx - sx) * k}px, ${sy + (ty - sy) * k}px) rotate(${(1 - k) * (R(i) - 0.5) * 120 + (R(i + 9) - 0.5) * 6}deg)`; });
+    const sh = eo(p(t, T.count - 0.45, T.count - 0.1)); $('sheet').style.transform = `translateY(${(1 - sh) * 1300}px)`;
+    const dim = p(t, T.n2 - 0.6, T.n2 - 0.4); $('grid').style.opacity = 1 - 0.75 * dim; $('sheet').style.opacity = 1 - 0.75 * dim;
+    const ek = p(t, T.n2 - 0.6, T.n2 - 0.3); $('edit').style.opacity = p(t, T.n2 - 0.6, T.n2 - 0.5); $('edit').style.transform = `scale(${0.3 + 0.7 * eb(ek)}) rotate(${(1 - eo(ek)) * -12}deg)`;
+    const word = 'مع حبي'; const nch = Math.round(word.length * p(t, T.n2 - 0.35, T.n2 - 0.05)); $('typed').textContent = word.slice(0, nch);
+    $('cur').style.opacity = Math.floor(t * 3) % 2 ? 1 : 0.2;
+    $('n35').textContent = Math.round(35 * eo(p(t, T.count - 0.05, T.count + 0.8))).toLocaleString('ar-EG');
+    if (t < T.u0 - 0.45) { pop('n35', t, T.count - 0.1); pop('n1', t, T.count + 0.3); pop('n2', t, T.n2 - 0.05); }
+    $('scB').style.transform = `translateX(${-1080 * eio(p(t, T.u0 - 0.45, T.u0 - 0.1))}px)`;
+  }
+
+  if (sC) {
+    const us = [T.u0, T.u1, T.u2]; let x = 1080 * (1 - eio(p(t, us[0] - 0.45, us[0] - 0.1))); let blur = 30 * Math.sin(Math.PI * p(t, us[0] - 0.45, us[0] - 0.1));
+    [1, 2].forEach((j) => { const k = p(t, us[j] - 0.4, us[j] - 0.1); x -= 1080 * eio(k); blur = Math.max(blur, 30 * Math.sin(Math.PI * k)); });
+    const ko = p(t, T.print - 0.45, T.print - 0.1); x -= 1080 * eio(ko); blur = Math.max(blur, 30 * Math.sin(Math.PI * ko));
+    $('strip').style.transform = `translateX(${x}px)`; $('strip').style.filter = `blur(${blur}px)`;
+    const nm = ['لتغليف الطلبات', 'للرسايل', 'وللجورنال']; let cur = 0; us.forEach((k, i) => { if (t >= k - 0.3) cur = i; });
+    if (t < T.print - 0.45) { $('ucap').textContent = nm[cur]; pop('ucap', t, us[cur] - 0.05); }
+  }
+
+  if (sD) {
+    const k = p(t, T.print - 0.4, T.print + 0.5); $('ps').style.transform = `translateY(${-840 + 860 * eo(k)}px)`;
+    $('scD').style.transform = `translateY(${(1 - eo(p(t, T.print - 0.45, T.print - 0.15))) * 1920}px)`;
+    if (t < T.brand - 0.45) { pop('p1', t, T.print - 0.05); pop('p2', t, T.print2 - 0.05); }
+  }
+
+  if (sE) {
+    const k = p(t, T.brand - 0.45, T.brand - 0.05);
+    $('card').style.transform = `translate(0, ${(1 - eo(k)) * 1400}px) rotate(${(1 - eo(k)) * 30 + 1.2 * Math.sin(t * 2)}deg)`;
+    flash = Math.max(flash, 0.35 * Math.sin(Math.PI * p(t, T.brand - 0.1, T.brand + 0.1)));
+    pop('e1', t, T.brand - 0.05); pop('e2b', t, T.store - 0.05); pop('e2', t, T.store2 - 0.05, 0.45); pop('e3', t, T.store2 + 0.35);
+  }
+  $('flash').style.opacity = flash;
+};
+render(0);
+</script>
+</body></html>
