@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Cairo:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root { --brown:#5a2e12; --cream:#f7ecdb; --amber:#c9741f; --gold:#e8b04a; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:var(--cream); font-family:'Lalezar','Cairo',sans-serif; color:var(--brown); }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; background:radial-gradient(ellipse at 50% 35%, #fdf6ea, #f4e3c8 70%, #ead2ae); }
+  .L { position:absolute; left:0; top:0; width:1080px; height:1920px; }
+  .sc { position:absolute; left:0; top:0; width:1080px; height:1920px; display:none; }
+  .st { position:absolute; left:0; top:0; filter:drop-shadow(0 12px 16px rgba(90,46,18,.3)); }
+  .ov { position:absolute; left:0; width:1080px; text-align:center; white-space:nowrap; line-height:1.3; z-index:60; }
+  .w { display:inline-block; }
+  .tag { display:inline-block; padding:4px 56px 22px; border-radius:26px; color:var(--brown); background:var(--cream); box-shadow:0 14px 30px rgba(60,25,5,.35); }
+  .pill { display:inline-block; padding:0 54px 16px; border-radius:90px; background:var(--brown); color:var(--cream); box-shadow:0 12px 26px rgba(60,25,5,.3); }
+  .fillbox { position:absolute; left:0; width:1080px; text-align:center; white-space:nowrap; }
+  .fillbox .o { position:absolute; left:0; top:0; width:1080px; color:#fbf3e6; -webkit-text-stroke:9px var(--brown); paint-order:stroke fill; }
+  .fillbox .f { position:absolute; left:0; top:0; width:1080px; color:#b4601a; -webkit-text-stroke:9px var(--brown); paint-order:stroke fill; }
+</style></head><body>
+<div id="stage">
+  <div class="L" id="scenes" style="z-index:1">
+    <!-- 3: tea tin -->
+    <div class="sc" id="u0s">
+      <div style="position:absolute; left:250px; top:640px; width:580px; height:820px; background:linear-gradient(90deg, #244b40, #3b7363 45%, #244b40); border-radius:30px; box-shadow:0 40px 60px rgba(60,25,5,.35)"></div>
+      <div style="position:absolute; left:236px; top:610px; width:608px; height:90px; background:linear-gradient(90deg, #a87a26, #f0c868 45%, #a87a26); border-radius:24px"></div>
+      <div style="position:absolute; left:236px; top:1400px; width:608px; height:70px; background:linear-gradient(90deg, #a87a26, #f0c868 45%, #a87a26); border-radius:20px"></div>
+      <div style="position:absolute; left:300px; top:780px; width:480px; height:520px; background:#fbf3e6; border-radius:24px; border:6px solid #d9b25a"></div>
+      <img class="st" src="tea/t12.png" style="width:400px; transform:translate(340px,810px) rotate(-3deg)">
+    </div>
+    <!-- 4: gift bag -->
+    <div class="sc" id="u1s">
+      <div style="position:absolute; left:390px; top:520px; width:300px; height:260px; border:22px solid #8a5a2c; border-bottom:none; border-radius:150px 150px 0 0"></div>
+      <div style="position:absolute; left:220px; top:700px; width:640px; height:780px; background:linear-gradient(160deg, #d9ac72, #b98547); clip-path:polygon(3% 0, 97% 0, 100% 100%, 0 100%); box-shadow:0 40px 60px rgba(60,25,5,.35)"></div>
+      <div style="position:absolute; left:220px; top:700px; width:640px; height:60px; background:rgba(0,0,0,.08)"></div>
+      <img class="st" src="tea/t18.png" style="width:420px; transform:translate(330px,850px) rotate(4deg)">
+    </div>
+    <!-- 5: recipe notebook -->
+    <div class="sc" id="u2s">
+      <div style="position:absolute; left:150px; top:600px; width:780px; height:920px; background:repeating-linear-gradient(180deg, #fffaf0 0 64px, #ecdcc0 64px 67px); border-radius:18px; box-shadow:0 40px 60px rgba(60,25,5,.35)"></div>
+      <div style="position:absolute; left:150px; top:600px; width:780px; height:60px; background:repeating-linear-gradient(90deg, transparent 0 40px, #6b6b6b 40px 52px, transparent 52px 70px)"></div>
+      <img class="st" src="tea/t29.png" style="width:340px; transform:translate(200px,720px) rotate(-6deg)">
+      <img class="st" src="tea/t35.png" style="width:330px; transform:translate(560px,740px) rotate(5deg)">
+      <img class="st" src="tea/t21.png" style="width:320px; transform:translate(380px,1100px) rotate(-2deg)">
+    </div>
+    <!-- 7: end card -->
+    <div class="sc" id="ends">
+      <div id="card" style="position:absolute; left:230px; top:330px; width:620px; height:790px; background:#fffaf0; border:8px solid var(--gold); border-radius:34px; box-shadow:0 30px 60px rgba(60,25,5,.35)">
+        <div style="position:absolute; left:52px; top:52px; width:500px; height:500px; background:#fff; padding:16px; border:5px solid var(--brown); border-radius:18px"><img src="qr_store.png" style="width:100%; height:100%; display:block"></div>
+        <div style="position:absolute; left:0; top:580px; width:604px; text-align:center; font-size:84px">امسح الكود</div>
+      </div>
+    </div>
+  </div>
+  <svg class="L" id="liqB" style="z-index:2" viewBox="0 0 1080 1920"><defs><linearGradient id="gA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d98a2b"/><stop offset=".5" stop-color="#a9561a"/><stop offset="1" stop-color="#7a3a0e"/></linearGradient></defs><path id="pB" fill="url(#gA)"/><path id="pBf" fill="none" stroke="#f5c98c" stroke-width="10" stroke-linecap="round" opacity=".8"/></svg>
+  <div class="L" id="floaters" style="z-index:3"></div>
+  <svg class="L" id="liqF" style="z-index:4" viewBox="0 0 1080 1920"><path id="pF" fill="rgba(190,104,32,.55)"/><g id="bub"></g></svg>
+
+  <!-- hook text, filled with tea -->
+  <div class="fillbox" id="hk" style="top:400px; height:800px; z-index:20">
+    <div class="o"><div style="font-size:185px; line-height:1.2">هذا لعشاق</div><div style="font-size:380px; line-height:1.05">الشاي!</div></div>
+    <div class="f" id="hkf"><div style="font-size:185px; line-height:1.2">هذا لعشاق</div><div style="font-size:380px; line-height:1.05">الشاي!</div></div>
+  </div>
+  <div id="stream" style="position:absolute; left:528px; top:0; width:24px; height:0; background:linear-gradient(90deg, #a9561a, #e39a3c, #a9561a); border-radius:12px; z-index:19"></div>
+  <!-- count number, filled with tea -->
+  <div class="fillbox" id="nb" style="top:90px; height:380px; z-index:60; font-family:Cairo; font-weight:900">
+    <div class="o" style="font-size:320px; line-height:1.15" id="nbo">٣٦</div>
+    <div class="f" style="font-size:320px; line-height:1.15" id="nbf">٣٦</div>
+  </div>
+
+  <svg class="L" id="wipe" style="z-index:70; pointer-events:none" viewBox="0 0 1080 1920"><path id="pW" fill="url(#gA)"/><path id="pWf" fill="none" stroke="#f5c98c" stroke-width="12" opacity=".85"/></svg>
+
+  <div class="ov" style="top:280px; font-size:200px; color:var(--brown)"><span class="w" id="h2">والأعشاب!</span></div>
+  <div class="ov" style="top:200px; font-size:160px"><span class="w" id="cap"></span></div>
+  <div class="ov" style="top:470px; font-size:96px"><span class="w pill" id="n1">ستيكر شاي وأعشاب</span></div>
+  <div class="ov" style="top:1600px; font-size:116px"><span class="w tag" id="n2">بألوان دافية</span></div>
+  <div class="ov" style="top:200px; font-size:120px"><span class="w pill" id="ucap"></span></div>
+  <div class="ov" style="top:120px; font-size:150px"><span class="w" id="p1">ملف PDF</span></div>
+  <div class="ov" style="top:320px; font-size:96px"><span class="w pill" id="p2">جاهز للطباعة</span></div>
+  <div class="ov" style="top:130px; font-size:110px"><span class="w" id="e1">ستيكرات شاي وأعشاب</span></div>
+  <div class="ov" style="top:1420px; font-size:84px"><span class="w tag" id="e2b" style="padding:0 44px 14px; border-radius:44px">متوفرة في</span></div>
+  <div class="ov" style="top:1560px; font-size:170px"><span class="w pill" id="e2" style="padding:0 70px 26px; background:#3d1d08">متجر دُر</span></div>
+  <div class="ov" style="top:1825px; font-size:46px; font-family:Cairo; font-weight:800; direction:ltr; color:var(--cream)"><span class="w" id="e3">planme.zaher.io</span></div>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eio = (x) => (x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const eb = (x) => { const c = 1.7; return x <= 0 ? 0 : 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const pop = (id, t, a, d = 0.4) => { const k = p(t, a, a + d); const e = $(id); e.style.opacity = p(t, a, a + 0.1); e.style.transform = `scale(${0.6 + 0.4 * eb(k)}) rotate(${(1 - eo(k)) * -6}deg)`; };
+const off = (...ids) => ids.forEach((id) => ($(id).style.opacity = 0));
+
+const D = { h1: 0.4, h2: 2.0, c1: 3.4, c2: 4.6, c3: 5.8, count: 7.3, n2: 9.0, u0: 10.6, u1: 12.0, u2: 13.4, print: 15.0, print2: 16.1, brand: 17.8, store: 19.6, store2: 20.4, end_all: 23.4 };
+const T = Object.assign({}, D, window.TL || {});
+
+const wave = (x, t, a = 1, ph = 0) => a * (14 * Math.sin(x * 0.0085 + t * 3.1 + ph) + 8 * Math.sin(x * 0.019 - t * 2.3 + ph * 1.7) + 4 * Math.sin(x * 0.041 + t * 4.7));
+const surf = (lv, t, a, ph) => { const pts = []; for (let x = -20; x <= 1100; x += 20) pts.push([x, lv + wave(x, t, a, ph)]); return pts; };
+const fillPath = (pts) => `M${pts.map((q) => q[0] + ',' + q[1].toFixed(1)).join(' L')} L1100,2100 L-20,2100 Z`;
+const linePath = (pts) => `M${pts.map((q) => q[0] + ',' + q[1].toFixed(1)).join(' L')}`;
+const clipPoly = (lv, t, h) => { const pts = []; for (let x = 0; x <= 1080; x += 30) pts.push(`${x}px ${(lv + 0.8 * wave(x, t, 1, 2)).toFixed(1)}px`); return `polygon(${pts.join(',')}, 1080px ${h + 60}px, 0px ${h + 60}px)`; };
+
+// scene changes happen under a flood wipe peaking at W
+const W = () => [T.h2 - 0.22, T.count - 0.22, T.u0 - 0.22, T.u1 - 0.22, T.u2 - 0.22, T.print - 0.22, T.brand - 0.22];
+const LEVEL = [1660, 1330, 1450, 1720, 1720, 1720, 1720, 1400];
+
+// floaters: sticker, width, x centre, scene, extra (role)
+const FL = [];
+const add = (n, w, x, sc, role = null, sub = 0.28) => { const e = document.createElement('img'); e.className = 'st'; e.src = `tea/${n}.png`; e.style.width = w + 'px'; $('floaters').appendChild(e); FL.push({ e, w, x, sc, role, sub, i: FL.length }); };
+add('t13', 300, 200, 0); add('t29', 330, 540, 0); add('t9', 300, 880, 0);
+add('t39', 330, 200, 1, 'herb'); add('t5', 340, 540, 1, 'herb'); add('t8', 330, 880, 1, 'herb');
+add('t24', 600, 540, 1, 'c0', 0.2); add('t30', 640, 540, 1, 'c1', 0.2); add('t7', 640, 540, 1, 'c2', 0.2);
+['t10', 't11', 't14', 't15', 't16', 't17', 't19', 't20', 't22', 't23', 't25', 't26'].forEach((n, i) => add(n, 250, 0, 2, 'rain' + i, 0.3));
+add('t24', 260, 140, 7, null, 0.3); add('t30', 260, 940, 7, null, 0.3);
+// sheet rising from tea
+const sh = document.createElement('img'); sh.src = 'tea/sheet2.jpg'; sh.style.cssText = 'position:absolute; left:0; top:0; width:600px; border-radius:6px; box-shadow:0 30px 50px rgba(60,25,5,.35)'; $('floaters').appendChild(sh);
+// bubbles
+for (let i = 0; i < 14; i++) $('bub').insertAdjacentHTML('beforeend', `<circle id="b${i}" r="${6 + R(i) * 10}" fill="none" stroke="rgba(255,225,170,.7)" stroke-width="3"/>`);
+
+window.render = (t) => {
+  $('stage').style.opacity = 1 - p(t, T.end_all - 0.5, T.end_all);
+  const ws = W(); let sc = 0; ws.forEach((w, i) => { if (t >= w) sc = i + 1; });
+  ['u0s', 'u1s', 'u2s', 'ends'].forEach((id, i) => ($(id).style.display = sc === [3, 4, 5, 7][i] ? 'block' : 'none'));
+  // persistent liquid
+  let lv = LEVEL[sc];
+  if (sc === 2) lv = 1450;
+  const pts = surf(lv, t, 1, 0); $('pB').setAttribute('d', fillPath(pts)); $('pBf').setAttribute('d', linePath(pts));
+  const ptsF = surf(lv + 26, t * 1.1, 0.9, 1.3); $('pF').setAttribute('d', fillPath(ptsF));
+  for (let i = 0; i < 14; i++) { const ph = (t * (0.25 + R(i + 3) * 0.2) + R(i)) % 1; const by = 1920 - ph * (1920 - lv - 30); $(`b${i}`).setAttribute('cx', 40 + R(i + 7) * 1000 + 12 * Math.sin(t * 3 + i)); $(`b${i}`).setAttribute('cy', by); $(`b${i}`).setAttribute('opacity', by > lv + 40 ? 1 : 0); }
+
+  // flood wipe
+  let wl = 2200; ws.forEach((w) => { if (t >= w - 0.32 && t < w) wl = 2050 - 2350 * eio(p(t, w - 0.32, w)); else if (t >= w && t < w + 0.3) wl = -300 + 2400 * eio(p(t, w, w + 0.3)); });
+  // draining: liquid falls from the top, so the region below wl stays filled
+  const wp = surf(wl, t, 1.6, 0.7); $('pW').setAttribute('d', fillPath(wp)); $('pWf').setAttribute('d', linePath(wp));
+
+  off('h2', 'cap', 'n1', 'n2', 'ucap', 'p1', 'p2', 'e1', 'e2b', 'e2', 'e3');
+  // hook: text filling with tea from the first frame, a stream pouring into it
+  $('hk').style.display = sc === 0 ? 'block' : 'none'; $('stream').style.display = sc === 0 ? 'block' : 'none';
+  if (sc === 0) { const ll = 800 * (0.66 - 0.72 * eio(p(t, 0, T.h2 - 0.5))); $('hkf').style.clipPath = clipPoly(ll, t, 800);
+    $('hk').style.transform = `scale(${1 + 0.015 * Math.sin(t * 4)})`;
+    $('stream').style.height = Math.max(0, 400 + ll + 10) + 'px'; $('stream').style.transform = `translateX(${4 * Math.sin(t * 9)}px) scaleX(${1 + 0.15 * Math.sin(t * 13)})`; $('stream').style.opacity = 1 - p(t, T.h2 - 0.6, T.h2 - 0.45); }
+  // count number fills as it counts
+  $('nb').style.display = sc === 2 && t < T.u0 - 0.45 ? 'block' : 'none';
+  if (sc === 2) { const k = p(t, T.count - 0.1, T.count + 0.9); const v = Math.max(1, Math.round(36 * eo(k))).toLocaleString('ar-EG'); $('nbo').textContent = v; $('nbf').textContent = v;
+    $('nbf').style.clipPath = clipPoly(380 * (1 - 1.05 * eo(k)) , t, 380); const pk = p(t, T.count - 0.15, T.count + 0.25); $('nb').style.transform = `scale(${0.6 + 0.4 * eb(pk)})`; $('nb').style.opacity = p(t, T.count - 0.15, T.count - 0.05); }
+
+  // floaters
+  const ck = [T.c1, T.c2, T.c3, T.count];
+  FL.forEach((f) => { const e = f.e; if (f.sc !== sc && !(f.sc === 1 && sc === 1)) { e.style.display = 'none'; return; } e.style.display = 'block';
+    const h = f.w * 0.95; let dy = 0, op = 1, rot = 3 * Math.sin(t * 1.6 + f.i), sx = 1;
+    if (f.role === 'herb') { const s = eio(p(t, T.c1 - 0.5, T.c1 - 0.2)); dy = 900 * s; dy += 120 * (1 - eo(p(t, T.h2 - 0.2, T.h2 + 0.3))); }
+    if (f.role && f.role[0] === 'c') { const j = +f.role[1]; const a = eo(p(t, ck[j] - 0.5, ck[j] - 0.05)); const g = eio(p(t, ck[j + 1] - 0.5, ck[j + 1] - 0.2)); dy = 1000 * (1 - a) + 1000 * g; if (a <= 0 || g >= 1) { e.style.display = 'none'; return; } rot += (1 - a) * 20; }
+    if (f.role && f.role.startsWith('rain')) { const j = +f.role.slice(4); const a = p(t, T.count - 0.25 + j * 0.07, T.count + 0.2 + j * 0.07); if (a <= 0) { e.style.display = 'none'; return; }
+      const col = j % 4, row = Math.floor(j / 4); f.x = 150 + col * 260 + (row % 2) * 70 - 35; const fall = -1600 * (1 - eo(a)) + 60 * Math.sin(Math.PI * Math.min(1, a * 1.3)) ;
+      dy = fall - (2 - row) * 180; rot += (1 - a) * (R(j) - 0.5) * 200; sx = 0.8 + 0.1 * row; }
+    const bob = 10 * Math.sin(t * 2.2 + f.i * 1.7);
+    const y = lv - h * (1 - f.sub) + bob + dy, x = f.x - f.w / 2;
+    e.style.opacity = op; e.style.zIndex = f.role && f.role.startsWith('rain') ? 10 + Math.floor(+f.role.slice(4) / 4) : 1;
+    e.style.transform = `translate(${x}px, ${y}px) rotate(${rot}deg) scale(${sx})`; });
+  // print sheet rising out of the tea
+  sh.style.display = sc === 6 ? 'block' : 'none';
+  if (sc === 6) { const k = eo(p(t, T.print - 0.15, T.print + 0.6)); sh.style.transform = `translate(240px, ${1900 - 1360 * k + 8 * Math.sin(t * 2)}px) rotate(${(1 - k) * 8 - 1.5 + Math.sin(t * 1.5)}deg)`; }
+  if (sc === 7) $('card').style.transform = `translateY(${8 * Math.sin(t * 2)}px) rotate(${0.8 * Math.sin(t * 1.4)}deg)`;
+
+  // captions
+  if (sc === 1) { if (t < T.c1 - 0.45) pop('h2', t, T.h2 - 0.05); else { const nm = ['نعناع', 'بابونج', 'ولافندر']; let cur = 0; [T.c1, T.c2, T.c3].forEach((k, i) => { if (t >= k - 0.3) cur = i; }); $('cap').textContent = nm[cur]; pop('cap', t, [T.c1, T.c2, T.c3][cur] - 0.05); } }
+  if (sc === 2 && t < T.u0 - 0.45) { pop('n1', t, T.count + 0.35); pop('n2', t, T.n2 - 0.05); }
+  if (sc >= 3 && sc <= 5) { $('ucap').textContent = ['لعلب الشاي', 'لأكياس الهدايا', 'ولدفتر الوصفات'][sc - 3]; pop('ucap', t, [T.u0, T.u1, T.u2][sc - 3] - 0.05); }
+  if (sc === 6) { pop('p1', t, T.print - 0.05); pop('p2', t, T.print2 - 0.05); }
+  if (sc === 7) { pop('e1', t, T.brand - 0.05); pop('e2b', t, T.store - 0.05); pop('e2', t, T.store2 - 0.05, 0.45); pop('e3', t, T.store2 + 0.35); }
+};
+LEVEL[0] = 1420;
+render(0.5);
+$('hk').style.top = '330px';
+$('stream').style.height = (parseFloat($('stream').style.height) - 70) + 'px';
+$('stage').insertAdjacentHTML('beforeend', `<div style="position:absolute; left:40px; top:1570px; width:1000px; height:320px; background:var(--cream); border-radius:30px; box-shadow:0 18px 40px rgba(60,25,5,.45); z-index:300">
+  <div style="position:absolute; left:20px; top:20px; width:280px; height:280px; background:#fff; padding:10px; border:5px solid var(--brown); border-radius:16px"><img src="qr_store.png" style="width:100%; height:100%; display:block"></div>
+  <div style="position:absolute; left:320px; top:24px; width:660px; text-align:center; font-size:76px; white-space:nowrap">٣٦ ستيكر شاي وأعشاب</div>
+  <div style="position:absolute; left:320px; top:164px; width:660px; text-align:center; font-size:64px; white-space:nowrap"><span class="pill" style="padding:0 40px 16px">متوفرة في متجر دُر</span></div>
+</div>`);
+</script>
+</body></html>
