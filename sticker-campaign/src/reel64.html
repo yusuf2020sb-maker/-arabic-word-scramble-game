@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Cairo:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root { --red:#9e1b1b; --cream:#fbf4e4; --wood:#7a4e2d; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:#2a1a10; font-family:'Lalezar','Cairo',sans-serif; color:#fff; }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; background:#2a1a10; }
+  .table { position:absolute; inset:0; background:repeating-linear-gradient(92deg, #7a4e2d 0 60px, #6c4326 60px 64px, #845634 64px 150px, #6f4528 150px 154px); }
+  .table:after { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 50% 45%, rgba(255,220,170,.18), rgba(0,0,0,.35) 75%); }
+  .sc { position:absolute; left:0; top:0; width:1080px; height:1920px; display:none; }
+  .cam { position:absolute; left:0; top:0; width:1080px; height:1920px; transform-origin:0 0; }
+  .st { position:absolute; left:0; top:0; filter:drop-shadow(0 10px 12px rgba(40,20,5,.35)); }
+  .ov { position:absolute; left:0; width:1080px; text-align:center; white-space:nowrap; line-height:1.3; z-index:60; }
+  .w { display:inline-block; }
+  .cap { font-size:118px; color:#fff; -webkit-text-stroke:12px #111; paint-order:stroke fill; filter:drop-shadow(-3px 0 0 rgba(255,0,70,.55)) drop-shadow(3px 0 0 rgba(0,220,255,.5)); }
+  .cap .w { margin:0 12px; }
+  .cap .hl { color:#ffd43b; }
+  .pill { display:inline-block; padding:0 54px 16px; border-radius:90px; background:var(--red); color:#fff; box-shadow:0 12px 26px rgba(0,0,0,.35); }
+  .hud { position:absolute; z-index:80; font-family:Cairo; font-weight:800; color:#fff; direction:ltr; text-shadow:-2px 0 rgba(255,0,70,.6), 2px 0 rgba(0,220,255,.6), 0 2px 6px rgba(0,0,0,.6); }
+  .br { position:absolute; width:90px; height:90px; border:7px solid rgba(255,255,255,.85); z-index:80; }
+  #scan { position:absolute; inset:0; z-index:75; pointer-events:none; background:repeating-linear-gradient(180deg, transparent 0 3px, rgba(0,0,0,.10) 3px 6px); }
+  #grain { position:absolute; left:-60px; top:-60px; width:1200px; height:2040px; z-index:76; opacity:.10; pointer-events:none; }
+  #vig { position:absolute; inset:0; z-index:74; pointer-events:none; background:radial-gradient(ellipse at 50% 50%, transparent 58%, rgba(0,0,0,.45)); }
+  #band { position:absolute; left:0; width:1080px; height:90px; z-index:77; background:linear-gradient(180deg, transparent, rgba(255,255,255,.35), rgba(255,255,255,.08), transparent); opacity:0; }
+  #flash { position:absolute; inset:0; background:#fff; z-index:73; opacity:0; }
+  .focus { position:absolute; z-index:79; width:420px; height:420px; opacity:0; }
+  .focus i { position:absolute; width:70px; height:70px; border:6px solid #fff; }
+</style></head><body>
+<div id="stage">
+  <!-- A: grandma's room that is really a sticker sheet -->
+  <div class="sc" id="sA"><div class="table"></div>
+    <div class="cam" id="camA">
+      <div id="paper" style="position:absolute; left:0; top:0; width:1080px; height:1920px; background:#fffdf7; box-shadow:0 40px 80px rgba(0,0,0,.55)">
+        <div id="roomBg" style="position:absolute; inset:0">
+          <div style="position:absolute; left:0; top:0; width:1080px; height:1180px; background:radial-gradient(ellipse at 50% 35%, #f0dbb8, #dcbd8f 70%, #c9a676)"></div>
+          <div style="position:absolute; left:120px; top:560px; width:840px; height:34px; background:linear-gradient(180deg, #8a5a33, #5f3a1f); box-shadow:0 14px 18px rgba(0,0,0,.25)"></div>
+          <div style="position:absolute; left:0; top:1180px; width:1080px; height:740px; background:repeating-linear-gradient(180deg, #9e1b1b 0 70px, #1e1410 70px 92px, #f1e3c6 92px 112px, #1e1410 112px 134px, #c27a2c 134px 170px, #1e1410 170px 190px)"></div>
+          <div style="position:absolute; left:0; top:1180px; width:1080px; height:740px; background:repeating-linear-gradient(90deg, transparent 0 60px, rgba(241,227,198,.35) 60px 72px)"></div>
+          <div style="position:absolute; left:0; top:1150px; width:1080px; height:40px; background:linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,.25))"></div>
+        </div>
+        <div id="cuts" style="position:absolute; inset:0; opacity:0"></div>
+      </div>
+    </div>
+  </div>
+  <!-- B: count grid -->
+  <div class="sc" id="sB"><div class="table"></div>
+    <div class="cam" id="camB"><div id="gridPaper" style="position:absolute; left:60px; top:560px; width:960px; height:1660px; background:#fffdf7; box-shadow:0 40px 80px rgba(0,0,0,.55)"></div></div>
+  </div>
+  <!-- C: uses, handheld whip pans -->
+  <div class="sc" id="sC"><div class="table"></div>
+    <div class="cam" id="camC"><div id="strip" style="position:absolute; left:0; top:0; width:3240px; height:1920px">
+      <div style="position:absolute; left:0; top:0; width:1080px; height:1920px">
+        <div style="position:absolute; left:170px; top:640px; width:740px; height:620px; background:#2f4a3a; border:14px solid #c9a227; border-radius:18px; box-shadow:0 40px 60px rgba(0,0,0,.5)"><div style="position:absolute; inset:26px; background:#f5e7c8; border-radius:8px"></div></div>
+        <img class="st" src="heritage/h48.png" style="width:520px; transform:translate(280px,700px)">
+        <div style="position:absolute; left:200px; top:1300px; width:680px; height:300px; background:#2f4a3a; border:12px solid #c9a227; border-radius:18px; transform:rotate(-4deg); box-shadow:0 30px 40px rgba(0,0,0,.45)"></div>
+        <img class="st" src="heritage/h14.png" style="width:300px; transform:translate(390px,1290px) rotate(-4deg)">
+      </div>
+      <div style="position:absolute; left:1080px; top:0; width:1080px; height:1920px">
+        <div id="favs"></div>
+      </div>
+      <div style="position:absolute; left:2160px; top:0; width:1080px; height:1920px">
+        <div style="position:absolute; left:70px; top:620px; width:940px; height:960px; background:#5b3a26; border-radius:22px; box-shadow:0 40px 60px rgba(0,0,0,.5)"></div>
+        <div style="position:absolute; left:92px; top:640px; width:440px; height:920px; background:#f6ecd6; border-radius:10px 0 0 10px"></div>
+        <div style="position:absolute; left:548px; top:640px; width:440px; height:920px; background:#f6ecd6; border-radius:0 10px 10px 0"></div>
+        <div style="position:absolute; left:150px; top:700px; width:320px; height:380px; background:#fff; padding:18px 18px 70px; transform:rotate(-5deg); box-shadow:0 8px 16px rgba(0,0,0,.25)"><div style="width:100%; height:100%; background:linear-gradient(160deg, #e2c79c, #b98e5a)"></div></div>
+        <img class="st" src="heritage/h30.png" style="width:300px; transform:translate(160px,740px) rotate(-5deg)">
+        <img class="st" src="heritage/h22.png" style="width:330px; transform:translate(610px,720px) rotate(4deg)">
+        <img class="st" src="heritage/h42.png" style="width:250px; transform:translate(190px,1190px) rotate(6deg)">
+        <img class="st" src="heritage/h40.png" style="width:150px; transform:translate(700px,1150px) rotate(-6deg)">
+        <img class="st" src="heritage/h41.png" style="width:150px; transform:translate(820px,1180px) rotate(8deg)">
+      </div>
+    </div></div>
+  </div>
+  <!-- D: print sheet -->
+  <div class="sc" id="sD"><div class="table"></div>
+    <div class="cam" id="camD"><div id="sheet" style="position:absolute; left:200px; top:540px; width:680px; height:960px; background:#fffdf6; box-shadow:0 40px 70px rgba(0,0,0,.5); border-radius:6px"></div><img id="lift" class="st" src="heritage/h50.png" style="width:170px"></div>
+  </div>
+  <!-- E: end -->
+  <div class="sc" id="sE"><div class="table"></div>
+    <div class="cam" id="camE">
+      <div style="position:absolute; left:220px; top:420px; width:640px; height:800px; background:var(--cream); border-radius:30px; box-shadow:0 40px 70px rgba(0,0,0,.55); border:8px solid #c9a227">
+        <div style="position:absolute; left:50px; top:50px; width:524px; height:524px; background:#fff; padding:16px; border:5px solid var(--red); border-radius:18px"><img src="qr_store.png" style="width:100%; height:100%; display:block"></div>
+        <div style="position:absolute; left:0; top:600px; width:624px; text-align:center; font-size:84px; color:var(--red)">امسح الكود</div>
+      </div>
+      <img class="st" src="heritage/h50.png" style="width:240px; transform:translate(40px,1060px) rotate(-10deg)">
+      <img class="st" src="heritage/h6.png" style="width:190px; transform:translate(860px,380px) rotate(10deg)">
+    </div>
+  </div>
+
+  <div id="flash"></div>
+  <div id="vig"></div><div id="scan"></div><canvas id="grain" width="300" height="510"></canvas><div id="band"></div>
+  <div class="focus" id="fc"><i style="left:0; top:0; border-right:none; border-bottom:none"></i><i style="right:0; top:0; border-left:none; border-bottom:none"></i><i style="left:0; bottom:0; border-right:none; border-top:none"></i><i style="right:0; bottom:0; border-left:none; border-top:none"></i></div>
+  <!-- camcorder HUD -->
+  <div class="br" style="left:44px; top:44px; border-right:none; border-bottom:none"></div><div class="br" style="right:44px; top:44px; border-left:none; border-bottom:none"></div>
+  <div class="br" style="left:44px; bottom:44px; border-right:none; border-top:none"></div><div class="br" style="right:44px; bottom:44px; border-left:none; border-top:none"></div>
+  <div class="hud" style="left:90px; top:80px; font-size:56px"><span id="dot" style="display:inline-block; width:40px; height:40px; border-radius:50%; background:#ff2a2a; vertical-align:-4px; margin-right:14px"></span><span id="rec">REC</span></div>
+  <div class="hud" style="right:96px; top:84px; width:110px; height:52px; border:5px solid #fff; border-radius:8px"><div style="position:absolute; left:6px; top:6px; width:66px; height:30px; background:#fff"></div><div style="position:absolute; right:-16px; top:12px; width:10px; height:20px; background:#fff"></div></div>
+  <div class="hud" style="left:96px; bottom:84px; font-size:50px" id="tc">00:00:00</div>
+  <div class="hud" style="right:96px; bottom:84px; font-size:50px">SP</div>
+  <div class="hud" id="zm" style="right:96px; top:820px; font-size:46px; opacity:0">x1.0</div>
+
+  <div class="ov cap" id="capbox" style="top:1380px"></div>
+  <div class="ov cap" style="top:150px; font-size:300px; line-height:1.05; font-family:Cairo; font-weight:900" ><span class="w" id="n50">٥٠</span></div>
+  <div class="ov" style="top:470px; font-size:100px"><span class="w pill" id="n1">ستيكر تراثي</span></div>
+  <div class="ov cap" style="top:150px; font-size:104px"><span class="w" id="e1">ستيكرات تراثية عربية</span></div>
+  <div class="ov" style="top:1330px; font-size:84px"><span class="w" id="e2b" style="background:var(--cream); color:var(--red); border-radius:44px; padding:0 44px 14px">متوفرة في</span></div>
+  <div class="ov" style="top:1470px; font-size:170px"><span class="w pill" id="e2" style="padding:0 70px 26px">متجر دُر</span></div>
+  <div class="ov" style="top:1720px; font-size:46px; font-family:Cairo; font-weight:800; direction:ltr"><span class="w" id="e3" style="text-shadow:0 2px 8px rgba(0,0,0,.7)">planme.zaher.io</span></div>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eio = (x) => (x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const eb = (x) => { const c = 1.7; return x <= 0 ? 0 : 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const pop = (id, t, a, d = 0.4) => { const k = p(t, a, a + d); const e = $(id); e.style.opacity = p(t, a, a + 0.1); e.style.transform = `scale(${0.6 + 0.4 * eb(k)}) rotate(${(1 - eo(k)) * -6}deg)`; };
+const off = (...ids) => ids.forEach((id) => ($(id).style.opacity = 0));
+const show = (id, v) => ($(id).style.display = v ? 'block' : 'none');
+
+const D = { h1: 0.3, h2: 2.2, c1: 4.0, c2: 5.1, c3: 6.2, count: 7.5, n2: 9.1, u0: 10.9, u1: 12.6, u2: 14.0, print: 15.7, print2: 16.8, brand: 18.8, store: 20.4, store2: 21.2, end_all: 24.2 };
+const T = Object.assign({}, D, window.TL || {});
+
+// room items on the sheet (paper coords) — safe designs only
+const ITEMS = [
+  ['h45', 210, 170, 330, -4], ['h46', 210, 700, 330, 4], ['h22', 260, 150, 300, 0], ['h6', 240, 780, 300, 0],
+  ['h49', 470, 60, 830, 0], ['h50', 380, 600, 790, 0], ['h54', 170, 520, 1060, 0], ['h53', 130, 920, 1010, 0],
+  ['h48', 330, 380, 1300, 0], ['h13', 260, 90, 1420, -8], ['h14', 260, 740, 1420, 8], ['h42', 200, 450, 1620, -5],
+];
+ITEMS.forEach(([n, w, x, y, r], i) => $('paper').insertAdjacentHTML('beforeend', `<img class="st" id="it${i}" src="heritage/${n}.png" style="width:${w}px; transform:translate(${x}px,${y}px) rotate(${r}deg)">`));
+// die-cut dashed outlines appear when the room turns out to be a sheet
+$('cuts').innerHTML = ITEMS.map(([n, w, x, y]) => `<div style="position:absolute; left:${x - 14}px; top:${y - 14}px; width:${w + 28}px; height:${w + 28}px; border:4px dashed rgba(158,27,27,.35); border-radius:30px"></div>`).join('');
+// focus targets (paper coords centres) for dallah, chest, lantern
+const FOC = [[790, 980, 2.1], [295, 1065, 1.9], [900, 450, 2.3]];
+// count grid
+const SAFE = ['h50', 'h49', 'h6', 'h54', 'h48', 'h14', 'h22', 'h45', 'h46', 'h13', 'h53', 'h42', 'h40', 'h41', 'h30'];
+$('gridPaper').innerHTML = SAFE.map((n, i) => `<img class="st" id="g${i}" src="heritage/${n}.png" style="width:250px; height:250px; object-fit:contain; transform:translate(${50 + (i % 3) * 300}px,${50 + Math.floor(i / 3) * 310}px)">`).join('');
+// favours: three little kraft bags with sticker seals
+$('favs').innerHTML = [['h54', 120], ['h50', 400], ['h13', 680]].map(([n, x], i) => `<div style="position:absolute; left:${x}px; top:${820 + (i % 2) * 60}px; width:280px; height:420px; background:linear-gradient(160deg, #d9ac72, #b6834a); clip-path:polygon(6% 0, 94% 0, 100% 100%, 0 100%); box-shadow:0 30px 40px rgba(0,0,0,.4)"></div><div style="position:absolute; left:${x + 70}px; top:${720 + (i % 2) * 60}px; width:140px; height:130px; border:14px solid #8a5a2c; border-bottom:none; border-radius:70px 70px 0 0"></div><img class="st" src="heritage/${n}.png" style="width:190px; transform:translate(${x + 45}px,${930 + (i % 2) * 60}px) rotate(${(i - 1) * 6}deg)">`).join('');
+// print sheet: custom 3 x 4 grid of safe designs
+const SH = ['h50', 'h49', 'h6', 'h54', 'h48', 'h14', 'h22', 'h45', 'h46', 'h13', 'h53', 'h42'];
+$('sheet').innerHTML = `<div style="position:absolute; left:0; top:22px; width:680px; text-align:center; font-family:Cairo; font-weight:800; font-size:30px; color:#9e1b1b">ستيكرات تراثية</div>` + SH.map((n, i) => `<div style="position:absolute; left:${48 + (i % 3) * 200}px; top:${86 + Math.floor(i / 3) * 210}px; width:184px; height:184px; border:3px dashed rgba(0,0,0,.2); border-radius:24px"></div><img ${i === 0 ? 'id="slot0"' : ''} src="heritage/${n}.png" style="position:absolute; left:${56 + (i % 3) * 200}px; top:${94 + Math.floor(i / 3) * 210}px; width:168px; height:168px; object-fit:contain">`).join('');
+
+// film grain
+const gctx = $('grain').getContext('2d'); const GN = [];
+for (let k = 0; k < 6; k++) { const im = gctx.createImageData(300, 510); for (let i = 0; i < im.data.length; i += 4) { const v = R(i * 0.37 + k * 911) * 255; im.data[i] = im.data[i + 1] = im.data[i + 2] = v; im.data[i + 3] = 255; } GN.push(im); }
+
+const LINES = () => [
+  [T.h1, 'يا حليله بيت جدتي!', [3]], [T.h2, 'لحظة... هذي ستيكرات؟!', [2]],
+  [T.c1, 'الدلّة', [0]], [T.c2, 'والصندوق', [0]], [T.c3, 'حتى الفنر!', [1]],
+  [T.n2, 'كل تفصيلة لها ذكرى', [3]],
+  [T.u0, 'حطيتها على علب التمر', [3, 4]], [T.u1, 'وعلى التوزيعات', [1]], [T.u2, 'وفي دفتر الذكريات', [2]],
+  [T.print, 'ملف PDF', [1]], [T.print2, 'طباعة وقص... وخلاص!', [2]],
+];
+const ENDS = () => { const L = LINES(); return L.map((l, i) => { if (i === 5) return T.u0 - 0.45; if (l[0] === T.c3) return T.count - 0.45; if (i === 10) return T.brand - 0.45; return L[i + 1][0] - 0.4; }); };
+const hand = (t, a = 1) => [a * (9 * Math.sin(t * 1.7) + 5 * Math.sin(t * 3.9 + 1) + 2 * Math.sin(t * 9.1)), a * (7 * Math.sin(t * 1.3 + 2) + 4 * Math.sin(t * 4.3) + 2 * Math.sin(t * 8.3 + 1)), a * (0.5 * Math.sin(t * 1.1) + 0.3 * Math.sin(t * 2.9))];
+const camSet = (id, cx, cy, z, t, a = 1, rot = 0) => { const [hx, hy, hr] = hand(t, a); $(id).style.transform = `translate(${540 + hx - cx * z}px, ${960 + hy - cy * z}px) scale(${z})`; $(id).style.transformOrigin = '0 0'; $(id).style.rotate = `${hr + rot}deg`; };
+
+window.render = (t) => {
+  const fi = Math.floor(t * 30); gctx.putImageData(GN[fi % 6], 0, 0);
+  $('grain').style.transform = `translate(${(R(fi) - 0.5) * 60}px, ${(R(fi + 3) - 0.5) * 60}px)`;
+  $('stage').style.opacity = 1 - p(t, T.end_all - 0.5, T.end_all);
+  const sA = t < T.count - 0.25, sB = t >= T.count - 0.25 && t < T.u0 - 0.25, sC = t >= T.u0 - 0.25 && t < T.print - 0.25, sD = t >= T.print - 0.25 && t < T.brand - 0.25, sE = t >= T.brand - 0.25;
+  show('sA', sA); show('sB', sB); show('sC', sC); show('sD', sD); show('sE', sE);
+  // HUD
+  const paused = sE && t > T.store2 + 0.6;
+  $('rec').textContent = paused ? 'PAUSE' : 'REC'; $('dot').style.opacity = paused ? 0 : (Math.floor(t * 1.6) % 2 ? 0.25 : 1);
+  const s = Math.floor(t + 12); $('tc').textContent = `00:00:${String(s).padStart(2, '0')}`;
+  let zoomShown = 1, flash = 0, band = -1;
+  // whip/scene-change glitch bands
+  [T.count - 0.25, T.u0 - 0.25, T.u1 - 0.25, T.u2 - 0.25, T.print - 0.25, T.brand - 0.25, T.h2 - 0.3].forEach((w) => { const k = p(t, w - 0.12, w + 0.12); if (k > 0 && k < 1) band = k; });
+  $('band').style.opacity = band >= 0 ? 0.9 : 0; $('band').style.top = (band * 2000 - 90) + 'px';
+  $('fc').style.opacity = 0;
+
+  if (sA) {
+    // room → reveal (zoom out to the sheet) → autofocus zooms on dallah, chest, lantern
+    const rv = eio(p(t, T.h2 - 0.45, T.h2 - 0.05));
+    let cx = 540, cy = 960, z = 1.12 * (1 - rv) + 0.66 * rv, rot = -3 * rv, blur = 0;
+    const ks = [T.c1, T.c2, T.c3];
+    ks.forEach((k, i) => { const a = eio(p(t, k - 0.45, k - 0.1)); if (a > 0) { const prev = i === 0 ? [540, 960, 0.66] : FOC[i - 1]; const f = FOC[i];
+      cx = prev[0] + (f[0] - prev[0]) * a; cy = prev[1] + (f[1] - prev[1]) * a; z = prev[2] + (f[2] - prev[2]) * a; rot = -3 * (1 - a) * (i === 0 ? 1 : 0);
+      blur = Math.max(blur, 10 * Math.sin(Math.PI * p(t, k - 0.25, k + 0.05))); } });
+    const out = eio(p(t, T.count - 0.6, T.count - 0.25)); cx += 900 * out; blur = Math.max(blur, 18 * Math.sin(Math.PI * out));
+    camSet('camA', cx, cy, z, t, 1, rot); $('camA').style.filter = `blur(${blur}px) sepia(.12) saturate(1.1)`;
+    $('roomBg').style.opacity = 1 - rv; $('cuts').style.opacity = rv;
+    flash = Math.max(flash, 0.5 * Math.sin(Math.PI * p(t, T.h2 - 0.12, T.h2 + 0.08)));
+    zoomShown = t > T.h2 ? z / 0.66 : 1;
+    let cur = -1; ks.forEach((k, i) => { if (t >= k - 0.1) cur = i; });
+    if (cur >= 0 && t < T.count - 0.45) { const fk = eo(p(t, ks[cur] - 0.1, ks[cur] + 0.25)); $('fc').style.opacity = 1 - 0.4 * p(t, ks[cur] + 0.4, ks[cur] + 0.7);
+      const sz = 520 - 120 * fk; $('fc').style.width = $('fc').style.height = sz + 'px'; $('fc').style.left = (540 - sz / 2) + 'px'; $('fc').style.top = (900 - sz / 2) + 'px'; }
+  }
+  if (sB) {
+    const a = eio(p(t, T.count - 0.25, T.count + 0.1)); const pan = eio(p(t, T.count + 0.2, T.u0 - 0.5));
+    camSet('camB', 540 - 900 * (1 - a), 1090 + 60 * pan, 0.6, t, 1.2); $('camB').style.filter = `blur(${16 * (1 - a) + 16 * eio(p(t, T.u0 - 0.6, T.u0 - 0.25))}px) sepia(.12) saturate(1.1)`;
+    SAFE.forEach((n, i) => { const k = eb(p(t, T.count - 0.1 + i * 0.04, T.count + 0.25 + i * 0.04)); $(`g${i}`).style.opacity = p(t, T.count - 0.1 + i * 0.04, T.count + i * 0.04); $(`g${i}`).style.scale = 0.5 + 0.5 * k; });
+    $('n50').textContent = Math.max(1, Math.round(50 * eo(p(t, T.count, T.count + 0.9)))).toLocaleString('ar-EG');
+  }
+  if (sC) {
+    const us = [T.u0, T.u1, T.u2]; let x = 0, blur = 0;
+    const kin = p(t, T.u0 - 0.25, T.u0 + 0.05); x = -900 * (1 - eio(kin)); blur = 16 * Math.sin(Math.PI * kin * 0.5 + Math.PI * 0.5) * (1 - kin);
+    [1, 2].forEach((j) => { const k = p(t, us[j] - 0.4, us[j] - 0.1); x += 1080 * eio(k); blur = Math.max(blur, 22 * Math.sin(Math.PI * k)); });
+    const ko = p(t, T.print - 0.55, T.print - 0.25); x += 900 * eio(ko); blur = Math.max(blur, 18 * Math.sin(Math.PI * ko));
+    camSet('camC', 540 + x, 1080, 0.92, t, 1.3); $('camC').style.filter = `blur(${blur}px) sepia(.12) saturate(1.1)`;
+  }
+  if (sD) {
+    const a = eio(p(t, T.print - 0.25, T.print + 0.1)); const z = 0.86 + 0.12 * eio(p(t, T.print2 - 0.4, T.print2 + 0.3));
+    camSet('camD', 540, 1020 + 900 * (1 - a) - 120 * eio(p(t, T.print2 - 0.4, T.print2 + 0.3)), z, t, 1); $('camD').style.filter = `blur(${14 * (1 - a) + 16 * eio(p(t, T.brand - 0.55, T.brand - 0.25))}px) sepia(.12) saturate(1.1)`;
+    const lk = eo(p(t, T.print2 - 0.35, T.print2 + 0.2)); $('slot0').style.opacity = lk > 0 ? 0 : 1; $('lift').style.display = lk > 0 ? 'block' : 'none';
+    $('lift').style.transform = `translate(${256 - 40 * lk}px, ${634 - 200 * lk}px) rotate(${-12 * lk}deg) scale(${1 + 0.6 * lk})`;
+  }
+  if (sE) { const a = eio(p(t, T.brand - 0.25, T.brand + 0.1)); camSet('camE', 540, 960 - 700 * (1 - a), 1, t, paused ? 0.2 : 0.7); $('camE').style.filter = `blur(${14 * (1 - a)}px) sepia(.1) saturate(1.1)`; }
+
+  $('zm').style.opacity = zoomShown > 1.15 ? 1 : 0; $('zm').textContent = `x${zoomShown.toFixed(1)}`;
+  $('flash').style.opacity = flash;
+
+  // word-by-word vlog captions (hook fully visible from frame 0)
+  off('n50', 'n1', 'e1', 'e2b', 'e2', 'e3');
+  const L = LINES(), E = ENDS(); let html = '';
+  L.forEach(([k, txt, hl], i) => { const a = i === 0 ? 0 : k - 0.05; if (t < a || t >= E[i] || (i === 0 && t >= T.h2 - 0.45)) return;
+    html = txt.split(' ').map((w, j) => { const st = i === 0 ? -1 : a + j * 0.13; const q = p(t, st, st + 0.22);
+      return `<span class="w${hl.includes(j) ? ' hl' : ''}" style="opacity:${p(t, st, st + 0.06)}; transform:scale(${0.5 + 0.5 * eb(q)}) translateY(${(1 - eo(q)) * 30}px)">${w}</span>`; }).join(''); });
+  $('capbox').innerHTML = html;
+  if (sB && t < T.u0 - 0.45) { pop('n50', t, T.count - 0.05); pop('n1', t, T.count + 0.35); }
+  if (sE) { pop('e1', t, T.brand - 0.05); pop('e2b', t, T.store - 0.05); pop('e2', t, T.store2 - 0.05, 0.45); pop('e3', t, T.store2 + 0.35); }
+  $('capbox').style.top = sB ? '1570px' : sD ? '1560px' : '1380px';
+};
+render(0);
+</script>
+</body></html>
