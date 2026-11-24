@@ -105,8 +105,8 @@
   .card{perspective:1000px;display:flex;flex-direction:column}
   .sheet{position:relative;aspect-ratio:595/842;max-width:100%;transform-style:preserve-3d;transition:transform .2s ease-out;cursor:pointer;border:none;background:none;padding:0;display:block;width:100%}
   .sheet .pg{position:absolute;inset:0;border-radius:6px;background:var(--rose);box-shadow:var(--shadow)}
-  .sheet .pg.b2{transform:translate3d(-10px,8px,-24px) rotate(-3deg)}
-  .sheet .pg.b1{transform:translate3d(-5px,4px,-12px) rotate(-1.5deg);background:color-mix(in srgb,var(--rose) 60%,var(--card))}
+  .sheet .pg.b2{transform:translate3d(-6px,6px,-24px)}
+  .sheet .pg.b1{transform:translate3d(-3px,3px,-12px);background:color-mix(in srgb,var(--rose) 60%,var(--card))}
   .sheet img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:6px;transform:translateZ(1px);box-shadow:0 1px 2px rgba(0,0,0,.15)}
   .sheet::after{content:"";position:absolute;inset:0;border-radius:6px;transform:translateZ(2px);background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.45) 48%,transparent 60%);background-size:260% 260%;background-position:100% 0;transition:background-position .8s;pointer-events:none}
   .card:hover .sheet::after{background-position:0 100%}
@@ -233,19 +233,19 @@
     <div class="hero-content">
       <span class="eyebrow">ملفات PDF · مقاس A4 · تحميل فوري</span>
       <h1>اطبع ستيكراتك <span>بنفسك</span></h1>
-      <p>١٦ ملف ستيكرز بتصاميم فنتج وتراثية عربية. اشترِ الملف مرة وحدة، واطبعه على ورق ستيكر في البيت أو عند أقرب مطبعة.</p>
+      <p><span id="heroCount">١٥</span> ملف ستيكرز بتصاميم فنتج وتراثية عربية. اشترِ الملف مرة وحدة، واطبعه على ورق ستيكر في البيت أو عند أقرب مطبعة.</p>
       <div class="cta">
         <a href="#shop" class="btn btn-main">تصفّح الملفات</a>
         <a href="#bundle" class="btn btn-ghost">الباقة الكاملة</a>
       </div>
       <div class="facts">
-        <div><b class="num" id="factDesigns">١٬٠٩٢</b><small>تصميم ستيكر</small></div>
-        <div><b class="num" id="factPages">١٬١٦٧</b><small>صفحة جاهزة للطباعة</small></div>
-        <div><b class="num">١٦</b><small>ملف PDF</small></div>
+        <div><b class="num" id="factDesigns">٩٧٦</b><small>تصميم ستيكر</small></div>
+        <div><b class="num" id="factPages">١٬٠٤٥</b><small>صفحة جاهزة للطباعة</small></div>
+        <div><b class="num" id="factFiles">١٥</b><small>ملف PDF</small></div>
       </div>
     </div>
   </div>
-  <div class="hero-hint">اضغط على أي ورقة لمعاينتها</div>
+  <div class="hero-hint">اسحب الكوكب لتدويره، واضغط على أي ملف لمعاينته</div>
 </section>
 
 <div class="ribbon" aria-hidden="true"><div class="ribbon-track" id="ribbon"></div></div>
@@ -266,7 +266,7 @@
     <div class="bundle">
       <div>
         <h2>الباقة الكاملة</h2>
-        <p>كل الملفات الـ١٦ في طلب واحد: أكثر من ألف تصميم ستيكر، تراثي وفنتج وقهوة وزهور وخريف.</p>
+        <p>كل الملفات (<span id="bundleCount">١٥</span> ملف) في طلب واحد: قرابة ألف تصميم ستيكر، تراثي وفنتج وقهوة وزهور وخريف.</p>
         <div style="margin:22px 0 18px;display:flex;align-items:baseline;flex-wrap:wrap;gap:4px">
           <span class="price num" id="bundlePrice"></span><span class="old num" id="bundleOld"></span>
         </div>
@@ -364,7 +364,7 @@ const products = [
   {id:'food',            name:'ستيكرات أكلات شرقية',        cat:'تراثي',      designs:39,  pages:42,  price:19, desc:'فطاير ومنسف ومجدرة وحمص وكبة وفلافل ومشاوي وشكشوكة.'},
   {id:'vintage-classic', name:'ستيكرات فنتج كلاسيكية',      cat:'فنتج',       designs:149, pages:157, price:39, desc:'ورود ونباتات واقتباسات بخمس ألوان.', tag:'الأكبر'},
   {id:'vintage-antique', name:'ستيكرات فنتج عتيقة',         cat:'فنتج',       designs:62,  pages:66,  price:25, desc:'ساعات وكاميرات وكتب وفيونكات ومفاتيح، بأسلوب عتيق.'},
-  {id:'journal',         name:'ستيكرات جورنال فنتج',        cat:'فنتج',       designs:68,  pages:72,  price:29, desc:'ورق معتّق وزهور مجففة وآلات كاتبة، مناسبة للجورنال.'},
+  {id:'journal',         name:'ستيكرات جورنال فنتج',        cat:'فنتج',       designs:68,  pages:72,  price:29, desc:'ورق عتيق وزهور مجففة وآلات كاتبة وشموع، مناسبة للجورنال.'},
   {id:'stamps',          name:'ستيكرات الطوابع الكلاسيكية', cat:'فنتج',       designs:35,  pages:40,  price:19, desc:'طوابع زهور بأسلوب الرسم القديم، والملف قابل للتعديل.'},
   {id:'vintage-roses',   name:'ستيكرات ورود فنتج',          cat:'زهور',       designs:63,  pages:67,  price:25, desc:'ورود بني وأزرق وعنابي وأوراق ذهبية ونباتات برية.'},
   {id:'botanical',       name:'ستيكرات نباتية فنتج',        cat:'زهور',       designs:46,  pages:50,  price:22, desc:'زهور برية وباقات وتوليب.'},
@@ -373,22 +373,22 @@ const products = [
   {id:'coffee-memes',    name:'ستيكرات قهوة وميمز',         cat:'قهوة وشاي',  designs:114, pages:121, price:35, desc:'عبارات قهوة وميمز مضحكة بالعربي والإنجليزي.', tag:'الأكثر طلباً'},
   {id:'herbal-tea',      name:'ستيكرات شاي وأعشاب',         cat:'قهوة وشاي',  designs:36,  pages:39,  price:19, desc:'أكواب شاي بالليمون والقرفة والأعشاب والفواكه.'},
   {id:'cozy-home',       name:'ستيكرات البيت الدافي',       cat:'دافئ وخريفي', designs:136, pages:143, price:39, desc:'شاي وكتب وخريف ولحظات بيتية دافئة.'},
-  {id:'cozy-autumn',     name:'ستيكرات الخريف الدافي',      cat:'دافئ وخريفي', designs:116, pages:122, price:35, desc:'غابات وكتب ولحظات خريفية دافئة.'},
   {id:'autumn-ephemera', name:'ستيكرات خريفية فنتج',        cat:'دافئ وخريفي', designs:41,  pages:44,  price:19, desc:'بطاقات وتذاكر وتاقات وأوراق خريفية.'},
 ];
 const img = (id,n=1) => `assets/${id}-${n}.jpg`;
 const ar = n => Number(n).toLocaleString('ar-EG');
 const byId = Object.fromEntries(products.map(p=>[p.id,p]));
-const BUNDLE = {id:'bundle', name:'الباقة الكاملة (١٦ ملف)', price:199};
+const BUNDLE = {id:'bundle', name:`الباقة الكاملة (${products.length.toLocaleString('ar-EG')} ملف)`, price:189};
 const fullPrice = products.reduce((a,p)=>a+p.price,0);
 const $ = id => document.getElementById(id);
 
 $('factDesigns').textContent = ar(products.reduce((a,p)=>a+p.designs,0));
 $('factPages').textContent = ar(products.reduce((a,p)=>a+p.pages,0));
+['heroCount','factFiles','bundleCount'].forEach(i=>$(i).textContent = ar(products.length));
 $('bundlePrice').textContent = `${ar(BUNDLE.price)} ريال`;
 $('bundleOld').textContent = `${ar(fullPrice)} ريال`;
 
-/* ================= Three.js hero: floating printed sheets ================= */
+/* ================= Three.js hero: a planet made of PDF covers ================= */
 (function(){
   const canvas = $('scene');
   if(!window.THREE) return;
@@ -396,89 +396,150 @@ $('bundleOld').textContent = `${ar(fullPrice)} ريال`;
   try{ renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true}); }catch(e){ return; }
   renderer.setPixelRatio(Math.min(devicePixelRatio,2));
   renderer.outputEncoding = THREE.sRGBEncoding;
+  const aniso = renderer.capabilities.getMaxAnisotropy();
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(40, 1, .1, 100);
+  const camera = new THREE.PerspectiveCamera(38, 1, .1, 100);
   camera.position.set(0,0,15);
-  scene.add(new THREE.AmbientLight(0xffffff,.85));
-  const key = new THREE.DirectionalLight(0xfff1e6,.55); key.position.set(4,6,10); scene.add(key);
+  scene.add(new THREE.AmbientLight(0xffffff,.62));
+  const key = new THREE.DirectionalLight(0xfff1e6,.5); key.position.set(-5,6,10); scene.add(key);
 
-  const loader = new THREE.TextureLoader();
-  const featured = ['vintage-classic','heritage','coffee-memes','cozy-home','saudi','vintage-roses','journal','coffee-sweets','stamps','cozy-autumn'];
-  const W = 2.2, H = W*842/595;
-  const sheets = [];
-  const mobile = innerWidth < 820;
+  const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+  const R = 3.5, W = 1.6, H = W*842/595, LIFT = .03;
+  const planet = new THREE.Group(); scene.add(planet);   // placed and tilted
+  const globe = new THREE.Group(); planet.add(globe);    // spun by the visitor
+  planet.rotation.z = .12;
 
-  const geo = new THREE.PlaneGeometry(W,H,16,16);
-  const pos = geo.attributes.position;
-  for(let k=0;k<pos.count;k++){ const x=pos.getX(k), y=pos.getY(k); pos.setZ(k, -.035*x*x + .02*(y/H)); }
+  // soft glow behind the planet
+  const gc = document.createElement('canvas'); gc.width = gc.height = 256;
+  const gg = gc.getContext('2d'), grd = gg.createRadialGradient(128,128,40,128,128,128);
+  grd.addColorStop(0,'rgba(255,255,255,.9)'); grd.addColorStop(1,'rgba(255,255,255,0)');
+  gg.fillStyle = grd; gg.fillRect(0,0,256,256);
+  const glowMat = new THREE.SpriteMaterial({map:new THREE.CanvasTexture(gc), transparent:true, opacity:.55, depthWrite:false});
+  const glow = new THREE.Sprite(glowMat); glow.scale.set(R*3.4,R*3.4,1); glow.position.z = -R; planet.add(glow);
+
+  // the planet core hides the far side, so no cover ever shows through another
+  const coreMat = new THREE.MeshStandardMaterial({roughness:1});
+  globe.add(new THREE.Mesh(new THREE.SphereGeometry(R, 64, 48), coreMat));
+
+  // a thin ring and a dotted orbit, Saturn style
+  const ringMat = new THREE.MeshBasicMaterial({transparent:true, opacity:.4, side:THREE.DoubleSide});
+  const ring = new THREE.Mesh(new THREE.RingGeometry(R+1.05, R+1.13, 160), ringMat);
+  const dots = []; for(let i=0;i<220;i++){ const a=i/220*Math.PI*2, r=R+1.45+Math.sin(i*7.3)*.08; dots.push(Math.cos(a)*r, Math.sin(a)*r, 0); }
+  const dg = new THREE.BufferGeometry(); dg.setAttribute('position', new THREE.Float32BufferAttribute(dots,3));
+  const dotMat = new THREE.PointsMaterial({size:.05, transparent:true, opacity:.6});
+  const orbit = new THREE.Group(); orbit.add(ring, new THREE.Points(dg, dotMat));
+  orbit.rotation.set(Math.PI*.4, .3, 0); planet.add(orbit);
+
+  function syncTheme(){
+    coreMat.color.set(css('--rose') || '#d3b6a6');
+    ringMat.color.set(css('--accent') || '#8c2f3a');
+    dotMat.color.set(css('--gold') || '#b8894a');
+    const dark = document.documentElement.dataset.theme==='dark' || (!document.documentElement.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches);
+    glowMat.opacity = dark ? .06 : .4;
+  }
+  syncTheme();
+  window.__syncHeroTheme = syncTheme;
+  matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', syncTheme);
+
+  // one sheet geometry, bent onto the sphere surface
+  const geo = new THREE.PlaneGeometry(W, H, 14, 20);
+  const pos = geo.attributes.position, v = new THREE.Vector3();
+  for(let k=0;k<pos.count;k++){
+    v.set(pos.getX(k), pos.getY(k), R).normalize().multiplyScalar(R+LIFT);
+    pos.setXYZ(k, v.x, v.y, v.z);
+  }
   pos.needsUpdate = true; geo.computeVertexNormals();
-  const backMat = new THREE.MeshStandardMaterial({color:0xefe2d8, roughness:.9});
-  const shadowMat = new THREE.MeshBasicMaterial({color:0x3d2418, transparent:true, opacity:.16, depthWrite:false});
 
-  featured.forEach((id,i)=>{
-    const tex = loader.load(img(id,1));
-    tex.encoding = THREE.sRGBEncoding; tex.anisotropy = 4;
-    const g = new THREE.Group();
-    const front = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({map:tex, roughness:.75}));
-    const back = new THREE.Mesh(geo, backMat); back.rotation.y = Math.PI; back.position.z = -.005;
-    const shadow = new THREE.Mesh(new THREE.PlaneGeometry(W,H), shadowMat); shadow.position.set(.14,-.18,-.12);
-    g.add(shadow, front, back);
-    const t = i/(featured.length-1);
-    let base;
-    if(mobile){
-      // two loose rows across the top of the screen
-      base = new THREE.Vector3((t-.5)*8.5, 4.4 - (i%2)*2.4, -1 - (i%3)*1.4);
-    } else {
-      // an arc of sheets on the left half, opposite the RTL text
-      const ang = (t-.5)*2.6, r = 4.6;
-      base = new THREE.Vector3(-4.6 + Math.sin(ang)*r*1.15, Math.cos(ang)*r*.55 - 2.4 + (i%2)*1.6, -1.5 - (i%3)*1.3);
-    }
-    g.userData = {id, base, phase:Math.random()*10, speed:.35+Math.random()*.4, tilt:(Math.random()-.5)*.5, hover:0, front};
-    scene.add(g); sheets.push(g);
+  // spread the covers evenly over the sphere (Fibonacci lattice) so none overlap
+  const loader = new THREE.TextureLoader();
+  const N = products.length, golden = Math.PI*(3-Math.sqrt(5));
+  const sheets = products.map((p,i)=>{
+    const y = 1-(i+.5)/N*2, r = Math.sqrt(1-y*y), t = i*golden;
+    const n = new THREE.Vector3(Math.cos(t)*r, y, Math.sin(t)*r);
+    const tex = loader.load(img(p.id,1));
+    tex.encoding = THREE.sRGBEncoding; tex.anisotropy = aniso;
+    const m = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({map:tex}));
+    m.lookAt(n);
+    m.userData = {id:p.id, hover:0};
+    globe.add(m);
+    return m;
   });
+  // start with a full cover facing the visitor
+  globe.quaternion.setFromUnitVectors(sheets[7].getWorldDirection(new THREE.Vector3()), new THREE.Vector3(0,0,1));
 
-  const mouse = new THREE.Vector2(-9,-9), look = new THREE.Vector2();
-  const ray = new THREE.Raycaster();
-  let hovered = null, downAt = null;
+  // drag to spin, with inertia; click a cover to preview it
+  const mouse = new THREE.Vector2(-9,-9), ray = new THREE.Raycaster();
+  let dragging = false, moved = 0, last = null, vel = new THREE.Vector2(0,0), idle = 0, hovered = null;
   const ndc = e => { const r = canvas.getBoundingClientRect(); mouse.set(((e.clientX-r.left)/r.width)*2-1, -((e.clientY-r.top)/r.height)*2+1); };
-  const pick = () => { ray.setFromCamera(mouse,camera); const h = ray.intersectObjects(sheets.map(s=>s.userData.front))[0]; return h ? sheets.find(s=>s.userData.front===h.object) : null; };
-  addEventListener('pointermove', e => { ndc(e); look.copy(mouse); });
-  canvas.addEventListener('pointerdown', e => { ndc(e); downAt = [e.clientX,e.clientY]; });
-  canvas.addEventListener('pointerup', e => {
-    if(!downAt || Math.hypot(e.clientX-downAt[0], e.clientY-downAt[1]) > 8) return;
-    ndc(e); const s = pick(); if(s) openPreview(s.userData.id);
+  const pick = () => { ray.setFromCamera(mouse,camera); const h = ray.intersectObjects([...sheets, globe.children[0]])[0]; return h && h.object.userData.id ? h.object : null; };
+  const overPlanet = () => { ray.setFromCamera(mouse,camera); return ray.intersectObject(globe.children[0]).length>0 || !!pick(); };
+  const qa = new THREE.Quaternion(), X = new THREE.Vector3(1,0,0), Y = new THREE.Vector3(0,1,0);
+  function spin(dx,dy){
+    qa.setFromAxisAngle(Y, dx); globe.quaternion.premultiply(qa);
+    qa.setFromAxisAngle(X, dy); globe.quaternion.premultiply(qa);
+  }
+  canvas.addEventListener('pointerdown', e => {
+    ndc(e); if(!overPlanet()) return;
+    dragging = true; moved = 0; last = [e.clientX,e.clientY]; vel.set(0,0);
+    canvas.setPointerCapture(e.pointerId);
   });
+  canvas.addEventListener('pointermove', e => {
+    ndc(e);
+    if(!dragging) return;
+    const dx = e.clientX-last[0], dy = e.clientY-last[1]; last = [e.clientX,e.clientY];
+    moved += Math.abs(dx)+Math.abs(dy);
+    const s = .0065 / planet.scale.x;
+    spin(dx*s, dy*s); vel.set(dx*s, dy*s); idle = 0;
+  });
+  const end = e => {
+    if(!dragging) return; dragging = false;
+    if(moved < 6){ ndc(e); const s = pick(); if(s){ vel.set(0,0); openPreview(s.userData.id); } }
+  };
+  canvas.addEventListener('pointerup', end);
+  canvas.addEventListener('pointercancel', ()=>{ dragging = false; });
+  canvas.addEventListener('pointerleave', ()=>{ if(!dragging) mouse.set(-9,-9); });
 
-  function resize(){ const w=canvas.clientWidth, h=canvas.clientHeight; renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix(); }
-  addEventListener('resize', resize); resize();
+  function layout(){
+    const w = canvas.clientWidth, h = canvas.clientHeight;
+    renderer.setSize(w,h,false); camera.aspect = w/h; camera.updateProjectionMatrix();
+    const halfH = camera.position.z*Math.tan(THREE.MathUtils.degToRad(camera.fov/2)), halfW = halfH*camera.aspect;
+    if(w < 820){
+      const s = Math.min(.62, (halfW*.95)/(R+1.5));
+      planet.scale.setScalar(s);
+      planet.position.set(0, halfH - (R+1.2)*s - 66/h*2*halfH, 0);
+    } else {
+      planet.scale.setScalar(Math.min(1, (halfH*.86)/(R+1.5), (halfW*.5)/(R+1.6)));
+      planet.position.set(-halfW*.44, -.1, 0);
+    }
+  }
+  addEventListener('resize', layout); layout();
+
   let visible = true; new IntersectionObserver(([en])=>visible=en.isIntersecting).observe(canvas);
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const clock = new THREE.Clock();
   (function loop(){
     requestAnimationFrame(loop);
+    const dt = Math.min(clock.getDelta(), .05);
     if(!visible) return;
-    const t = clock.getElapsedTime();
-    const lx = Math.max(-1,Math.min(1,look.x)), ly = Math.max(-1,Math.min(1,look.y));
-    camera.position.x += (lx*1.2 - camera.position.x)*.04;
-    camera.position.y += (ly*.8 - camera.position.y)*.04;
-    camera.lookAt(0,0,0);
-    hovered = pick();
-    canvas.style.cursor = hovered ? 'pointer' : 'default';
+    if(!dragging){
+      if(vel.lengthSq() > 1e-8){ spin(vel.x, vel.y); vel.multiplyScalar(.94); }
+      idle += dt;
+      if(!reduce && idle > 1.2) spin(dt*.18, 0);
+    }
+    orbit.rotation.z += dt*.05;
+    hovered = dragging ? null : pick();
+    canvas.style.cursor = dragging ? 'grabbing' : hovered ? 'pointer' : (overPlanet() ? 'grab' : 'default');
     sheets.forEach(s=>{
       const u = s.userData;
-      u.hover += ((s===hovered?1:0) - u.hover)*.1;
-      s.position.x = u.base.x + Math.sin(t*u.speed+u.phase)*.18;
-      s.position.y = u.base.y + Math.cos(t*u.speed*.8+u.phase)*.25 + u.hover*.3;
-      s.position.z = u.base.z + u.hover*2.2;
-      s.rotation.y = Math.sin(t*u.speed*.6+u.phase)*.35 - u.hover*.25;
-      s.rotation.x = Math.cos(t*u.speed*.5+u.phase)*.15;
-      s.rotation.z = u.tilt*(1-u.hover);
+      u.hover += ((s===hovered?1:0) - u.hover)*.15;
+      s.scale.setScalar(1 + u.hover*.07);   // scaling from the core lifts the cover outward
     });
     renderer.render(scene,camera);
   })();
 })();
 
 /* ================= Ribbon ================= */
-const rb = ['ملفات PDF بمقاس A4','تحميل فوري بعد الدفع','طباعة غير محدودة للاستخدام الشخصي','أكثر من ألف تصميم','تصاميم عربية وفنتج'];
+const rb = ['ملفات PDF بمقاس A4','تحميل فوري بعد الدفع','طباعة غير محدودة للاستخدام الشخصي','قرابة ألف تصميم','تصاميم عربية وفنتج'];
 $('ribbon').innerHTML = Array(6).fill(rb).flat().map(x=>`<span>✦ ${x}</span>`).join('');
 
 /* ================= Grid ================= */
@@ -618,7 +679,7 @@ $('newsForm').addEventListener('submit', e=>{ e.preventDefault(); e.target.reset
 const root = document.documentElement;
 const isDark = () => root.dataset.theme ? root.dataset.theme==='dark' : matchMedia('(prefers-color-scheme: dark)').matches;
 const syncIcon = () => $('themeBtn').textContent = isDark() ? '☀' : '☾';
-$('themeBtn').onclick = ()=>{ root.dataset.theme = isDark() ? 'light' : 'dark'; syncIcon(); };
+$('themeBtn').onclick = ()=>{ root.dataset.theme = isDark() ? 'light' : 'dark'; syncIcon(); window.__syncHeroTheme && window.__syncHeroTheme(); };
 syncIcon();
 </script>
 </body>
