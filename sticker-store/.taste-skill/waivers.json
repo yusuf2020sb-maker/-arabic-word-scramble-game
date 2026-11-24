@@ -1,0 +1,7 @@
+[
+  { "check": "effect-kind", "target": "THREE.Points", "reason": "the client asked for the 3D planet of PDF pages by name; the hero is the product render the brief asks for, and THREE.Points is only in the vendored three.js source, never drawn" },
+  { "check": "shader-lint", "target": "line 1", "reason": "the word is in three.js r128's own shader chunks (vendor/three.min.js), compiled by three itself under the name it controls; the canvas draws in the checker (stage.is-live)" },
+  { "check": "shader-lint", "target": "line 2", "reason": "the same three.js r128 chunk include (#include <common>), resolved by three before compiling, never sent to the GPU as written" },
+  { "check": "product-shown", "target": "canvas#scene", "reason": "the product render is a sphere the client asked for: it fills the stage's full height; at 80% of the width it would be cut at the top and bottom of the screen" },
+  { "check": "card-layout", "target": "div#grid", "reason": "the range: fifteen PDF files sold one by one, each needing the same cover, name, size and price to compare; the product plan puts the range in the first three sections" }
+]
