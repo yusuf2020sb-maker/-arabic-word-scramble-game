@@ -1,561 +1,582 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" data-type="product" data-buttons="pill" data-radius="soft">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>متجر لزّقها</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="لزّقها: ١٥ ملف ستيكرز PDF جاهزة للطباعة على ورق A4، بتصاميم فنتج وتراثية عربية. تشتري الملف مرة وتطبعه كل ما احتجت.">
-<meta name="page-type" content="product">
-<meta name="site-kind" content="other">
-<meta name="theme-color" content="#f6ebe3">
+<meta name="description" content="لزّقها: ١٥ ملف ستيكرز PDF جاهزة للطباعة على ورق A4، بتصاميم فنتج وتراثية عربية.">
+<meta name="theme-color" content="#0a0d10">
 <meta property="og:title" content="لزّقها: ملفات ستيكرز PDF للطباعة">
-<meta property="og:description" content="١٥ ملف ستيكرز بتصاميم فنتج وتراثية عربية، ٩٧٦ تصميم على صفحات A4.">
+<meta property="og:description" content="١٥ ملف ستيكرز، ٩٧٦ تصميم على صفحات A4.">
 <meta property="og:image" content="share.jpg">
-<meta property="og:type" content="website">
-<meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%238c2f3a'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%23ff5a1f'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),900)</script>
+<link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@500;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  /* Deal (tasteskill): kind product · hero product (the 3D planet the client asked for on the stage) ·
-     palette: the client's own colours from the PDF covers (rose paper, brown ink, burgundy) ·
-     nav-split · footer-dark · close-type · rhythm brand-band · buttons pill · mark initial ·
-     moment photo-chapters. Type: Aref Ruqaa (display) + IBM Plex Sans Arabic (text), Arabic faces. */
+  /* Look: a dark, cool streetwear-catalogue page with one light section, heavy condensed type,
+     tiny technical labels, one hot orange accent and a ring cursor. Committed to this one look. */
   :root{
-    --bg:#f6ebe3; --surface:#fbf4ef; --card:#fffaf6; --line:#e3cfc2; --rose:#d3b6a6;
-    --ink:#3a2216; --muted:#6e5244; --accent:#8c2f3a; --accent-ink:#fff6f0;
-    --inv-bg:#2b1a12; --inv-ink:#f6ebe3; --inv-muted:#d6bfb2;
-    --font-display:'Aref Ruqaa', 'Amiri', serif; --font-text:'IBM Plex Sans Arabic', 'Segoe UI', Tahoma, sans-serif;
-    --display-weight:700; --display-tracking:0;
-    --s-1:4px; --s-2:8px; --s-3:12px; --s-4:16px; --s-5:24px; --s-6:32px; --s-7:48px; --s-8:64px;
-    --r-sm:8px; --r-md:14px; --r-lg:20px;
-    --t-small:14px; --t-body:17px; --t-lead:20px; --t-h3:28px; --t-h2:clamp(36px,4.4vw,56px); --t-h1:clamp(40px,5vw,72px);
-    --nav:72px; --nav-h:72px;
-    --gut:max(16px, env(safe-area-inset-left, 0px));
+    --night:#0a0d10; --night-2:#10161b; --night-3:#18222a; --glow:#1f4656;
+    --paper:#eeece7; --paper-2:#e2dfd8; --ink:#0d0f12; --ink-2:#55585c;
+    --snow:#f3f4f2; --fog:#9aa4ab; --line-d:rgba(243,244,242,.14); --line-l:rgba(13,15,18,.14);
+    --hot:#ff5a1f; --hot-ink:#140600;
+    --f-display:'Alexandria','Noto Kufi Arabic','IBM Plex Sans Arabic',sans-serif;
+    --f-text:'IBM Plex Sans Arabic','Segoe UI',Tahoma,sans-serif;
+    --nav:64px;
+    --gut-l:max(16px, env(safe-area-inset-left, 0px)); --gut-r:max(16px, env(safe-area-inset-right, 0px));
+    color-scheme:dark;
   }
-  @media (min-width:768px){ :root{ --gut:24px } }
-  @media (min-width:1024px){ :root{ --gut:64px } }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --bg:#1d1512; --surface:#261c18; --card:#2b201b; --line:#44322a; --rose:#4f3830;
-      --ink:#f6e9df; --muted:#cdb2a4; --accent:#e5939a; --accent-ink:#2a0f13;
-      --inv-bg:#120c0a; --inv-ink:#f6e9df; --inv-muted:#cdb2a4; color-scheme:dark;
-    }
-  }
-  :root[data-theme="dark"]{
-    --bg:#1d1512; --surface:#261c18; --card:#2b201b; --line:#44322a; --rose:#4f3830;
-    --ink:#f6e9df; --muted:#cdb2a4; --accent:#e5939a; --accent-ink:#2a0f13;
-    --inv-bg:#120c0a; --inv-ink:#f6e9df; --inv-muted:#cdb2a4; color-scheme:dark;
-  }
+  @media (min-width:900px){ :root{ --gut-l:max(40px, env(safe-area-inset-left, 0px)); --gut-r:max(40px, env(safe-area-inset-right, 0px)); } }
   *{box-sizing:border-box;margin:0;padding:0}
   [hidden]{display:none!important}
-  html{scroll-behavior:smooth;overflow-x:clip;scroll-padding-top:var(--nav)}
-  body{direction:rtl;font-family:var(--font-text);font-size:var(--t-body);line-height:1.7;background:var(--bg);color:var(--ink)}
+  html{scroll-behavior:smooth;overflow-x:clip;scroll-padding-top:var(--nav);background:var(--night)}
+  body{direction:rtl;font-family:var(--f-text);font-size:16px;line-height:1.65;background:var(--night);color:var(--snow)}
   a{color:inherit;text-decoration:none}
-  button{font-family:inherit;cursor:pointer;border:none;color:inherit;background:none}
-  img{max-width:100%;display:block}
-  h1,h2,h3{text-wrap:balance}
-  h1,h2{font-family:var(--font-display);font-weight:var(--display-weight);line-height:1.25}
-  h2{font-size:var(--t-h2)}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+  img{max-width:100%;height:auto;display:block}
+  :focus-visible{outline:2px solid var(--hot);outline-offset:3px}
+  .wrap{padding-left:var(--gut-l);padding-right:var(--gut-r);max-width:1600px;margin-inline:auto}
   .num{font-variant-numeric:tabular-nums}
-  :focus-visible{outline:3px solid var(--ink);outline-offset:3px}
-  .cover:focus-visible{outline-offset:4px;box-shadow:inset 0 0 0 4px var(--ink)}
-  .closing :focus-visible,.ground-brand :focus-visible{outline-color:currentColor}
-  .wrap{width:min(1200px, calc(100% - 2 * var(--gut)));margin-inline:auto}
-  .skip-link{position:absolute;inset-inline-start:max(var(--gut), calc((100% - 1200px) / 2));top:-80px;z-index:200;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:var(--r-sm)}
-  .skip-link:focus{top:calc(env(safe-area-inset-top,0px) + 12px)}
-
-  /* Buttons: one pill shape, primary and secondary, two sizes. Hover steps, click presses. */
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 26px;border-radius:999px;font-weight:600;font-size:16px;line-height:1;white-space:nowrap;transition:transform .18s ease,background-color .18s ease,box-shadow .18s ease}
+  .label{font-size:11.5px;font-weight:600;letter-spacing:.06em;color:var(--fog);display:inline-flex;gap:8px;align-items:center}
+  .label::before{content:"";width:6px;height:6px;background:var(--hot);border-radius:50%}
+  .mega{font-family:var(--f-display);font-weight:900;line-height:.95;letter-spacing:-.01em}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 22px;font-weight:700;font-size:15px;border-radius:2px;transition:transform .2s ease,background .2s ease,color .2s ease}
   .btn:hover{transform:translateY(-2px)}
-  .btn:active{transform:translateY(0) scale(.98)}
-  .btn--primary{background:var(--accent);color:var(--accent-ink)}
-  .btn--primary:hover{box-shadow:0 8px 20px -10px color-mix(in srgb,var(--accent) 80%,transparent)}
-  .btn--secondary{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
-  .btn--secondary:hover{background:color-mix(in srgb,var(--ink) 7%,transparent)}
-  .btn--sm{min-height:44px;padding:0 18px;font-size:15px}
-  .btn.is-in{background:var(--ink);color:var(--bg);box-shadow:none}
+  .btn:active{transform:scale(.98)}
+  .btn--hot{background:var(--hot);color:var(--hot-ink)}
+  .btn--hot:hover{background:#ff7442}
+  .btn--line{box-shadow:inset 0 0 0 1px currentColor}
+  .btn--line:hover{background:rgba(255,255,255,.08)}
+  .btn svg{width:16px;height:16px}
 
-  /* Nav (nav-split): links on the start side, the name in the middle, actions on the end side */
-  body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:61;background:var(--bg)}
-  .nav{position:fixed;top:env(safe-area-inset-top,0px);inset-inline:0;z-index:60;background:var(--bg);border-bottom:1px solid var(--line)}
-  .nav__bar{height:var(--nav);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px}
-  .nav__links{display:flex;gap:4px}
-  .nav__links a{display:inline-flex;align-items:center;min-height:44px;padding:0 12px;border-radius:999px;color:var(--ink);font-weight:500;background-image:linear-gradient(currentColor,currentColor);background-size:0 1.5px;background-position:50% 80%;background-repeat:no-repeat;transition:background-size .25s ease}
-  .nav__links a:hover{background-size:calc(100% - 24px) 1.5px}
-  .nav__logo{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:700;font-size:28px;line-height:1.3;color:var(--accent);min-height:44px}
-  .mark{width:30px;height:30px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-size:17px;line-height:1}
-  .nav__actions{display:flex;gap:8px;justify-content:flex-end;align-items:center}
-  .icon-btn{width:48px;height:48px;border-radius:999px;display:grid;place-items:center;position:relative;box-shadow:inset 0 0 0 1.5px var(--line);transition:transform .18s ease}
-  .icon-btn:hover{transform:translateY(-2px)}
-  .icon-btn:active{transform:scale(.96)}
-  .icon-btn svg{width:22px;height:22px}
-  .badge{position:absolute;top:-4px;inset-inline-end:-4px;background:var(--accent);color:var(--accent-ink);font-size:12px;min-width:22px;height:22px;border-radius:11px;display:grid;place-items:center;font-weight:700;transform:scale(0);transition:transform .3s cubic-bezier(.22,1,.36,1)}
-  .badge.show{transform:scale(1)}
-  .nav__toggle{display:none}
-  .menu{position:fixed;inset:calc(var(--nav) + env(safe-area-inset-top,0px)) 0 0;z-index:59;background:var(--bg);padding:var(--s-6) var(--gut);display:flex;flex-direction:column;gap:4px}
-  .menu a{display:flex;align-items:center;min-height:56px;font-size:24px;font-family:var(--font-display);border-bottom:1px solid var(--line)}
-  .menu .btn{margin-top:var(--s-5);font-family:var(--font-text);font-size:17px;border:0}
+  /* ring cursor */
+  .cursor{position:fixed;top:0;left:0;z-index:300;pointer-events:none;width:38px;height:38px;margin:-19px 0 0 -19px;border:1.5px solid #fff;border-radius:50%;mix-blend-mode:difference;transition:width .25s ease,height .25s ease,margin .25s ease,opacity .2s;opacity:0}
+  .cursor::after{content:"";position:absolute;inset:50% auto auto 50%;width:6px;height:6px;margin:-3px;background:#fff;border-radius:50%}
+  .cursor.is-on{opacity:1}
+  .cursor.is-big{width:72px;height:72px;margin:-36px 0 0 -36px}
+  @media (pointer:coarse), (prefers-reduced-motion: reduce){ .cursor{display:none} }
+
+  /* nav */
+  .nav{position:fixed;top:0;inset-inline:0;z-index:60;padding-top:env(safe-area-inset-top,0px);transition:background .3s ease,border-color .3s ease;border-bottom:1px solid transparent}
+  .nav.is-solid{background:rgba(10,13,16,.92);backdrop-filter:blur(10px);border-color:var(--line-d)}
+  .nav__bar{height:var(--nav);display:flex;align-items:center;justify-content:space-between;gap:20px}
+  .logo{font-family:var(--f-display);font-weight:900;font-size:24px;line-height:1;display:flex;align-items:center;gap:10px}
+  .logo small{font-family:var(--f-text);font-weight:600;font-size:10.5px;color:var(--fog);letter-spacing:.06em;line-height:1.3}
+  .nav__links{display:flex;gap:2px}
+  .nav__links a{display:inline-flex;align-items:baseline;gap:6px;min-height:44px;align-items:center;padding:0 12px;font-size:14px;font-weight:600;color:var(--fog);transition:color .2s}
+  .nav__links a span{font-size:10px;color:var(--hot)}
+  .nav__links a:hover{color:var(--snow)}
+  .nav__actions{display:flex;gap:8px;align-items:center}
+  .cart-btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;font-size:14px;font-weight:700;box-shadow:inset 0 0 0 1px var(--line-d);border-radius:2px}
+  .cart-btn b{min-width:20px;height:20px;border-radius:10px;background:var(--hot);color:var(--hot-ink);font-size:12px;display:grid;place-items:center;padding:0 5px}
+  .menu-btn{display:none;width:44px;height:44px;place-items:center;box-shadow:inset 0 0 0 1px var(--line-d)}
+  .menu-btn svg{width:20px;height:20px}
+  .menu{position:fixed;inset:calc(var(--nav) + env(safe-area-inset-top,0px)) 0 0;z-index:59;background:var(--night);padding:24px var(--gut-r) 24px var(--gut-l);display:flex;flex-direction:column}
+  .menu a{font-family:var(--f-display);font-weight:900;font-size:40px;line-height:1.3;padding-block:10px;border-bottom:1px solid var(--line-d);display:flex;justify-content:space-between;align-items:center}
+  .menu a span{font-family:var(--f-text);font-size:12px;color:var(--hot);font-weight:600}
+  @media (max-width:899px){ .nav__links{display:none} .menu-btn{display:grid} }
+
+  /* 01 hero */
+  .hero{position:relative;height:100svh;min-height:620px;overflow:hidden;background:radial-gradient(60% 70% at 50% 45%, var(--glow) 0%, #0f1c23 45%, var(--night) 100%)}
+  .hero__word{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;z-index:1}
+  .hero__word h1{display:grid;justify-items:center;text-align:center}
+  .hero__word .mega{font-size:clamp(120px,27vw,420px);color:transparent;-webkit-text-stroke:1.5px rgba(243,244,242,.55);transform:skewX(-8deg);white-space:nowrap}
+  .hero__word .mega.fill{position:absolute;color:var(--snow);-webkit-text-stroke:0;clip-path:inset(52% 0 0 0)}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+  .hero__word .sub{font-family:var(--f-display);font-weight:800;font-size:clamp(18px,2vw,28px);margin-top:12px;letter-spacing:.01em}
+  #scene{position:absolute;inset:0;width:100%;height:100%;z-index:2;touch-action:pan-y}
+  .hero__still{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:2}
+  .hero.is-live .hero__still{display:none}
+  .hero__ui{position:absolute;inset:calc(var(--nav) + env(safe-area-inset-top,0px)) 0 0;z-index:3;pointer-events:none;display:grid;grid-template-rows:auto 1fr auto;padding-bottom:28px}
+  .hero__ui > *{pointer-events:none}
+  .hero__ui a,.hero__ui button,.hero__ui p{pointer-events:auto}
+  .hero__top,.hero__bottom{display:flex;justify-content:space-between;align-items:flex-end;gap:24px}
+  .hero__top{padding-top:18px;align-items:flex-start}
+  .hero__meta{display:grid;gap:4px;font-size:12px;color:var(--fog);font-weight:600}
+  .hero__meta b{color:var(--snow);font-weight:700}
+  .hero__lead{max-width:34ch;font-size:15px;color:#c9d0d4}
+  .hero__cta{display:flex;gap:10px;flex-wrap:wrap}
+  .hero__hint{font-size:12px;color:var(--fog)}
   @media (max-width:899px){
-    .nav__links,.nav__actions .btn{display:none}
-    .nav__bar{grid-template-columns:auto 1fr auto}
-    .nav__logo{order:-1}
-    .nav__toggle{display:grid}
+    .hero__word{align-items:start;padding-top:calc(var(--nav) + 110px)}
+    .hero__bottom{flex-direction:column;align-items:stretch}
+    .hero__cta .btn{flex:1}
+    .hero__lead{max-width:none}
+    .hero__top .hero__hint{display:none}
   }
 
-  /* Sections: one or two screens each on a desktop; on a phone they grow with what they hold */
-  main > section{position:relative;min-height:calc(var(--h,1) * 100svh);padding-block:calc(var(--nav) + var(--s-7)) var(--s-8)}
-  @media (min-width:1024px) and (min-height:640px){
-    main > section:not([data-moment]){height:calc(var(--h,1) * 100svh);min-height:0;overflow:clip}
+  /* 02 numbers band */
+  .band{background:var(--night-2);border-block:1px solid var(--line-d)}
+  .band__grid{display:grid;grid-template-columns:1.1fr 1.4fr .8fr;gap:0;min-height:min(78svh,720px)}
+  .band__grid > *{padding:clamp(24px,3vw,48px) 0;min-width:0}
+  .band h2{font-size:clamp(44px,6.2vw,104px);padding-inline-end:24px;align-self:center}
+  .band h2 em{font-style:normal;color:var(--hot)}
+  .band__pic{position:relative;overflow:hidden;border-inline:1px solid var(--line-d)}
+  .band__pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.9) contrast(1.05)}
+  .band__pic::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 0,rgba(255,255,255,.18) 50%,transparent 100%);width:30%;animation:scan 5.5s linear infinite}
+  @keyframes scan{from{transform:translateX(-120%)}to{transform:translateX(420%)}}
+  .band__stats{display:grid;align-content:space-between;padding-inline-start:24px!important}
+  .stat{display:grid;border-bottom:1px solid var(--line-d);padding-block:10px}
+  .stat b{font-family:var(--f-display);font-weight:900;font-size:clamp(34px,3.4vw,56px);line-height:1}
+  .stat span{font-size:12px;color:var(--fog);font-weight:600}
+  @media (max-width:899px){
+    .band__grid{grid-template-columns:1fr;min-height:0}
+    .band__pic{min-height:52vw;border-inline:0;border-block:1px solid var(--line-d)}
+    .band__stats{grid-template-columns:1fr 1fr;gap:0 16px;padding-inline-start:0!important}
+    .band h2{padding:0}
   }
-  .sec-head{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--s-5);align-items:start;margin-bottom:var(--s-6)}
-  .sec-head h2{grid-column:span 7}
-  .sec-head p{grid-column:8 / span 5}
-  @media (max-width:899px){ .sec-head{grid-template-columns:1fr;gap:var(--s-3)} .sec-head h2,.sec-head p{grid-column:auto} }
 
-  /* Hero (product stage): the head row, then the planet on the page's ground, no box */
-  .hero{height:100svh;min-height:600px;padding-block:calc(var(--nav) + env(safe-area-inset-top,0px) + var(--s-7)) var(--s-5);display:grid}
-  .hero__wrap{display:grid;min-height:0}
-  .hero__in{display:grid;grid-template-rows:auto minmax(0,1fr);min-height:0}
-  .hero__head{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--s-5);align-items:start}
-  .hero h1{grid-column:span 7;font-size:var(--t-h1);line-height:1.2}
-  .hero__side{grid-column:8 / span 5;display:grid;gap:var(--s-4)}
-  .hero__lead{font-size:var(--t-lead);line-height:1.6;max-width:42ch}
-  .btn-row{display:flex;gap:12px;flex-wrap:wrap}
-  .stage{position:relative;margin-top:var(--s-5);min-height:0}
-  .stage__still{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
-  .stage.is-live .stage__still{visibility:hidden}
-  .stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y;cursor:grab}
-  @media (max-width:1023px){
-    .hero{padding-top:calc(var(--nav) + env(safe-area-inset-top,0px) + var(--s-6))}
-    .hero__head{grid-template-columns:1fr;gap:var(--s-4)}
-    .hero h1,.hero__side{grid-column:auto}
+  /* 03 category panels */
+  .cats{display:flex;height:min(86svh,760px);gap:2px;background:var(--night)}
+  .cat{position:relative;flex:1;overflow:hidden;transition:flex .6s cubic-bezier(.2,.8,.2,1);text-align:start;min-width:0}
+  .cat img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.8,.2,1),filter .4s}
+  .cat::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(5,8,10,.85),rgba(5,8,10,.05) 55%)}
+  .cat:hover{flex:1.9}
+  .cat:hover img{transform:scale(1.04)}
+  .cat__txt{position:absolute;inset:auto 0 0;z-index:1;padding:22px;display:grid;gap:4px}
+  .cat__txt b{font-family:var(--f-display);font-weight:900;font-size:clamp(26px,2.6vw,44px);line-height:1}
+  .cat__txt span{font-size:12px;color:#c9d0d4;font-weight:600}
+  .cat__n{position:absolute;top:18px;inset-inline-start:22px;z-index:1;font-size:12px;font-weight:700;color:var(--snow)}
+  @media (max-width:899px){ .cats{flex-direction:column;height:auto} .cat{height:150px;flex:none} .cat:hover{flex:none} }
+
+  /* 04 the set (lineup) */
+  .set{position:relative;background:radial-gradient(70% 80% at 40% 40%, #173540 0%, var(--night) 70%);overflow:hidden}
+  .set__grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:32px;padding-block:calc(var(--nav) + 32px) 48px;min-height:100svh}
+  .set__head{display:grid;gap:10px;align-content:start}
+  .set h2{font-size:clamp(44px,6vw,100px)}
+  .set__stage{position:relative;display:flex;align-items:flex-end;justify-content:center;gap:clamp(10px,2vw,28px);perspective:1200px;padding-bottom:90px;min-height:420px}
+  .figure{position:relative;flex:none;width:clamp(110px,13vw,210px);transition:transform .5s cubic-bezier(.2,.8,.2,1),filter .4s}
+  .figure img{width:100%;aspect-ratio:595/842;object-fit:cover;box-shadow:0 30px 60px -20px rgba(0,0,0,.8)}
+  .figure::after{content:"";position:absolute;inset:100% 0 auto;height:70%;background-image:var(--src);background-size:cover;transform:scaleY(-1);opacity:.18;mask-image:linear-gradient(to top,transparent 30%,#000);-webkit-mask-image:linear-gradient(to top,transparent 30%,#000)}
+  .figure:nth-child(odd){transform:translateY(-18px)}
+  .set__stage:hover .figure{filter:brightness(.55)}
+  .set__stage .figure:hover,.set__stage .figure.is-hl{filter:none;transform:translateY(-34px) scale(1.04)}
+  .look{align-self:start;background:rgba(10,13,16,.8);backdrop-filter:blur(8px);border:1px solid var(--line-d);padding:18px;display:grid;gap:14px;position:sticky;top:calc(var(--nav) + 20px)}
+  .look h3{font-family:var(--f-display);font-weight:800;font-size:18px}
+  .look ul{list-style:none;display:grid}
+  .look li{display:grid;grid-template-columns:40px 1fr auto;gap:12px;align-items:center;padding-block:10px;border-bottom:1px solid var(--line-d);transition:background .2s}
+  .look li.is-hl{background:rgba(255,90,31,.12)}
+  .look li img{width:40px;aspect-ratio:595/842;object-fit:cover}
+  .look li b{font-size:14px;font-weight:600;display:block;line-height:1.35}
+  .look li small{font-size:12px;color:var(--fog)}
+  .look__sum{display:flex;justify-content:space-between;font-weight:700}
+  @media (max-width:899px){
+    .set__grid{grid-template-columns:1fr;min-height:0}
+    .set__stage{min-height:0;padding-bottom:60px;overflow-x:auto;justify-content:flex-start}
+    .figure{flex:none;width:120px}
+    .look{position:static}
   }
-  @media (max-width:599px){ .hero .btn-row .btn{flex:1} }
-  .m-enter [data-enter] h1,.m-enter [data-enter] .hero__side,.m-enter [data-enter] .stage{animation:enter .9s cubic-bezier(.2,.8,.2,1) both}
-  .m-enter [data-enter] .hero__side{animation-delay:.12s}
-  .m-enter [data-enter] .stage{animation-delay:.22s}
-  @keyframes enter{from{opacity:0;transform:translateY(18px)}}
 
-  /* Range: the fifteen files */
-  .grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:var(--s-6) var(--s-5)}
-  .grid__more{grid-column:span 3;display:grid;align-content:end;gap:var(--s-3);padding:var(--s-6);border-radius:var(--r-md);background:var(--accent);color:var(--accent-ink);transition:transform .2s ease}
-  .grid__more:hover{transform:translateY(-2px)}
-  .grid__more b{font-family:var(--font-display);font-size:clamp(28px,3vw,40px);line-height:1.25}
-  .grid__more span{text-decoration:underline;text-underline-offset:6px}
-  @media (max-width:1023px){ .grid{grid-template-columns:repeat(4,minmax(0,1fr))} .grid__more{grid-column:span 1} }
-  @media (max-width:699px){ .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s-5) var(--s-4)} .grid__more{grid-column:span 2} }
-  .card{display:flex;flex-direction:column;gap:var(--s-2);transition:transform .2s ease}
-  .card:hover{transform:translateY(-2px)}
-  .cover{display:block;width:100%;aspect-ratio:595/842;border-radius:var(--r-md);overflow:hidden;background:var(--rose);cursor:zoom-in;padding:0}
-  .cover img{width:100%;height:100%;object-fit:cover;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
-  .card:hover .cover img{transform:scale(1.03)}
-  .card h3{font-size:16px;font-weight:600;line-height:1.45;margin-top:var(--s-2)}
-  .card .meta{font-size:var(--t-small);color:var(--muted)}
-  .card .buy{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:auto}
-  .price{font-weight:700;font-size:18px}
-  .price small{font-weight:500;font-size:var(--t-small);color:var(--muted)}
+  /* 05 collection (light) */
+  .coll{background:var(--paper);color:var(--ink);padding-block:calc(var(--nav) + 28px) 56px}
+  .coll__head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;border-bottom:1px solid var(--line-l);padding-bottom:20px}
+  .coll h2{font-size:clamp(56px,9vw,150px);color:var(--ink)}
+  .coll .label{color:var(--ink-2)}
+  .tabs{display:flex;gap:6px;flex-wrap:wrap;padding-top:18px}
+  .tab{min-height:40px;padding:0 14px;font-size:13px;font-weight:700;border-radius:2px;box-shadow:inset 0 0 0 1px var(--line-l);color:var(--ink)}
+  .tab span{color:var(--ink-2);font-weight:500;margin-inline-start:4px}
+  .tab.is-on{background:var(--ink);color:var(--paper)}
+  .tab.is-on span{color:var(--fog)}
+  .rail-wrap{position:relative;margin-top:28px}
+  .rail{display:flex;gap:clamp(14px,2vw,28px);overflow-x:auto;scroll-snap-type:x proximity;padding:46px var(--gut-r) 20px var(--gut-l);scrollbar-width:thin;cursor:grab}
+  .rail.is-drag{cursor:grabbing;scroll-snap-type:none}
+  .rail::before{content:"";position:absolute;top:18px;inset-inline:0;height:3px;background:linear-gradient(#8d9196,#5d6166);box-shadow:0 2px 3px rgba(0,0,0,.25)}
+  .hang{flex:none;width:clamp(150px,15vw,230px);scroll-snap-align:start;position:relative;text-align:start;transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .3s}
+  .hang::before{content:"";position:absolute;top:-30px;left:50%;width:18px;height:30px;margin-left:-9px;border:2px solid #6f7378;border-bottom:0;border-radius:9px 9px 0 0;clip-path:inset(0 0 40% 0)}
+  .hang::after{content:"";position:absolute;top:-12px;left:50%;width:2px;height:12px;margin-left:-1px;background:#6f7378}
+  .hang img{width:100%;aspect-ratio:595/842;object-fit:cover;box-shadow:0 18px 30px -18px rgba(0,0,0,.55);transform-origin:50% -30px;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+  .hang:hover img{transform:rotate(-2deg)}
+  .rail:hover .hang:not(:hover){opacity:.55}
+  .hang.is-on img{outline:3px solid var(--hot);outline-offset:4px}
+  .hang__tag{display:flex;justify-content:space-between;gap:8px;margin-top:12px;font-size:13px}
+  .hang__tag b{font-weight:600;line-height:1.35}
+  .hang__tag span{font-weight:700;white-space:nowrap}
+  .rail__nav{display:flex;gap:8px;justify-content:flex-end;padding-top:8px}
+  .rail__nav button{width:44px;height:44px;display:grid;place-items:center;box-shadow:inset 0 0 0 1px var(--line-l);color:var(--ink)}
+  .rail__nav svg{width:18px;height:18px}
 
-  /* Bundle (brand band): four inner pages in a strip */
-  .ground-brand{background:var(--accent);color:var(--accent-ink)}
-  .ground-brand .btn--primary{background:var(--accent-ink);color:var(--accent)}
-  .ground-brand .btn.is-in{background:var(--inv-bg);color:var(--inv-ink)}
-  .bundle__head{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--s-5);align-items:start;margin-bottom:var(--s-6)}
-  .bundle__head h2{grid-column:span 7}
-  .bundle__buy{grid-column:8 / span 5;display:grid;gap:var(--s-4);justify-items:start}
-  .bundle__price{font-size:40px;font-weight:700;line-height:1.1}
-  .bundle__price s{font-size:18px;font-weight:500;opacity:.8;margin-inline-start:10px}
-  .strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--s-5)}
-  .strip img{width:100%;height:auto;aspect-ratio:595/842;object-fit:cover;border-radius:var(--r-md)}
-  @media (min-width:1024px) and (min-height:640px){ .strip img{aspect-ratio:auto;height:calc(100svh - var(--nav) - 360px);min-height:240px} }
-  @media (max-width:899px){ .bundle__head{grid-template-columns:1fr} .bundle__head h2,.bundle__buy{grid-column:auto} }
-  @media (max-width:599px){ .strip{grid-template-columns:repeat(2,minmax(0,1fr))} }
-
-  /* Details: the file facts and the questions, two groups of one idea */
-  .details{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--s-5);align-items:start}
-  .details > *{min-width:0}
-  .specs{grid-column:span 7}
-  .faq{grid-column:8 / span 5}
-  .rows{list-style:none;border-top:1px solid var(--line)}
-  .rows li{display:grid;grid-template-columns:130px 1fr;gap:var(--s-4);padding-block:var(--s-4);border-bottom:1px solid var(--line)}
-  .rows .k{color:var(--muted);font-size:15px}
-  .faq h3,.specs h3{font-size:var(--t-lead);font-weight:600;margin-bottom:var(--s-4)}
-  details{border-bottom:1px solid var(--line)}
-  details:first-of-type{border-top:1px solid var(--line)}
-  summary{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:56px;font-weight:600;cursor:pointer;list-style:none}
-  summary::-webkit-details-marker{display:none}
-  summary::after{content:"+";color:var(--accent);font-size:22px;line-height:1;transition:transform .2s ease}
-  details[open] summary::after{transform:rotate(45deg)}
-  details p{padding-bottom:var(--s-4)}
-  @media (max-width:899px){ .details{grid-template-columns:1fr} .specs,.faq{grid-column:auto} }
-
-  /* Closing (close-type) and footer-dark */
-  .closing{background:var(--inv-bg);color:var(--inv-ink);min-height:100svh;display:grid;padding-block:var(--s-8) calc(var(--s-5) + env(safe-area-inset-bottom,0px))}
-  .closing > .wrap{display:grid;grid-template-rows:auto auto;align-content:center}
-  .close{display:grid;gap:var(--s-5);align-content:start;justify-items:start;padding-bottom:var(--s-8);border-bottom:1px solid color-mix(in srgb,var(--inv-ink) 18%,transparent)}
-  .close h2{font-size:clamp(48px,8vw,120px);line-height:1.2}
-  .close p{color:var(--inv-muted);max-width:52ch}
-  
-  .closing .btn--primary{background:var(--inv-ink);color:var(--inv-bg)}
-  .foot{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--s-5);padding-block:var(--s-7) var(--s-6)}
-  .foot > *{min-width:0}
-  .foot__brand{grid-column:span 4;display:grid;gap:var(--s-3);align-content:start}
-  .foot__brand .nav__logo{color:var(--inv-ink)}
-  .foot__brand .mark{background:var(--inv-ink);color:var(--inv-bg)}
-  .foot__col{grid-column:span 2;display:grid;align-content:start}
-  .foot__col h3,.news label{font-size:15px;font-weight:600;margin-bottom:var(--s-2);color:var(--inv-ink)}
-  .foot__col a{display:flex;align-items:center;min-height:44px;color:var(--inv-muted)}
-  .foot__col a:hover{color:var(--inv-ink)}
-  .news{grid-column:span 4;display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-2);align-content:start}
-  .news__row{display:flex;flex-wrap:wrap;gap:8px;min-width:0}
-  .news input{flex:1 1 160px;width:0;min-width:0;min-height:48px;padding:0 16px;border-radius:999px;border:1.5px solid color-mix(in srgb,var(--inv-ink) 30%,transparent);background:transparent;color:var(--inv-ink);font:inherit;direction:ltr;text-align:right}
-  .news .note{font-size:var(--t-small);color:var(--inv-muted);min-height:20px}
-  .foot__line{color:var(--inv-muted);font-size:var(--t-small)}
-  .foot__legal{grid-column:1 / -1;padding-top:var(--s-5)}
-  @media (max-width:899px){ .foot{grid-template-columns:1fr 1fr} .foot__brand,.news{grid-column:1 / -1} .foot__col{grid-column:span 1} }
-
-  /* Preview modal */
-  .modal{position:fixed;inset:0;z-index:95;display:grid;place-items:center;padding:calc(16px + env(safe-area-inset-top,0px)) var(--gut) calc(16px + env(safe-area-inset-bottom,0px));background:rgba(25,12,8,.6)}
-  .modal-box{background:var(--surface);border-radius:var(--r-lg);max-width:960px;width:100%;max-height:100%;overflow:auto;display:grid;grid-template-columns:1fr 1fr;gap:var(--s-6);padding:var(--s-6);position:relative}
-  @media (max-width:760px){ .modal-box{grid-template-columns:1fr;padding:var(--s-5)} }
-  .modal-close{position:absolute;top:12px;inset-inline-end:12px;z-index:2;background:var(--surface)}
-  .big{aspect-ratio:595/842;border-radius:var(--r-md);overflow:hidden;background:var(--rose);position:relative}
-  .big img{width:100%;height:100%;object-fit:cover}
+  /* 06 product view (light) */
+  .pdp{background:var(--paper);color:var(--ink);border-top:1px solid var(--line-l);padding-block:56px 72px}
+  .pdp__grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(24px,5vw,88px);align-items:start}
+  .pdp__view{display:grid;grid-template-columns:72px minmax(0,1fr);gap:16px}
+  .pdp__thumbs{display:grid;gap:10px;align-content:start}
+  .pdp__thumbs button{aspect-ratio:595/842;overflow:hidden;opacity:.55;box-shadow:inset 0 0 0 1px var(--line-l);transition:opacity .2s}
+  .pdp__thumbs button.is-on{opacity:1;outline:2px solid var(--ink);outline-offset:2px}
+  .pdp__thumbs img{width:100%;height:100%;object-fit:cover}
+  .pdp__big{position:relative;background:var(--paper-2);display:grid;place-items:center;padding:clamp(16px,3vw,40px)}
+  .pdp__big img{width:min(100%,520px);aspect-ratio:595/842;object-fit:cover;box-shadow:0 30px 60px -30px rgba(0,0,0,.5)}
   .wm{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
-  .wm span{font-family:var(--font-display);font-size:44px;color:rgba(140,47,58,.3);transform:rotate(-30deg)}
-  .thumbs{display:flex;gap:10px;margin-top:12px}
-  .thumbs button{width:64px;aspect-ratio:595/842;border-radius:8px;overflow:hidden;outline:2px solid transparent;outline-offset:2px;opacity:.65}
-  .thumbs button.active{outline-color:var(--accent);opacity:1}
-  .thumbs img{width:100%;height:100%;object-fit:cover}
-  .m-info{display:grid;gap:var(--s-4);align-content:start}
-  .m-info h2{font-size:36px}
-  .m-info .label{font-size:var(--t-small);color:var(--muted)}
-  .m-buy{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:var(--s-4);border-top:1px solid var(--line)}
+  .wm span{font-family:var(--f-display);font-weight:900;font-size:44px;color:rgba(13,15,18,.16);transform:rotate(-28deg)}
+  .pdp__info{display:grid;gap:18px;position:sticky;top:calc(var(--nav) + 24px)}
+  .pdp__info .label{color:var(--ink-2)}
+  .pdp__info h2{font-size:clamp(40px,4.6vw,76px);color:var(--ink)}
+  .pdp__price{font-family:var(--f-display);font-weight:800;font-size:28px}
+  .pdp__price small{font-family:var(--f-text);font-size:13px;color:var(--ink-2);font-weight:600}
+  .pdp__desc{color:#2b2e31;max-width:46ch}
+  .specs{list-style:none;border-top:1px solid var(--line-l)}
+  .specs li{display:flex;justify-content:space-between;gap:16px;padding-block:11px;border-bottom:1px solid var(--line-l);font-size:14px}
+  .specs li span:first-child{color:var(--ink-2)}
+  .pdp .btn--hot{width:100%;min-height:56px;font-size:16px}
+  .pdp .btn--hot.is-in{background:var(--ink);color:var(--paper)}
+  .pdp__steps{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:13px;color:var(--ink-2)}
+  .pdp__steps button{min-height:44px;padding:0 12px;box-shadow:inset 0 0 0 1px var(--line-l);color:var(--ink);font-weight:600}
+  @media (max-width:899px){ .pdp__grid{grid-template-columns:1fr} .pdp__view{grid-template-columns:1fr} .pdp__thumbs{grid-template-columns:repeat(3,64px);order:2} .pdp__info{position:static} }
 
-  /* Cart drawer */
-  .overlay{position:fixed;inset:0;background:rgba(25,12,8,.5);z-index:80;opacity:0;pointer-events:none;transition:opacity .3s}
+  /* 07 bundle: a floating stack */
+  .bundle{position:relative;overflow:hidden;background:radial-gradient(60% 80% at 30% 60%, #1b3a47 0%, var(--night) 70%);padding-block:calc(var(--nav) + 32px) 64px}
+  .bundle__grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:32px;align-items:center;min-height:calc(100svh - var(--nav) - 96px)}
+  .bundle h2{font-size:clamp(52px,7.5vw,128px)}
+  .bundle__price{display:flex;align-items:baseline;gap:14px;margin:18px 0 22px}
+  .bundle__price b{font-family:var(--f-display);font-weight:900;font-size:clamp(40px,4vw,64px);color:var(--hot);line-height:1}
+  .bundle__price s{color:var(--fog);font-size:18px}
+  .bundle__txt p{color:#c9d0d4;max-width:40ch}
+  .stack{position:relative;height:min(70svh,620px);perspective:1600px}
+  .stack__in{position:absolute;inset:0;transform-style:preserve-3d;transform:rotateX(52deg) rotateZ(-28deg);transition:transform 1s cubic-bezier(.2,.8,.2,1)}
+  .stack:hover .stack__in{transform:rotateX(38deg) rotateZ(-18deg)}
+  .stack img{position:absolute;left:50%;top:50%;width:clamp(130px,14vw,210px);aspect-ratio:595/842;object-fit:cover;margin:calc(clamp(130px,14vw,210px) * -.7) 0 0 calc(clamp(130px,14vw,210px) * -.5);box-shadow:0 20px 40px rgba(0,0,0,.55);transform:translate3d(calc(var(--i) * 34px - 120px), calc(var(--i) * -26px + 90px), calc(var(--i) * 26px));animation:float 6s ease-in-out infinite;animation-delay:calc(var(--i) * -.6s)}
+  .stack:hover img{transform:translate3d(calc(var(--i) * 62px - 210px), calc(var(--i) * -44px + 150px), calc(var(--i) * 40px))}
+  @keyframes float{50%{translate:0 0 22px}}
+  @media (max-width:899px){ .bundle__grid{grid-template-columns:1fr;min-height:0} .stack{height:380px} }
+
+  /* 08 guide cards */
+  .guide{background:var(--night);padding-block:calc(var(--nav) + 24px) 64px}
+  .guide__head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:28px}
+  .guide h2{font-size:clamp(48px,7vw,120px)}
+  .guide__cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2px}
+  .gcard{position:relative;min-height:440px;overflow:hidden;display:grid;align-content:end;padding:22px;background:var(--night-3);isolation:isolate}
+  .gcard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;filter:grayscale(.25) contrast(1.05);transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+  .gcard::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(to top, rgba(8,20,28,.96) 30%, rgba(10,40,56,.55) 70%, rgba(10,40,56,.25))}
+  .gcard:hover img{transform:scale(1.04)}
+  .gcard .label{color:#c9d0d4}
+  .gcard h3{font-family:var(--f-display);font-weight:800;font-size:24px;line-height:1.2;margin:10px 0 8px}
+  .gcard p{font-size:14px;color:#c9d0d4}
+  @media (max-width:1099px){ .guide__cards{grid-template-columns:1fr 1fr} }
+  @media (max-width:599px){ .guide__cards{grid-template-columns:1fr} .gcard{min-height:320px} }
+
+  /* footer */
+  .foot{background:var(--night);border-top:1px solid var(--line-d);padding-top:48px;padding-bottom:calc(24px + env(safe-area-inset-bottom,0px));overflow:hidden}
+  .foot__grid{display:grid;grid-template-columns:1.2fr .8fr .8fr 1.4fr;gap:28px}
+  .foot__grid > *{min-width:0}
+  .foot h3{font-size:12px;font-weight:700;color:var(--fog);letter-spacing:.06em;margin-bottom:10px}
+  .foot__col a{display:flex;align-items:center;min-height:40px;font-weight:600;color:#c9d0d4}
+  .foot__col a:hover{color:var(--snow)}
+  .news{display:grid;gap:10px}
+  .news label{font-size:12px;font-weight:700;color:var(--fog);letter-spacing:.06em}
+  .news__row{display:flex;gap:8px;min-width:0}
+  .news input{flex:1;min-width:0;width:0;min-height:48px;padding:0 14px;background:transparent;border:1px solid var(--line-d);border-radius:2px;color:var(--snow);font:inherit;direction:ltr;text-align:right}
+  .news .note{font-size:13px;color:var(--fog);min-height:20px}
+  .foot__word{font-size:clamp(90px,24vw,400px);color:var(--night-3);text-align:center;margin-top:40px;line-height:.85;user-select:none;-webkit-text-stroke:1px rgba(243,244,242,.12)}
+  .foot__legal{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--fog);border-top:1px solid var(--line-d);padding-top:16px}
+  @media (max-width:899px){ .foot__grid{grid-template-columns:1fr 1fr} .foot__brand,.news{grid-column:1 / -1} }
+
+  /* cart drawer */
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:80;opacity:0;pointer-events:none;transition:opacity .3s}
   .overlay.open{opacity:1;pointer-events:auto}
-  .drawer{position:fixed;top:0;bottom:0;left:0;width:min(420px,100%);background:var(--bg);z-index:90;transform:translateX(-105%);visibility:hidden;transition:transform .4s cubic-bezier(.6,0,.2,1),visibility 0s .4s;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+  .drawer{position:fixed;top:0;bottom:0;left:0;width:min(420px,100%);background:var(--night-2);border-inline-start:1px solid var(--line-d);z-index:90;transform:translateX(-105%);visibility:hidden;transition:transform .4s cubic-bezier(.6,0,.2,1),visibility 0s .4s;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
   .drawer.open{transform:none;visibility:visible;transition:transform .4s cubic-bezier(.6,0,.2,1)}
-  .drawer-head{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--line)}
-  .drawer-head h2{font-size:30px}
-  .items{flex:1;overflow:auto;padding:16px 20px;display:flex;flex-direction:column;gap:10px}
-  .item{display:flex;gap:12px;align-items:center;padding:10px;background:var(--card);border-radius:var(--r-md)}
-  .item img{width:46px;aspect-ratio:595/842;object-fit:cover;border-radius:4px;flex-shrink:0}
-  .item .info{flex:1;min-width:0}
-  .item .info b{display:block;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .item .info small{color:var(--muted)}
-  .empty{text-align:center;color:var(--muted);padding:50px 0}
-  .drawer-foot{padding:18px 20px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:10px}
-  .drawer-foot .sum{display:flex;justify-content:space-between;font-size:20px;font-weight:700}
-  .drawer-foot label{font-size:15px;font-weight:600}
-  .drawer-foot input{min-height:48px;padding:0 16px;border-radius:999px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);font:inherit;direction:ltr;text-align:right}
-  .field-error{color:var(--accent);font-size:var(--t-small);min-height:20px}
-  .done-box{text-align:center;padding:30px 10px;display:grid;gap:8px}
-  .done-box h3{font-family:var(--font-display);font-size:30px;color:var(--accent)}
+  .drawer__head{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid var(--line-d)}
+  .drawer__head h2{font-family:var(--f-display);font-weight:900;font-size:28px}
+  .x-btn{width:44px;height:44px;display:grid;place-items:center;box-shadow:inset 0 0 0 1px var(--line-d)}
+  .x-btn svg{width:18px;height:18px}
+  .items{flex:1;overflow:auto;padding:14px 20px;display:flex;flex-direction:column;gap:2px}
+  .item{display:grid;grid-template-columns:46px 1fr auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line-d)}
+  .item img{width:46px;aspect-ratio:595/842;object-fit:cover}
+  .item b{display:block;font-size:14px;font-weight:600}
+  .item small{color:var(--fog)}
+  .empty{color:var(--fog);text-align:center;padding:48px 0}
+  .checkout{padding:18px 20px;border-top:1px solid var(--line-d);display:grid;gap:10px}
+  .checkout .sum{display:flex;justify-content:space-between;font-family:var(--f-display);font-weight:800;font-size:22px}
+  .checkout label{font-size:13px;font-weight:600;color:var(--fog)}
+  .checkout input{min-height:48px;padding:0 14px;background:transparent;border:1px solid var(--line-d);border-radius:2px;color:var(--snow);font:inherit;direction:ltr;text-align:right}
+  .err{color:#ff8a63;font-size:13px;min-height:18px}
+  .done{text-align:center;padding:36px 8px;display:grid;gap:10px}
+  .done h3{font-family:var(--f-display);font-weight:900;font-size:30px;color:var(--hot)}
 
-  .toast{position:fixed;bottom:calc(22px + env(safe-area-inset-bottom,0px));left:50%;transform:translate(-50%,160px);background:var(--ink);color:var(--bg);padding:12px 22px;border-radius:999px;font-weight:600;z-index:100;transition:transform .4s cubic-bezier(.22,1,.36,1);max-width:calc(100% - 32px);text-align:center}
+  .toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));left:50%;transform:translate(-50%,160px);z-index:120;background:var(--snow);color:var(--ink);padding:12px 20px;font-weight:700;font-size:14px;border-radius:2px;transition:transform .45s cubic-bezier(.22,1,.36,1);max-width:calc(100% - 32px);text-align:center}
   .toast.show{transform:translate(-50%,0)}
-  @media (prefers-reduced-motion: reduce){ *{animation:none!important;transition:none!important;scroll-behavior:auto!important} }
+
+  /* headings rise once when they enter (content is visible without script) */
+  .js .rise{clip-path:inset(0 0 100% 0);transform:translateY(30px);transition:clip-path 1s cubic-bezier(.2,.8,.2,1),transform 1s cubic-bezier(.2,.8,.2,1)}
+  .js .rise.in{clip-path:inset(-10% 0 -10% 0);transform:none}
+  @media (prefers-reduced-motion: reduce){ *{animation:none!important;transition:none!important;scroll-behavior:auto!important} .js .rise{clip-path:none;transform:none} }
 </style>
+<script>document.documentElement.classList.add('js');setTimeout(()=>document.querySelectorAll('.rise').forEach(e=>e.classList.add('in')),4000)</script>
 </head>
 <body>
-<header class="nav">
-  <a class="skip-link" href="#top">تخطَّ إلى المحتوى</a>
-  <div class="wrap nav__bar">
-    <nav class="nav__links" aria-label="الأقسام">
-      <a href="#collections">المجموعات</a>
-      <a href="#shop">الملفات</a>
-      <a href="#bundle">الباقة</a>
-      <a href="#details">التفاصيل</a>
-    </nav>
-    <a class="nav__logo" href="#top"><span class="mark" aria-hidden="true">ل</span>لزّقها</a>
-    <div class="nav__actions">
-      <button class="icon-btn" id="cartBtn" type="button" aria-label="السلة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg><span class="badge num" id="badge">0</span></button>
-      <a class="btn btn--primary btn--sm" href="#shop">تصفّح الملفات</a>
-      <button class="icon-btn nav__toggle" id="menuBtn" type="button" aria-expanded="false" aria-controls="menu" aria-label="القائمة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg></button>
-    </div>
-  </div>
-<div class="menu" id="menu" hidden>
-  <a href="#collections">المجموعات</a>
-  <a href="#shop">الملفات</a>
-  <a href="#bundle">الباقة</a>
-  <a href="#details">التفاصيل</a>
-  <a class="btn btn--primary" href="#shop">تصفّح الملفات</a>
-</div>
-<div class="modal" id="modal" hidden>
-  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="mTitle">
-    <button class="icon-btn modal-close" id="mClose" type="button" aria-label="إغلاق المعاينة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
-    <div>
-      <div class="big"><img id="mImg" src="assets/heritage-1.jpg" alt=""><div class="wm" id="mWm"><span>معاينة · لزّقها</span></div></div>
-      <div class="thumbs" id="mThumbs"></div>
-    </div>
-    <div class="m-info">
-      <span class="label" id="mCat"></span>
-      <h2 id="mTitle"></h2>
-      <p id="mDesc"></p>
-      <ul class="rows">
-        <li><span class="k">التصاميم</span><span class="num" id="mDesigns"></span></li>
-        <li><span class="k">الصفحات</span><span class="num" id="mPages"></span></li>
-        <li><span class="k">الصيغة</span><span>PDF · A4</span></li>
-      </ul>
-      <div class="m-buy">
-        <div class="price num" id="mPrice" data-assumed></div>
-        <button class="btn btn--primary" id="mAdd" type="button"></button>
-      </div>
-    </div>
-  </div>
-</div>
+<div class="cursor" id="cursor" aria-hidden="true"></div>
 
-<div class="overlay" id="overlay"></div>
-<aside class="drawer" id="drawer" aria-label="السلة">
-  <div class="drawer-head"><h2>السلة</h2><button class="icon-btn" id="closeCart" type="button" aria-label="إغلاق السلة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
-  <div class="items" id="items"></div>
-  <form class="drawer-foot" id="checkoutForm" novalidate>
-    <div class="sum"><span>المجموع</span><span class="num" id="sum">٠ ريال</span></div>
-    <label for="buyerEmail">البريد اللي يوصله رابط التحميل</label>
-    <input id="buyerEmail" type="email" autocomplete="email" placeholder="name@example.com">
-    <p class="field-error" id="emailError" role="alert"></p>
-    <button class="btn btn--primary" type="submit">أكمل الطلب</button>
-  </form>
-</aside>
-<div class="toast" id="toast" role="status"></div>
+<header class="nav" id="nav">
+  <div class="wrap nav__bar">
+    <a class="logo" href="#top">لزّقها<small>ستيكرز PDF<br>للطباعة</small></a>
+    <nav class="nav__links" aria-label="الأقسام">
+      <a href="#cats"><span>٠١</span>المجموعات</a>
+      <a href="#set"><span>٠٢</span>طقم الجورنال</a>
+      <a href="#collection"><span>٠٣</span>الملفات</a>
+      <a href="#bundle"><span>٠٤</span>الباقة</a>
+      <a href="#guide"><span>٠٥</span>دليل الطباعة</a>
+    </nav>
+    <div class="nav__actions">
+      <button class="cart-btn" id="cartBtn" type="button">السلة <b class="num" id="badge">٠</b></button>
+      <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="menu" aria-label="القائمة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg></button>
+    </div>
+  </div>
+  <div class="menu" id="menu" hidden>
+    <a href="#cats">المجموعات<span>٠١</span></a>
+    <a href="#set">طقم الجورنال<span>٠٢</span></a>
+    <a href="#collection">الملفات<span>٠٣</span></a>
+    <a href="#bundle">الباقة<span>٠٤</span></a>
+    <a href="#guide">دليل الطباعة<span>٠٥</span></a>
+  </div>
 </header>
 
-
 <main id="top">
-  <section class="hero" data-enter aria-labelledby="hero-h">
-    <div class="wrap hero__wrap"><div class="hero-text hero__in">
-    <div class="hero__head">
-      <h1 id="hero-h">ملفات ستيكرز PDF للطباعة في البيت</h1>
-      <div class="hero__side">
-        <p class="hero__lead">١٥ ملف بتصاميم فنتج وتراثية عربية، فيها <span class="num">٩٧٦</span> ستيكر على صفحات A4. تشتري الملف مرة وتطبعه كل ما احتجت.</p>
-        <div class="btn-row">
-          <a class="btn btn--primary" href="#shop">تصفّح الملفات</a>
-          <a class="btn btn--secondary" href="#bundle">الباقة الكاملة</a>
+  <!-- 01 hero -->
+  <section class="hero" id="hero" aria-labelledby="hero-h">
+    <div class="hero__word">
+      <h1 id="hero-h"><span class="mega" aria-hidden="true">لزّقها</span><span class="mega fill" aria-hidden="true">لزّقها</span><span class="sr">لزّقها: ملفات ستيكرز PDF للطباعة</span></h1>
+    </div>
+    <img class="hero__still" src="assets/planet-still.png" alt="" width="1200" height="559">
+    <canvas id="scene" role="img" aria-label="كرة من صفحات الملفات الخمسة عشر، اسحبها لتدور، واضغط على صفحة لتفتح ملفها"></canvas>
+    <div class="hero__ui wrap">
+      <div class="hero__top">
+        <p class="label">مجموعة ٢٠٢٦</p>
+        <p class="hero__hint">اسحب الكوكب ⟵ ⟶ واضغط على أي صفحة</p>
+      </div>
+      <div></div>
+      <div class="hero__bottom">
+        <div class="hero__meta num"><span><b>١٥</b> ملف PDF</span><span><b>٩٧٦</b> تصميم</span><span><b>A4</b> جاهزة للطباعة</span></div>
+        <p class="hero__lead"><b style="display:block;font-family:var(--f-display);font-weight:800;font-size:20px;color:var(--snow)">ملفات ستيكرز PDF للطباعة</b>تصاميم فنتج وتراثية عربية. تشتري الملف مرة، وتطبعه في البيت كل ما احتجت.</p>
+        <div class="hero__cta">
+          <a class="btn btn--hot" href="#collection">تسوّق الملفات</a>
+          <a class="btn btn--line" href="#bundle">الباقة الكاملة</a>
         </div>
       </div>
     </div>
-    <div class="stage hero__stage" id="stage">
-      <img class="stage__still" src="assets/planet-still.png" alt="" width="1200" height="600">
-      <canvas id="scene" role="img" aria-label="كرة من صفحات الملفات الخمسة عشر، تدور بالسحب، وتفتح معاينة الملف عند الضغط على صفحته"></canvas>
-    </div>
-    </div></div>
   </section>
 
-  <!-- photo-chapters (references/moments.md): one large close-up of each collection, none used elsewhere -->
-  <section id="collections" data-moment="photo-chapters" aria-labelledby="collections-h">
-    <div class="wrap mo-ph">
-      <div class="mo-ph__head"><h2 id="collections-h">خمس مجموعات، صفحة لكل ذوق</h2><p>كل صفحة فيها من ١٢ إلى ٢٠ ستيكر جاهزة للقص.</p></div>
-      <ol class="mo-ph__list">
-        <li class="mo-ph__ch">
-          <figure class="mo-ph__pic"><img src="assets/chapters/heritage.jpg" alt="صفحة ستيكرات تراثية: البتراء والدلة والرمان وبئر بين النخيل" width="2000" height="1125"></figure>
-          <h3>تراثي: البتراء والدلة والسدو</h3>
-          <p>ثلاث ملفات من التراث العربي والسعودي والأكلات الشرقية، ١٤١ تصميم.</p>
-        </li>
-        <li class="mo-ph__ch">
-          <figure class="mo-ph__pic"><img src="assets/chapters/vintage-classic.jpg" alt="صفحة ستيكرات فنتج: فراشات عنابية وأختام شمع وبطاقات" width="2000" height="1125"></figure>
-          <h3>فنتج: أختام شمع وفراشات وبطاقات</h3>
-          <p>أربع ملفات بورق معتّق، منها أكبر ملف في المتجر بـ١٤٩ تصميم.</p>
-        </li>
-        <li class="mo-ph__ch">
-          <figure class="mo-ph__pic"><img src="assets/chapters/vintage-roses.jpg" alt="صفحة ستيكرات ورود فنتج بالبني والعنابي" width="2000" height="1125"></figure>
-          <h3>زهور: ورود وباقات ونباتات برية</h3>
-          <p>ثلاث ملفات للورد والتوليب والمزهريات، ١٢٦ تصميم.</p>
-        </li>
-        <li class="mo-ph__ch">
-          <figure class="mo-ph__pic"><img src="assets/chapters/coffee-memes.jpg" alt="صفحة ستيكرات قهوة: أكواب وقلب من حبوب البن وآلة إسبريسو" width="2000" height="1125"></figure>
-          <h3>قهوة وشاي: أكواب وعبارات</h3>
-          <p>ثلاث ملفات للقهوة والحلويات والشاي، فيها ميمز بالعربي والإنجليزي.</p>
-        </li>
-        <li class="mo-ph__ch">
-          <figure class="mo-ph__pic"><img src="assets/chapters/cozy-home.jpg" alt="صفحة ستيكرات البيت الدافي: إبريق وشمعة وسلة ورد وكوب" width="2000" height="1125"></figure>
-          <h3>دافي وخريفي: لحظات البيت</h3>
-          <p>ملفين للبيت والخريف، منها ملف البيت الدافي بـ١٣٦ تصميم.</p>
-        </li>
-      </ol>
+  <!-- 02 numbers -->
+  <section class="band" aria-labelledby="band-h">
+    <div class="wrap band__grid">
+      <h2 class="mega rise" id="band-h">مصممة<br>للورق<em>:</em></h2>
+      <div class="band__pic"><img src="assets/journal-2.jpg" alt="صفحة كاملة من ملف الجورنال الفنتج: شموع وكتب وفراشات" loading="lazy" width="1100" height="1556"></div>
+      <div class="band__stats num">
+        <div class="stat"><b>٩٧٦</b><span>تصميم ستيكر</span></div>
+        <div class="stat"><b>١٬٠٤٥</b><span>صفحة A4</span></div>
+        <div class="stat"><b>١٥</b><span>ملف PDF</span></div>
+        <div class="stat"><b>∞</b><span>طباعة للاستخدام الشخصي</span></div>
+      </div>
     </div>
   </section>
 
-  <section id="shop" style="--h:2" aria-labelledby="shop-h">
+  <!-- 03 categories -->
+  <section class="cats" id="cats" aria-label="المجموعات">
+    <button class="cat" type="button" data-cat="تراثي"><img src="assets/chapters/heritage.jpg" alt="" loading="lazy"><span class="cat__n">٠١</span><span class="cat__txt"><b>تراثي</b><span>٣ ملفات · ١٤١ تصميم</span></span></button>
+    <button class="cat" type="button" data-cat="فنتج"><img src="assets/chapters/vintage-classic.jpg" alt="" loading="lazy"><span class="cat__n">٠٢</span><span class="cat__txt"><b>فنتج</b><span>٤ ملفات · ٣١٤ تصميم</span></span></button>
+    <button class="cat" type="button" data-cat="زهور"><img src="assets/chapters/vintage-roses.jpg" alt="" loading="lazy"><span class="cat__n">٠٣</span><span class="cat__txt"><b>زهور</b><span>٣ ملفات · ١٢٦ تصميم</span></span></button>
+    <button class="cat" type="button" data-cat="قهوة وشاي"><img src="assets/chapters/coffee-memes.jpg" alt="" loading="lazy"><span class="cat__n">٠٤</span><span class="cat__txt"><b>قهوة وشاي</b><span>٣ ملفات · ٢١٨ تصميم</span></span></button>
+    <button class="cat" type="button" data-cat="دافي وخريفي"><img src="assets/chapters/cozy-home.jpg" alt="" loading="lazy"><span class="cat__n">٠٥</span><span class="cat__txt"><b>دافي وخريفي</b><span>ملفين · ١٧٧ تصميم</span></span></button>
+  </section>
+
+  <!-- 04 the set -->
+  <section class="set" id="set" aria-labelledby="set-h">
+    <div class="wrap set__grid">
+      <div>
+        <div class="set__head">
+          <p class="label">طقم ٠٢ · أربع ملفات</p>
+          <h2 class="mega rise" id="set-h">طقم<br>الجورنال</h2>
+        </div>
+        <div class="set__stage" id="setStage"></div>
+      </div>
+      <aside class="look" aria-label="محتوى الطقم">
+        <h3>كل اللي يحتاجه دفترك</h3>
+        <ul id="lookList"></ul>
+        <div class="look__sum num"><span>الطقم</span><span id="lookSum"></span></div>
+        <button class="btn btn--hot" id="addSet" type="button">أضف الطقم للسلة</button>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 05 collection -->
+  <section class="coll" id="collection" aria-labelledby="coll-h">
     <div class="wrap">
-      <div class="sec-head">
-        <h2 id="shop-h">الملفات الخمسة عشر</h2>
-        <p>اضغط على أي غلاف وتشوف صفحتين من داخل الملف قبل ما تشتري.</p>
+      <div class="coll__head">
+        <div><p class="label">٠٣ · الملفات الخمسة عشر</p><h2 class="mega rise" id="coll-h">المجموعة</h2></div>
+        <p style="max-width:36ch;color:var(--ink-2)">اسحب الصف، واضغط على أي ملف وتشوف صفحاته تحت.</p>
       </div>
-      <div class="grid" id="grid"></div>
+      <div class="tabs" id="tabs" role="toolbar" aria-label="تصفية الملفات"></div>
+    </div>
+    <div class="rail-wrap">
+      <div class="rail" id="rail" aria-label="الملفات"></div>
+      <div class="wrap rail__nav">
+        <button type="button" id="railPrev" aria-label="السابق"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+        <button type="button" id="railNext" aria-label="التالي"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
+      </div>
     </div>
   </section>
 
-  <section id="details" aria-labelledby="details-h">
+  <!-- 06 product view -->
+  <section class="pdp" id="file" aria-labelledby="pdp-h">
+    <div class="wrap pdp__grid">
+      <div class="pdp__view">
+        <div class="pdp__thumbs" id="pdpThumbs"></div>
+        <div class="pdp__big"><img id="pdpImg" src="assets/heritage-1.jpg" alt="" width="1100" height="1556"><div class="wm" id="pdpWm" hidden><span>معاينة · لزّقها</span></div></div>
+      </div>
+      <div class="pdp__info">
+        <p class="label num" id="pdpLabel"></p>
+        <h2 class="mega" id="pdp-h"></h2>
+        <p class="pdp__price num" id="pdpPrice"></p>
+        <p class="pdp__desc" id="pdpDesc"></p>
+        <ul class="specs num">
+          <li><span>التصاميم</span><span id="pdpDesigns"></span></li>
+          <li><span>الصفحات</span><span id="pdpPages"></span></li>
+          <li><span>المقاس</span><span>A4، اطبع بالحجم الفعلي</span></li>
+          <li><span>التسليم</span><span>رابط تحميل على بريدك</span></li>
+        </ul>
+        <button class="btn btn--hot" id="pdpAdd" type="button"></button>
+        <div class="pdp__steps"><button type="button" id="pdpPrev">→ السابق</button><span class="num" id="pdpPos"></span><button type="button" id="pdpNext">التالي ←</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 bundle -->
+  <section class="bundle" id="bundle" aria-labelledby="bundle-h">
+    <div class="wrap bundle__grid">
+      <div class="bundle__txt">
+        <p class="label">٠٤ · كل الملفات</p>
+        <h2 class="mega rise" id="bundle-h">الباقة<br>الكاملة</h2>
+        <div class="bundle__price num"><b id="bundlePrice"></b><s id="bundleOld"></s></div>
+        <p>الخمسة عشر ملف في طلب واحد، وأي ملف جديد ننزله في نفس المجموعات.</p>
+        <div style="margin-top:22px"><button class="btn btn--hot" id="addBundle" type="button">أضف الباقة للسلة</button></div>
+      </div>
+      <div class="stack" aria-hidden="true"><div class="stack__in" id="stack"></div></div>
+    </div>
+  </section>
+
+  <!-- 08 guide -->
+  <section class="guide" id="guide" aria-labelledby="guide-h">
     <div class="wrap">
-      <div class="sec-head"><h2 id="details-h">قبل ما تطبع</h2><p>ملفات رقمية فقط، ما فيه شحن ولا انتظار.</p></div>
-      <div class="details">
-        <div class="specs">
-          <h3>الملف</h3>
-          <ul class="rows">
-            <li><span class="k">الصيغة</span><span>PDF واحد لكل مجموعة، يوصلك رابطه على بريدك بعد الدفع</span></li>
-            <li><span class="k">المقاس</span><span>A4، اطبع بالحجم الفعلي (١٠٠٪)</span></li>
-            <li><span class="k">الورق</span><span>ورق ستيكر A4 لامع أو مطفي أو فينيل</span></li>
-            <li><span class="k">القص</span><span>بالمقص، أو بماكينة قص مثل Cricut وSilhouette</span></li>
-            <li><span class="k">الاستخدام</span><span>شخصي، والطباعة غير محدودة</span></li>
-          </ul>
-        </div>
-        <div class="faq">
-          <h3>أسئلة تتكرر</h3>
-          <details><summary>هل يوصلني منتج مطبوع؟</summary><p>لا. كل منتج ملف PDF تحمّله وتطبعه بنفسك.</p></details>
-          <details><summary>متى يوصلني رابط التحميل؟</summary><p>بعد تأكيد الدفع مباشرة، على البريد اللي تكتبه في السلة.</p></details>
-          <details><summary>أقدر أبيع الستيكرات اللي أطبعها؟</summary><p>لا. الملفات للاستخدام الشخصي، وما يصير تعيد بيعها أو تشاركها.</p></details>
-          <details><summary>الطابعة عندي عادية، تكفي؟</summary><p>أي طابعة ألوان تكفي. للألوان الأوضح اختر «أعلى جودة» في إعدادات الطباعة.</p></details>
-        </div>
+      <div class="guide__head"><div><p class="label">٠٥ · قبل ما تطبع</p><h2 class="mega rise" id="guide-h">دليل الطباعة</h2></div></div>
+      <div class="guide__cards">
+        <article class="gcard"><img src="assets/stamps-2.jpg" alt="" loading="lazy"><p class="label">٠١ · الورق</p><h3>ورق ستيكر A4</h3><p>لامع للألوان القوية، ومطفي للفنتج، وفينيل لو تبيه يتحمل الماء.</p></article>
+        <article class="gcard"><img src="assets/botanical-2.jpg" alt="" loading="lazy"><p class="label">٠٢ · الطباعة</p><h3>بالحجم الفعلي</h3><p>اختر ١٠٠٪ و«أعلى جودة». أي طابعة ألوان في البيت تكفي.</p></article>
+        <article class="gcard"><img src="assets/vintage-antique-2.jpg" alt="" loading="lazy"><p class="label">٠٣ · القص</p><h3>مقص أو ماكينة</h3><p>كل ستيكر حوله إطار أبيض يسهّل القص، وتقدر تستخدم Cricut أو Silhouette.</p></article>
+        <article class="gcard"><img src="assets/coffee-sweets-2.jpg" alt="" loading="lazy"><p class="label">٠٤ · الاستخدام</p><h3>لك أنت</h3><p>اطبع كل ما احتجت للاستخدام الشخصي. إعادة بيع الملف أو مشاركته غير مسموحة.</p></article>
       </div>
     </div>
   </section>
-
-  <section id="bundle" class="ground-brand" aria-labelledby="bundle-h">
-    <div class="wrap">
-      <div class="bundle__head">
-        <h2 id="bundle-h">الباقة الكاملة: الملفات الخمسة عشر في طلب واحد</h2>
-        <div class="bundle__buy">
-          <p class="bundle__price num" data-assumed><span id="bundlePrice"></span><s id="bundleOld"></s></p>
-          <button class="btn btn--primary" id="addBundle" type="button">أضف الباقة للسلة</button>
-        </div>
-      </div>
-      <div class="strip">
-        <img src="assets/saudi-3.jpg" alt="صفحة من ملف اليوم الوطني السعودي: دلال وصقور وجمال" loading="lazy" width="1100" height="1556">
-        <img src="assets/food-3.jpg" alt="صفحة من ملف الأكلات الشرقية: فلافل وكبة ومنسف" loading="lazy" width="1100" height="1556">
-        <img src="assets/herbal-tea-3.jpg" alt="صفحة من ملف الشاي والأعشاب: أكواب بالليمون والقرفة" loading="lazy" width="1100" height="1556">
-        <img src="assets/autumn-ephemera-3.jpg" alt="صفحة من ملف الخريف الفنتج: تذاكر وبطاقات وأوراق" loading="lazy" width="1100" height="1556">
-      </div>
-    </div>
-  </section>
-
 </main>
 
-<footer class="closing" id="contact">
+<footer class="foot">
   <div class="wrap">
-    <div class="close">
-      <h2>اختر ملفك واطبعه الليلة</h2>
-      <p>من ١٢ ريال للملف، أو الخمسة عشر كلها في الباقة الكاملة.</p>
-      <a class="btn btn--primary" href="#shop">تصفّح الملفات</a>
-    </div>
-    <div class="foot">
-      <div class="foot__brand">
-        <a class="nav__logo" href="#top"><span class="mark" aria-hidden="true">ل</span>لزّقها</a>
-        <p class="foot__line">ملفات ستيكرز PDF جاهزة للطباعة.</p>
-      </div>
-      <div class="foot__col"><h3>المتجر</h3><a href="#shop">كل الملفات</a><a href="#bundle">الباقة الكاملة</a></div>
-      <div class="foot__col"><h3>مساعدة</h3><a href="#details">طريقة الطباعة</a><a href="#details">الأسئلة</a></div>
+    <div class="foot__grid">
+      <div class="foot__brand"><a class="logo" href="#top">لزّقها<small>ستيكرز PDF<br>للطباعة</small></a></div>
+      <div class="foot__col"><h3>المتجر</h3><a href="#collection">كل الملفات</a><a href="#bundle">الباقة الكاملة</a><a href="#set">طقم الجورنال</a></div>
+      <div class="foot__col"><h3>مساعدة</h3><a href="#guide">دليل الطباعة</a><a href="#file">صفحات الملف</a></div>
       <form class="news" id="newsForm" novalidate>
-        <label for="newsEmail">بريدك، ونبلغك بالملفات الجديدة</label>
-        <div class="news__row"><input id="newsEmail" type="email" autocomplete="email" placeholder="name@example.com"><button class="btn btn--primary btn--sm" type="submit">اشترك</button></div>
+        <label for="newsEmail">نبلغك بالملفات الجديدة</label>
+        <div class="news__row"><input id="newsEmail" type="email" autocomplete="email" placeholder="name@example.com"><button class="btn btn--hot" type="submit">اشترك</button></div>
         <p class="note" id="newsNote" role="status"></p>
       </form>
-      <p class="foot__line foot__legal">© ٢٠٢٦ لزّقها · ملفات للاستخدام الشخصي</p>
     </div>
+    <p class="foot__word mega" aria-hidden="true">لزّقها</p>
+    <div class="foot__legal"><span>© ٢٠٢٦ لزّقها</span><span>ملفات رقمية للاستخدام الشخصي · ما فيه شحن</span></div>
   </div>
 </footer>
 
-
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" aria-label="السلة">
+  <div class="drawer__head"><h2>السلة</h2><button class="x-btn" id="closeCart" type="button" aria-label="إغلاق السلة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+  <div class="items" id="items"></div>
+  <form class="checkout" id="checkoutForm" novalidate>
+    <div class="sum num"><span>المجموع</span><span id="sum">٠ ريال</span></div>
+    <label for="buyerEmail">البريد اللي يوصله رابط التحميل</label>
+    <input id="buyerEmail" type="email" autocomplete="email" placeholder="name@example.com">
+    <p class="err" id="emailError" role="alert"></p>
+    <button class="btn btn--hot" type="submit">أكمل الطلب</button>
+  </form>
+</aside>
+<div class="toast" id="toast" role="status"></div>
 
 <script src="vendor/three.min.js"></script>
-<script type="module" src="assets/moments/moments.js"></script>
 <script>
 /* ================= Products (prices are assumed until the owner sets them) ================= */
 const products = [
-  {id:'heritage',        name:'ستيكرات تراثية عربية',        cat:'تراثي',     designs:50,  pages:54,  price:25, desc:'البتراء والفانوس والدلة والرمان ومعالم عربية بطابع عتيق.'},
-  {id:'saudi',           name:'ستيكرات اليوم الوطني السعودي', cat:'تراثي',     designs:52,  pages:56,  price:25, desc:'ستيكرات سعودية بطابع تراثي: الشعار والصقر والدلة والسدو.'},
-  {id:'food',            name:'ستيكرات أكلات شرقية',         cat:'تراثي',     designs:39,  pages:42,  price:19, desc:'فطاير ومنسف ومجدرة وحمص وكبة وفلافل ومشاوي وشكشوكة.'},
-  {id:'vintage-classic', name:'ستيكرات فنتج كلاسيكية',       cat:'فنتج',      designs:149, pages:157, price:39, desc:'ورود ونباتات واقتباسات بخمس ألوان.'},
-  {id:'vintage-antique', name:'ستيكرات فنتج عتيقة',          cat:'فنتج',      designs:62,  pages:66,  price:25, desc:'ساعات وكاميرات وكتب وفيونكات ومفاتيح، بأسلوب عتيق.'},
-  {id:'journal',         name:'ستيكرات جورنال فنتج',         cat:'فنتج',      designs:68,  pages:72,  price:29, desc:'ورق عتيق وزهور مجففة وآلات كاتبة وشموع، مناسبة للجورنال.'},
-  {id:'stamps',          name:'ستيكرات الطوابع الكلاسيكية',  cat:'فنتج',      designs:35,  pages:40,  price:19, desc:'طوابع زهور بأسلوب الرسم القديم، والملف قابل للتعديل.'},
-  {id:'vintage-roses',   name:'ستيكرات ورود فنتج',           cat:'زهور',      designs:63,  pages:67,  price:25, desc:'ورود بني وأزرق وعنابي وأوراق ذهبية ونباتات برية.'},
-  {id:'botanical',       name:'ستيكرات نباتية فنتج',         cat:'زهور',      designs:46,  pages:50,  price:22, desc:'زهور برية وباقات وتوليب.'},
-  {id:'classic-flowers', name:'ستيكرات الأزهار الكلاسيكية',  cat:'زهور',      designs:17,  pages:21,  price:12, desc:'مزهريات بأسلوب الرسم التراثي، مع صور تطبيق جاهزة.'},
-  {id:'coffee-sweets',   name:'ستيكرات قهوة وحلويات',        cat:'قهوة وشاي', designs:68,  pages:73,  price:25, desc:'أكواب قهوة كيوت ومشروبات باردة وكيك وكوكيز ومخبوزات.'},
-  {id:'coffee-memes',    name:'ستيكرات قهوة وميمز',          cat:'قهوة وشاي', designs:114, pages:121, price:35, desc:'عبارات قهوة وميمز مضحكة بالعربي والإنجليزي.'},
-  {id:'herbal-tea',      name:'ستيكرات شاي وأعشاب',          cat:'قهوة وشاي', designs:36,  pages:39,  price:19, desc:'أكواب شاي بالليمون والقرفة والأعشاب والفواكه.'},
+  {id:'heritage',        name:'ستيكرات تراثية عربية',        cat:'تراثي',      designs:50,  pages:54,  price:25, desc:'البتراء والفانوس والدلة والرمان ومعالم عربية بطابع عتيق.'},
+  {id:'saudi',           name:'ستيكرات اليوم الوطني السعودي', cat:'تراثي',      designs:52,  pages:56,  price:25, desc:'ستيكرات سعودية بطابع تراثي: الشعار والصقر والدلة والسدو.'},
+  {id:'food',            name:'ستيكرات أكلات شرقية',         cat:'تراثي',      designs:39,  pages:42,  price:19, desc:'فطاير ومنسف ومجدرة وحمص وكبة وفلافل ومشاوي وشكشوكة.'},
+  {id:'vintage-classic', name:'ستيكرات فنتج كلاسيكية',       cat:'فنتج',       designs:149, pages:157, price:39, desc:'ورود ونباتات واقتباسات بخمس ألوان.'},
+  {id:'vintage-antique', name:'ستيكرات فنتج عتيقة',          cat:'فنتج',       designs:62,  pages:66,  price:25, desc:'ساعات وكاميرات وكتب وفيونكات ومفاتيح، بأسلوب عتيق.'},
+  {id:'journal',         name:'ستيكرات جورنال فنتج',         cat:'فنتج',       designs:68,  pages:72,  price:29, desc:'ورق عتيق وزهور مجففة وآلات كاتبة وشموع، مناسبة للجورنال.'},
+  {id:'stamps',          name:'ستيكرات الطوابع الكلاسيكية',  cat:'فنتج',       designs:35,  pages:40,  price:19, desc:'طوابع زهور بأسلوب الرسم القديم، والملف قابل للتعديل.'},
+  {id:'vintage-roses',   name:'ستيكرات ورود فنتج',           cat:'زهور',       designs:63,  pages:67,  price:25, desc:'ورود بني وأزرق وعنابي وأوراق ذهبية ونباتات برية.'},
+  {id:'botanical',       name:'ستيكرات نباتية فنتج',         cat:'زهور',       designs:46,  pages:50,  price:22, desc:'زهور برية وباقات وتوليب.'},
+  {id:'classic-flowers', name:'ستيكرات الأزهار الكلاسيكية',  cat:'زهور',       designs:17,  pages:21,  price:12, desc:'مزهريات بأسلوب الرسم التراثي، مع صور تطبيق جاهزة.'},
+  {id:'coffee-sweets',   name:'ستيكرات قهوة وحلويات',        cat:'قهوة وشاي',  designs:68,  pages:73,  price:25, desc:'أكواب قهوة كيوت ومشروبات باردة وكيك وكوكيز ومخبوزات.'},
+  {id:'coffee-memes',    name:'ستيكرات قهوة وميمز',          cat:'قهوة وشاي',  designs:114, pages:121, price:35, desc:'عبارات قهوة وميمز مضحكة بالعربي والإنجليزي.'},
+  {id:'herbal-tea',      name:'ستيكرات شاي وأعشاب',          cat:'قهوة وشاي',  designs:36,  pages:39,  price:19, desc:'أكواب شاي بالليمون والقرفة والأعشاب والفواكه.'},
   {id:'cozy-home',       name:'ستيكرات البيت الدافي',        cat:'دافي وخريفي', designs:136, pages:143, price:39, desc:'شاي وكتب وخريف ولحظات بيتية دافئة.'},
   {id:'autumn-ephemera', name:'ستيكرات خريفية فنتج',         cat:'دافي وخريفي', designs:41,  pages:44,  price:19, desc:'بطاقات وتذاكر وتاقات وأوراق خريفية.'},
 ];
+const SET = ['journal','vintage-antique','stamps','vintage-roses'];
 const img = (id,n=1) => `assets/${id}-${n}.jpg`;
 const ar = n => Number(n).toLocaleString('ar-EG');
 const byId = Object.fromEntries(products.map(p=>[p.id,p]));
 const BUNDLE = {id:'bundle', name:`الباقة الكاملة (${ar(products.length)} ملف)`, price:189};
-const fullPrice = products.reduce((a,p)=>a+p.price,0);
 const $ = id => document.getElementById(id);
-$('bundlePrice').textContent = `${ar(BUNDLE.price)} ريال`;
-$('bundleOld').textContent = `${ar(fullPrice)} ريال`;
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* ================= Hero: a planet built only from printed sheets ================= */
+/* ================= Hero planet ================= */
 (function(){
-  const canvas = $('scene'), stage = $('stage');
+  const canvas = $('scene'), hero = $('hero');
   if(!window.THREE) return;
   let renderer;
   try{ renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true, preserveDrawingBuffer:true}); }catch(e){ return; }
   renderer.setPixelRatio(Math.min(devicePixelRatio,2));
   renderer.outputEncoding = THREE.sRGBEncoding;
   const aniso = Math.min(8, renderer.capabilities.getMaxAnisotropy());
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(30, 1, .1, 100);
+  const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(30, 1, .1, 100);
   camera.position.set(0,0,16);
   const R = 3.6, W = .95, H = W*842/595;
-  const planet = new THREE.Group(); scene.add(planet);
-  const globe = new THREE.Group(); planet.add(globe);
-  planet.rotation.z = .18;
-  const geo = new THREE.PlaneGeometry(W, H, 8, 12);
-  const pos = geo.attributes.position, v = new THREE.Vector3();
+  const planet = new THREE.Group(), globe = new THREE.Group(); scene.add(planet); planet.add(globe); planet.rotation.z = .18;
+  const geo = new THREE.PlaneGeometry(W, H, 8, 12), pos = geo.attributes.position, v = new THREE.Vector3();
   for(let k=0;k<pos.count;k++){ v.set(pos.getX(k), pos.getY(k), R).normalize().multiplyScalar(R); pos.setXYZ(k, v.x, v.y, v.z); }
   pos.needsUpdate = true; geo.computeVertexNormals();
-  const backMat = new THREE.MeshBasicMaterial({side:THREE.BackSide, transparent:true, opacity:.28, depthWrite:false});
-  const syncTheme = () => backMat.color.set(getComputedStyle(document.documentElement).getPropertyValue('--rose').trim() || '#d3b6a6');
-  syncTheme(); matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', syncTheme);
+  const backMat = new THREE.MeshBasicMaterial({color:0x2a4652, side:THREE.BackSide, transparent:true, opacity:.5, depthWrite:false});
   const loader = new THREE.TextureLoader();
   const tiles = []; for(let page=1; page<=3; page++) products.forEach(p=>tiles.push({id:p.id, page}));
   const N = tiles.length, golden = Math.PI*(3-Math.sqrt(5)), fronts = [];
   const sheets = tiles.map((tile,i)=>{
     const y = 1-(i+.5)/N*2, r = Math.sqrt(1-y*y), t = i*golden;
-    const n = new THREE.Vector3(Math.cos(t)*r, y, Math.sin(t)*r);
-    const tex = loader.load(`assets/thumb/${tile.id}-${tile.page}.jpg`);
-    tex.encoding = THREE.sRGBEncoding; tex.anisotropy = aniso;
-    const g = new THREE.Group();
-    const front = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({map:tex}));
-    g.add(front, new THREE.Mesh(geo, backMat)); g.lookAt(n);
-    g.userData = {id:tile.id, hover:0};
-    globe.add(g); fronts.push(front); return g;
+    const tex = loader.load(`assets/thumb/${tile.id}-${tile.page}.jpg`); tex.encoding = THREE.sRGBEncoding; tex.anisotropy = aniso;
+    const g = new THREE.Group(), front = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({map:tex}));
+    g.add(front, new THREE.Mesh(geo, backMat)); g.lookAt(new THREE.Vector3(Math.cos(t)*r, y, Math.sin(t)*r));
+    g.userData = {id:tile.id, hover:0}; globe.add(g); fronts.push(front); return g;
   });
   const mouse = new THREE.Vector2(-9,-9), ray = new THREE.Raycaster(), hit = new THREE.Sphere(new THREE.Vector3(), R);
-  let dragging = false, moved = 0, last = null, idle = 0, hovered = null;
-  const vel = new THREE.Vector2();
+  let dragging = false, moved = 0, last = null, idle = 0, hovered = null; const vel = new THREE.Vector2();
   const ndc = e => { const r = canvas.getBoundingClientRect(); mouse.set(((e.clientX-r.left)/r.width)*2-1, -((e.clientY-r.top)/r.height)*2+1); };
   const pick = () => { ray.setFromCamera(mouse,camera); const h = ray.intersectObjects(fronts)[0]; return h ? h.object.parent : null; };
-  const over = () => { ray.setFromCamera(mouse,camera); hit.radius = R*planet.scale.x; return ray.ray.intersectsSphere(hit); };
+  const over = () => { ray.setFromCamera(mouse,camera); hit.center.copy(planet.position); hit.radius = R*planet.scale.x; return ray.ray.intersectsSphere(hit); };
   const qa = new THREE.Quaternion(), X = new THREE.Vector3(1,0,0), Y = new THREE.Vector3(0,1,0);
   const spin = (dx,dy) => { qa.setFromAxisAngle(Y,dx); globe.quaternion.premultiply(qa); qa.setFromAxisAngle(X,dy); globe.quaternion.premultiply(qa); };
   canvas.addEventListener('pointerdown', e => { ndc(e); if(!over()) return; dragging = true; moved = 0; last = [e.clientX,e.clientY]; vel.set(0,0); canvas.setPointerCapture(e.pointerId); });
-  canvas.addEventListener('pointermove', e => {
-    ndc(e); if(!dragging) return;
-    const dx = e.clientX-last[0], dy = e.clientY-last[1]; last = [e.clientX,e.clientY];
-    moved += Math.abs(dx)+Math.abs(dy);
-    const s = 1.6/(Math.min(canvas.clientWidth, canvas.clientHeight)||400);
-    spin(dx*s, dy*s); vel.set(dx*s, dy*s); idle = 0;
-  });
-  canvas.addEventListener('pointerup', e => { if(!dragging) return; dragging = false; if(moved < 6){ ndc(e); const s = pick(); if(s){ vel.set(0,0); openPreview(s.userData.id); } } });
+  canvas.addEventListener('pointermove', e => { ndc(e); if(!dragging) return; const dx = e.clientX-last[0], dy = e.clientY-last[1]; last = [e.clientX,e.clientY]; moved += Math.abs(dx)+Math.abs(dy); const s = 1.6/(Math.min(canvas.clientWidth, canvas.clientHeight)*.8||400); spin(dx*s, dy*s); vel.set(dx*s, dy*s); idle = 0; });
+  canvas.addEventListener('pointerup', e => { if(!dragging) return; dragging = false; if(moved < 6){ ndc(e); const s = pick(); if(s){ vel.set(0,0); showFile(s.userData.id, true); } } });
   canvas.addEventListener('pointercancel', ()=>{ dragging = false; });
   canvas.addEventListener('pointerleave', ()=>{ if(!dragging) mouse.set(-9,-9); });
   function layout(){
     const w = canvas.clientWidth, h = canvas.clientHeight; if(!w || !h) return;
     renderer.setSize(w,h,false); camera.aspect = w/h; camera.updateProjectionMatrix();
     const halfH = camera.position.z*Math.tan(THREE.MathUtils.degToRad(camera.fov/2)), halfW = halfH*camera.aspect;
-    planet.scale.setScalar(Math.min(halfH, halfW)*.97/(R+.25));
+    const narrow = w < 900;
+    planet.scale.setScalar(Math.min(halfH*(narrow?.5:.62), halfW*.92)/(R+.2));
+    planet.position.set(0, narrow ? halfH*.12 : -halfH*.02, 0);
   }
-  new ResizeObserver(layout).observe(stage); layout();
+  new ResizeObserver(layout).observe(hero); layout();
   let visible = true; new IntersectionObserver(([en])=>visible=en.isIntersecting).observe(canvas);
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches, clock = new THREE.Clock();
+  const clock = new THREE.Clock();
   (function loop(){
     requestAnimationFrame(loop);
     const dt = Math.min(clock.getDelta(), .05);
@@ -563,58 +584,95 @@ $('bundleOld').textContent = `${ar(fullPrice)} ريال`;
     if(!dragging){ if(vel.lengthSq() > 1e-8){ spin(vel.x, vel.y); vel.multiplyScalar(.94); } idle += dt; if(!reduce && idle > 1.2) spin(dt*.22, 0); }
     hovered = dragging ? null : pick();
     canvas.style.cursor = dragging ? 'grabbing' : hovered ? 'pointer' : (over() ? 'grab' : 'default');
+    document.body.classList.toggle('over-planet', !!hovered);
     sheets.forEach(s=>{ const u = s.userData, on = hovered && u.id === hovered.userData.id ? 1 : 0; u.hover += (on - u.hover)*.15; s.scale.setScalar(1 + u.hover*.06); });
     renderer.render(scene,camera);
   })();
-  // keep the still picture until the sheets really draw (a rejected shader leaves the canvas empty)
   const gl = renderer.getContext(), px = new Uint8Array(4);
   const drew = () => { const w = gl.drawingBufferWidth, h = gl.drawingBufferHeight; for(let i=1;i<6;i++) for(let j=1;j<6;j++){ gl.readPixels(Math.floor(w*i/6), Math.floor(h*j/6), 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, px); if(px[3] > 0) return true; } return false; };
-  [500, 1500, 3000].forEach(t => setTimeout(() => { if(drew()) stage.classList.add('is-live'); }, t));
+  [500, 1500, 3000].forEach(t => setTimeout(() => { if(drew()) hero.classList.add('is-live'); }, t));
 })();
 
-/* ================= Range ================= */
-function renderGrid(){
-  $('grid').innerHTML = products.map(p=>`
-    <article class="card">
-      <button class="cover" type="button" data-open="${p.id}" aria-label="معاينة ${p.name}"><img src="${img(p.id)}" alt="غلاف ${p.name}" loading="lazy" width="1100" height="1556"></button>
-      <h3>${p.name}</h3>
-      <p class="meta num">${ar(p.designs)} تصميم · ${ar(p.pages)} صفحة</p>
-      <div class="buy">
-        <span class="price num" data-assumed>${ar(p.price)} <small>ريال</small></span>
-        <button class="btn btn--secondary btn--sm" type="button" data-add="${p.id}"></button>
-      </div>
-    </article>`).join('') + `<a class="grid__more" href="#bundle"><b>تبي الخمسة عشر كلها؟</b><span>شوف الباقة الكاملة</span></a>`;
-  syncButtons();
+/* ================= Categories → collection filter ================= */
+let currentCat = 'الكل';
+const cats = ['الكل', ...new Set(products.map(p=>p.cat))];
+function renderTabs(){
+  $('tabs').innerHTML = cats.map(c=>`<button class="tab ${c===currentCat?'is-on':''}" type="button" data-cat="${c}" aria-pressed="${c===currentCat}">${c}<span class="num">${ar(c==='الكل'?products.length:products.filter(p=>p.cat===c).length)}</span></button>`).join('');
 }
-$('grid').addEventListener('click', e=>{
-  const o = e.target.closest('[data-open]'); if(o) return openPreview(o.dataset.open);
-  const a = e.target.closest('[data-add]'); if(a) toggleCart(a.dataset.add);
-});
-$('addBundle').onclick = ()=>toggleCart('bundle');
+$('tabs').addEventListener('click', e=>{ const b = e.target.closest('[data-cat]'); if(b) setCat(b.dataset.cat); });
+document.querySelectorAll('.cat').forEach(b=>b.addEventListener('click', ()=>{ setCat(b.dataset.cat); $('collection').scrollIntoView({behavior: reduce?'auto':'smooth'}); }));
+function setCat(c){ currentCat = c; renderTabs(); renderRail(); }
 
-/* ================= Preview ================= */
-let current = null, lastFocus = null;
-function openPreview(id){
+/* ================= Rail ================= */
+let currentId = products[0].id, currentPage = 1;
+function renderRail(){
+  const list = products.filter(p=>currentCat==='الكل'||p.cat===currentCat);
+  $('rail').innerHTML = list.map(p=>`
+    <button class="hang ${p.id===currentId?'is-on':''}" type="button" data-id="${p.id}" aria-label="${p.name}، ${ar(p.price)} ريال">
+      <img src="${img(p.id)}" alt="" loading="lazy" width="1100" height="1556">
+      <span class="hang__tag"><b>${p.name}</b><span class="num">${ar(p.price)} ر.س</span></span>
+    </button>`).join('');
+  $('rail').scrollLeft = 0;
+}
+$('rail').addEventListener('click', e=>{ if(railDragged) return; const b = e.target.closest('[data-id]'); if(b) showFile(b.dataset.id, true); });
+let railDown = null, railDragged = false;
+$('rail').addEventListener('pointerdown', e=>{ if(e.pointerType !== 'mouse') return; railDown = {x:e.clientX, s:$('rail').scrollLeft}; railDragged = false; });
+addEventListener('pointermove', e=>{ if(!railDown) return; const dx = e.clientX - railDown.x; if(Math.abs(dx) > 5){ railDragged = true; $('rail').classList.add('is-drag'); } $('rail').scrollLeft = railDown.s - dx; });
+addEventListener('pointerup', ()=>{ if(!railDown) return; railDown = null; $('rail').classList.remove('is-drag'); setTimeout(()=>railDragged=false, 0); });
+const railStep = dir => $('rail').scrollBy({left: dir * $('rail').clientWidth * .8, behavior: reduce?'auto':'smooth'});
+$('railPrev').onclick = ()=>railStep(1);
+$('railNext').onclick = ()=>railStep(-1);
+
+/* ================= Product view ================= */
+function showFile(id, scroll){
   const p = byId[id]; if(!p) return;
-  current = p; lastFocus = document.activeElement;
-  $('mCat').textContent = p.cat; $('mTitle').textContent = p.name; $('mDesc').textContent = p.desc;
-  $('mDesigns').textContent = ar(p.designs); $('mPages').textContent = ar(p.pages);
-  $('mPrice').innerHTML = `${ar(p.price)} <small>ريال</small>`;
-  $('mThumbs').innerHTML = [1,2,3].map(n=>`<button type="button" data-n="${n}" class="${n===1?'active':''}" aria-label="الصفحة ${ar(n)}"><img src="${img(p.id,n)}" alt=""></button>`).join('');
+  currentId = id; currentPage = 1;
+  const i = products.indexOf(p);
+  $('pdpLabel').textContent = `ملف ${ar(i+1)} من ${ar(products.length)} · ${p.cat}`;
+  $('pdp-h').textContent = p.name;
+  $('pdpPrice').innerHTML = `${ar(p.price)} <small>ريال · PDF</small>`;
+  $('pdpDesc').textContent = p.desc;
+  $('pdpDesigns').textContent = ar(p.designs); $('pdpPages').textContent = ar(p.pages);
+  $('pdpPos').textContent = `${ar(i+1)} / ${ar(products.length)}`;
+  $('pdpThumbs').innerHTML = [1,2,3].map(n=>`<button type="button" data-n="${n}" aria-label="الصفحة ${ar(n)}"><img src="${img(id,n)}" alt=""></button>`).join('');
   showPage(1); syncButtons();
-  $('modal').hidden = false; $('mClose').focus();
+  document.querySelectorAll('.hang').forEach(h=>h.classList.toggle('is-on', h.dataset.id===id));
+  if(scroll) $('file').scrollIntoView({behavior: reduce?'auto':'smooth'});
 }
 function showPage(n){
-  $('mImg').src = img(current.id,n); $('mImg').alt = `الصفحة ${ar(n)} من ${current.name}`;
-  $('mWm').hidden = n===1;
-  $('mThumbs').querySelectorAll('button').forEach(b=>b.classList.toggle('active', +b.dataset.n===n));
+  currentPage = n;
+  const p = byId[currentId];
+  $('pdpImg').src = img(currentId,n); $('pdpImg').alt = `الصفحة ${ar(n)} من ${p.name}`;
+  $('pdpWm').hidden = n===1;
+  $('pdpThumbs').querySelectorAll('button').forEach(b=>b.classList.toggle('is-on', +b.dataset.n===n));
+  if(!reduce) $('pdpImg').animate([{opacity:.3, transform:'translateY(10px)'},{opacity:1, transform:'none'}],{duration:450, easing:'cubic-bezier(.2,.8,.2,1)'});
 }
-$('mThumbs').addEventListener('click', e=>{ const b=e.target.closest('button'); if(b) showPage(+b.dataset.n); });
-const closeModal = ()=>{ $('modal').hidden = true; lastFocus && lastFocus.focus(); };
-$('mClose').onclick = closeModal;
-$('modal').addEventListener('click', e=>{ if(e.target.id==='modal') closeModal(); });
-$('mAdd').onclick = ()=>toggleCart(current.id);
-addEventListener('keydown', e=>{ if(e.key==='Escape'){ if(!$('modal').hidden) closeModal(); else { openCart(false); setMenu(false); } } });
+$('pdpThumbs').addEventListener('click', e=>{ const b = e.target.closest('[data-n]'); if(b) showPage(+b.dataset.n); });
+const stepFile = d => { const i = products.findIndex(p=>p.id===currentId); showFile(products[(i+d+products.length)%products.length].id, false); };
+$('pdpPrev').onclick = ()=>stepFile(-1);
+$('pdpNext').onclick = ()=>stepFile(1);
+$('pdpAdd').onclick = ()=>toggleCart(currentId);
+
+/* ================= The set ================= */
+$('setStage').innerHTML = SET.map(id=>`<button class="figure" type="button" data-id="${id}" style="--src:url('${img(id)}')" aria-label="${byId[id].name}"><img src="${img(id)}" alt="" loading="lazy" width="1100" height="1556"></button>`).join('');
+$('lookList').innerHTML = SET.map(id=>`<li data-id="${id}"><img src="${img(id)}" alt=""><span><b>${byId[id].name}</b><small class="num">${ar(byId[id].designs)} تصميم</small></span><span class="num">${ar(byId[id].price)} ر.س</span></li>`).join('');
+const setTotal = SET.reduce((a,id)=>a+byId[id].price,0);
+$('lookSum').textContent = `${ar(setTotal)} ريال`;
+const hl = (id,on) => document.querySelectorAll(`.figure[data-id="${id}"], #lookList li[data-id="${id}"]`).forEach(e=>e.classList.toggle('is-hl', on));
+document.querySelectorAll('.figure, #lookList li').forEach(e=>{ e.addEventListener('pointerenter', ()=>hl(e.dataset.id,true)); e.addEventListener('pointerleave', ()=>hl(e.dataset.id,false)); });
+$('setStage').addEventListener('click', e=>{ const f = e.target.closest('[data-id]'); if(f) showFile(f.dataset.id, true); });
+$('addSet').onclick = ()=>{
+  if(cart.includes('bundle')) return toast('الطقم داخل في الباقة اللي في سلتك');
+  let added = 0; SET.forEach(id=>{ if(!cart.includes(id)){ cart.push(id); added++; } });
+  save(); renderCart(); syncButtons();
+  toast(added ? `أضفنا ${ar(added)} ملفات من الطقم للسلة` : 'الطقم كله في سلتك');
+};
+
+/* ================= Bundle ================= */
+$('bundlePrice').textContent = `${ar(BUNDLE.price)} ريال`;
+$('bundleOld').textContent = `${ar(products.reduce((a,p)=>a+p.price,0))} ريال`;
+$('stack').innerHTML = ['heritage','coffee-memes','vintage-classic','saudi','cozy-home','vintage-roses','journal'].map((id,i)=>`<img src="${img(id)}" alt="" style="--i:${i}" loading="lazy">`).join('');
+$('addBundle').onclick = ()=>toggleCart('bundle');
 
 /* ================= Cart ================= */
 let cart = [];
@@ -631,21 +689,18 @@ function toggleCart(id){
 }
 function syncButtons(){
   const inc = id => cart.includes(id) || cart.includes('bundle');
-  document.querySelectorAll('[data-add]').forEach(b=>{ const on = inc(b.dataset.add); b.classList.toggle('is-in', on); b.textContent = on ? 'في السلة' : 'أضف للسلة'; });
-  if(current){ const on = inc(current.id); $('mAdd').classList.toggle('is-in', on); $('mAdd').textContent = on ? 'في السلة' : 'أضف للسلة'; }
-  const b = cart.includes('bundle'); $('addBundle').classList.toggle('is-in', b); $('addBundle').textContent = b ? 'الباقة في السلة' : 'أضف الباقة للسلة';
+  const on = inc(currentId); $('pdpAdd').classList.toggle('is-in', on); $('pdpAdd').textContent = on ? 'في السلة ✓' : `أضف للسلة · ${ar(byId[currentId].price)} ريال`;
+  const b = cart.includes('bundle'); $('addBundle').textContent = b ? 'الباقة في السلة ✓' : 'أضف الباقة للسلة';
 }
 function renderCart(){
   const total = cart.reduce((a,id)=>a+info(id).price,0);
-  $('badge').textContent = ar(cart.length); $('badge').classList.toggle('show', cart.length>0);
+  $('badge').textContent = ar(cart.length);
   $('sum').textContent = `${ar(total)} ريال`;
   $('checkoutForm').hidden = !cart.length;
-  $('items').innerHTML = cart.length ? cart.map(id=>{ const p = info(id); return `<div class="item"><img src="${img(id==='bundle'?'vintage-classic':id)}" alt="">
-      <div class="info"><b>${p.name}</b><small class="num">${ar(p.price)} ريال · PDF</small></div>
-      <button class="icon-btn" type="button" data-rm="${id}" aria-label="إزالة ${p.name}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>`; }).join('')
-    : `<p class="empty">سلتك فاضية. اختر ملف من المتجر.</p>`;
+  $('items').innerHTML = cart.length ? cart.map(id=>{ const p = info(id); return `<div class="item"><img src="${img(id==='bundle'?'vintage-classic':id)}" alt=""><div><b>${p.name}</b><small class="num">${ar(p.price)} ريال · PDF</small></div><button class="x-btn" type="button" data-rm="${id}" aria-label="إزالة ${p.name}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>`; }).join('')
+    : `<p class="empty">سلتك فاضية. اختر ملف من المجموعة.</p>`;
 }
-$('items').addEventListener('click', e=>{ const b=e.target.closest('[data-rm]'); if(b) toggleCart(b.dataset.rm); });
+$('items').addEventListener('click', e=>{ const b = e.target.closest('[data-rm]'); if(b) toggleCart(b.dataset.rm); });
 const openCart = o => { $('drawer').classList.toggle('open',o); $('overlay').classList.toggle('open',o); if(o) $('closeCart').focus(); };
 $('cartBtn').onclick = ()=>openCart(true);
 $('closeCart').onclick = $('overlay').onclick = ()=>openCart(false);
@@ -657,21 +712,29 @@ $('checkoutForm').addEventListener('submit', e=>{
   $('emailError').textContent = '';
   const count = cart.includes('bundle') ? products.length : cart.length;
   cart = []; save(); renderCart(); syncButtons();
-  $('items').innerHTML = `<div class="done-box"><h3>استلمنا طلبك</h3><p>${ar(count)} ملف PDF. بنرسل روابط التحميل إلى <b dir="ltr">${email.replace(/[<>&"]/g,'')}</b> بعد تأكيد الدفع.</p></div>`;
+  $('items').innerHTML = `<div class="done"><h3>استلمنا طلبك</h3><p>${ar(count)} ملف PDF. بنرسل روابط التحميل إلى <b dir="ltr">${email.replace(/[<>&"]/g,'')}</b> بعد تأكيد الدفع.</p></div>`;
 });
-renderGrid(); renderCart();
 
-/* ================= Nav menu, newsletter, toast ================= */
+/* ================= Nav, menu, cursor, reveals ================= */
+const nav = $('nav'); const onScroll = () => nav.classList.toggle('is-solid', scrollY > 40); addEventListener('scroll', onScroll, {passive:true}); onScroll();
 function setMenu(o){ $('menu').hidden = !o; $('menuBtn').setAttribute('aria-expanded', String(o)); }
 $('menuBtn').onclick = ()=>setMenu($('menu').hidden);
 $('menu').addEventListener('click', e=>{ if(e.target.closest('a')) setMenu(false); });
-$('newsForm').addEventListener('submit', e=>{
-  e.preventDefault();
-  const v = $('newsEmail').value.trim();
-  $('newsNote').textContent = validEmail(v) ? 'سجّلنا بريدك. أول ما ينزل ملف جديد نبلغك.' : 'اكتب بريد صحيح، مثل name@example.com';
-  if(validEmail(v)) e.target.reset();
-});
-let tt; function toast(m){ const t=$('toast'); t.textContent=m; t.classList.add('show'); clearTimeout(tt); tt=setTimeout(()=>t.classList.remove('show'),2600); }
+addEventListener('keydown', e=>{ if(e.key==='Escape'){ openCart(false); setMenu(false); } });
+$('newsForm').addEventListener('submit', e=>{ e.preventDefault(); const v = $('newsEmail').value.trim(); $('newsNote').textContent = validEmail(v) ? 'سجّلنا بريدك. أول ما ينزل ملف جديد نبلغك.' : 'اكتب بريد صحيح، مثل name@example.com'; if(validEmail(v)) e.target.reset(); });
+let tt; function toast(m){ const t = $('toast'); t.textContent = m; t.classList.add('show'); clearTimeout(tt); tt = setTimeout(()=>t.classList.remove('show'), 2600); }
+
+const cursor = $('cursor');
+if(matchMedia('(pointer:fine)').matches && !reduce){
+  let cx = -100, cy = -100, tx = -100, ty = -100;
+  addEventListener('pointermove', e=>{ tx = e.clientX; ty = e.clientY; cursor.classList.add('is-on'); cursor.classList.toggle('is-big', !!e.target.closest('a,button,.hang,.figure,.cat') || document.body.classList.contains('over-planet')); });
+  document.addEventListener('pointerleave', ()=>cursor.classList.remove('is-on'));
+  (function follow(){ cx += (tx-cx)*.22; cy += (ty-cy)*.22; cursor.style.transform = `translate(${cx}px,${cy}px)`; requestAnimationFrame(follow); })();
+}
+const io = new IntersectionObserver(es=>es.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } }), {threshold:.2});
+document.querySelectorAll('.rise').forEach(e=>io.observe(e));
+
+renderTabs(); renderRail(); showFile(currentId, false); renderCart();
 </script>
 </body>
 </html>
