@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لزّقها | متجر الستيكرز</title>
+<meta name="description" content="لزّقها — متجر ستيكرز ثلاثي الأبعاد بتصاميم عربية مميزة">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Lalezar&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fff8ef; --bg2:#ffffff; --ink:#1d1630; --muted:#6b6280;
+    --pink:#ff4f8b; --yellow:#ffc93c; --mint:#2ed3a3; --blue:#4f7cff; --purple:#8a5cff;
+    --card:#ffffff; --line:#eadfce; --shadow:0 18px 40px -18px rgba(40,20,80,.35);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#14111f; --bg2:#1c1830; --ink:#f6f1ff; --muted:#a79fc0; --card:#221d38; --line:#332c52;
+      --shadow:0 18px 40px -18px rgba(0,0,0,.7);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#14111f; --bg2:#1c1830; --ink:#f6f1ff; --muted:#a79fc0; --card:#221d38; --line:#332c52;
+    --shadow:0 18px 40px -18px rgba(0,0,0,.7);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;overflow-x:clip}
+  body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;transition:background .3s,color .3s}
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit;cursor:pointer;border:none}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 16px}
+
+  /* Header */
+  header{position:fixed;inset:0 0 auto 0;z-index:50;backdrop-filter:blur(14px);background:color-mix(in srgb,var(--bg) 75%,transparent);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:68px;gap:12px}
+  .logo{font-family:'Lalezar',cursive;font-size:30px;display:flex;align-items:center;gap:8px}
+  .logo span{background:linear-gradient(90deg,var(--pink),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .logo i{font-style:normal;display:inline-block;transform:rotate(-12deg);font-size:26px}
+  .links{display:flex;gap:26px;font-weight:600}
+  .links a{opacity:.8;transition:.2s}.links a:hover{opacity:1;color:var(--pink)}
+  .actions{display:flex;gap:10px}
+  .icon-btn{width:44px;height:44px;border-radius:14px;background:var(--card);color:var(--ink);border:1px solid var(--line);font-size:19px;position:relative;display:grid;place-items:center;transition:.2s}
+  .icon-btn:hover{transform:translateY(-2px)}
+  .badge{position:absolute;top:-6px;left:-6px;background:var(--pink);color:#fff;font-size:12px;min-width:22px;height:22px;border-radius:11px;display:grid;place-items:center;font-weight:700;transform:scale(0);transition:transform .3s cubic-bezier(.3,1.8,.5,1)}
+  .badge.show{transform:scale(1)}
+  @media (max-width:760px){.links{display:none}}
+
+  /* Hero */
+  .hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;padding-top:68px}
+  #scene{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+  .hero-content{position:relative;z-index:2;max-width:560px;pointer-events:none}
+  .hero-content *{pointer-events:auto}
+  .pill{display:inline-flex;gap:8px;align-items:center;background:var(--card);border:1px solid var(--line);padding:6px 14px;border-radius:99px;font-weight:600;font-size:14px;box-shadow:var(--shadow)}
+  .hero h1{font-family:'Lalezar',cursive;font-weight:400;font-size:clamp(46px,8vw,92px);line-height:1.1;margin:18px 0 14px}
+  .hero h1 em{font-style:normal;color:var(--pink);position:relative;display:inline-block}
+  .hero h1 em::after{content:"";position:absolute;inset:auto 0 6px 0;height:14px;background:var(--yellow);z-index:-1;border-radius:6px;transform:rotate(-2deg)}
+  .hero p{font-size:19px;color:var(--muted);line-height:1.8;max-width:470px}
+  .cta{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}
+  .btn{padding:15px 28px;border-radius:16px;font-weight:700;font-size:17px;transition:.25s;display:inline-flex;align-items:center;gap:8px}
+  .btn-main{background:var(--ink);color:var(--bg);box-shadow:0 6px 0 var(--pink)}
+  .btn-main:hover{transform:translateY(-3px);box-shadow:0 9px 0 var(--pink)}
+  .btn-ghost{background:var(--card);color:var(--ink);border:2px solid var(--ink)}
+  .btn-ghost:hover{background:var(--yellow);color:#1d1630}
+  .stats{display:flex;gap:28px;margin-top:38px}
+  .stats b{font-size:28px;font-weight:900;display:block}
+  .stats small{color:var(--muted)}
+  .hint{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);z-index:2;color:var(--muted);font-size:14px;display:flex;flex-direction:column;align-items:center;gap:6px}
+  .hint .mouse{width:24px;height:38px;border:2px solid var(--muted);border-radius:12px;position:relative}
+  .hint .mouse::after{content:"";position:absolute;top:7px;left:50%;width:4px;height:8px;margin-left:-2px;background:var(--muted);border-radius:2px;animation:wheel 1.6s infinite}
+  @keyframes wheel{to{transform:translateY(12px);opacity:0}}
+  @media (max-width:760px){
+    .hero{align-items:flex-end;padding-bottom:90px}
+    .hero-content{background:color-mix(in srgb,var(--bg) 70%,transparent);backdrop-filter:blur(6px);padding:20px;border-radius:24px}
+    .hero p{font-size:16px}
+    .stats{gap:18px}
+    .hint{display:none}
+  }
+
+  /* Marquee */
+  .marquee{background:var(--ink);color:var(--bg);padding:16px 0;overflow:hidden;transform:rotate(-2deg);margin:-20px -20px 0;position:relative;z-index:3}
+  .marquee-track{display:flex;gap:40px;white-space:nowrap;animation:scroll 28s linear infinite;font-family:'Lalezar';font-size:28px;width:max-content}
+  @keyframes scroll{to{transform:translateX(50%)}}
+
+  /* Sections */
+  section{padding:100px 0}
+  .sec-head{text-align:center;margin-bottom:50px}
+  .sec-head h2{font-family:'Lalezar';font-weight:400;font-size:clamp(36px,5vw,56px)}
+  .sec-head p{color:var(--muted);font-size:18px;margin-top:6px}
+
+  .filters{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:40px}
+  .chip{padding:10px 20px;border-radius:99px;background:var(--card);border:2px solid var(--line);color:var(--ink);font-weight:700;transition:.2s}
+  .chip.active,.chip:hover{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+  /* Products */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:26px}
+  .card{perspective:900px}
+  .card-inner{background:var(--card);border:1px solid var(--line);border-radius:26px;padding:18px;transform-style:preserve-3d;transition:transform .15s ease-out,box-shadow .3s;box-shadow:var(--shadow);position:relative}
+  .card:hover .card-inner{box-shadow:0 30px 60px -20px rgba(80,30,160,.45)}
+  .card .stage{height:200px;border-radius:20px;display:grid;place-items:center;transform:translateZ(30px);transform-style:preserve-3d;position:relative;overflow:hidden}
+  .card .stage::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.55),transparent 60%)}
+  .sticker{width:140px;height:140px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:72px;transform:translateZ(50px) rotate(-8deg);box-shadow:0 0 0 8px #fff,0 14px 24px rgba(0,0,0,.25);transition:transform .4s cubic-bezier(.3,1.6,.5,1);position:relative}
+  .sticker.sq{border-radius:28px}
+  .sticker.txt{font-family:'Lalezar';font-size:38px;line-height:1.1;text-align:center;padding:10px}
+  .card:hover .sticker{transform:translateZ(70px) rotate(6deg) scale(1.06)}
+  .sticker::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.7) 45%,transparent 60%);background-size:250% 250%;background-position:100% 0;transition:background-position .7s;pointer-events:none}
+  .card:hover .sticker::after{background-position:0 100%}
+  .tag{position:absolute;top:14px;right:14px;background:var(--yellow);color:#1d1630;font-weight:700;font-size:12px;padding:4px 10px;border-radius:99px;transform:translateZ(60px);z-index:2}
+  .card h3{font-size:19px;margin:16px 4px 2px;transform:translateZ(20px)}
+  .card .cat{color:var(--muted);font-size:14px;margin:0 4px}
+  .card .row{display:flex;justify-content:space-between;align-items:center;margin-top:14px;transform:translateZ(25px)}
+  .price{font-size:22px;font-weight:900}
+  .price small{font-size:13px;color:var(--muted);font-weight:600}
+  .add{background:var(--pink);color:#fff;padding:10px 16px;border-radius:14px;font-weight:700;transition:.2s}
+  .add:hover{transform:scale(1.07)}
+  .add.done{background:var(--mint)}
+
+  /* Custom builder */
+  .builder{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;background:var(--bg2);border:1px solid var(--line);border-radius:36px;padding:40px;box-shadow:var(--shadow)}
+  @media (max-width:860px){.builder{grid-template-columns:1fr;padding:24px}}
+  .preview-wrap{perspective:1000px;display:grid;place-items:center;min-height:340px;border-radius:26px;background:repeating-conic-gradient(var(--line) 0 25%,transparent 0 50%) 0 0/28px 28px}
+  #customSticker{width:240px;height:240px;display:grid;place-items:center;background:var(--pink);color:#fff;border-radius:50%;box-shadow:0 0 0 12px #fff,0 30px 50px rgba(0,0,0,.3);font-family:'Lalezar';font-size:44px;text-align:center;padding:20px;line-height:1.15;animation:float3d 6s ease-in-out infinite;transition:background .3s,border-radius .3s;word-break:break-word}
+  @keyframes float3d{0%,100%{transform:rotateY(-18deg) rotateX(10deg) translateY(0)}50%{transform:rotateY(18deg) rotateX(-6deg) translateY(-14px)}}
+  .form label{display:block;font-weight:700;margin:18px 0 8px}
+  .form input[type=text]{width:100%;padding:14px 16px;border-radius:14px;border:2px solid var(--line);background:var(--card);color:var(--ink);font-family:inherit;font-size:17px}
+  .form input[type=text]:focus{outline:none;border-color:var(--purple)}
+  .swatches,.shapes{display:flex;gap:10px;flex-wrap:wrap}
+  .sw{width:40px;height:40px;border-radius:50%;border:3px solid var(--card);box-shadow:0 0 0 2px var(--line);transition:.2s}
+  .sw.active{box-shadow:0 0 0 3px var(--ink);transform:scale(1.1)}
+  .shape-btn{padding:9px 16px;border-radius:12px;background:var(--card);border:2px solid var(--line);color:var(--ink);font-weight:700}
+  .shape-btn.active{border-color:var(--ink);background:var(--ink);color:var(--bg)}
+  .total-line{display:flex;justify-content:space-between;align-items:center;margin-top:26px;gap:12px;flex-wrap:wrap}
+
+  /* Features */
+  .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px}
+  .feat{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:28px;transition:.3s}
+  .feat:hover{transform:translateY(-6px) rotate(-1deg)}
+  .feat .ic{width:60px;height:60px;border-radius:18px;display:grid;place-items:center;font-size:30px;margin-bottom:14px}
+  .feat h4{font-size:20px;margin-bottom:6px}
+  .feat p{color:var(--muted);line-height:1.7}
+
+  /* Footer */
+  footer{background:var(--ink);color:var(--bg);padding:60px 0 30px;margin-top:40px;border-radius:40px 40px 0 0}
+  .foot{display:grid;grid-template-columns:2fr 1fr 1fr;gap:30px}
+  @media (max-width:760px){.foot{grid-template-columns:1fr}}
+  .foot h5{font-size:18px;margin-bottom:12px}
+  .foot a{display:block;opacity:.7;margin:6px 0}.foot a:hover{opacity:1}
+  .news{display:flex;gap:8px;margin-top:14px}
+  .news input{flex:1;min-width:0;padding:12px 14px;border-radius:12px;border:none;font-family:inherit}
+  .news button{background:var(--yellow);color:#1d1630;font-weight:700;padding:0 18px;border-radius:12px}
+  .copy{text-align:center;opacity:.5;margin-top:40px;font-size:14px}
+
+  /* Cart drawer */
+  .overlay{position:fixed;inset:0;background:rgba(10,5,25,.5);z-index:80;opacity:0;pointer-events:none;transition:.3s}
+  .overlay.open{opacity:1;pointer-events:auto}
+  .drawer{position:fixed;top:0;bottom:0;left:0;width:min(400px,100%);background:var(--bg);z-index:90;transform:translateX(-105%);transition:transform .4s cubic-bezier(.6,0,.2,1);display:flex;flex-direction:column;visibility:hidden;transition:transform .4s cubic-bezier(.6,0,.2,1),visibility 0s .4s}
+  .drawer.open{transform:none;visibility:visible;box-shadow:20px 0 60px rgba(0,0,0,.3);transition:transform .4s cubic-bezier(.6,0,.2,1)}
+  .drawer-head{display:flex;justify-content:space-between;align-items:center;padding:20px;border-bottom:1px solid var(--line)}
+  .drawer-head h3{font-family:'Lalezar';font-weight:400;font-size:28px}
+  .items{flex:1;overflow:auto;padding:16px 20px}
+  .item{display:flex;gap:12px;align-items:center;padding:12px;background:var(--card);border:1px solid var(--line);border-radius:18px;margin-bottom:10px;animation:pop .35s cubic-bezier(.3,1.6,.5,1)}
+  @keyframes pop{from{transform:scale(.8);opacity:0}}
+  .item .mini{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;font-size:28px;flex-shrink:0;box-shadow:0 0 0 3px #fff}
+  .item .info{flex:1;min-width:0}
+  .item .info b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .item .info small{color:var(--muted)}
+  .qty{display:flex;align-items:center;gap:6px}
+  .qty button{width:28px;height:28px;border-radius:8px;background:var(--bg);color:var(--ink);border:1px solid var(--line);font-weight:700}
+  .empty{text-align:center;color:var(--muted);padding:60px 0}
+  .empty div{font-size:60px;margin-bottom:10px}
+  .drawer-foot{padding:20px;border-top:1px solid var(--line)}
+  .drawer-foot .sum{display:flex;justify-content:space-between;font-size:20px;font-weight:900;margin-bottom:14px}
+  .drawer-foot .btn{width:100%;justify-content:center}
+
+  .toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,120px);background:var(--ink);color:var(--bg);padding:14px 24px;border-radius:16px;font-weight:700;z-index:100;transition:transform .4s cubic-bezier(.3,1.6,.5,1);white-space:nowrap}
+  .toast.show{transform:translate(-50%,0)}
+
+  .flyer{position:fixed;z-index:120;font-size:40px;pointer-events:none;transition:all .8s cubic-bezier(.5,-0.3,.6,1)}
+
+  .reveal{opacity:0;transform:translateY(40px);transition:1s cubic-bezier(.2,.8,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a href="#" class="logo"><i>🦄</i><span>لزّقها</span></a>
+    <nav class="links">
+      <a href="#shop">المتجر</a>
+      <a href="#custom">صمّم ستيكرك</a>
+      <a href="#why">ليش إحنا؟</a>
+      <a href="#contact">تواصل معنا</a>
+    </nav>
+    <div class="actions">
+      <button class="icon-btn" id="themeBtn" aria-label="تبديل الوضع">🌙</button>
+      <button class="icon-btn" id="cartBtn" aria-label="السلة">🛒<span class="badge" id="badge">0</span></button>
+    </div>
+  </div>
+</header>
+
+<section class="hero" style="padding:0">
+  <canvas id="scene"></canvas>
+  <div class="wrap" style="width:100%">
+    <div class="hero-content">
+      <span class="pill">✨ تشكيلة الشتاء وصلت</span>
+      <h1>لزّق <em>شخصيتك</em><br>على كل شي!</h1>
+      <p>ستيكرز فينيل عالية الجودة، مقاومة للماء والشمس، بتصاميم عربية تعبّر عنك. حرّك الماوس والعب بالستيكرز 👆</p>
+      <div class="cta">
+        <a href="#shop" class="btn btn-main">تسوّق الآن ←</a>
+        <a href="#custom" class="btn btn-ghost">🎨 صمّم ستيكرك</a>
+      </div>
+      <div class="stats">
+        <div><b>+٥٠٠</b><small>تصميم</small></div>
+        <div><b>+١٢ ألف</b><small>عميل سعيد</small></div>
+        <div><b>٤.٩ ⭐</b><small>تقييم</small></div>
+      </div>
+    </div>
+  </div>
+  <div class="hint"><div class="mouse"></div>انزل لتحت</div>
+</section>
+
+<div class="marquee"><div class="marquee-track" id="marquee"></div></div>
+
+<section id="shop">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <h2>الأكثر مبيعاً 🔥</h2>
+      <p>حرّك الماوس فوق أي ستيكر وشوف السحر</p>
+    </div>
+    <div class="filters reveal" id="filters"></div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<section id="custom">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <h2>صمّم ستيكرك الخاص 🎨</h2>
+      <p>اكتب الكلمة اللي تحبها، اختار اللون والشكل، وإحنا نطبعه لك</p>
+    </div>
+    <div class="builder reveal">
+      <div class="preview-wrap"><div id="customSticker">يلا نلزّق</div></div>
+      <div class="form">
+        <label for="customText">النص</label>
+        <input type="text" id="customText" maxlength="24" value="يلا نلزّق">
+        <label>اللون</label>
+        <div class="swatches" id="swatches"></div>
+        <label>الشكل</label>
+        <div class="shapes" id="shapes">
+          <button class="shape-btn active" data-r="50%">دائري ⚪</button>
+          <button class="shape-btn" data-r="36px">مربع ⬜</button>
+          <button class="shape-btn" data-r="50% 50% 50% 8px">فقاعة 💬</button>
+          <button class="shape-btn" data-r="62% 38% 55% 45% / 45% 55% 45% 55%">حر ☁️</button>
+        </div>
+        <div class="total-line">
+          <div class="price">١٥ <small>ريال / قطعة</small></div>
+          <button class="btn btn-main" id="addCustom">أضف للسلة 🛒</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="why">
+  <div class="wrap">
+    <div class="sec-head reveal"><h2>ليش لزّقها؟ 💜</h2></div>
+    <div class="features">
+      <div class="feat reveal"><div class="ic" style="background:#ffe3ee">💧</div><h4>مقاوم للماء</h4><p>فينيل مطفي يتحمّل الماء والشمس، حطه على الدبة أو اللابتوب بدون خوف.</p></div>
+      <div class="feat reveal"><div class="ic" style="background:#fff3cc">🚚</div><h4>توصيل سريع</h4><p>شحن لكل مدن الخليج خلال ٢-٤ أيام، ومجاني للطلبات فوق ١٠٠ ريال.</p></div>
+      <div class="feat reveal"><div class="ic" style="background:#d6f8ec">🎨</div><h4>تصاميم أصلية</h4><p>كل تصاميمنا من رسامين عرب، بروح محلية وخط عربي جميل.</p></div>
+      <div class="feat reveal"><div class="ic" style="background:#e3e9ff">♻️</div><h4>سهل الإزالة</h4><p>يتشال بدون ما يترك أثر أو صمغ، وتقدر تغيّر ستايلك متى ما بغيت.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <div class="logo" style="color:var(--bg)"><i>🦄</i><span>لزّقها</span></div>
+        <p style="opacity:.7;margin-top:10px;line-height:1.8">اشترك في النشرة وخذ خصم ١٠٪ على أول طلب + ستيكر هدية 🎁</p>
+        <form class="news" id="newsForm"><input type="email" placeholder="بريدك الإلكتروني" required><button>اشترك</button></form>
+      </div>
+      <div><h5>المتجر</h5><a href="#shop">كل الستيكرز</a><a href="#custom">ستيكر مخصص</a><a href="#shop">عروض</a></div>
+      <div><h5>المساعدة</h5><a href="#">الشحن والتوصيل</a><a href="#">الاسترجاع</a><a href="#">الأسئلة الشائعة</a></div>
+    </div>
+    <div class="copy">© ٢٠٢٦ لزّقها — صُنع بحب 💜</div>
+  </div>
+</footer>
+
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" aria-label="سلة المشتريات">
+  <div class="drawer-head"><h3>سلتك 🛍️</h3><button class="icon-btn" id="closeCart" aria-label="إغلاق">✕</button></div>
+  <div class="items" id="items"></div>
+  <div class="drawer-foot">
+    <div class="sum"><span>المجموع</span><span id="sum">٠ ريال</span></div>
+    <button class="btn btn-main" id="checkout">إتمام الطلب ✓</button>
+  </div>
+</aside>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/* ================= Data ================= */
+const products = [
+  {id:1, name:"قطة نعسانة", cat:"حيوانات", emoji:"😺", bg:"#ffd6e5", price:8, tag:"جديد"},
+  {id:2, name:"قهوة أولاً", cat:"عبارات", text:"قهوة<br>أولاً ☕", bg:"#ffe9b8", color:"#6b3e1e", price:10, tag:"الأكثر مبيعاً"},
+  {id:3, name:"رائد فضاء", cat:"فضاء", emoji:"🧑‍🚀", bg:"#d7e0ff", price:9},
+  {id:4, name:"ديناصور لطيف", cat:"حيوانات", emoji:"🦖", bg:"#cff5e6", price:8, sq:true},
+  {id:5, name:"يلا بينا", cat:"عبارات", text:"يلا<br>بينا!", bg:"#e7dbff", color:"#8a5cff", price:10},
+  {id:6, name:"كوكب زحل", cat:"فضاء", emoji:"🪐", bg:"#ffe0cc", price:9, tag:"محدود"},
+  {id:7, name:"أفوكادو", cat:"أكل", emoji:"🥑", bg:"#e2f7c9", price:7, sq:true},
+  {id:8, name:"ما عليك", cat:"عبارات", text:"ما<br>عليك 😌", bg:"#ffd6d6", color:"#e23b5c", price:10},
+  {id:9, name:"دونات", cat:"أكل", emoji:"🍩", bg:"#ffe1f3", price:7},
+  {id:10,name:"صاروخ", cat:"فضاء", emoji:"🚀", bg:"#d4f1ff", price:9, sq:true},
+  {id:11,name:"باندا", cat:"حيوانات", emoji:"🐼", bg:"#eeeeee", price:8},
+  {id:12,name:"آيس كريم", cat:"أكل", emoji:"🍦", bg:"#fff0c7", price:7, tag:"جديد"},
+];
+const ar = n => n.toLocaleString('ar-EG');
+
+/* ================= Three.js hero ================= */
+(function(){
+  const canvas = document.getElementById('scene');
+  if(!window.THREE){ return; }
+  const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+  camera.position.set(0,0,14);
+
+  scene.add(new THREE.AmbientLight(0xffffff, .75));
+  const dir = new THREE.DirectionalLight(0xffffff, .7); dir.position.set(5,6,8); scene.add(dir);
+  const rim = new THREE.PointLight(0xff4f8b, .8, 40); rim.position.set(-8,-4,6); scene.add(rim);
+
+  function makeTexture({emoji, text, bg, color, shape}){
+    const s = 512, c = document.createElement('canvas'); c.width = c.height = s;
+    const g = c.getContext('2d');
+    g.save();
+    // white die-cut border + coloured face
+    const path = (inset) => {
+      g.beginPath();
+      if(shape==='sq'){ const r=90, a=inset, b=s-inset; g.moveTo(a+r,a); g.arcTo(b,a,b,b,r); g.arcTo(b,b,a,b,r); g.arcTo(a,b,a,a,r); g.arcTo(a,a,b,a,r); }
+      else if(shape==='star'){ const cx=s/2, cy=s/2, R=s/2-inset, r=R*.62; for(let i=0;i<20;i++){const ang=i*Math.PI/10-Math.PI/2, rr=i%2?r:R; g.lineTo(cx+Math.cos(ang)*rr, cy+Math.sin(ang)*rr);} }
+      else g.arc(s/2,s/2,s/2-inset,0,Math.PI*2);
+      g.closePath();
+    };
+    path(4); g.fillStyle='#ffffff'; g.fill();
+    path(34); g.fillStyle=bg; g.fill();
+    // gloss
+    path(34); g.clip();
+    const grd = g.createLinearGradient(0,0,s,s); grd.addColorStop(0,'rgba(255,255,255,.45)'); grd.addColorStop(.5,'rgba(255,255,255,0)');
+    g.fillStyle = grd; g.fillRect(0,0,s,s);
+    g.restore();
+    g.textAlign='center'; g.textBaseline='middle';
+    if(emoji){ g.font = '250px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif'; g.fillText(emoji, s/2, s/2+16); }
+    if(text){
+      g.fillStyle = color||'#1d1630'; g.font='120px Lalezar, Cairo, sans-serif'; g.direction='rtl';
+      const lines = text.split('\n'); lines.forEach((l,i)=> g.fillText(l, s/2, s/2 + (i-(lines.length-1)/2)*125 + 10));
+    }
+    const tex = new THREE.CanvasTexture(c); tex.anisotropy = 4; return {tex, alpha:c};
+  }
+
+  const defs = [
+    {emoji:'😺', bg:'#ffd6e5'}, {emoji:'🚀', bg:'#d4f1ff', shape:'sq'}, {text:'لزّقها', bg:'#ff4f8b', color:'#fff'},
+    {emoji:'🍩', bg:'#ffe1f3'}, {emoji:'🦖', bg:'#cff5e6', shape:'sq'}, {emoji:'⭐', bg:'#fff0a8', shape:'star'},
+    {text:'يلا\nبينا', bg:'#8a5cff', color:'#fff'}, {emoji:'🪐', bg:'#ffe0cc'}, {emoji:'🥑', bg:'#e2f7c9', shape:'sq'},
+    {emoji:'🌈', bg:'#e3e9ff'}, {text:'قهوة', bg:'#ffc93c', color:'#6b3e1e'}, {emoji:'🐼', bg:'#ffffff', shape:'star'},
+    {emoji:'🍦', bg:'#fff0c7'}, {emoji:'💜', bg:'#2ed3a3', shape:'sq'},
+  ];
+
+  const stickers = [];
+  const isMobile = innerWidth < 760;
+  const build = () => {
+    defs.forEach((d,i)=>{
+      const {tex} = makeTexture(d);
+      const geo = new THREE.PlaneGeometry(2.4,2.4, 24, 24);
+      const mat = new THREE.MeshStandardMaterial({map:tex, transparent:true, side:THREE.DoubleSide, roughness:.35, metalness:.05, alphaTest:.05});
+      const m = new THREE.Mesh(geo, mat);
+      // shadow plane
+      const sh = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({map:tex, color:0x000000, transparent:true, opacity:.18, depthWrite:false}));
+      sh.position.set(.12,-.15,-.1); m.add(sh);
+      // bend the sticker slightly (curl)
+      const pos = geo.attributes.position;
+      for(let k=0;k<pos.count;k++){ const x=pos.getX(k), y=pos.getY(k); pos.setZ(k, -0.06*(x*x) + 0.03*y); }
+      pos.needsUpdate = true; geo.computeVertexNormals();
+
+      const ang = (i/defs.length)*Math.PI*2;
+      const radius = isMobile ? 3.2 + (i%3)*0.9 : 4 + (i%3)*1.4;
+      m.userData = {
+        base:new THREE.Vector3(Math.cos(ang)*radius*(isMobile?.8:.85) + (isMobile?0:-5.2), Math.sin(ang)*radius*(isMobile?.75:.9) + (isMobile?2.2:0), -2 - (i%4)*1.2),
+        speed:.4+Math.random()*.6, phase:Math.random()*10, spin:(Math.random()-.5)*.6, scale:.75+Math.random()*.5, hover:0
+      };
+      m.scale.setScalar(m.userData.scale);
+      m.rotation.z = (Math.random()-.5)*.6;
+      scene.add(m); stickers.push(m);
+    });
+  };
+  // wait for fonts so Arabic text renders on textures
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(build);
+
+  // pointer
+  const mouse = new THREE.Vector2(), target = new THREE.Vector2();
+  const ray = new THREE.Raycaster();
+  let hovered = null, dragging = null, dragOffset = new THREE.Vector3(), dragPlane = new THREE.Plane();
+  const toNDC = e => { const r = canvas.getBoundingClientRect(); mouse.x = ((e.clientX-r.left)/r.width)*2-1; mouse.y = -((e.clientY-r.top)/r.height)*2+1; };
+  addEventListener('pointermove', e => {
+    toNDC(e); target.set(mouse.x, mouse.y);
+    if(dragging){
+      ray.setFromCamera(mouse, camera); const p = new THREE.Vector3();
+      if(ray.ray.intersectPlane(dragPlane,p)) dragging.userData.base.copy(p.add(dragOffset));
+    }
+  });
+  canvas.addEventListener('pointerdown', e => {
+    toNDC(e); ray.setFromCamera(mouse, camera);
+    const hit = ray.intersectObjects(stickers, false)[0];
+    if(hit){
+      dragging = hit.object; dragging.userData.spinBoost = 6;
+      dragPlane.setFromNormalAndCoplanarPoint(new THREE.Vector3(0,0,1), dragging.position);
+      dragOffset.copy(dragging.userData.base).sub(hit.point);
+      canvas.setPointerCapture(e.pointerId);
+    }
+  });
+  addEventListener('pointerup', () => dragging = null);
+
+  function resize(){
+    const w = canvas.clientWidth, h = canvas.clientHeight;
+    renderer.setSize(w,h,false); camera.aspect = w/h; camera.updateProjectionMatrix();
+  }
+  addEventListener('resize', resize); resize();
+
+  let scrollY = 0; addEventListener('scroll', ()=> scrollY = window.scrollY, {passive:true});
+  const clock = new THREE.Clock();
+  let visible = true;
+  new IntersectionObserver(([en]) => visible = en.isIntersecting).observe(canvas);
+
+  (function loop(){
+    requestAnimationFrame(loop);
+    if(!visible) return;
+    const t = clock.getElapsedTime();
+    camera.position.x += (target.x*1.4 - camera.position.x)*.05;
+    camera.position.y += (target.y*1 - scrollY*.004 - camera.position.y)*.05;
+    camera.lookAt(0, -scrollY*.004, 0);
+
+    ray.setFromCamera(mouse, camera);
+    const hit = ray.intersectObjects(stickers,false)[0];
+    hovered = hit ? hit.object : null;
+    canvas.style.cursor = dragging ? 'grabbing' : hovered ? 'grab' : 'default';
+
+    stickers.forEach(m=>{
+      const u = m.userData;
+      u.hover += ((m===hovered||m===dragging?1:0) - u.hover)*.12;
+      u.spinBoost = (u.spinBoost||0)*.95;
+      m.position.x += (u.base.x + Math.sin(t*u.speed+u.phase)*.3 - m.position.x)*.08;
+      m.position.y += (u.base.y + Math.cos(t*u.speed*.8+u.phase)*.4 - m.position.y)*.08;
+      m.position.z += (u.base.z + u.hover*1.5 - m.position.z)*.08;
+      m.rotation.y = Math.sin(t*u.speed*.7+u.phase)*.5 + u.hover*.4 + (u.spinBoost)*Math.sin(t*8);
+      m.rotation.x = Math.cos(t*u.speed*.6+u.phase)*.3 - target.y*.2;
+      m.rotation.z += u.spin*.003;
+      const s = u.scale*(1+u.hover*.18); m.scale.setScalar(s);
+    });
+    renderer.render(scene,camera);
+  })();
+})();
+
+/* ================= Marquee ================= */
+const mq = ["🌟 شحن مجاني فوق ١٠٠ ريال","✂️ قص دقيق","💧 مقاوم للماء","🎁 ستيكر هدية مع كل طلب","🇸🇦 تصاميم عربية","🔥 خصم ٢٠٪ على الباقات"];
+document.getElementById('marquee').innerHTML = [...mq,...mq,...mq,...mq].map(x=>`<span>${x}</span>`).join('');
+
+/* ================= Products ================= */
+const grid = document.getElementById('grid');
+const cats = ["الكل", ...new Set(products.map(p=>p.cat))];
+const filters = document.getElementById('filters');
+let currentCat = "الكل";
+filters.innerHTML = cats.map(c=>`<button class="chip ${c==='الكل'?'active':''}" data-c="${c}">${c}</button>`).join('');
+filters.addEventListener('click', e=>{
+  const b = e.target.closest('.chip'); if(!b) return;
+  filters.querySelectorAll('.chip').forEach(x=>x.classList.toggle('active', x===b));
+  currentCat = b.dataset.c; renderGrid();
+});
+
+function stickerHTML(p){
+  if(p.text) return `<div class="sticker txt ${p.sq?'sq':''}" style="color:${p.color}">${p.text}</div>`;
+  return `<div class="sticker ${p.sq?'sq':''}">${p.emoji}</div>`;
+}
+function renderGrid(){
+  const list = products.filter(p=>currentCat==="الكل"||p.cat===currentCat);
+  grid.innerHTML = list.map(p=>`
+    <div class="card reveal in" data-id="${p.id}">
+      <div class="card-inner">
+        ${p.tag?`<span class="tag">${p.tag}</span>`:''}
+        <div class="stage" style="background:${p.bg}">${stickerHTML(p)}</div>
+        <h3>${p.name}</h3>
+        <div class="cat">${p.cat}</div>
+        <div class="row">
+          <div class="price">${ar(p.price)} <small>ريال</small></div>
+          <button class="add" data-id="${p.id}">+ أضف</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+renderGrid();
+
+// 3D tilt
+grid.addEventListener('pointermove', e=>{
+  const card = e.target.closest('.card'); if(!card) return;
+  const inner = card.querySelector('.card-inner'), r = card.getBoundingClientRect();
+  const x = (e.clientX - r.left)/r.width - .5, y = (e.clientY - r.top)/r.height - .5;
+  inner.style.transform = `rotateY(${x*22}deg) rotateX(${-y*22}deg)`;
+});
+grid.addEventListener('pointerout', e=>{
+  const card = e.target.closest('.card');
+  if(card && !card.contains(e.relatedTarget)) card.querySelector('.card-inner').style.transform='';
+});
+
+/* ================= Cart ================= */
+let cart = [];
+try{ cart = JSON.parse(localStorage.getItem('lazziqha-cart')) || []; }catch(e){}
+const save = ()=>{ try{ localStorage.setItem('lazziqha-cart', JSON.stringify(cart)); }catch(e){} };
+const $ = id => document.getElementById(id);
+
+function addToCart(item, fromEl){
+  const ex = cart.find(c=>c.key===item.key);
+  ex ? ex.qty++ : cart.push({...item, qty:1});
+  save(); renderCart();
+  toast(`تمت إضافة "${item.name}" للسلة 🎉`);
+  if(fromEl) fly(fromEl, item.emoji || '✨');
+}
+function fly(el, emoji){
+  const r = el.getBoundingClientRect(), t = $('cartBtn').getBoundingClientRect();
+  const f = document.createElement('div'); f.className='flyer'; f.textContent = emoji;
+  f.style.left = r.left+r.width/2-20+'px'; f.style.top = r.top+'px';
+  document.body.appendChild(f);
+  requestAnimationFrame(()=>{ f.style.left = t.left+'px'; f.style.top = t.top+'px'; f.style.transform='scale(.3) rotate(540deg)'; f.style.opacity='.4'; });
+  setTimeout(()=>f.remove(), 850);
+}
+function renderCart(){
+  const n = cart.reduce((a,c)=>a+c.qty,0), total = cart.reduce((a,c)=>a+c.qty*c.price,0);
+  $('badge').textContent = ar(n); $('badge').classList.toggle('show', n>0);
+  $('sum').textContent = `${ar(total)} ريال`;
+  $('items').innerHTML = cart.length ? cart.map((c,i)=>`
+    <div class="item">
+      <div class="mini" style="background:${c.bg};${c.custom?`border-radius:${c.radius};color:#fff;font-family:Lalezar;font-size:13px;text-align:center;line-height:1.1;padding:4px`:''}">${c.custom? c.name.slice(0,8) : (c.emoji||'🔤')}</div>
+      <div class="info"><b>${c.name}</b><small>${ar(c.price)} ريال</small></div>
+      <div class="qty"><button data-i="${i}" data-d="1">+</button><span>${ar(c.qty)}</span><button data-i="${i}" data-d="-1">−</button></div>
+    </div>`).join('') : `<div class="empty"><div>🫙</div>السلة فاضية… يلا نلزّق شي!</div>`;
+}
+$('items').addEventListener('click', e=>{
+  const b = e.target.closest('button[data-i]'); if(!b) return;
+  const c = cart[b.dataset.i]; c.qty += +b.dataset.d;
+  if(c.qty<=0) cart.splice(b.dataset.i,1);
+  save(); renderCart();
+});
+grid.addEventListener('click', e=>{
+  const b = e.target.closest('.add'); if(!b) return;
+  const p = products.find(x=>x.id==b.dataset.id);
+  addToCart({key:'p'+p.id, name:p.name, price:p.price, bg:p.bg, emoji:p.emoji||'🔤'}, b);
+  b.classList.add('done'); b.textContent='✓ تم';
+  setTimeout(()=>{ b.classList.remove('done'); b.textContent='+ أضف'; }, 1200);
+});
+const openCart = o => { $('drawer').classList.toggle('open',o); $('overlay').classList.toggle('open',o); };
+$('cartBtn').onclick = ()=>openCart(true);
+$('closeCart').onclick = $('overlay').onclick = ()=>openCart(false);
+$('checkout').onclick = ()=>{
+  if(!cart.length) return toast('السلة فاضية 🙃');
+  cart = []; save(); renderCart(); openCart(false);
+  toast('تم استلام طلبك! شكراً لك 💜');
+};
+renderCart();
+
+/* ================= Custom builder ================= */
+const colors = ['#ff4f8b','#8a5cff','#4f7cff','#2ed3a3','#ffc93c','#ff7a3c','#1d1630'];
+let custom = {text:'يلا نلزّق', color:colors[0], radius:'50%'};
+const cs = $('customSticker');
+$('swatches').innerHTML = colors.map((c,i)=>`<button class="sw ${i?'':'active'}" style="background:${c}" data-c="${c}" aria-label="لون"></button>`).join('');
+$('swatches').addEventListener('click', e=>{
+  const b = e.target.closest('.sw'); if(!b) return;
+  $('swatches').querySelectorAll('.sw').forEach(x=>x.classList.toggle('active',x===b));
+  custom.color = b.dataset.c; cs.style.background = custom.color;
+  cs.style.color = custom.color==='#ffc93c' ? '#1d1630' : '#fff';
+});
+$('shapes').addEventListener('click', e=>{
+  const b = e.target.closest('.shape-btn'); if(!b) return;
+  $('shapes').querySelectorAll('.shape-btn').forEach(x=>x.classList.toggle('active',x===b));
+  custom.radius = b.dataset.r; cs.style.borderRadius = custom.radius;
+});
+$('customText').addEventListener('input', e=>{
+  custom.text = e.target.value.trim() || '...';
+  cs.textContent = custom.text;
+  cs.style.fontSize = custom.text.length > 12 ? '30px' : custom.text.length > 7 ? '38px' : '48px';
+});
+$('addCustom').onclick = e => addToCart({key:'c'+custom.text+custom.color+custom.radius, name:custom.text, price:15, bg:custom.color, radius:custom.radius, custom:true}, e.currentTarget);
+
+/* ================= Misc ================= */
+let tt; function toast(m){ const t=$('toast'); t.textContent=m; t.classList.add('show'); clearTimeout(tt); tt=setTimeout(()=>t.classList.remove('show'),2200); }
+$('newsForm').onsubmit = e => { e.preventDefault(); e.target.reset(); toast('أهلاً فيك! كود الخصم: LAZZIQ10 🎁'); };
+
+const root = document.documentElement;
+const isDark = () => root.dataset.theme ? root.dataset.theme==='dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+const syncIcon = () => $('themeBtn').textContent = isDark() ? '☀️' : '🌙';
+$('themeBtn').onclick = ()=>{ root.dataset.theme = isDark() ? 'light' : 'dark'; syncIcon(); };
+syncIcon();
+
+const io = new IntersectionObserver(es=>es.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target);} }),{threshold:.15});
+document.querySelectorAll('.reveal:not(.in)').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
