@@ -25,7 +25,7 @@
   *{box-sizing:border-box;margin:0;padding:0}
   [hidden]{display:none!important}
   html{scroll-behavior:smooth;scroll-padding-top:76px;background:var(--night)}
-  body{direction:rtl;font-family:var(--f-text);font-size:16.5px;line-height:1.75;background:var(--night);color:var(--milk)}
+  body{direction:rtl;font-family:var(--f-text);font-size:16px;line-height:1.75;background:var(--night);color:var(--milk)}
   a{color:inherit;text-decoration:none}
   img{max-width:100%;display:block}
   :focus-visible{outline:3px solid var(--sign);outline-offset:3px}
@@ -51,7 +51,7 @@
   .brand{display:flex;align-items:center;gap:12px}
   .brand__mark{width:44px;height:44px;border-radius:12px;background:var(--sign);display:grid;place-items:center}
   .brand__mark svg{width:26px;height:26px;color:var(--ink)}
-  .brand b{font-family:var(--f-sign);font-weight:400;font-size:24px;line-height:1;color:var(--sign);display:block}
+  .brand b{font-family:var(--f-sign);font-weight:400;font-size:21px;line-height:1;color:var(--sign);display:block}
   .brand small{font-size:12px;color:var(--fog);font-weight:600}
   .nav__links{display:flex;gap:2px}
   .nav__links a{min-height:44px;display:inline-flex;align-items:center;padding:0 14px;font-weight:600;color:var(--fog);border-radius:10px}
@@ -66,9 +66,9 @@
   .open{display:inline-flex;align-items:center;gap:10px;padding:8px 14px 8px 16px;border-radius:999px;background:rgba(56,200,120,.12);color:#8ff0b8;font-weight:700;font-size:14px;box-shadow:inset 0 0 0 1px rgba(56,200,120,.35)}
   .open i{width:9px;height:9px;border-radius:50%;background:#38c878;box-shadow:0 0 0 0 rgba(56,200,120,.6);animation:pulse 2s infinite}
   @keyframes pulse{70%{box-shadow:0 0 0 10px rgba(56,200,120,0)}100%{box-shadow:0 0 0 0 rgba(56,200,120,0)}}
-  .hero h1{font-size:clamp(52px,7.4vw,104px);color:var(--sign);margin:18px 0 10px;text-shadow:0 0 40px rgba(255,194,61,.25)}
-  .hero h1 span{display:block;color:var(--milk);font-size:.42em;text-shadow:none}
-  .hero__lead{font-size:clamp(17px,1.6vw,20px);color:#eadcc2;max-width:40ch}
+  .hero h1{font-size:clamp(44px,6vw,84px);color:var(--sign);margin:18px 0 10px;text-shadow:0 0 40px rgba(255,194,61,.25)}
+  .hero h1 span{display:block;color:var(--milk);font-size:clamp(20px,2.2vw,28px);margin-top:6px;text-shadow:none}
+  .hero__lead{font-size:clamp(16px,1.4vw,18px);color:#eadcc2;max-width:40ch}
   .hero__cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
   .hero__facts{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:26px;color:var(--fog);font-size:14.5px;font-weight:600}
   .hero__facts span{display:inline-flex;align-items:center;gap:8px}
@@ -76,7 +76,7 @@
 
   /* the glass of karak and the 24 sign */
   .scene{position:relative;height:min(520px,70vw);min-height:340px}
-  .neon{position:absolute;top:0;inset-inline-start:0;font-family:var(--f-sign);font-size:clamp(70px,9vw,120px);line-height:.9;color:var(--sign);text-shadow:0 0 6px #ffd875,0 0 22px rgba(255,194,61,.8),0 0 60px rgba(255,150,40,.5);transform:rotate(-6deg);animation:flicker 7s infinite}
+  .neon{position:absolute;top:0;inset-inline-start:0;font-family:var(--f-sign);font-size:clamp(54px,6.5vw,92px);line-height:.9;color:var(--sign);text-shadow:0 0 6px #ffd875,0 0 22px rgba(255,194,61,.8),0 0 60px rgba(255,150,40,.5);transform:rotate(-6deg);animation:flicker 7s infinite}
   .neon small{display:block;font-size:.32em;text-align:center;letter-spacing:.02em}
   @keyframes flicker{0%,18%,22%,62%,64%,100%{opacity:1}20%,63%{opacity:.55}}
   .table{position:absolute;inset:auto 0 0;height:22%;background:linear-gradient(to bottom,#3a2a19,#241a10);border-radius:24px 24px 0 0}
@@ -91,7 +91,7 @@
   .steam i:nth-child(3){animation-delay:1.6s}
   @keyframes steam{0%{transform:translateY(12px);opacity:0}40%{opacity:1}100%{transform:translateY(-34px);opacity:0}}
   .tag{position:absolute;bottom:30%;inset-inline-end:2%;background:var(--milk);color:var(--ink);padding:12px 16px;border-radius:14px;transform:rotate(4deg);box-shadow:0 14px 30px -10px rgba(0,0,0,.6);font-weight:700;font-size:14px;display:grid}
-  .tag b{font-family:var(--f-sign);font-weight:400;font-size:28px;color:var(--red);line-height:1.1}
+  .tag b{font-family:var(--f-sign);font-weight:400;font-size:22px;color:var(--red);line-height:1.1}
   @media (max-width:860px){ .hero__grid{grid-template-columns:1fr;padding-block:36px 40px} .scene{height:380px} .steam{bottom:calc(17% + 210px)} }
 
   /* facts bar */
@@ -100,25 +100,27 @@
   .facts__row > div{padding:22px 18px;display:grid;gap:2px;border-inline-start:1px solid rgba(27,20,12,.18)}
   .facts__row > div:first-child{border-inline-start:0;padding-inline-start:0}
   .facts small{font-size:13px;font-weight:700;color:var(--ink-2)}
-  .facts b{font-family:var(--f-sign);font-weight:400;font-size:clamp(24px,2.4vw,32px);line-height:1.2}
+  .facts b{font-family:var(--f-sign);font-weight:400;font-size:clamp(20px,2vw,26px);line-height:1.2}
   .facts span{font-size:13.5px;color:var(--ink-2)}
   @media (max-width:860px){ .facts__row{grid-template-columns:1fr 1fr} .facts__row > div{border-inline-start:0;padding-inline:0;border-top:1px solid rgba(27,20,12,.18)} .facts__row > div:nth-child(-n+2){border-top:0} }
 
   section{padding-block:clamp(64px,8vw,104px)}
   .sec-head{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:24px;align-items:end;margin-bottom:36px}
-  .sec-head h2{font-size:clamp(40px,5vw,64px);margin-top:8px}
+  .sec-head h2{font-size:clamp(32px,4vw,50px);margin-top:8px}
   .sec-head p{color:var(--fog);max-width:46ch}
   @media (max-width:860px){ .sec-head{grid-template-columns:1fr} }
 
   /* best sellers */
   .best{background:var(--night-2)}
   .best__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
-  .dish{position:relative;background:var(--night-3);border-radius:20px;padding:22px;display:grid;gap:10px;align-content:start;min-height:250px;overflow:hidden;transition:transform .2s ease}
+  .dish{position:relative;background:var(--night-3);border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:8px;min-height:250px;overflow:hidden;transition:transform .2s ease}
   .dish:hover{transform:translateY(-3px)}
-  .dish__no{font-family:var(--f-sign);font-size:56px;line-height:1;color:rgba(255,194,61,.18);position:absolute;top:10px;inset-inline-end:18px}
+  .dish__no{font-family:var(--f-sign);font-size:40px;line-height:1;color:rgba(255,194,61,.18);position:absolute;top:10px;inset-inline-end:18px}
   .dish__icon{width:58px;height:58px;border-radius:16px;background:rgba(255,194,61,.12);display:grid;place-items:center}
   .dish__icon svg{width:30px;height:30px;color:var(--sign)}
-  .dish h3{font-size:26px;color:var(--milk)}
+  .dish h3{font-size:22px;color:var(--milk)}
+  .dish__price{margin-top:auto;display:flex;align-items:baseline;gap:6px;font-family:var(--f-sign);font-size:26px;color:var(--sign);line-height:1}
+  .dish__price small{font-family:var(--f-text);font-size:13px;color:var(--fog);font-weight:600}
   .dish .en{font-size:13px;color:var(--fog);font-weight:600}
   .dish p{font-size:14.5px;color:#e3d3b5}
   @media (max-width:980px){ .best__grid{grid-template-columns:1fr 1fr} }
@@ -129,16 +131,24 @@
   .menu .sec-head p{color:var(--ink-2)}
   .menu .eyebrow{color:var(--red)}
   .menu h2{color:var(--ink)}
-  .board{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2px;background:var(--line-l);border:2px solid var(--ink);border-radius:22px;overflow:hidden}
-  .cat{background:var(--milk);padding:24px 22px;display:grid;gap:8px;align-content:start}
-  .cat svg{width:30px;height:30px;color:var(--red)}
-  .cat h3{font-size:28px}
-  .cat p{font-size:14.5px;color:var(--ink-2)}
-  .cat ul{list-style:none;display:grid;gap:4px;margin-top:4px}
-  .cat li{font-weight:600;font-size:15px;display:flex;gap:8px;align-items:baseline}
-  .cat li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--sign);flex:none;transform:translateY(-2px)}
+  .board{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+  .cat{background:var(--milk);border:1.5px solid var(--ink);border-radius:20px;padding:20px 22px;display:grid;gap:6px;align-content:start}
+  .cat__head{display:flex;align-items:center;gap:10px;padding-bottom:10px;border-bottom:2px solid var(--ink)}
+  .cat__head svg{width:26px;height:26px;color:var(--red);flex:none}
+  .cat h3{font-size:22px}
+  .cat ul{list-style:none;display:grid}
+  .cat li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;align-items:baseline;padding-block:10px;border-bottom:1px dashed var(--line-l)}
+  .cat li:last-child{border-bottom:0}
+  .cat li b{font-weight:600;font-size:15.5px}
+  .cat li small{grid-column:1;color:var(--ink-2);font-size:13px;line-height:1.5}
+  .cat li .pr{grid-column:2;grid-row:1;font-weight:700;font-size:16px;color:var(--red);white-space:nowrap}
+  .cat li .pr span{font-size:12px;color:var(--ink-2);font-weight:600;margin-inline-start:3px}
+  .cat li.star b::after{content:"الأكثر طلباً";font-size:11px;font-weight:700;color:var(--ink);background:var(--sign);padding:1px 8px;border-radius:999px;margin-inline-start:8px;vertical-align:2px}
+  .price-note{font-size:13px;color:var(--ink-2);margin-top:14px}
+  @media (max-width:980px){ .board{grid-template-columns:1fr 1fr} }
+  @media (max-width:600px){ .board{grid-template-columns:1fr} }
   .menu__cta{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-top:24px;padding:18px 22px;border-radius:18px;background:var(--ink);color:var(--sign-soft)}
-  .menu__cta b{font-family:var(--f-sign);font-weight:400;font-size:24px;color:var(--sign)}
+  .menu__cta b{font-family:var(--f-sign);font-weight:400;font-size:20px;color:var(--sign)}
   @media (max-width:980px){ .board{grid-template-columns:1fr 1fr} }
   @media (max-width:520px){ .board{grid-template-columns:1fr} }
 
@@ -147,7 +157,7 @@
   .way{background:var(--night-2);border:1px solid var(--line-d);border-radius:22px;padding:26px;display:grid;gap:12px;align-content:start}
   .way__top{display:flex;justify-content:space-between;align-items:center;gap:12px}
   .way__top svg{width:34px;height:34px;color:var(--sign)}
-  .way h3{font-size:30px;color:var(--sign)}
+  .way h3{font-size:24px;color:var(--sign)}
   .way p{color:#e3d3b5;font-size:15px}
   .rating{display:inline-flex;align-items:center;gap:6px;font-weight:700;color:var(--ink);background:var(--sign);padding:4px 10px;border-radius:999px;font-size:14px}
   .way .btn{margin-top:6px;justify-self:start}
@@ -174,7 +184,7 @@
   /* sister place */
   .sister{padding-block:0 clamp(64px,8vw,104px);background:var(--night-2)}
   .sister__box{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;padding:26px 28px;border-radius:22px;background:linear-gradient(120deg,var(--red),#8f1a12);color:var(--milk)}
-  .sister__box h3{font-size:30px}
+  .sister__box h3{font-size:24px}
   .sister__box p{color:#ffd9cf;max-width:56ch}
   .sister__box .btn{background:var(--milk);color:var(--ink)}
 
@@ -273,10 +283,10 @@
         <p>هذي الأصناف تطلع في قائمة الأكثر مبيعاً عندنا على طلبات. جرّبها لو أول مرة تطلب.</p>
       </div>
       <div class="best__grid">
-        <article class="dish"><span class="dish__no num">١</span><span class="dish__icon"><svg aria-hidden="true"><use href="#i-juice"/></svg></span><h3>عصير عبود طازج</h3><span class="en">Fresh Abood Juice</span><p>من ركن العصائر الطازجة.</p></article>
-        <article class="dish"><span class="dish__no num">٢</span><span class="dish__icon"><svg aria-hidden="true"><use href="#i-bowl"/></svg></span><h3>صحن دال</h3><span class="en">Dal Plate</span><p>صحن عدس، ومناسب للي يبون أكل نباتي.</p></article>
-        <article class="dish"><span class="dish__no num">٣</span><span class="dish__icon"><svg aria-hidden="true"><use href="#i-combo"/></svg></span><h3>كومبو نجوم مطافي</h3><span class="en">Najoom Mathafi Combo</span><p>وجبة كومبو من أكثر الطلبات.</p></article>
-        <article class="dish"><span class="dish__no num">٤</span><span class="dish__icon"><svg aria-hidden="true"><use href="#i-wrap"/></svg></span><h3>تويستر راب</h3><span class="en">Twister Wrap Sandwich</span><p>ساندويتش راب ملفوف.</p></article>
+        <article class="dish"><span class="dish__no num">١</span><span class="dish__icon"><svg aria-hidden="true"><use href="#i-juice"/></svg></span><h3>عصير عبود طازج</h3><span class="en">Fresh Abood Juice</span><p>من ركن العصائر الطازجة.</p><span class="dish__price num" data-price="عصير عبود طازج">12<small>درهم</small></span></article>
+        <article class="dish"><span class="dish__no num">٢</span><span class="dish__icon"><svg aria-hidden="true"><use href="#i-bowl"/></svg></span><h3>صحن دال</h3><span class="en">Dal Plate</span><p>صحن عدس، ومناسب للي يبون أكل نباتي.</p><span class="dish__price num" data-price="صحن دال">8<small>درهم</small></span></article>
+        <article class="dish"><span class="dish__no num">٣</span><span class="dish__icon"><svg aria-hidden="true"><use href="#i-combo"/></svg></span><h3>كومبو نجوم مطافي</h3><span class="en">Najoom Mathafi Combo</span><p>وجبة كومبو من أكثر الطلبات.</p><span class="dish__price num" data-price="كومبو نجوم مطافي">18<small>درهم</small></span></article>
+        <article class="dish"><span class="dish__no num">٤</span><span class="dish__icon"><svg aria-hidden="true"><use href="#i-wrap"/></svg></span><h3>تويستر راب</h3><span class="en">Twister Wrap Sandwich</span><p>ساندويتش راب ملفوف.</p><span class="dish__price num" data-price="تويستر راب">12<small>درهم</small></span></article>
       </div>
     </div>
   </section>
@@ -285,18 +295,14 @@
     <div class="wrap">
       <div class="sec-head">
         <div><span class="eyebrow">المنيو</span><h2 id="menu-h">وش تلقى عندنا</h2></div>
-        <p>أقسام المنيو زي ما هي في قوائمنا على طلبات وزوماتو. الأسعار والأصناف الكاملة في التطبيق، لأنها تتحدث هناك أول بأول.</p>
+        <p>من الكرك بدرهمين إلى الكومبو الكامل. كل شي يتجهز طازج، وفي أي ساعة.</p>
       </div>
-      <div class="board">
-        <div class="cat"><svg aria-hidden="true"><use href="#i-wrap"/></svg><h3>ساندويتشات</h3><p>أكثر شي نطلّعه في اليوم.</p><ul><li>تويستر راب</li><li>شاورما</li></ul></div>
-        <div class="cat"><svg aria-hidden="true"><use href="#i-burger"/></svg><h3>برجر وبطاطس</h3><p>برجر، ومعه بطاطس مقلية.</p><ul><li>برجر</li><li>بطاطس</li><li>كومبو نجوم مطافي</li></ul></div>
-        <div class="cat"><svg aria-hidden="true"><use href="#i-juice"/></svg><h3>عصائر طازجة</h3><p>تنعصر وقت الطلب.</p><ul><li>عصير عبود</li><li>عصائر الفواكه الطازجة</li></ul></div>
-        <div class="cat"><svg aria-hidden="true"><use href="#i-egg"/></svg><h3>فطور ونباتي</h3><p>منيو فطور، وأطباق بدون لحم.</p><ul><li>صحن دال</li><li>أطباق الفطور</li></ul></div>
-      </div>
+      <div class="board" id="board"></div>
+      <p class="price-note">الأسعار بالدرهم وتشمل الضريبة، وممكن تختلف شوي عن أسعار التطبيقات.</p>
       <div class="menu__cta">
-        <div><b>المنيو الكامل بالأسعار</b><div>على صفحتنا في طلبات وزوماتو.</div></div>
+        <div><b>تبيه يوصلك؟</b><div>نفس المنيو على طلبات وزوماتو، مع التوصيل.</div></div>
         <div style="display:flex;gap:10px;flex-wrap:wrap">
-          <a class="btn btn--sign" href="https://www.talabat.com/uae/shater-al-shay-cafeteria" target="_blank" rel="noopener">المنيو على طلبات</a>
+          <a class="btn btn--sign" href="https://www.talabat.com/uae/shater-al-shay-cafeteria" target="_blank" rel="noopener">اطلب من طلبات</a>
           <a class="btn btn--ghost" href="https://www.zomato.com/abudhabi/shater-al-shay-cafeteria-al-shamkha/menu" target="_blank" rel="noopener">على زوماتو</a>
         </div>
       </div>
@@ -339,7 +345,7 @@
     <div class="wrap visit__grid">
       <div>
         <span class="eyebrow">الموقع</span>
-        <h2 id="visit-h" style="font-size:clamp(40px,5vw,64px);margin-top:8px">تعال مر علينا</h2>
+        <h2 id="visit-h" style="font-size:clamp(32px,4vw,50px);margin-top:8px">تعال مر علينا</h2>
         <ul class="rows">
           <li><span>العنوان</span><b>شارع الخير، مدينة الرياض، أبوظبي</b></li>
           <li><span>الدوام</span><b>٢٤ ساعة، كل يوم</b></li>
@@ -393,5 +399,29 @@
   <a class="btn btn--sign" href="tel:+97126775559"><svg aria-hidden="true"><use href="#i-phone"/></svg>اتصل</a>
   <a class="btn btn--ink" style="background:var(--night-3)" href="https://www.talabat.com/uae/shater-al-shay-cafeteria" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-bag"/></svg>طلبات</a>
 </div>
+
+<script>
+/* Menu and prices: edit here. Prices in AED. star = a Talabat best seller. */
+const MENU = [
+  {cat:'مشروبات ساخنة', icon:'i-cup', items:[
+    ['كرك', 'شاي بالحليب والهيل', 2], ['شاي سليماني', 'بالليمون أو النعناع', 1], ['شاي حليب', '', 2], ['قهوة نسكافيه', 'بالحليب', 4]]},
+  {cat:'عصائر طازجة', icon:'i-juice', items:[
+    ['عصير عبود', 'كوكتيل فواكه طازج', 12, true], ['برتقال', '', 8], ['مانجو', '', 10], ['أفوكادو', 'بالعسل والمكسرات', 14], ['ليمون نعناع', '', 8]]},
+  {cat:'ساندويتشات', icon:'i-wrap', items:[
+    ['تويستر راب', 'دجاج مقرمش وصوص', 12, true], ['شاورما دجاج', 'خبز عربي وثومية', 7], ['زنجر', 'دجاج حار وخس', 10], ['فلافل', 'طحينة وخضار', 5], ['جبن وزعتر', '', 5]]},
+  {cat:'برجر ووجبات', icon:'i-burger', items:[
+    ['كومبو نجوم مطافي', 'وجبة مع بطاطس ومشروب', 18, true], ['برجر دجاج', '', 12], ['برجر لحم', '', 14], ['بطاطس مقلية', '', 6], ['ناگت', '٦ حبات', 10]]},
+  {cat:'فطور', icon:'i-egg', items:[
+    ['براتا', 'جبن أو عسل', 3], ['براتا بيض', '', 6], ['شكشوكة', 'مع خبز', 10], ['فول', 'مع خبز', 8]]},
+  {cat:'أطباق ونباتي', icon:'i-bowl', items:[
+    ['صحن دال', 'عدس مع خبز أو رز', 8, true], ['صحن حمص', 'مع خبز', 7], ['صحن فلافل', '٦ حبات وسلطة', 10], ['رز ودجاج', 'صحن', 15]]},
+];
+const ar = n => Number(n).toLocaleString('ar-EG');
+document.getElementById('board').innerHTML = MENU.map(c=>`
+  <div class="cat"><div class="cat__head"><svg aria-hidden="true"><use href="#${c.icon}"/></svg><h3>${c.cat}</h3></div>
+    <ul>${c.items.map(([n,d,p,star])=>`<li class="${star?'star':''}"><b>${n}</b>${d?`<small>${d}</small>`:''}<span class="pr num">${ar(p)}<span>درهم</span></span></li>`).join('')}</ul></div>`).join('');
+const priceOf = n => { for(const c of MENU) for(const it of c.items) if(n.includes(it[0])) return it[2]; };
+document.querySelectorAll('[data-price]').forEach(el=>{ const p = priceOf(el.dataset.price.replace(' طازج','')); if(p!=null) el.firstChild.textContent = ar(p); });
+</script>
 </body>
 </html>
