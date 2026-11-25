@@ -204,6 +204,24 @@
     .callbar .btn{min-height:48px;padding:0 12px;font-size:15px}
     footer{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
   }
+  /* call sheet */
+  .sheet{position:fixed;inset:0;z-index:60;display:grid;align-items:end;justify-items:center;background:rgba(0,0,0,.55);padding:16px var(--gut-r) calc(16px + env(safe-area-inset-bottom,0px)) var(--gut-l)}
+  @media (min-width:641px){ .sheet{align-items:center} }
+  .sheet__box{width:min(440px,100%);background:var(--night-2);border:1px solid var(--line-d);border-radius:22px;padding:22px;display:grid;gap:14px;animation:up .3s cubic-bezier(.2,.8,.2,1)}
+  @keyframes up{from{transform:translateY(24px);opacity:0}}
+  .sheet__head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+  .sheet__head h2{font-size:26px;color:var(--sign)}
+  .sheet__x{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;box-shadow:inset 0 0 0 1px var(--line-d);background:none;color:var(--milk);cursor:pointer}
+  .sheet__x svg{width:18px;height:18px}
+  .line{display:grid;grid-template-columns:1fr auto;gap:8px}
+  .line a{display:flex;align-items:center;gap:12px;min-height:60px;padding:0 16px;border-radius:14px;background:var(--sign);color:var(--ink);font-weight:700}
+  .line a svg{width:20px;height:20px;flex:none}
+  .line a span{display:grid;line-height:1.3}
+  .line a small{font-weight:600;font-size:12.5px;color:var(--ink-2)}
+  .line a b{font-size:19px}
+  .line button{min-width:76px;min-height:60px;border-radius:14px;border:0;background:var(--night-3);color:var(--milk);font:inherit;font-weight:700;font-size:14px;cursor:pointer}
+  .line button.ok{color:#8ff0b8}
+  .sheet__note{font-size:13px;color:var(--fog)}
   @media (prefers-reduced-motion: reduce){ *{animation:none!important;transition:none!important;scroll-behavior:auto!important} }
 </style>
 </head>
@@ -237,7 +255,7 @@
       <a href="#order">اطلب</a>
       <a href="#visit">الموقع</a>
     </nav>
-    <a class="btn btn--sign" href="tel:+97126775559"><svg aria-hidden="true"><use href="#i-phone"/></svg><span>اتصل الحين</span></a>
+    <a class="btn btn--sign" href="tel:+97126775559" data-call><svg aria-hidden="true"><use href="#i-phone"/></svg><span>اتصل الحين</span></a>
   </div>
 </header>
 
@@ -397,8 +415,17 @@
   </div>
 </footer>
 
+
+<div class="sheet" id="callSheet" hidden>
+  <div class="sheet__box" role="dialog" aria-modal="true" aria-labelledby="call-h">
+    <div class="sheet__head"><h2 id="call-h">اتصل على شاطر الشاي</h2><button class="sheet__x" type="button" id="callClose" aria-label="إغلاق"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <div class="line"><a href="tel:+97126775559"><svg aria-hidden="true"><use href="#i-phone"/></svg><span><small>أرضي</small><b class="ltr num">02 677 5559</b></span></a><button type="button" data-copy="+97126775559">نسخ</button></div>
+    <div class="line"><a href="tel:+971506163559"><svg aria-hidden="true"><use href="#i-phone"/></svg><span><small>جوال</small><b class="ltr num">050 616 3559</b></span></a><button type="button" data-copy="+971506163559">نسخ</button></div>
+    <p class="sheet__note">اضغط الرقم ويتصل من جوالك مباشرة. مفتوحين ٢٤ ساعة.</p>
+  </div>
+</div>
 <div class="callbar">
-  <a class="btn btn--sign" href="tel:+97126775559"><svg aria-hidden="true"><use href="#i-phone"/></svg>اتصل</a>
+  <a class="btn btn--sign" href="tel:+97126775559" data-call><svg aria-hidden="true"><use href="#i-phone"/></svg>اتصل</a>
   <a class="btn btn--ink" style="background:var(--night-3)" href="https://www.talabat.com/uae/shater-al-shay-cafeteria" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-bag"/></svg>طلبات</a>
 </div>
 
@@ -424,6 +451,22 @@ document.getElementById('board').innerHTML = MENU.map(c=>`
     <ul>${c.items.map(([n,d,p,star])=>`<li class="${star?'star':''}"><b>${n}</b>${d?`<small>${d}</small>`:''}<span class="pr num">${ar(p)}<span>درهم</span></span></li>`).join('')}</ul></div>`).join('');
 const priceOf = n => { for(const c of MENU) for(const it of c.items) if(n.includes(it[0])) return it[2]; };
 document.querySelectorAll('[data-price]').forEach(el=>{ const p = priceOf(el.dataset.price.replace(' طازج','')); if(p!=null) el.firstChild.textContent = ar(p); });
+</script>
+<script>
+(function(){
+  const sheet = document.getElementById('callSheet');
+  let last = null;
+  const open = e => { e.preventDefault(); last = e.currentTarget; sheet.hidden = false; sheet.querySelector('.line a').focus(); };
+  const close = () => { sheet.hidden = true; last && last.focus(); };
+  document.querySelectorAll('[data-call]').forEach(b => b.addEventListener('click', open));
+  document.getElementById('callClose').addEventListener('click', close);
+  sheet.addEventListener('click', e => { if(e.target === sheet) close(); });
+  addEventListener('keydown', e => { if(e.key === 'Escape' && !sheet.hidden) close(); });
+  sheet.querySelectorAll('[data-copy]').forEach(btn => btn.addEventListener('click', () => {
+    const done = ok => { btn.textContent = ok ? 'نُسخ ✓' : 'انسخه يدوي'; btn.classList.toggle('ok', ok); setTimeout(()=>{ btn.textContent = 'نسخ'; btn.classList.remove('ok'); }, 2000); };
+    if(navigator.clipboard) navigator.clipboard.writeText(btn.dataset.copy).then(()=>done(true), ()=>done(false)); else done(false);
+  }));
+})();
 </script>
 </body>
 </html>
