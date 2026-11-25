@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>مرطبات الشامخة</title>
+<meta name="description" content="مرطبات الشامخة: مأكولات شعبية إماراتية، فوالة وصواني وعيوش وهريس، وخدمة البوفيه والذبائح للمناسبات. شارع جبل بركة، الشامخة، أبوظبي.">
+<meta name="theme-color" content="#1a1310">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* Look: an Emirati majlis. Sadu red and black weave, saffron, brass, warm cream; the food photographs lead. */
+  :root{
+    --cream:#f8f2e7; --sand:#efe4d1; --ink:#1a1310; --ink-2:#5c4a3a; --sadu:#a91e27; --sadu-dark:#6e1218;
+    --saffron:#f2b632; --brass:#b9862d; --line:rgba(26,19,16,.13); --white:#fffdf8;
+    --f-head:'Reem Kufi','Noto Kufi Arabic',sans-serif; --f-text:'IBM Plex Sans Arabic','Segoe UI',Tahoma,sans-serif;
+    --gut-l:max(20px, env(safe-area-inset-left, 0px)); --gut-r:max(20px, env(safe-area-inset-right, 0px));
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:80px}
+  body{direction:rtl;font-family:var(--f-text);font-size:16px;line-height:1.75;background:var(--cream);color:var(--ink)}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  :focus-visible{outline:3px solid var(--sadu);outline-offset:3px}
+  .wrap{max-width:1180px;margin-inline:auto;padding-left:var(--gut-l);padding-right:var(--gut-r)}
+  .num{font-variant-numeric:tabular-nums}
+  .ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+  h1,h2,h3{font-family:var(--f-head);font-weight:700;line-height:1.3;text-wrap:balance}
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:13.5px;font-weight:700;color:var(--sadu)}
+  .eyebrow::before{content:"";width:26px;height:8px;background:
+     linear-gradient(135deg,transparent 33%,currentColor 33% 50%,transparent 50% 83%,currentColor 83%) 0 0/8px 8px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;border-radius:12px;font-weight:700;font-size:16px;transition:transform .18s ease,background .18s ease;white-space:nowrap}
+  .btn:hover{transform:translateY(-2px)}
+  .btn:active{transform:scale(.98)}
+  .btn svg{width:20px;height:20px;flex:none}
+  .btn--wa{background:#1f9e55;color:#fff}
+  .btn--wa:hover{background:#1a8a4a}
+  .btn--sadu{background:var(--sadu);color:#fff}
+  .btn--sadu:hover{background:var(--sadu-dark)}
+  .btn--line{box-shadow:inset 0 0 0 1.5px currentColor}
+
+  /* sadu weave band */
+  .sadu{height:22px;background:
+     linear-gradient(45deg,var(--ink) 25%,transparent 25%) 0 0/22px 22px,
+     linear-gradient(-45deg,var(--ink) 25%,transparent 25%) 0 0/22px 22px,
+     linear-gradient(45deg,transparent 75%,var(--ink) 75%) 0 0/22px 22px,
+     linear-gradient(-45deg,transparent 75%,var(--ink) 75%) 0 0/22px 22px,
+     linear-gradient(var(--sadu),var(--sadu));
+     border-block:4px solid var(--white)}
+
+  /* nav */
+  .nav{position:sticky;top:0;z-index:30;background:rgba(248,242,231,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+  .nav__bar{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:72px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand__mark{width:46px;height:46px;border-radius:50%;background:var(--sadu);color:var(--saffron);display:grid;place-items:center;font-family:var(--f-head);font-size:22px;box-shadow:inset 0 0 0 3px var(--saffron)}
+  .brand b{font-family:var(--f-head);font-size:21px;display:block;line-height:1.2}
+  .brand small{font-size:12px;color:var(--ink-2);font-weight:600}
+  .nav__links{display:flex;gap:2px}
+  .nav__links a{min-height:44px;display:inline-flex;align-items:center;padding:0 13px;font-weight:600;color:var(--ink-2);border-radius:10px}
+  .nav__links a:hover{color:var(--sadu);background:rgba(169,30,39,.06)}
+  .nav .btn{min-height:44px;padding:0 16px;font-size:15px}
+  @media (max-width:960px){ .nav__links{display:none} }
+  @media (max-width:420px){ .nav .btn span{display:none} }
+
+  /* hero */
+  .hero{padding-block:40px 56px}
+  .hero__grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:44px;align-items:center}
+  .badges{display:flex;gap:8px;flex-wrap:wrap}
+  .badge{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;font-size:13.5px;font-weight:700;background:var(--white);box-shadow:inset 0 0 0 1px var(--line)}
+  .badge i{width:8px;height:8px;border-radius:50%;background:#1f9e55}
+  .hero h1{font-size:clamp(40px,5.4vw,68px);margin:16px 0 8px;color:var(--ink)}
+  .hero h1 span{display:block;color:var(--sadu);font-size:.5em;margin-top:4px}
+  .hero p{font-size:17.5px;color:var(--ink-2);max-width:42ch}
+  .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+  .hero__pics{position:relative;display:grid;grid-template-columns:1.4fr 1fr;grid-template-rows:1fr 1fr;gap:12px;aspect-ratio:6/5}
+  .hero__pics figure{position:relative;overflow:hidden;border-radius:18px;background:var(--sand)}
+  .hero__pics figure:first-child{grid-row:span 2}
+  .hero__pics img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+  .hero__pics figure:hover img{transform:scale(1.03)}
+  .stamp{position:absolute;top:-18px;inset-inline-start:-18px;z-index:2;width:112px;height:112px;border-radius:50%;background:var(--saffron);color:var(--ink);display:grid;place-items:center;text-align:center;font-family:var(--f-head);font-size:17px;line-height:1.2;box-shadow:0 0 0 6px var(--cream);transform:rotate(-8deg)}
+  .stamp b{display:block;font-size:30px}
+  @media (max-width:860px){ .hero__grid{grid-template-columns:1fr;gap:28px} .stamp{width:92px;height:92px;font-size:14px;top:-12px;inset-inline-start:-6px} .stamp b{font-size:24px} }
+
+  section{padding-block:clamp(56px,7vw,96px)}
+  .sec-head{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:20px;align-items:end;margin-bottom:32px}
+  .sec-head h2{font-size:clamp(30px,3.8vw,46px);margin-top:6px}
+  .sec-head p{color:var(--ink-2);max-width:46ch}
+  @media (max-width:860px){ .sec-head{grid-template-columns:1fr} }
+
+  /* menu categories */
+  .cats{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:16px}
+  .cat{position:relative;grid-column:span 2;border-radius:20px;overflow:hidden;min-height:300px;display:grid;align-content:end;color:#fff;isolation:isolate}
+  .cat:nth-child(4),.cat:nth-child(5){grid-column:span 3}
+  .cat img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+  .cat::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(to top,rgba(20,12,8,.88),rgba(20,12,8,.1) 60%)}
+  .cat:hover img{transform:scale(1.04)}
+  .cat__txt{padding:20px 22px}
+  .cat h3{font-size:26px}
+  .cat p{font-size:14.5px;color:#f3e6d3}
+  @media (max-width:860px){ .cats{grid-template-columns:1fr 1fr} .cat,.cat:nth-child(4),.cat:nth-child(5){grid-column:span 1;min-height:220px} .cat:last-child{grid-column:span 2} }
+  @media (max-width:480px){ .cats{grid-template-columns:1fr} .cat,.cat:last-child{grid-column:span 1} }
+
+  /* popular dishes */
+  .dishes-sec{background:var(--white)}
+  .dishes{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:18px}
+  .dish{display:grid;gap:10px;text-align:center}
+  .dish figure{aspect-ratio:1;border-radius:50%;overflow:hidden;box-shadow:0 0 0 6px var(--cream),0 0 0 8px var(--saffron)}
+  .dish img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+  .dish:hover img{transform:scale(1.05)}
+  .dish h3{font-size:20px;margin-top:10px}
+  .dish p{font-size:14px;color:var(--ink-2)}
+  @media (max-width:960px){ .dishes{grid-template-columns:repeat(3,minmax(0,1fr))} }
+  @media (max-width:520px){ .dishes{grid-template-columns:1fr 1fr} }
+
+  /* sizes & prices */
+  .price{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:0;border-radius:24px;overflow:hidden;background:var(--ink);color:var(--cream)}
+  .price figure{min-height:340px}
+  .price figure img{width:100%;height:100%;object-fit:cover}
+  .price__body{padding:clamp(24px,4vw,44px);display:grid;gap:18px;align-content:center}
+  .price__body h2{font-size:clamp(28px,3.4vw,40px);color:var(--saffron)}
+  .price__body p{color:#d9c8b0}
+  .ptable{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .pgroup{background:rgba(255,255,255,.05);border-radius:16px;padding:14px 16px}
+  .pgroup h3{font-size:15px;color:var(--saffron);margin-bottom:6px;font-family:var(--f-text);font-weight:700}
+  .pgroup li{list-style:none;display:flex;justify-content:space-between;gap:10px;padding-block:8px;border-bottom:1px dashed rgba(248,242,231,.15)}
+  .pgroup li:last-child{border-bottom:0}
+  .pgroup b{font-family:var(--f-head);font-size:19px}
+  .pgroup b small{font-family:var(--f-text);font-size:12px;color:#d9c8b0;font-weight:600;margin-inline-start:4px}
+  @media (max-width:860px){ .price{grid-template-columns:1fr} .price figure{min-height:240px} }
+  @media (max-width:420px){ .ptable{grid-template-columns:1fr} }
+
+  /* catering */
+  .cater{background:var(--sand)}
+  .cater__grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:40px;align-items:center}
+  .cater__pics{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .cater__pics figure{border-radius:18px;overflow:hidden;aspect-ratio:4/5}
+  .cater__pics figure:nth-child(2){margin-top:40px}
+  .cater__pics img{width:100%;height:100%;object-fit:cover}
+  .cater h2{font-size:clamp(30px,3.8vw,46px);margin:6px 0 12px}
+  .cater ul{list-style:none;display:grid;gap:10px;margin:18px 0 26px}
+  .cater li{display:flex;gap:12px;align-items:flex-start}
+  .cater li::before{content:"";flex:none;width:10px;height:10px;margin-top:9px;background:var(--sadu);transform:rotate(45deg)}
+  @media (max-width:860px){ .cater__grid{grid-template-columns:1fr} }
+
+  /* visit */
+  .visit__grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:start}
+  .rows{list-style:none;border-top:1px solid var(--line);margin-block:18px 26px}
+  .rows li{display:grid;grid-template-columns:110px 1fr;gap:16px;padding-block:14px;border-bottom:1px solid var(--line)}
+  .rows span{color:var(--ink-2);font-weight:600;font-size:14.5px}
+  .rows b{font-weight:600}
+  .visit__pic{border-radius:24px;overflow:hidden;aspect-ratio:4/3}
+  .visit__pic img{width:100%;height:100%;object-fit:cover}
+  @media (max-width:860px){ .visit__grid{grid-template-columns:1fr} }
+
+  footer{background:var(--ink);color:#d9c8b0;padding-block:36px calc(36px + env(safe-area-inset-bottom,0px));font-size:14px}
+  .foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+  footer .brand b{color:var(--cream)}
+  footer .brand small{color:#bfa98c}
+
+  .callbar{display:none}
+  @media (max-width:640px){
+    .callbar{display:grid;grid-template-columns:1fr 1fr;gap:8px;position:fixed;inset:auto 0 0;z-index:40;padding:10px var(--gut-r) calc(10px + env(safe-area-inset-bottom,0px)) var(--gut-l);background:rgba(248,242,231,.97);border-top:1px solid var(--line)}
+    .callbar .btn{min-height:48px;padding:0 12px;font-size:15px}
+    footer{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
+  }
+  @media (prefers-reduced-motion: reduce){ *{transition:none!important;scroll-behavior:auto!important} }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-wa" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.4.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.1.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.6-.3Z"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.1 7-11.5A7 7 0 0 0 5 9.5C5 14.9 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+</svg>
+
+<header class="nav">
+  <div class="wrap nav__bar">
+    <a class="brand" href="#top"><span class="brand__mark" aria-hidden="true">ش</span><span><b>مرطبات الشامخة</b><small>مأكولات شعبية إماراتية</small></span></a>
+    <nav class="nav__links" aria-label="الأقسام">
+      <a href="#menu">القائمة</a>
+      <a href="#dishes">الأطباق الشعبية</a>
+      <a href="#prices">الأحجام والأسعار</a>
+      <a href="#catering">المناسبات</a>
+      <a href="#visit">الموقع</a>
+    </nav>
+    <a class="btn btn--wa" href="https://wa.me/971505804964?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%A8%D9%8A%20%D8%A3%D8%B7%D9%84%D8%A8" target="_top" rel="noopener"><svg aria-hidden="true"><use href="#i-wa"/></svg><span>اطلب واتساب</span></a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero" aria-labelledby="hero-h">
+    <div class="wrap hero__grid">
+      <div>
+        <div class="badges"><span class="badge"><i></i>مفتوح ٢٤ ساعة</span><span class="badge">الشامخة، أبوظبي</span></div>
+        <h1 id="hero-h">مرطبات الشامخة<span>مأكولات شعبية إماراتية وخدمة المناسبات</span></h1>
+        <p>الفوالة والصواني والعيوش والهريس على أصولها، وبوفيه إماراتي وذبائح لمناسباتكم.</p>
+        <div class="cta">
+          <a class="btn btn--wa" href="https://wa.me/971505804964?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%A8%D9%8A%20%D8%A3%D8%B7%D9%84%D8%A8" target="_top" rel="noopener"><svg aria-hidden="true"><use href="#i-wa"/></svg>اطلب عبر الواتساب</a>
+          <a class="btn btn--line" href="tel:+971505804964" target="_top"><svg aria-hidden="true"><use href="#i-phone"/></svg>اتصل بنا</a>
+        </div>
+      </div>
+      <div class="hero__pics">
+        <span class="stamp" aria-hidden="true"><span><b>٢٤</b>ساعة</span></span>
+        <figure><img src="img/fuala.jpg" alt="فوالة: لقيمات وبلاليط بالزعفران والفستق في قدر نحاسي على قماش السدو"></figure>
+        <figure><img src="img/thabayeh.jpg" alt="ذبيحة على رز في صينية كبيرة"></figure>
+        <figure><img src="img/aseeda.jpg" alt="عصيدة بالزعفران والفستق"></figure>
+      </div>
+    </div>
+  </section>
+
+  <div class="sadu" aria-hidden="true"></div>
+
+  <section id="menu" aria-labelledby="menu-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><span class="eyebrow">القائمة</span><h2 id="menu-h">من الفطور للمناسبة</h2></div>
+        <p>خمس أقسام تغطي يومك كله: فوالة الصبح، والعيوش للغدا، والصواني والذبائح للعزايم.</p>
+      </div>
+      <div class="cats">
+        <a class="cat" href="#prices"><img src="img/fuala.jpg" alt="" loading="lazy"><div class="cat__txt"><h3>الفوالة</h3><p>حلويات وضيافة إماراتية</p></div></a>
+        <a class="cat" href="#prices"><img src="img/trays.jpg" alt="" loading="lazy"><div class="cat__txt"><h3>الصواني</h3><p>صحون شعبية متنوعة في صينية وحدة</p></div></a>
+        <a class="cat" href="#prices"><img src="img/sandwiches.jpg" alt="" loading="lazy"><div class="cat__txt"><h3>السندويجات والحلويات</h3><p>خبز رقاق وخمير وجباب</p></div></a>
+        <a class="cat" href="#prices"><img src="img/aiyoush.jpg" alt="" loading="lazy"><div class="cat__txt"><h3>العيوش</h3><p>رز بالدجاج واللحم على الطريقة الإماراتية</p></div></a>
+        <a class="cat" href="#catering"><img src="img/thabayeh.jpg" alt="" loading="lazy"><div class="cat__txt"><h3>الذبائح</h3><p>أنواع الذبائح على الطريقة الإماراتية التقليدية</p></div></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="dishes-sec" id="dishes" aria-labelledby="dishes-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><span class="eyebrow">الأطباق الشعبية</span><h2 id="dishes-h">طبخ البيت الإماراتي</h2></div>
+        <p>أكلات شعبية تنطبخ على أصولها، وأغلبها تطلبه لحم أو دجاج.</p>
+      </div>
+      <div class="dishes">
+        <article class="dish"><figure><img src="img/madrooba.jpg" alt="مضروبة بالليمون والنعناع" loading="lazy"></figure><h3>مضروبة</h3><p>لحم / دجاج</p></article>
+        <article class="dish"><figure><img src="img/marqooqa.jpg" alt="مرقوقة بالخضار والليمون" loading="lazy"></figure><h3>مرقوقة</h3><p>لحم / دجاج</p></article>
+        <article class="dish"><figure><img src="img/harees.jpg" alt="هريس بالسمن" loading="lazy"></figure><h3>هريس</h3><p>لحم / دجاج</p></article>
+        <article class="dish"><figure><img src="img/aseeda.jpg" alt="عصيدة بالزعفران والفستق" loading="lazy"></figure><h3>عصيدة</h3><p>بالزعفران والفستق</p></article>
+        <article class="dish"><figure><img src="img/sago.jpg" alt="ساقو بالفستق والكاجو" loading="lazy"></figure><h3>ساقو</h3><p>بالفستق والكاجو</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="prices" aria-labelledby="prices-h">
+    <div class="wrap">
+      <div class="price">
+        <figure><img src="img/harees-pot.jpg" alt="هريس في قدر نحاسي مع حب الهريس والبهارات" loading="lazy"></figure>
+        <div class="price__body">
+          <span class="eyebrow" style="color:var(--saffron)">الأحجام والأسعار</span>
+          <h2 id="prices-h">الهريس بالحجم اللي يناسبك</h2>
+          <p>من صحن لشخص، إلى قدر يكفي عزيمة كاملة. الأسعار بالدرهم.</p>
+          <div class="ptable num">
+            <div class="pgroup"><h3>للطلب اليومي</h3><ul>
+              <li><span>صغير</span><b>٢٤<small>درهم</small></b></li>
+              <li><span>وسط</span><b>٣٥<small>درهم</small></b></li>
+              <li><span>كبير</span><b>٥٥<small>درهم</small></b></li></ul></div>
+            <div class="pgroup"><h3>للعزايم</h3><ul>
+              <li><span>٥ أشخاص</span><b>٨٩<small>درهم</small></b></li>
+              <li><span>٧ أشخاص</span><b>١٣٢<small>درهم</small></b></li>
+              <li><span>١٠ أشخاص</span><b>١٨٧<small>درهم</small></b></li></ul></div>
+          </div>
+          <div class="cta" style="margin-top:4px"><a class="btn btn--wa" href="https://wa.me/971505804964?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%A8%D9%8A%20%D8%A3%D8%B7%D9%84%D8%A8%20%D9%87%D8%B1%D9%8A%D8%B3" target="_top" rel="noopener"><svg aria-hidden="true"><use href="#i-wa"/></svg>اطلب الهريس</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cater" id="catering" aria-labelledby="cater-h">
+    <div class="wrap cater__grid">
+      <div class="cater__pics">
+        <figure><img src="img/buffet.jpg" alt="عربة بوفيه فيها قدور الأكل الشعبي والعصائر والقهوة" loading="lazy"></figure>
+        <figure><img src="img/balaleet.jpg" alt="بلاليط بالزعفران والبيض في صينية" loading="lazy"></figure>
+      </div>
+      <div>
+        <span class="eyebrow">المناسبات</span>
+        <h2 id="cater-h">خدمة البوفيه الإماراتي والذبائح للمناسبات</h2>
+        <p>عزيمة، عرس، أو جمعة أهل: نجهّز البوفيه بالقدور والضيافة، والذبائح على الطريقة الإماراتية التقليدية.</p>
+        <ul>
+          <li>بوفيه إماراتي بالقدور والفوالة والعصائر والقهوة</li>
+          <li>أنواع الذبائح المختلفة على الرز</li>
+          <li>أحجام للعزايم من ٥ أشخاص وفوق</li>
+        </ul>
+        <div class="cta">
+          <a class="btn btn--wa" href="https://wa.me/971505804964?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%A8%D9%8A%20%D8%A3%D8%B3%D8%AA%D9%81%D8%B3%D8%B1%20%D8%B9%D9%86%20%D8%A8%D9%88%D9%81%D9%8A%D9%87%20%D9%85%D9%86%D8%A7%D8%B3%D8%A8%D8%A9" target="_top" rel="noopener"><svg aria-hidden="true"><use href="#i-wa"/></svg>استفسر عبر الواتساب</a>
+          <a class="btn btn--sadu" href="tel:+971505804964" target="_top"><svg aria-hidden="true"><use href="#i-phone"/></svg>اتصل بنا</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="visit" aria-labelledby="visit-h">
+    <div class="wrap visit__grid">
+      <div>
+        <span class="eyebrow">الموقع</span>
+        <h2 id="visit-h" style="font-size:clamp(30px,3.8vw,46px);margin-top:6px">مر علينا في الشامخة</h2>
+        <ul class="rows">
+          <li><span>العنوان</span><b>شارع جبل بركة، الشامخة، أبوظبي</b></li>
+          <li><span>الدوام</span><b>٢٤ ساعة، كل يوم</b></li>
+          <li><span>الجوال</span><b class="num"><a class="ltr" href="tel:+971505804964" target="_top">050 580 4964</a></b></li>
+          <li><span>الأرضي</span><b class="num"><a class="ltr" href="tel:+97125845154" target="_top">02 584 5154</a></b></li>
+        </ul>
+        <div class="cta" style="margin-top:0">
+          <a class="btn btn--sadu" href="https://www.google.com/maps/search/?api=1&query=Al+Shamkha+Refreshments+Jabal+Barakah+Street+Al+Shamkha+Abu+Dhabi" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-pin"/></svg>افتح في الخريطة</a>
+        </div>
+      </div>
+      <figure class="visit__pic"><img src="img/trays.jpg" alt="صينية أكلات شعبية متنوعة" loading="lazy"></figure>
+    </div>
+  </section>
+</main>
+
+<div class="sadu" aria-hidden="true"></div>
+<footer>
+  <div class="wrap foot">
+    <a class="brand" href="#top"><span class="brand__mark" aria-hidden="true">ش</span><span><b>مرطبات الشامخة</b><small>مأكولات شعبية إماراتية · خدمة المناسبات</small></span></a>
+    <span>شارع جبل بركة، الشامخة، أبوظبي · مفتوح ٢٤ ساعة</span>
+  </div>
+</footer>
+
+<div class="callbar">
+  <a class="btn btn--wa" href="https://wa.me/971505804964?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%A8%D9%8A%20%D8%A3%D8%B7%D9%84%D8%A8" target="_top" rel="noopener"><svg aria-hidden="true"><use href="#i-wa"/></svg>واتساب</a>
+  <a class="btn btn--sadu" href="tel:+971505804964" target="_top"><svg aria-hidden="true"><use href="#i-phone"/></svg>اتصل</a>
+</div>
+</body>
+</html>
