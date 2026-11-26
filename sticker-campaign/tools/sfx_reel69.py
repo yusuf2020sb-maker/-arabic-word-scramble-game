@@ -13,8 +13,8 @@ from sfx_reel22 import pad, piano
 from sfx_reel64 import clunk
 from sfx_reel65 import tick
 
-D = {"h1": 0.3, "h2": 2.0, "c1": 4.0, "c2": 5.2, "c3": 6.4, "count": 8.0, "n2": 9.4, "u0": 11.0, "u1": 12.2, "u2": 13.4,
-     "print": 15.0, "print2": 16.2, "brand": 18.4, "store": 20.0, "store2": 20.8, "end_all": 23.8}
+D = {"h1": 0.3, "h1b": 1.1, "h2": 2.4, "c1": 4.4, "c2": 5.6, "c3": 6.8, "count": 8.4, "n2": 9.8, "u0": 11.4, "u1": 12.6, "u2": 13.8,
+     "print": 15.4, "print2": 16.6, "brand": 18.8, "store": 20.4, "store2": 21.2, "end_all": 24.2}
 
 
 def laser_hum(d):

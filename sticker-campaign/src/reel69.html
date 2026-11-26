@@ -79,7 +79,7 @@ const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x 
 const lerp = (a, b, k) => a + (b - a) * k;
 const AR = (n) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]);
 
-const D = { h1: 0.3, h2: 2.0, c1: 4.0, c2: 5.2, c3: 6.4, count: 8.0, n2: 9.4, u0: 11.0, u1: 12.2, u2: 13.4, print: 15.0, print2: 16.2, brand: 18.4, store: 20.0, store2: 20.8, end_all: 23.8 };
+const D = { h1: 0.3, h1b: 1.1, h2: 2.4, c1: 4.4, c2: 5.6, c3: 6.8, count: 8.4, n2: 9.8, u0: 11.4, u1: 12.6, u2: 13.8, print: 15.4, print2: 16.6, brand: 18.8, store: 20.4, store2: 21.2, end_all: 24.2 };
 const T = Object.assign({}, D, window.TL || {});
 
 // B: three vitrines in a row (RTL walk: the next piece sits to the left)
@@ -99,14 +99,14 @@ $('uses').innerHTML = OBJ.map(([x, html, l], i) => `<div class="beam" id="ub${i}
   <div class="abs" id="uo${i}" style="left:${x}px; top:1300px">${html}</div><div class="plaque" id="up${i}" style="left:${x}px; top:1380px; width:220px; margin-left:-110px; font-size:38px">${l}</div>`).join('');
 
 const LINES = () => [
-  [T.h1, 'تحفة متحف...', [0]], [T.h2, 'لا... طلعت ستيكر!', [2]],
+  [T.h1, 'لا...', [0]], [T.h1b, 'تحفة متحف...', [0]], [T.h2, 'طلعت ستيكر!', [1]],
   [T.c1, 'أزرق هادي،', [0]], [T.c2, 'وردي ناعم،', [0]], [T.c3, 'وأصفر مشمس!', [0]],
   [T.count, '١٦ ستيكر', [0]], [T.n2, 'كل وحدة تحفة!', [2]],
   [T.u0, 'للأكواب،', [0]], [T.u1, 'للجوال،', [0]], [T.u2, 'وللبطاقات.', [0]],
   [T.print, 'ملف PDF', [1]], [T.print2, 'يتطبع... ويصير تحفتك!', [2]],
   [T.brand, 'ستيكرات المزهريات الفنتج', [1]],
 ];
-const ENDS = () => { const L = LINES(); return L.map((l, i) => (i === L.length - 1 ? T.store - 0.15 : i === 4 ? T.count - 0.3 : i === 6 ? T.u0 - 0.3 : i === 11 ? T.brand - 0.3 : L[i + 1][0] - 0.12)); };
+const ENDS = () => { const L = LINES(); return L.map((l, i) => (i === L.length - 1 ? T.store - 0.15 : i === 5 ? T.count - 0.3 : i === 7 ? T.u0 - 0.3 : i === 12 ? T.brand - 0.3 : L[i + 1][0] - 0.12)); };
 const lctx = $('lasers').getContext('2d');
 const LZ = [[-50, 620, 1130, 1350], [-50, 1500, 1130, 820], [-50, 1000, 1130, 1150], [200, -50, 900, 1970], [880, -50, 180, 1970]];
 
@@ -160,7 +160,7 @@ window.render = (t) => {
     html = ws.map((w, j) => { const st = i === 0 ? -1 : s - 0.1 + j * per; const k = eo(p(t, st, st + 0.35)); if (k <= 0) return '';
       return `<span class="w${hl.includes(j) ? ' hl' : ''}" style="opacity:${k}; filter:blur(${(1 - k) * 8}px); transform:translateY(${(1 - k) * 24}px)">${w}</span>`; }).join(' ');
   });
-  $('capbox').innerHTML = html; $('capbox').style.fontSize = Math.min(140, 2000 / cur[1].length) + 'px';
+  $('capbox').innerHTML = html; $('capbox').style.fontSize = Math.min(cur === L[0] ? 230 : 140, 2000 / cur[1].length) + 'px';
 };
 render(0);
 </script>
