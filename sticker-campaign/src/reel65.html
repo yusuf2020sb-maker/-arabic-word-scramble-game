@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Cairo:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root { --choc:#3b1d0e; --caramel:#c7772d; --cream:#fff6e8; --butter:#f4e2bf; --mint:#9ccfc0; --rose:#e8a0a0; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:#2b150a; font-family:'Lalezar','Cairo',sans-serif; color:#fff; }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; background:#2b150a; }
+  .abs { position:absolute; left:0; top:0; }
+  .sc { position:absolute; left:0; top:0; width:1080px; height:1920px; display:none; overflow:clip; }
+  .cam { position:absolute; left:0; top:0; width:1080px; height:1920px; transform-origin:0 0; }
+  .st { position:absolute; left:0; top:0; filter:drop-shadow(0 12px 14px rgba(50,20,5,.38)); }
+  .tiles { position:absolute; inset:0; background-color:#f1e4cf;
+    background-image:linear-gradient(0deg, rgba(160,120,80,.35) 4px, transparent 4px), linear-gradient(90deg, rgba(160,120,80,.35) 4px, transparent 4px);
+    background-size:180px 90px; }
+  .tiles:after { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 50% 55%, rgba(255,190,110,.25), rgba(40,15,0,.55) 85%); }
+  .counter { position:absolute; left:0; width:1080px; background:linear-gradient(180deg, #f7f1ea, #d9cfc4); box-shadow:0 -6px 0 #b9aa98 inset; }
+  .ov { position:absolute; left:0; width:1080px; text-align:center; white-space:nowrap; line-height:1.25; z-index:60; }
+  .w { display:inline-block; }
+  .cap { font-size:124px; color:var(--cream); -webkit-text-stroke:16px var(--choc); paint-order:stroke fill; filter:drop-shadow(0 9px 0 #8a4a1c) drop-shadow(0 18px 18px rgba(0,0,0,.35)); }
+  .cap .w { margin:0 14px; transform-origin:50% 90%; }
+  .cap .hl { color:#ffb83f; }
+  .pill { display:inline-block; padding:0 54px 16px; border-radius:90px; background:var(--choc); color:var(--cream); box-shadow:0 12px 26px rgba(0,0,0,.35); }
+  #steam { position:absolute; left:0; top:0; z-index:40; pointer-events:none; }
+  #puff { position:absolute; inset:0; z-index:70; pointer-events:none; opacity:0; }
+  #puff i { position:absolute; border-radius:50%; background:radial-gradient(circle, rgba(255,250,242,1) 0 40%, rgba(255,250,242,0) 70%); }
+  #glow { position:absolute; inset:0; z-index:35; pointer-events:none; mix-blend-mode:screen; opacity:0; background:radial-gradient(ellipse at 50% 62%, rgba(255,150,40,.95), rgba(255,90,0,.35) 35%, transparent 65%); }
+  #vig { position:absolute; inset:0; z-index:65; pointer-events:none; background:radial-gradient(ellipse at 50% 50%, transparent 60%, rgba(30,10,0,.42)); }
+  .knob { position:absolute; width:110px; height:110px; border-radius:50%; background:radial-gradient(circle at 40% 35%, #fff, #c9c2b8 55%, #8d857a); box-shadow:0 8px 14px rgba(0,0,0,.35); }
+  .knob:after { content:''; position:absolute; left:50px; top:8px; width:10px; height:40px; border-radius:5px; background:var(--choc); }
+  .tag { position:absolute; padding:6px 34px 18px; border-radius:16px; background:#c99a5c; color:var(--choc); font-size:64px; box-shadow:0 10px 18px rgba(0,0,0,.3); white-space:nowrap; }
+</style></head><body>
+<div id="stage">
+  <!-- A: the oven -->
+  <div class="sc" id="sA">
+    <div class="cam" id="camA">
+      <div class="tiles"></div>
+      <div class="counter" style="top:1700px; height:240px"></div>
+      <!-- oven body -->
+      <div class="abs" style="left:80px; top:560px; width:920px; height:1200px; border-radius:60px; background:linear-gradient(90deg, #e9d2a6, #fbeccc 35%, #f4dfb6 70%, #d8bd8b); box-shadow:0 40px 60px rgba(30,10,0,.5), inset 0 -10px 0 rgba(120,80,30,.25)"></div>
+      <div class="abs" style="left:80px; top:560px; width:920px; height:230px; border-radius:60px 60px 0 0; background:linear-gradient(180deg, #6b3a1c, #4a2410); box-shadow:inset 0 -8px 0 rgba(0,0,0,.25)"></div>
+      <div class="knob" style="left:150px; top:620px"></div>
+      <div class="knob" style="left:300px; top:620px; rotate:60deg"></div>
+      <!-- timer dial -->
+      <div class="abs" id="timer" style="left:720px; top:595px; width:160px; height:160px; border-radius:50%; background:radial-gradient(circle at 40% 35%, #fffaf0, #eadcc4 60%, #b9a685); box-shadow:0 8px 16px rgba(0,0,0,.4)">
+        <div class="abs" style="inset:0; border-radius:50%; background:repeating-conic-gradient(from 0deg, var(--choc) 0 1.4deg, transparent 1.4deg 30deg); -webkit-mask:radial-gradient(circle, transparent 58%, #000 60% 70%, transparent 72%); mask:radial-gradient(circle, transparent 58%, #000 60% 70%, transparent 72%)"></div>
+        <div class="abs" id="hand" style="left:74px; top:22px; width:12px; height:62px; border-radius:6px; background:#c0392b; transform-origin:6px 58px"></div>
+        <div class="abs" style="left:66px; top:66px; width:28px; height:28px; border-radius:50%; background:var(--choc)"></div>
+      </div>
+      <svg class="abs" id="ding" width="1080" height="900" style="opacity:0"><g stroke="#ffd36a" stroke-width="10" stroke-linecap="round" fill="none"><path d="M800 560 L800 520"/><path d="M880 590 L915 560"/><path d="M720 590 L685 560"/><path d="M915 660 L960 660"/><path d="M685 660 L640 660"/></g></svg>
+      <!-- cavity behind the door -->
+      <div class="abs" id="cavity" style="left:150px; top:840px; width:780px; height:640px; border-radius:28px; background:radial-gradient(ellipse at 50% 70%, #ffb347, #e06a10 45%, #5a1c02 100%); box-shadow:inset 0 0 60px rgba(0,0,0,.7)">
+        <div class="abs" style="left:40px; top:380px; width:700px; height:14px; background:#3a1a08; border-radius:7px"></div>
+        <div class="abs" style="left:40px; top:200px; width:700px; height:14px; background:#3a1a08; border-radius:7px; opacity:.6"></div>
+      </div>
+      <!-- door (hinged at the bottom) -->
+      <div class="abs" id="doorWrap" style="left:120px; top:820px; width:840px; height:700px; perspective:1700px; perspective-origin:50% 0%">
+        <div id="door" class="abs" style="width:840px; height:700px; transform-origin:50% 100%; border-radius:34px; background:linear-gradient(180deg, #f9ebcd, #ecd4a7); box-shadow:0 18px 30px rgba(0,0,0,.35)">
+          <div class="abs" style="left:110px; top:36px; width:620px; height:40px; border-radius:20px; background:linear-gradient(180deg, #fff, #b8b0a4); box-shadow:0 8px 10px rgba(0,0,0,.3)"></div>
+          <div class="abs" id="win" style="left:90px; top:120px; width:660px; height:500px; border-radius:30px; overflow:hidden; background:radial-gradient(ellipse at 50% 75%, #ffc061, #e8761a 50%, #6a2604); box-shadow:inset 0 0 40px rgba(0,0,0,.6), 0 0 0 16px #4a2410">
+            <div id="winItems" class="abs" style="filter:blur(3px) sepia(.4) saturate(1.4)"></div>
+            <div class="abs" style="inset:0; background:linear-gradient(125deg, rgba(255,255,255,.35), transparent 30%, transparent 70%, rgba(255,255,255,.12))"></div>
+          </div>
+        </div>
+      </div>
+      <!-- tray that slides out -->
+      <div class="abs" id="trayWrap" style="left:40px; top:690px; width:1000px; height:840px; transform-origin:50% 50%; opacity:0">
+        <div class="abs" style="width:1000px; height:840px; border-radius:26px; background:linear-gradient(180deg, #d9d9d9, #9a9a9a); box-shadow:0 40px 50px rgba(0,0,0,.55), inset 0 0 0 14px #b5b5b5"></div>
+        <div class="abs" style="left:36px; top:36px; width:928px; height:768px; background:#f3e6cc; border-radius:6px; box-shadow:inset 0 0 30px rgba(150,100,40,.35); background-image:repeating-linear-gradient(115deg, rgba(255,255,255,.18) 0 3px, transparent 3px 22px)"></div>
+        <div class="abs" id="trayItems" style="width:1000px; height:840px"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- B: bakery display case count -->
+  <div class="sc" id="sB">
+    <div class="abs" style="inset:0; background:radial-gradient(ellipse at 50% 40%, #6a3417, #2b150a 80%)"></div>
+    <div class="abs" id="bokeh" style="inset:0"></div>
+    <div class="abs" id="caseWrap" style="left:60px; top:620px; width:960px; height:1000px">
+      <div class="abs" style="width:960px; height:1000px; border-radius:30px; background:linear-gradient(180deg, rgba(255,240,220,.18), rgba(255,240,220,.06)); border:12px solid #5a2c12; box-shadow:0 40px 60px rgba(0,0,0,.5), inset 0 0 50px rgba(255,200,140,.25)"></div>
+      <div class="abs" style="left:12px; top:322px; width:936px; height:18px; background:linear-gradient(180deg, #fff6, #fff2); box-shadow:0 6px 10px rgba(0,0,0,.3)"></div>
+      <div class="abs" style="left:12px; top:642px; width:936px; height:18px; background:linear-gradient(180deg, #fff6, #fff2); box-shadow:0 6px 10px rgba(0,0,0,.3)"></div>
+      <div class="abs" style="left:12px; top:960px; width:936px; height:18px; background:linear-gradient(180deg, #fff6, #fff2)"></div>
+      <div class="abs" id="caseItems" style="width:960px; height:1000px"></div>
+      <div class="abs" style="inset:0; border-radius:30px; background:linear-gradient(115deg, rgba(255,255,255,.22), transparent 25%, transparent 60%, rgba(255,255,255,.1) 70%, transparent 80%); pointer-events:none"></div>
+    </div>
+    <div class="ov" id="cnt" style="top:110px; font-size:300px; line-height:1; color:#ffb83f; -webkit-text-stroke:18px var(--choc); paint-order:stroke fill; filter:drop-shadow(0 12px 0 #8a4a1c); font-family:Cairo; font-weight:900">٠</div>
+    <div class="ov" id="cntPill" style="top:430px; font-size:74px"><span class="pill">ستيكر قهوة وحلويات</span></div>
+  </div>
+
+  <!-- C: uses -->
+  <div class="sc" id="sC">
+    <div class="tiles"></div>
+    <div class="counter" style="top:1250px; height:700px"></div>
+    <div class="abs" id="u0" style="width:1080px; height:1920px"></div>
+    <div class="abs" id="u1" style="width:1080px; height:1920px"></div>
+    <div class="abs" id="u2" style="width:1080px; height:1920px"></div>
+  </div>
+
+  <!-- D: print sheet baked on a tray -->
+  <div class="sc" id="sD">
+    <div class="abs" style="inset:0; background:radial-gradient(ellipse at 50% 45%, #ffb347, #d9600f 45%, #4a1702 95%)"></div>
+    <div class="abs" style="left:60px; top:300px; width:960px; height:16px; background:#3a1a08; border-radius:8px; opacity:.7"></div>
+    <div class="abs" id="trayD" style="left:110px; top:330px; width:860px; height:1180px">
+      <div class="abs" style="width:860px; height:1180px; border-radius:26px; background:linear-gradient(180deg, #d9d9d9, #9a9a9a); box-shadow:0 40px 50px rgba(0,0,0,.55), inset 0 0 0 14px #b5b5b5"></div>
+      <div class="abs" id="sheet" style="left:80px; top:60px; width:700px; height:990px; background:#fdf6ee; border-radius:6px; box-shadow:0 10px 24px rgba(0,0,0,.3)"></div>
+    </div>
+    <img class="st" id="peel" src="sweets/b69.png" style="width:190px; opacity:0">
+  </div>
+
+  <!-- E: end card -->
+  <div class="sc" id="sE">
+    <div class="tiles"></div>
+    <div class="counter" style="top:1500px; height:420px"></div>
+    <div class="ov" id="brandT" style="top:110px; font-size:92px; color:var(--cream); -webkit-text-stroke:12px var(--choc); paint-order:stroke fill; filter:drop-shadow(0 7px 0 #8a4a1c)">ستيكرات قهوة وحلويات</div>
+    <div class="abs" id="bag" style="left:250px; top:330px; width:580px; height:880px">
+      <div class="abs" style="left:0; top:80px; width:580px; height:800px; background:linear-gradient(100deg, #b98a52, #d6aa70 40%, #c39258 70%, #a87a44); clip-path:polygon(4% 0, 96% 0, 100% 100%, 0 100%); box-shadow:0 40px 60px rgba(0,0,0,.45)"></div>
+      <div class="abs" style="left:22px; top:0; width:536px; height:120px; background:repeating-linear-gradient(90deg, #c99a5c 0 24px, #b5864c 24px 26px); clip-path:polygon(0 100%, 0 30%, 6% 0, 12% 30%, 18% 0, 24% 30%, 30% 0, 36% 30%, 42% 0, 48% 30%, 54% 0, 60% 30%, 66% 0, 72% 30%, 78% 0, 84% 30%, 90% 0, 96% 30%, 100% 0, 100% 100%)"></div>
+      <div class="abs" id="qrCard" style="left:90px; top:250px; width:400px; height:470px; background:var(--cream); border-radius:30px; box-shadow:0 10px 0 rgba(0,0,0,.08), 0 16px 26px rgba(60,25,5,.35); padding:30px">
+        <div style="width:340px; height:340px; background:#fff; padding:10px; border:5px solid var(--choc); border-radius:16px"><img src="qr_store.png" style="width:100%; height:100%; display:block"></div>
+        <div style="text-align:center; font-size:50px; color:var(--choc); margin-top:6px">امسح الكود</div>
+      </div>
+    </div>
+    <div class="abs" id="endSt"></div>
+    <div class="ov" id="avail" style="top:1300px; font-size:80px; color:var(--cream); -webkit-text-stroke:11px var(--choc); paint-order:stroke fill">متوفرة في</div>
+    <div class="ov" id="storeN" style="top:1440px; font-size:140px"><span class="pill" style="background:#a8431c; padding:0 70px 26px">متجر دُر</span></div>
+    <div class="ov" id="url" style="top:1720px; font-family:Cairo; font-weight:800; font-size:44px; color:var(--choc); direction:ltr">planme.zaher.io</div>
+  </div>
+
+  <canvas id="steam" width="1080" height="1920"></canvas>
+  <div id="glow"></div>
+  <div class="ov cap" id="capbox" style="top:170px"></div>
+  <div id="puff"></div>
+  <div id="vig"></div>
+</div>
+<script>
+const $ = (id) => document.getElementById(id);
+const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eio = (x) => (x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const eb = (x) => { const c = 1.7; return x <= 0 ? 0 : 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const show = (id, v) => ($(id).style.display = v ? 'block' : 'none');
+const lerp = (a, b, k) => a + (b - a) * k;
+const AR = (n) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]);
+
+const D = { h1: 0.3, h2: 2.0, c1: 4.0, c2: 5.1, c3: 6.2, count: 7.8, n2: 9.4, u0: 11.2, u1: 12.6, u2: 14.0, print: 15.6, print2: 16.7, brand: 18.8, store: 20.4, store2: 21.2, end_all: 24.2 };
+const T = Object.assign({}, D, window.TL || {});
+
+// tray: freshly baked stickers (no branded designs)
+const TRAY = [['b73', 80, 70, 270], ['b40', 370, 90, 300], ['b69', 690, 70, 250], ['b67', 80, 430, 260], ['b59', 370, 470, 290], ['b65', 700, 440, 240]];
+$('trayItems').innerHTML = TRAY.map(([n, x, y, w], i) => `<img class="st" id="ti${i}" src="sweets/${n}.png" style="width:${w}px; transform:translate(${x}px,${y}px)">`).join('');
+$('winItems').innerHTML = TRAY.map(([n, x, y, w]) => `<img src="sweets/${n}.png" style="position:absolute; width:${w * 0.6}px; left:${30 + x * 0.6}px; top:${80 + y * 0.45}px">`).join('');
+const FOC = [[0, 2.0], [1, 1.85], [2, 2.0]]; // item index, zoom
+
+// display case: drinks and sweets
+const CASE = ['b6', 'b9', 'b16', 'b26', 'b60', 'b63', 'b58', 'b61', 'b12', 'b19', 'b20', 'b73'];
+$('caseItems').innerHTML = CASE.map((n, i) => `<img class="st" id="ci${i}" src="sweets/${n}.png" style="height:260px; transform:translate(${40 + (i % 4) * 225}px,${40 + Math.floor(i / 4) * 320}px)">`).join('');
+$('bokeh').innerHTML = Array.from({ length: 16 }, (_, i) => `<i style="position:absolute; left:${R(i) * 1080 - 60}px; top:${R(i + 40) * 1920 - 60}px; width:${80 + R(i + 9) * 120}px; height:${80 + R(i + 9) * 120}px; border-radius:50%; background:radial-gradient(circle, rgba(255,190,110,.45), transparent 70%)"></i>`).join('');
+
+// uses
+const box = (x, y) => `<div class="abs" style="left:${x}px; top:${y}px; width:760px; height:560px">
+  <div class="abs" style="left:0; top:120px; width:760px; height:440px; background:#fff; border-radius:14px; box-shadow:0 40px 50px rgba(0,0,0,.35); background-image:repeating-linear-gradient(90deg, transparent 0 60px, rgba(232,160,160,.55) 60px 100px)"></div>
+  <div class="abs" style="left:-20px; top:60px; width:800px; height:120px; background:#fff; border-radius:16px; box-shadow:0 14px 18px rgba(0,0,0,.25)"></div>
+  <div class="abs" style="left:370px; top:60px; width:22px; height:500px; background:#c0392b; opacity:.85"></div>
+  <div class="abs" style="left:-20px; top:110px; width:800px; height:22px; background:#c0392b; opacity:.85"></div></div>`;
+$('u0').innerHTML = box(160, 620) + `<img class="st" src="sweets/b60.png" style="width:300px; transform:translate(390px,820px) rotate(-6deg)"><img class="st" src="sweets/b6.png" style="width:180px; transform:translate(200px,860px) rotate(8deg)">`;
+$('u1').innerHTML = `<div class="abs" style="left:250px; top:420px; width:580px; height:880px; background:linear-gradient(100deg, #b98a52, #d6aa70 40%, #c39258 70%, #a87a44); clip-path:polygon(4% 0, 96% 0, 100% 100%, 0 100%); box-shadow:0 40px 60px rgba(0,0,0,.45)"></div>
+  <div class="abs" style="left:250px; top:420px; width:580px; height:150px; background:linear-gradient(180deg, #a87a44, #c39258); clip-path:polygon(4% 0, 96% 0, 98% 100%, 2% 100%)"></div>
+  <img class="st" src="sweets/b40.png" style="width:360px; transform:translate(360px,680px) rotate(-5deg)"><img class="st" src="sweets/b72.png" style="width:220px; transform:translate(300px,980px) rotate(7deg)"><img class="st" src="sweets/b67.png" style="width:200px; transform:translate(590px,1010px) rotate(-8deg)">`;
+$('u2').innerHTML = `<div class="abs" style="left:150px; top:560px; width:780px; height:620px; background:#fffaf2; border-radius:18px; box-shadow:0 40px 50px rgba(0,0,0,.35); rotate:-3deg">
+  <div style="position:absolute; left:0; top:60px; width:780px; text-align:center; font-size:120px; color:#a8431c">شكراً لكم</div>
+  <div style="position:absolute; left:110px; top:250px; width:560px; height:6px; background:rgba(168,67,28,.25)"></div></div>
+  <img class="st" src="sweets/b26.png" style="width:230px; transform:translate(220px,880px) rotate(-8deg)"><img class="st" src="sweets/b65.png" style="width:230px; transform:translate(640px,880px) rotate(6deg)"><img class="st" src="sweets/b62.png" style="width:200px; transform:translate(440px,900px)">`;
+
+// print sheet: custom grid of baked goods
+const SH = ['b69', 'b40', 'b73', 'b67', 'b59', 'b65', 'b60', 'b63', 'b58', 'b61', 'b38', 'b48'];
+$('sheet').innerHTML = `<div style="position:absolute; left:0; top:24px; width:700px; text-align:center; font-family:Cairo; font-weight:800; font-size:34px; color:#a8431c">ستيكرات قهوة وحلويات</div>` + SH.map((n, i) => `<div style="position:absolute; left:${42 + (i % 3) * 210}px; top:${100 + Math.floor(i / 3) * 215}px; width:196px; height:196px; border:3px dashed rgba(0,0,0,.18); border-radius:26px"></div><img ${i === 0 ? 'id="slot0"' : ''} src="sweets/${n}.png" style="position:absolute; left:${52 + (i % 3) * 210}px; top:${110 + Math.floor(i / 3) * 215}px; width:176px; height:176px; object-fit:contain">`).join('');
+$('endSt').innerHTML = [['b71', 40, 1240, 230, -8], ['b69', 820, 1180, 220, 10], ['b40', 40, 300, 220, -12], ['b9', 840, 330, 200, 8]].map(([n, x, y, w, r], i) => `<img class="st" id="es${i}" src="sweets/${n}.png" style="width:${w}px; transform:translate(${x}px,${y}px) rotate(${r}deg)">`).join('');
+$('puff').innerHTML = Array.from({ length: 14 }, (_, i) => { const s = 500 + R(i + 3) * 500; return `<i style="left:${R(i) * 1080 - s / 2}px; top:${R(i + 20) * 1920 - s / 2}px; width:${s}px; height:${s}px"></i>`; }).join('');
+
+const LINES = () => [
+  [T.h1, 'شمّيتوا الريحة؟', [1]], [T.h2, 'طالعة من الفرن... | ستيكرات!', [3]],
+  [T.c1, 'كوكيز', [0]], [T.c2, 'كرواسون', [0]], [T.c3, 'ودونات بالشوكولاتة!', [1]],
+  [T.n2, 'قهوة وحلا... | وكل شي لذيذ', [4]],
+  [T.u0, 'على علب الطلبات', [1]], [T.u1, 'أكياس المخبوزات', [1]], [T.u2, 'وكروت الشكر', [1]],
+  [T.print, 'ملف PDF', [1]], [T.print2, 'طباعة، قص... | وبالعافية!', [2]],
+];
+const ENDS = () => { const L = LINES(); return L.map((l, i) => { if (i === 4) return T.count - 0.4; if (i === 5) return T.u0 - 0.4; if (i === 10) return T.brand - 0.4; return L[i + 1][0] - 0.35; }); };
+
+// steam particles
+const sctx = $('steam').getContext('2d');
+const steamAt = (t, ex, ey, spread, rate, amp, seed) => {
+  if (amp <= 0) return;
+  const N = 26;
+  for (let i = 0; i < N; i++) {
+    const life = 1.8 + R(seed + i) * 0.8; const ph = ((t * rate + i / N) % 1); const age = ph * life;
+    const x = ex + (R(seed + i * 7) - 0.5) * spread + Math.sin(age * 2.4 + i) * 40 * ph;
+    const y = ey - age * 260; const r = 30 + ph * 110;
+    const a = amp * 0.22 * Math.sin(Math.PI * ph);
+    const g = sctx.createRadialGradient(x, y, 0, x, y, r); g.addColorStop(0, `rgba(255,252,246,${a})`); g.addColorStop(1, 'rgba(255,252,246,0)');
+    sctx.fillStyle = g; sctx.beginPath(); sctx.arc(x, y, r, 0, 7); sctx.fill();
+  }
+};
+
+window.render = (t) => {
+  sctx.clearRect(0, 0, 1080, 1920);
+  $('stage').style.opacity = 1 - p(t, T.end_all - 0.5, T.end_all);
+  const sA = t < T.count - 0.25, sB = t >= T.count - 0.25 && t < T.u0 - 0.25, sC = t >= T.u0 - 0.25 && t < T.print - 0.25, sD = t >= T.print - 0.25 && t < T.brand - 0.25, sE = t >= T.brand - 0.25;
+  show('sA', sA); show('sB', sB); show('sC', sC); show('sD', sD); show('sE', sE);
+  // steam-puff transitions between scenes
+  const cuts = [T.count - 0.25, T.u0 - 0.25, T.u1 - 0.25, T.u2 - 0.25, T.print - 0.25, T.brand - 0.25];
+  let pf = 0; cuts.forEach((c) => (pf = Math.max(pf, 1 - Math.abs(t - c) / 0.3)));
+  $('puff').style.opacity = eio(Math.max(0, pf)); $('puff').style.transform = `translateY(${-t * 60 % 120}px) scale(1.1)`;
+  let glow = 0, capTop = 170;
+
+  if (sA) {
+    // timer runs down, dings at h2
+    const tk = p(t, 0, T.h2 - 0.1); $('hand').style.transform = `rotate(${200 * (1 - tk) + Math.sin(t * 40) * (t < T.h2 ? 1.5 : 0)}deg)`;
+    const dg = p(t, T.h2 - 0.15, T.h2 + 0.5); $('ding').style.opacity = dg > 0 && dg < 1 ? Math.sin(Math.PI * dg) : 0;
+    $('timer').style.transform = dg > 0 && dg < 1 ? `rotate(${Math.sin(dg * 40) * 10 * (1 - dg)}deg)` : 'none';
+    // door drops open
+    const dk = eo(p(t, T.h2, T.h2 + 0.55));
+    $('door').style.transform = `rotateX(${-84 * dk}deg)`;
+    $('winItems').style.opacity = 1 - dk;
+    // tray slides out and fills the frame
+    const tk2 = eio(p(t, T.h2 + 0.3, T.h2 + 1.05));
+    $('trayWrap').style.opacity = p(t, T.h2 + 0.3, T.h2 + 0.4);
+    $('trayWrap').style.transform = `translate(0px, ${lerp(380, 0, tk2)}px) scale(${lerp(0.55, 1, tk2)}) perspective(1600px) rotateX(${lerp(55, 0, tk2)}deg)`;
+    glow = 0.35 + 0.15 * Math.sin(t * 6) * 0.3 + 0.6 * Math.sin(Math.PI * p(t, T.h2 + 0.05, T.h2 + 1.3));
+    if (t < T.h2) glow = 0.25 + 0.05 * Math.sin(t * 5);
+    // camera: pans between hero bakes
+    let z = 1, fx = 540, fy = 1110;
+    const ctr = (i) => { const [, x, y, w] = TRAY[i]; const im = $(`ti${i}`); const h = w * (im.naturalHeight / im.naturalWidth || 1); return [40 + x + w / 2, 690 + y + h / 2]; };
+    const keys = [[T.c1 - 0.35, 0], [T.c2 - 0.3, 1], [T.c3 - 0.3, 2]];
+    const outK = eio(p(t, T.c3 + 1.0, T.count - 0.3));
+    if (t > T.c1 - 0.35) {
+      let ki = 0; keys.forEach((k, i) => { if (t >= k[0]) ki = i; });
+      const [a, idx] = keys[ki]; const k = eio(p(t, a, a + 0.4));
+      const [px, py] = ki === 0 ? [540, 1110] : ctr(keys[ki - 1][1]); const pz = ki === 0 ? 1 : FOC[ki - 1][1];
+      const [qx, qy] = ctr(idx);
+      fx = lerp(px, qx, k); fy = lerp(py, qy, k); z = lerp(pz, FOC[ki][1], k);
+      fx = lerp(fx, 540, outK); fy = lerp(fy, 1110, outK); z = lerp(z, 1, outK);
+      TRAY.forEach((_, i) => { const on = i === idx && outK < 0.5; const b = on ? eb(p(t, a + 0.25, a + 0.65)) : 0; $(`ti${i}`).style.transform = `translate(${TRAY[i][1]}px,${TRAY[i][2] - 18 * b}px) scale(${1 + 0.08 * b})`; });
+      const [sx, sy] = ctr(idx); steamAt(t, 540 + (sx - fx) * z, 1110 + (sy - fy) * z - 60, 160, 0.55, 1 - outK, 30 + idx);
+    }
+    $('camA').style.transform = `translate(${540 - fx * z}px, ${1110 - fy * z}px) scale(${z})`;
+    // steam: vents before opening, whoosh of steam when the door opens
+    if (t < T.h2 + 0.2) steamAt(t, 540, 830, 600, 0.45, 0.8, 1);
+    steamAt(t, 540, 1200, 700, 0.8, 2.6 * Math.sin(Math.PI * p(t, T.h2 + 0.05, T.h2 + 1.6)), 7);
+    if (t > T.h2 + 1.0 && t < T.c1 - 0.2) steamAt(t, 540, 1000, 800, 0.5, 0.9, 11);
+  }
+  if (sB) {
+    capTop = 1680;
+    const a = T.count - 0.2;
+    CASE.forEach((_, i) => { const k = p(t, a + 0.1 + i * 0.07, a + 0.45 + i * 0.07); const e = $(`ci${i}`); e.style.opacity = p(t, a + 0.1 + i * 0.07, a + 0.18 + i * 0.07); e.style.scale = 0.4 + 0.6 * eb(k); });
+    $('cnt').textContent = AR(Math.round(68 * eo(p(t, a + 0.1, a + 1.3))));
+    $('cnt').style.transform = `scale(${1 + 0.1 * Math.sin(Math.PI * p(t, a + 1.2, a + 1.5))})`;
+    $('cntPill').style.opacity = p(t, a + 0.9, a + 1.1); $('cntPill').style.transform = `scale(${0.6 + 0.4 * eb(p(t, a + 0.9, a + 1.3))})`;
+    $('caseWrap').style.transform = `translateY(${(1 - eo(p(t, a - 0.1, a + 0.4))) * 200}px) scale(${1 + 0.02 * p(t, a, T.u0)})`;
+    $('bokeh').style.transform = `translateX(${-30 * p(t, a, T.u0)}px)`;
+  }
+  if (sC) {
+    capTop = 1600;
+    const U = [T.u0, T.u1, T.u2];
+    U.forEach((u, i) => {
+      const on = t >= u - 0.25 && (i === 2 || t < U[i + 1] - 0.25);
+      const e = $(`u${i}`); e.style.display = on ? 'block' : 'none';
+      const k = eo(p(t, u - 0.25, u + 0.35));
+      e.style.transform = `translateY(${(1 - k) * 160}px) scale(${0.92 + 0.08 * k + 0.03 * p(t, u, u + 1.5)})`;
+    });
+    const ui = t >= T.u2 - 0.25 ? 2 : t >= T.u1 - 0.25 ? 1 : 0;
+    steamAt(t, 540, 1240, 500, 0.4, 0.5, 50 + ui);
+  }
+  if (sD) {
+    capTop = 1640;
+    const a = T.print - 0.25;
+    const k = eo(p(t, a, a + 0.7));
+    $('trayD').style.transform = `translateY(${(1 - k) * 1300}px) perspective(1600px) rotateX(${(1 - k) * 30}deg)`;
+    glow = 0.5 * (1 - p(t, a, a + 1));
+    steamAt(t, 540, 1300, 800, 0.5, 1.2 * (1 - p(t, a + 0.4, T.print2 + 1)), 70);
+    // one sticker peels off the sheet
+    const pk = p(t, T.print2 - 0.1, T.print2 + 0.7); const s0 = $('slot0').getBoundingClientRect();
+    $('slot0').style.opacity = pk > 0 ? 0.15 : 1;
+    $('peel').style.opacity = pk > 0 ? 1 : 0;
+    $('peel').style.transform = `translate(${s0.left - 7 + 120 * eo(pk)}px, ${s0.top - 7 - 360 * eo(pk)}px) rotate(${-14 * eo(pk)}deg) scale(${1 + 0.5 * eo(pk)})`;
+    $('peel').style.filter = `drop-shadow(0 ${12 + 40 * pk}px ${14 + 20 * pk}px rgba(50,20,5,.45))`;
+  }
+  if (sE) {
+    const a = T.brand - 0.25;
+    $('brandT').style.opacity = p(t, T.brand - 0.1, T.brand + 0.1); $('brandT').style.transform = `scale(${0.6 + 0.4 * eb(p(t, T.brand - 0.1, T.brand + 0.35))})`;
+    $('bag').style.transform = `translateY(${(1 - eo(p(t, a, a + 0.6))) * 900}px) rotate(${(1 - eo(p(t, a, a + 0.8))) * 6}deg)`;
+    [0, 1, 2, 3].forEach((i) => { const e = $(`es${i}`); const k = p(t, a + 0.4 + i * 0.12, a + 0.8 + i * 0.12); e.style.opacity = p(t, a + 0.4 + i * 0.12, a + 0.5 + i * 0.12); e.style.scale = 0.5 + 0.5 * eb(k); e.style.translate = `0 ${Math.sin(t * 2 + i) * 8}px`; });
+    $('avail').style.opacity = p(t, T.store - 0.1, T.store + 0.05); $('avail').style.transform = `translateY(${(1 - eo(p(t, T.store - 0.1, T.store + 0.3))) * 40}px)`;
+    $('storeN').style.opacity = p(t, T.store2 - 0.1, T.store2); $('storeN').style.transform = `scale(${0.5 + 0.5 * eb(p(t, T.store2 - 0.1, T.store2 + 0.35))})`;
+    $('url').style.opacity = p(t, T.store2 + 0.3, T.store2 + 0.6);
+    steamAt(t, 155, 1260, 90, 0.5, 0.9 * p(t, a + 0.5, a + 1), 90);
+  }
+  $('glow').style.opacity = glow;
+
+  // word-by-word captions (the hook is fully readable from frame 0)
+  const L = LINES(), E = ENDS(); let html = '';
+  L.forEach(([s, text, hl], i) => {
+    if (t < (i === 0 ? -1 : s - 0.12) || t >= E[i]) return;
+    const ws = text.split(' ').filter((w) => w !== '|'); const brk = text.split(' ').indexOf('|'); const per = Math.min(0.22, 0.75 / ws.length);
+    html = ws.map((w, j) => { const st = i === 0 ? -1 : s - 0.12 + j * per; const k = p(t, st, st + 0.3); if (k <= 0) return ''; const sq = eb(k);
+      return `<span class="w${hl.includes(j) ? ' hl' : ''}" style="opacity:${p(t, st, st + 0.06)}; transform:scale(${0.5 + 0.5 * sq}, ${0.3 + 0.7 * sq + (i === 0 ? 0.03 * Math.sin(t * 5 + j) : 0)})">${w}</span>${j === brk - 1 ? '<br>' : ''}`; }).join(' ');
+    $('capbox').style.fontSize = i === 0 ? '160px' : (brk > 0 && capTop > 1000 ? '104px' : '124px'); if (brk > 0 && capTop > 1000) capTop = 1625;
+  });
+  $('capbox').innerHTML = html; $('capbox').style.top = capTop + 'px';
+};
+render(0);
+</script>
+</body></html>
