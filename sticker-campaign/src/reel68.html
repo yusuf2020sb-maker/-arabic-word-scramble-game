@@ -50,7 +50,7 @@ const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x 
 const lerp = (a, b, k) => a + (b - a) * k;
 const AR = (n) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]);
 
-const D = { h1: 0.3, h2: 1.9, c1: 3.8, c2: 5.0, c3: 6.2, count: 7.8, n2: 9.4, u0: 11.0, u1: 12.2, u2: 13.4, print: 15.0, print2: 16.2, brand: 18.2, store: 19.8, store2: 20.6, end_all: 23.6 };
+const D = { h1: 0.3, h1b: 1.3, h2: 2.6, c1: 4.5, c2: 5.7, c3: 6.9, count: 8.5, n2: 10.1, u0: 11.7, u1: 12.9, u2: 14.1, print: 15.7, print2: 16.9, brand: 18.9, store: 20.5, store2: 21.3, end_all: 24.3 };
 const T = Object.assign({}, D, window.TL || {});
 
 // A: a drawer of paper treasures scattered in the dark
@@ -78,14 +78,14 @@ $('wC').innerHTML = `
 const USE = [[540, 680], [540, 1160], [540, 1620]];
 
 const LINES = () => [
-  [T.h1, 'النور طاف...', [1]], [T.h2, 'بس شوفوا وش لقينا!', [3]],
+  [T.h1, 'النور!!!!!', [0]], [T.h1b, 'فاصل...', [0]], [T.h2, 'بس شوفوا وش لقينا!', [3]],
   [T.c1, 'تذاكر قديمة،', [0]], [T.c2, 'رسايل،', [0]], [T.c3, 'وطوابع وملصقات!', [0]],
   [T.count, '١٤٩ ستيكر', [0]], [T.n2, 'بخمس ألوان!', [1]],
   [T.u0, 'للجورنال،', [0]], [T.u1, 'للسكرابوك،', [0]], [T.u2, 'ولتغليف الهدايا.', [1]],
   [T.print, 'ملف PDF', [1]], [T.print2, 'يتطبع ويتقص... بسهولة!', [2]],
   [T.brand, 'ستيكرات إفيميرا فنتج', [1]],
 ];
-const ENDS = () => { const L = LINES(); return L.map((l, i) => (i === L.length - 1 ? 99 : i === 4 ? T.count - 0.3 : i === 6 ? T.u0 - 0.3 : i === 11 ? T.brand - 0.3 : L[i + 1][0] - 0.12)); };
+const ENDS = () => { const L = LINES(); return L.map((l, i) => (i === L.length - 1 ? 99 : i === 5 ? T.count - 0.3 : i === 7 ? T.u0 - 0.3 : i === 12 ? T.brand - 0.3 : L[i + 1][0] - 0.12)); };
 
 // flashlight path: [time, x, y, radius]
 const BEAM = () => [
@@ -103,7 +103,8 @@ const beamAt = (t) => { const K = BEAM(); let i = 0; while (i < K.length - 2 && 
 // ambient light level (the power comes back for the count)
 const ambient = (t) => {
   const on = (a) => { const k = p(t, a, a + 0.5); return k <= 0 ? 0 : k >= 1 ? 1 : [0.6, 0, 0.8, 0.1, 1][Math.floor(k * 5)]; };
-  return Math.max(on(T.count - 0.25) * (1 - p(t, T.u0 - 0.4, T.u0 - 0.1)), on(T.print2 - 0.1) * (1 - p(t, T.brand - 0.4, T.brand - 0.1)), 0.75 * p(t, T.store2 + 0.2, T.store2 + 0.8)); };
+  const pre = t < T.h1b - 0.45 ? 1 : t >= T.h1b ? 0 : [0.2, 1, 0.1, 0.8, 0, 0.5, 0][Math.floor(p(t, T.h1b - 0.45, T.h1b) * 7)];
+  return Math.max(pre, on(T.count - 0.25) * (1 - p(t, T.u0 - 0.4, T.u0 - 0.1)), on(T.print2 - 0.1) * (1 - p(t, T.brand - 0.4, T.brand - 0.1)), 0.75 * p(t, T.store2 + 0.2, T.store2 + 0.8)); };
 const dctx = $('dust').getContext('2d');
 
 window.render = (t) => {
@@ -114,7 +115,7 @@ window.render = (t) => {
   // tiny flicker of the torch
   const fl = 1 - 0.06 * (R(Math.floor(t * 24)) > 0.85 ? 1 : 0);
   $('dark').style.background = `radial-gradient(circle ${br}px at ${bx}px ${by}px, rgba(0,0,0,${0.02 + 0.05 * (1 - fl)}) 0%, rgba(0,0,0,${0.25 * (1 - amb)}) 55%, rgba(0,0,0,${0.97 * (1 - amb)}) 100%)`;
-  $('warm').style.background = `radial-gradient(circle ${br * 1.05}px at ${bx}px ${by}px, rgba(255,200,120,${0.55 * (1 - amb * 0.7)}), transparent 70%)`;
+  $('warm').style.background = `radial-gradient(circle ${br * 1.05}px at ${bx}px ${by}px, rgba(255,200,120,${0.55 * (1 - amb * 0.7) * (t < T.h1b ? 0 : 1)}), transparent 70%)`;
   // dust in the beam
   dctx.clearRect(0, 0, 1080, 1920);
   for (let i = 0; i < 70; i++) { const a = R(i) * 6.283, rr = Math.sqrt(R(i + 50)) * br * 0.85;

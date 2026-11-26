@@ -12,8 +12,8 @@ from mix_reel3 import SR, chime, lowpass, mix, norm, pop, rng, whoosh
 from sfx_reel18 import clack
 from sfx_reel22 import pad, piano
 
-D = {"h1": 0.3, "h2": 1.9, "c1": 3.8, "c2": 5.0, "c3": 6.2, "count": 7.8, "n2": 9.4, "u0": 11.0, "u1": 12.2, "u2": 13.4,
-     "print": 15.0, "print2": 16.2, "brand": 18.2, "store": 19.8, "store2": 20.6, "end_all": 23.6}
+D = {"h1": 0.3, "h1b": 1.3, "h2": 2.6, "c1": 4.5, "c2": 5.7, "c3": 6.9, "count": 8.5, "n2": 10.1, "u0": 11.7, "u1": 12.9, "u2": 14.1,
+     "print": 15.7, "print2": 16.9, "brand": 18.9, "store": 20.5, "store2": 21.3, "end_all": 24.3}
 
 
 def powerdown(d=0.9):
@@ -40,7 +40,7 @@ def music_box(notes, gap=0.18):
 
 def main(out_path):
     T = D; dur = T["end_all"]
-    parts = [(0, 0.7 * powerdown()), (0.05, 0.8 * clack()), (0.2, 0.25 * pad((110, 130.8, 164.8), dur - 0.2))]
+    parts = [(T["h1b"] - 0.45, 0.6 * flicker(0.45)), (T["h1b"], 0.7 * powerdown()), (T["h1b"] + 0.25, 0.8 * clack()), (T["h1b"] + 0.3, 0.25 * pad((110, 130.8, 164.8), dur - T["h1b"] - 0.3))]
     parts += [(T["h2"] + 0.2 + i * 0.4, 0.35 * swish()) for i in range(3)]
     for c in (T["c1"], T["c2"], T["c3"]):
         parts += [(c - 0.25, 0.4 * swish(0.3)), (c, 0.3 * pop())]
