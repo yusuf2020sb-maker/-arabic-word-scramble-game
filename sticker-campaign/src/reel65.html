@@ -133,6 +133,7 @@
   <div id="puff"></div>
   <div id="vig"></div>
 </div>
+<script src="reel65_timeline.js"></script>
 <script>
 const $ = (id) => document.getElementById(id);
 const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
@@ -303,7 +304,7 @@ window.render = (t) => {
   L.forEach(([s, text, hl], i) => {
     if (t < (i === 0 ? -1 : s - 0.12) || t >= E[i]) return;
     const ws = text.split(' ').filter((w) => w !== '|'); const brk = text.split(' ').indexOf('|'); const per = Math.min(0.22, 0.75 / ws.length);
-    html = ws.map((w, j) => { const st = i === 0 ? -1 : s - 0.12 + j * per; const k = p(t, st, st + 0.3); if (k <= 0) return ''; const sq = eb(k);
+    html = ws.map((w, j) => { const wo = (window.TL && window.TL.woff && window.TL.woff[i]) || null; const st = i === 0 ? -1 : s - 0.12 + (wo ? wo[j] : j * per); const k = p(t, st, st + 0.3); if (k <= 0) return ''; const sq = eb(k);
       return `<span class="w${hl.includes(j) ? ' hl' : ''}" style="opacity:${p(t, st, st + 0.06)}; transform:scale(${0.5 + 0.5 * sq}, ${0.3 + 0.7 * sq + (i === 0 ? 0.03 * Math.sin(t * 5 + j) : 0)})">${w}</span>${j === brk - 1 ? '<br>' : ''}`; }).join(' ');
     $('capbox').style.fontSize = i === 0 ? '160px' : (brk > 0 && capTop > 1000 ? '104px' : '124px'); if (brk > 0 && capTop > 1000) capTop = 1625;
   });
