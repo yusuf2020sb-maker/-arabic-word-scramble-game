@@ -91,8 +91,7 @@
     <img class="st" id="e1" src="autumn/b29.png" style="width:230px">
     <div class="abs" id="avail" style="left:0; top:1150px; width:1080px; text-align:center; font-size:60px; color:var(--sub)">متوفرة في</div>
     <div class="abs" id="storeN" style="left:0; top:1225px; width:1080px; text-align:center; font-size:130px; font-weight:700; line-height:1.2">متجر <span class="g">دُر</span></div>
-    <div class="abs" id="url" style="left:0; top:1420px; width:1080px; text-align:center; font-size:40px; color:#8d8d8d; direction:ltr">planme.zaher.io</div>
-  </div>
+    </div>
 
   <div id="sub"></div>
   <canvas id="trail" width="1080" height="1920"></canvas>
@@ -140,7 +139,7 @@ const KEYS = () => [
   [T.count, 120, 500], [T.count + 1.2, 960, 1400], [T.u0 - 0.3, 540, 1440],
   [T.u0, 860, 580], [T.u1, 540, 580], [T.u2, 220, 580], [T.print - 0.3, 220, 580],
   [T.print, 730, 520], [T.print2 - 0.2, 540, 1240], [T.print2 + 0.6, 540, 1240], [T.brand - 0.3, 540, 1240],
-  [T.brand, 860, 330], [T.store - 0.2, 870, 1120], [T.store2, 540, 1460], [99, 540, 1460],
+  [T.brand, 860, 330], [T.store - 0.2, 870, 1120], [T.store2, 380, 1250], [99, 380, 1250],
 ];
 const dotAt = (t) => {
   const K = KEYS(); let i = 0; while (i < K.length - 2 && t >= K[i + 1][0]) i++;
@@ -192,12 +191,12 @@ window.render = (t) => {
   $('e0').style.transform = `translate(${120 - 110}px, ${300 + Math.sin(t * 1.5) * 8}px) rotate(-12deg)`; $('e1').style.transform = `translate(${960 - 115}px, ${420 + Math.sin(t * 1.5 + 2) * 8}px) rotate(9deg)`;
   $('e0').style.opacity = $('e1').style.opacity = p(t, T.brand + 0.2, T.brand + 0.5);
   $('avail').style.opacity = p(t, T.store - 0.1, T.store + 0.15); $('storeN').style.opacity = p(t, T.store2 - 0.15, T.store2 + 0.05);
-  $('storeN').style.transform = `scale(${0.7 + 0.3 * eb(p(t, T.store2 - 0.15, T.store2 + 0.3))})`; $('url').style.opacity = p(t, T.store2 + 0.3, T.store2 + 0.6);
+  $('storeN').style.transform = `scale(${0.7 + 0.3 * eb(p(t, T.store2 - 0.15, T.store2 + 0.3))})`;
   // subtitle = narration
   const L = LINES(); let cur = L[0]; L.forEach((l) => { if (t >= l[0] - 0.1) cur = l; });
   const sk = t < 0.01 ? 1 : p(t, cur[0] - 0.1, cur[0] + 0.15); $('sub').textContent = cur[1]; $('sub').style.opacity = sk;
   // dot + comet trail
-  const [x, y] = dotAt(t); $('dot').style.transform = `translate(${x}px, ${y}px) scale(${1 + 0.15 * Math.sin(t * 7)})`;
+  const [x, y] = dotAt(t); const dg = 1 - p(t, T.store2 + 0.2, T.store2 + 0.7); $('dot').style.opacity = dg; $('trail').style.opacity = dg; $('dot').style.transform = `translate(${x}px, ${y}px) scale(${1 + 0.15 * Math.sin(t * 7)})`;
   tctx.clearRect(0, 0, 1080, 1920);
   for (let k = 14; k >= 1; k--) { const [tx, ty] = dotAt(Math.max(0, t - k * 0.018)); tctx.fillStyle = `rgba(255,190,70,${0.22 * (1 - k / 15)})`; tctx.beginPath(); tctx.arc(tx, ty, 13 * (1 - k / 18), 0, 7); tctx.fill(); }
 };

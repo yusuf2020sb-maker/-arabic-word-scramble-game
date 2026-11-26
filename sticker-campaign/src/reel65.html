@@ -120,8 +120,7 @@
     <div class="abs" id="endSt"></div>
     <div class="ov" id="avail" style="top:1300px; font-size:80px; color:var(--cream); -webkit-text-stroke:11px var(--choc); paint-order:stroke fill">متوفرة في</div>
     <div class="ov" id="storeN" style="top:1440px; font-size:140px"><span class="pill" style="background:#a8431c; padding:0 70px 26px">متجر دُر</span></div>
-    <div class="ov" id="url" style="top:1720px; font-family:Cairo; font-weight:800; font-size:44px; color:var(--choc); direction:ltr">planme.zaher.io</div>
-  </div>
+    </div>
 
   <canvas id="steam" width="1080" height="1920"></canvas>
   <div id="glow"></div>
@@ -290,7 +289,6 @@ window.render = (t) => {
     [0, 1].forEach((i) => { const e = $(`es${i}`); const k = p(t, a + 0.4 + i * 0.12, a + 0.8 + i * 0.12); e.style.opacity = p(t, a + 0.4 + i * 0.12, a + 0.5 + i * 0.12); e.style.scale = 0.5 + 0.5 * eb(k); e.style.translate = `0 ${Math.sin(t * 2 + i) * 8}px`; });
     $('avail').style.opacity = p(t, T.store - 0.1, T.store + 0.05); $('avail').style.transform = `translateY(${(1 - eo(p(t, T.store - 0.1, T.store + 0.3))) * 40}px)`;
     $('storeN').style.opacity = p(t, T.store2 - 0.1, T.store2); $('storeN').style.transform = `scale(${0.5 + 0.5 * eb(p(t, T.store2 - 0.1, T.store2 + 0.35))})`;
-    $('url').style.opacity = p(t, T.store2 + 0.3, T.store2 + 0.6);
     steamAt(t, 155, 1260, 90, 0.5, 0.9 * p(t, a + 0.5, a + 1), 90);
   }
   $('glow').style.opacity = glow;
