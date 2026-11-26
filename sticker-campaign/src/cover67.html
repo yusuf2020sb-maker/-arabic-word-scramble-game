@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root { --gold:#ffbf47; --red:#ef4f5a; --line:#2e2e2e; --card:#111; --txt:#f2f2f2; --sub:#b9b9b9; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:#050505; font-family:'IBM Plex Sans Arabic',sans-serif; color:var(--txt); }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; background:radial-gradient(ellipse 70% 45% at 50% 44%, #191512, #050505 70%); }
+  .abs { position:absolute; left:0; top:0; }
+  .beat { position:absolute; left:0; top:0; width:1080px; height:1920px; opacity:0; }
+  .title { position:absolute; left:0; top:230px; width:1080px; text-align:center; font-weight:700; font-size:88px; line-height:1.3; white-space:nowrap; }
+  .g { color:var(--gold); } .r { color:var(--red); }
+  .card { position:absolute; border:3px solid var(--line); background:var(--card); border-radius:34px; box-shadow:0 30px 60px rgba(0,0,0,.6); }
+  .st { position:absolute; left:0; top:0; filter:drop-shadow(0 14px 18px rgba(0,0,0,.6)); }
+  .row { position:absolute; left:110px; width:860px; height:150px; border:3px solid var(--line); background:#0f0f0f; border-radius:30px; }
+  .row .num { position:absolute; right:34px; top:37px; width:76px; height:76px; border-radius:50%; border:4px solid var(--gold); color:var(--gold); font-weight:700; font-size:46px; text-align:center; line-height:66px; }
+  .row .tx { position:absolute; right:140px; top:30px; font-size:60px; font-weight:500; white-space:nowrap; }
+  .row svg { position:absolute; left:40px; top:35px; }
+  .ico { fill:none; stroke:#cfcfcf; stroke-width:5; stroke-linecap:round; stroke-linejoin:round; }
+  .lab { position:absolute; width:100%; text-align:center; font-size:46px; font-weight:500; color:var(--sub); }
+  #sub { position:absolute; left:60px; top:1500px; width:960px; text-align:center; font-size:50px; color:var(--sub); font-weight:400; line-height:1.5; z-index:50; }
+  #dot { position:absolute; left:0; top:0; width:30px; height:30px; margin:-15px 0 0 -15px; border-radius:50%; background:radial-gradient(circle, #fff7df 0 25%, #ffc552 55%, #f39c12 100%); box-shadow:0 0 18px 6px rgba(255,190,70,.75), 0 0 60px 20px rgba(255,170,40,.35); z-index:60; }
+  #trail { position:absolute; left:0; top:0; z-index:59; pointer-events:none; }
+</style></head><body>
+<div id="stage">
+  <!-- B0: hook (whole idea on frame 0) -->
+  <div class="beat" id="b0">
+    <div class="title">إلا <span class="g">هذا</span>!</div>
+    <div class="abs" style="left:240px; top:520px; width:600px; height:780px; border-radius:50%; background:radial-gradient(circle, rgba(240,150,170,.2), transparent 65%)"></div>
+    <div class="card" id="heroCard" style="left:230px; top:500px; width:620px; height:820px"></div>
+    <img class="st" id="h0" src="botan/b10.png" style="width:330px">
+    <img class="st" id="h1i" src="botan/b19.png" style="width:290px">
+    <img class="st" id="h2i" src="botan/b17.png" style="width:300px">
+  </div>
+  <!-- B1: real flowers wilt, stickers don't -->
+  <div class="beat" id="b1">
+    <div class="title" id="t1a" style="font-size:110px">ثلاث <span class="r">أيام</span>!!</div><div class="title" id="t1b" style="opacity:0; font-size:110px">و<span class="r">يذبل</span>...</div>
+    <div class="card" id="ship" style="left:570px; top:560px; width:400px; height:600px">
+      <svg class="abs" style="left:60px; top:40px" width="280" height="360" viewBox="0 0 280 360"><g class="ico" stroke-width="6">
+        <path d="M95 250 h90 l-12 100 h-66z"/>
+        <path id="stem" d="M140 250 C140 200 140 150 140 110"/>
+        <g id="head"><path d="M140 110 c-30 -10 -40 -50 -20 -70 c10 15 20 15 20 0 c0 15 10 15 20 0 c20 20 10 60 -20 70z"/><path d="M140 175 c-25 -5 -35 -25 -30 -35 c15 0 25 10 30 35 M140 160 c25 -5 35 -25 30 -35 c-15 0 -25 10 -30 35"/></g>
+        <path id="pt1" d="M120 60 c-10 5 -10 20 0 20 c8 -5 8 -15 0 -20z"/><path id="pt2" d="M162 58 c-10 5 -10 20 0 20 c8 -5 8 -15 0 -20z"/>
+      </g></svg>
+      <div class="lab" style="top:420px">ورد طبيعي</div><div class="lab" id="day" style="top:490px; color:var(--red); font-weight:700">اليوم ١</div>
+    </div>
+    <div class="card" id="wait" style="left:110px; top:560px; width:400px; height:600px">
+      <img class="st" id="bq" src="botan/b10.png" style="width:250px; transform:translate(75px,50px)">
+      <div class="lab" style="top:420px">ستيكر</div><div class="lab" style="top:490px; color:var(--gold); font-weight:700">ما يذبل</div>
+    </div>
+  </div>
+  <!-- B2: the solution, three steps -->
+  <div class="beat" id="b2">
+    <div class="title"><span class="g">وش</span> فيه؟</div>
+    <svg class="abs" width="1080" height="1920"><line id="conn" x1="898" y1="600" x2="898" y2="1100" stroke="var(--gold)" stroke-width="4" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" opacity=".6"/></svg>
+    <div class="row" id="r0" style="top:500px"><div class="num">١</div><div class="tx">توليب</div>
+      <img src="botan/b31.png" style="position:absolute; left:40px; top:-30px; height:200px; filter:drop-shadow(0 10px 14px rgba(0,0,0,.6))"></div>
+    <div class="row" id="r1" style="top:740px"><div class="num">٢</div><div class="tx">لافندر</div>
+      <img src="botan/b14.png" style="position:absolute; left:40px; top:-30px; height:200px; filter:drop-shadow(0 10px 14px rgba(0,0,0,.6))"></div>
+    <div class="row" id="r2" style="top:980px"><div class="num">٣</div><div class="tx">باقات كاملة</div>
+      <img src="botan/b15.png" style="position:absolute; left:40px; top:-30px; height:200px; filter:drop-shadow(0 10px 14px rgba(0,0,0,.6))"></div>
+  </div>
+  <!-- B3: count -->
+  <div class="beat" id="b3">
+    <div class="title" id="t3a"><span class="g">٤٦</span> ستيكر</div>
+    <div class="title" id="t3b" style="opacity:0">ما تحتاج <span class="g">موية</span></div>
+    <div id="grid"></div>
+  </div>
+  <!-- B4: uses -->
+  <div class="beat" id="b4">
+    <div class="title"><span class="g">استخداماتها</span></div>
+    <div id="uses"></div>
+  </div>
+  <!-- B5: PDF + reprint -->
+  <div class="beat" id="b5">
+    <div class="title" id="t5a">ملف <span class="g">PDF</span></div>
+    <div class="title" id="t5b" style="opacity:0">يتطبع <span class="g">بدقايق</span></div>
+    <div class="card" id="phone" style="left:350px; top:520px; width:380px; height:720px; border-radius:50px">
+      <div class="abs" style="left:140px; top:26px; width:100px; height:10px; border-radius:5px; background:#2a2a2a"></div>
+      <svg class="abs" id="pdf" style="left:100px; top:170px" width="180" height="230" viewBox="0 0 180 230"><path d="M10 10 h110 l50 50 v160 h-160z M120 10 v50 h50" fill="none" stroke="var(--gold)" stroke-width="8" stroke-linejoin="round"/><text x="90" y="170" text-anchor="middle" font-family="IBM Plex Sans Arabic" font-weight="700" font-size="54" fill="var(--gold)">PDF</text></svg>
+      <div class="lab" style="top:450px; font-size:40px">ستيكرات نباتية</div>
+    </div>
+    <div id="stack"></div>
+    <svg class="abs" id="loop" style="left:440px; top:1210px; opacity:0" width="200" height="200" viewBox="0 0 200 200"><g fill="none" stroke="var(--gold)" stroke-width="10" stroke-linecap="round"><path d="M160 100 a60 60 0 1 1 -18 -43"/><path d="M146 30 l0 32 l-32 0"/></g></svg>
+  </div>
+  <!-- B6: end -->
+  <div class="beat" id="b6">
+    <div class="title" style="top:180px; font-size:80px">ستيكرات نباتية <span class="g">فنتج</span></div>
+    <div class="abs" id="qrc" style="left:220px; top:310px; width:640px; height:800px">
+      <img src="dur_card.png" style="width:640px; height:800px; display:block; border-radius:34px; box-shadow:0 0 0 3px rgba(255,191,71,.55), 0 30px 70px rgba(0,0,0,.7)">
+      <img class="st" src="botan/b28.png" style="width:110px; transform:translate(510px,620px) rotate(10deg)">
+    </div>
+    <img class="st" id="e0" src="botan/b15.png" style="width:220px">
+    <img class="st" id="e1" src="botan/b14.png" style="width:200px">
+    <div class="abs" id="avail" style="left:0; top:1150px; width:1080px; text-align:center; font-size:60px; color:var(--sub)">متوفرة في</div>
+    <div class="abs" id="storeN" style="left:0; top:1225px; width:1080px; text-align:center; font-size:130px; font-weight:700; line-height:1.2">متجر <span class="g">دُر</span></div>
+    </div>
+
+  <div id="sub"></div>
+  <canvas id="trail" width="1080" height="1920"></canvas>
+  <div id="dot"></div>
+</div>
+<script src="reel67_timeline.js"></script>
+<script>
+const $ = (id) => document.getElementById(id);
+const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eio = (x) => (x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const eb = (x) => { const c = 1.7; return x <= 0 ? 0 : 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const lerp = (a, b, k) => a + (b - a) * k;
+
+const D = { h1: 0.3, h1b: 1.3, h2: 2.6, c1: 4.2, c2: 5.0, c3: 5.8, count: 7.0, n2: 8.6, u0: 10.0, u1: 11.0, u2: 12.0, print: 13.8, print2: 15.0, brand: 17.2, store: 18.8, store2: 19.6, end_all: 22.8 };
+const T = Object.assign({}, D, window.TL || {});
+
+// hero fan on the hook card
+const HERO = [['h0', 330, 420, 820, -8], ['h1i', 310, 680, 700, 10], ['h2i', 300, 620, 1080, -3]];
+// count grid
+const GR = ['b10', 'b14', 'b15', 'b19', 'b23', 'b26', 'b31', 'b17', 'b13', 'b9', 'b42', 'b48'];
+$('grid').innerHTML = GR.map((n, i) => { const x = 110 + (i % 4) * 220, y = 520 + Math.floor(i / 4) * 300; return `<div class="card" style="left:${x}px; top:${y}px; width:200px; height:280px; border-radius:24px; box-shadow:none" id="gs${i}"></div><img class="st" id="gi${i}" src="botan/${n}.png" style="width:170px; height:250px; object-fit:contain; transform:translate(${x + 15}px,${y + 15}px)">`; }).join('');
+// uses: journal, card, gift
+const USE = [['جورنال', 'b29', '<rect x="14" y="8" width="56" height="70" rx="6"/><path d="M26 8 v70 M36 26 h24 M36 40 h24"/>'],
+  ['ظروف', 'b35', '<rect x="8" y="18" width="70" height="50" rx="6"/><path d="M8 24 l35 24 l35 -24"/>'],
+  ['هدايا', 'b38', '<rect x="10" y="32" width="66" height="44" rx="4"/><rect x="6" y="20" width="74" height="14" rx="3"/><path d="M43 20 v56 M43 20 c-10 -16 -26 -10 -18 0 M43 20 c10 -16 26 -10 18 0"/>']];
+$('uses').innerHTML = USE.map(([l, n, ic], i) => { const x = 720 - i * 320; return `<div class="card" id="uc${i}" style="left:${x}px; top:600px; width:280px; height:560px; border-radius:30px">
+  <svg class="abs" id="ui${i}" style="left:97px; top:70px" width="86" height="86" viewBox="0 0 86 86"><g class="ico">${ic}</g></svg>
+  <div class="lab" style="top:440px">${l}</div></div><img class="st" id="us${i}" src="botan/${n}.png" style="width:200px; height:250px; object-fit:contain; transform:translate(${x + 40}px,780px)">`; }).join('');
+// reprint stack
+$('stack').innerHTML = [0, 1, 2].map((i) => `<img class="st" id="sk${i}" src="botan/sheet2.jpg" style="width:300px; border-radius:10px; border:3px solid #333">`).join('');
+
+const LINES = () => [
+  [0, 'ثلاث أيام!!'], [T.h1b, 'ويذبل...'], [T.h2, 'إلا هذا!'], [T.c1, 'توليب، لافندر، وباقات كاملة!'],
+  [T.count, 'ستة وأربعين ستيكر'], [T.n2, 'ما تحتاج موية!'], [T.u0, 'للجورنال، للظروف، ولتغليف الهدايا.'],
+  [T.print, 'ملف PDF'], [T.print2, 'يتطبع في البيت... بدقايق!'], [T.brand, 'ستيكرات نباتية فنتج.'], [T.store, 'متوفرة في متجر دُر.'],
+];
+// beats: [start, end]
+const BEATS = () => [[-1, T.h2 - 0.2], [T.h2 - 0.2, T.c1 - 0.25], [T.c1 - 0.25, T.count - 0.2], [T.count - 0.2, T.u0 - 0.2], [T.u0 - 0.2, T.print - 0.2], [T.print - 0.2, T.brand - 0.2], [T.brand - 0.2, 99]];
+
+// the gold guide dot: keyframes [time, x, y]
+const KEYS = () => [
+  [0, 770, 540], [T.h1 + 0.3, 770, 600], [T.h1 + 1.3, 770, 960], [T.h2 - 0.45, 770, 960], [T.h2 - 0.1, 310, 600],
+  [T.h2 + 0.2, 870, 470], [T.h2 + 0.9, 830, 1310], [T.c1 - 0.5, 250, 1250],
+  [T.c1 - 0.1, 898, 575], [T.c2 - 0.1, 898, 815], [T.c3 - 0.1, 898, 1055], [T.count - 0.3, 898, 1055],
+  [T.count, 120, 500], [T.count + 1.2, 960, 1400], [T.u0 - 0.3, 540, 1440],
+  [T.u0, 860, 580], [T.u1, 540, 580], [T.u2, 220, 580], [T.print - 0.3, 220, 580],
+  [T.print, 730, 520], [T.print2 - 0.2, 540, 1240], [T.print2 + 0.6, 540, 1240], [T.brand - 0.3, 540, 1240],
+  [T.brand, 860, 330], [T.store - 0.2, 870, 1120], [T.store2, 380, 1250], [99, 380, 1250],
+];
+const dotAt = (t) => {
+  const K = KEYS(); let i = 0; while (i < K.length - 2 && t >= K[i + 1][0]) i++;
+  const [a, x0, y0] = K[i], [b, x1, y1] = K[i + 1]; const k = eio(p(t, a, b));
+  const arc = Math.sin(Math.PI * k) * 0.12 * Math.hypot(x1 - x0, y1 - y0);
+  const nx = -(y1 - y0), ny = x1 - x0, nl = Math.hypot(nx, ny) || 1;
+  return [lerp(x0, x1, k) + nx / nl * arc, lerp(y0, y1, k) + ny / nl * arc];
+};
+const near = (t, x, y, r = 60) => { const [dx, dy] = dotAt(t); return Math.hypot(dx - x, dy - y) < r; };
+const tctx = $('trail').getContext('2d');
+
+window.render = (t) => {
+  $('stage').style.opacity = 1 - p(t, T.end_all - 0.5, T.end_all);
+  // beats crossfade with a soft blur
+  const ORDER = [1, 0, 2, 3, 4, 5, 6]; // hook = real flowers wilt, then the sticker bouquets
+  BEATS().forEach(([a, b], j) => {
+    const i = ORDER[j]; const first = j === 0 && t < 0.01;
+    const k = Math.min(p(t, a, a + 0.35), 1 - p(t, b - 0.05, b + 0.3)); const e = $(`b${i}`);
+    e.style.opacity = first ? 1 : k; e.style.filter = k < 1 && !first ? `blur(${(1 - k) * 10}px)` : 'none';
+    e.style.transform = `scale(${first ? 1 : 0.97 + 0.03 * k})`; e.style.display = k > 0 || first ? 'block' : 'none';
+  });
+  // B0 hero fan, breathing
+  HERO.forEach(([id, w, x, y, r], i) => { $(id).style.transform = `translate(${x - w / 2}px, ${y - w / 2 + Math.sin(t * 1.6 + i) * 8}px) rotate(${r + Math.sin(t * 1.2 + i * 2) * 1.5}deg)`; });
+  $('heroCard').style.borderColor = `rgba(255,191,71,${0.25 + 0.2 * Math.sin(t * 3)})`;
+  // B1 strikes
+  const wl = eio(p(t, T.h1b - 0.15, T.h1b + 1.0)); // the real flower wilts on "ويذبل"
+  const dy = Math.min(3, 1 + Math.floor(p(t, T.h1, T.h1b - 0.15) * 3)); $('day').textContent = 'اليوم ' + '١٢٣'[dy - 1];
+  const tb = p(t, T.h1b - 0.15, T.h1b + 0.1); $('t1a').style.opacity = 1 - tb; $('t1b').style.opacity = tb;
+  $('head').setAttribute('transform', `rotate(${100 * wl} 140 112)`); $('head').style.stroke = `rgb(${207 + 30 * wl},${207 - 120 * wl},${207 - 110 * wl})`;
+  $('stem').setAttribute('d', `M140 250 C140 ${200 - 10 * wl} ${140 + 30 * wl} ${150 - 10 * wl} ${140 + 45 * wl} ${110 + 25 * wl}`);
+  [1, 2].forEach((i) => { const k = p(t, T.h1b + 0.2 + i * 0.2, T.h1b + 1.0 + i * 0.2); $(`pt${i}`).setAttribute('transform', `translate(${(i - 1.5) * 60 * k} ${200 * k}) rotate(${140 * k} 140 70)`); $(`pt${i}`).style.opacity = 1 - p(t, T.h1b + 0.8 + i * 0.2, T.h1b + 1.0 + i * 0.2); });
+  $('ship').style.borderColor = wl > 0.5 ? 'rgba(239,79,90,.6)' : ''; $('ship').style.opacity = 1 - 0.4 * p(t, T.h1b + 1.0, T.h2 - 0.3);
+  const gl = p(t, T.h2 - 0.35, T.h2 - 0.1); $('wait').style.borderColor = gl > 0 ? 'rgba(255,191,71,.7)' : ''; $('wait').style.transform = `scale(${1 + 0.06 * Math.sin(Math.PI * gl)})`;
+  $('bq').style.transform = `translate(75px, ${50 + Math.sin(t * 1.6) * 6}px)`;
+  // B2 steps light up as the dot reaches them
+  [T.c1, T.c2, T.c3].forEach((c, i) => { const k = p(t, c - 0.15, c + 0.15); const r = $(`r${i}`);
+    r.style.opacity = 0.25 + 0.75 * k; r.style.borderColor = k > 0.5 ? 'rgba(255,191,71,.55)' : ''; r.style.transform = `translateX(${(1 - eo(k)) * -40}px) scale(${1 + 0.04 * Math.sin(Math.PI * k)})`; });
+  $('conn').style.strokeDashoffset = 1 - p(t, T.c1 - 0.1, T.c3 - 0.1);
+  // B3 grid fills along the dot's sweep
+  GR.forEach((_, i) => { const st = T.count + 0.1 + i * 0.09; const k = p(t, st, st + 0.3); const e = $(`gi${i}`); e.style.opacity = p(t, st, st + 0.08); e.style.scale = 0.5 + 0.5 * eb(k);
+    $(`gs${i}`).style.borderColor = k > 0 ? `rgba(255,191,71,${0.5 * (1 - p(t, st + 0.3, st + 1))})` : ''; });
+  const n2k = p(t, T.n2 - 0.15, T.n2 + 0.15); $('t3a').style.opacity = 1 - n2k; $('t3b').style.opacity = n2k;
+  $('grid').style.filter = `sepia(${0.25 * n2k}) saturate(${1 + 0.35 * n2k})`;
+  // B4 uses: each card receives its sticker
+  [T.u0, T.u1, T.u2].forEach((u, i) => { const k = p(t, u - 0.05, u + 0.3); const s = $(`us${i}`); s.style.opacity = p(t, u - 0.05, u + 0.05); s.style.scale = 0.4 + 0.6 * eb(k);
+    $(`uc${i}`).style.borderColor = k > 0 ? 'rgba(255,191,71,.6)' : ''; $(`ui${i}`).style.opacity = 1 - 0.6 * k; });
+  // B5 phone -> reprint loop
+  const r2 = p(t, T.print2 - 0.2, T.print2 + 0.15); $('t5a').style.opacity = 1 - r2; $('t5b').style.opacity = r2;
+  $('pdf').style.transform = `scale(${1 + 0.08 * Math.sin(Math.PI * p(t, T.print, T.print + 0.4))})`; $('pdf').style.transformOrigin = '50% 50%';
+  $('phone').style.transform = `translateY(${-140 * eio(r2)}px) scale(${1 - 0.3 * eio(r2)})`;
+  $('loop').style.opacity = r2; $('loop').style.transform = `rotate(${-t * 160}deg)`; $('loop').style.transformOrigin = '50% 50%';
+  [0, 1, 2].forEach((i) => { const st = T.print2 + 0.15 + i * 0.35; const k = eo(p(t, st, st + 0.4)); const e = $(`sk${i}`);
+    e.style.opacity = p(t, st, st + 0.1); e.style.transform = `translate(${[120, 390, 660][i]}px, ${lerp(1500, 1100, k)}px) rotate(${(i - 1) * 6}deg) scale(.82)`; });
+  $('loop').style.display = 'none'; // the stack and title carry the idea; keep the frame clean
+  // B6 end
+  const qk = p(t, T.brand - 0.1, T.brand + 0.4); $('qrc').style.transform = `scale(${0.85 + 0.15 * eo(qk)})`;
+  $('e0').style.transform = `translate(${120 - 110}px, ${300 + Math.sin(t * 1.5) * 8}px) rotate(-12deg)`; $('e1').style.transform = `translate(${960 - 115}px, ${420 + Math.sin(t * 1.5 + 2) * 8}px) rotate(9deg)`;
+  $('e0').style.opacity = $('e1').style.opacity = p(t, T.brand + 0.2, T.brand + 0.5);
+  $('avail').style.opacity = p(t, T.store - 0.1, T.store + 0.15); $('storeN').style.opacity = p(t, T.store2 - 0.15, T.store2 + 0.05);
+  $('storeN').style.transform = `scale(${0.7 + 0.3 * eb(p(t, T.store2 - 0.15, T.store2 + 0.3))})`;
+  // subtitle = narration
+  const L = LINES(); let cur = L[0]; L.forEach((l) => { if (t >= l[0] - 0.1) cur = l; });
+  const sk = t < 0.01 ? 1 : p(t, cur[0] - 0.1, cur[0] + 0.15); $('sub').textContent = cur[1]; $('sub').style.opacity = sk;
+  // dot + comet trail
+  const [x, y] = dotAt(t); const dg = 1 - p(t, T.store2 + 0.2, T.store2 + 0.7); $('dot').style.opacity = dg; $('trail').style.opacity = dg; $('dot').style.transform = `translate(${x}px, ${y}px) scale(${1 + 0.15 * Math.sin(t * 7)})`;
+  tctx.clearRect(0, 0, 1080, 1920);
+  for (let k = 14; k >= 1; k--) { const [tx, ty] = dotAt(Math.max(0, t - k * 0.018)); tctx.fillStyle = `rgba(255,190,70,${0.22 * (1 - k / 15)})`; tctx.beginPath(); tctx.arc(tx, ty, 13 * (1 - k / 18), 0, 7); tctx.fill(); }
+};
+render(2.75);
+$('t1a').style.opacity = 0; const tb = $('t1b'); tb.style.opacity = 1; tb.style.top = '140px'; tb.style.fontSize = '100px';
+tb.innerHTML = 'ثلاث <span class="r">أيام</span>... ويذبل<br>إلا <span class="g">هذا</span>!';
+$('wait').style.borderColor = 'rgba(255,191,71,.8)'; $('wait').style.boxShadow = '0 0 60px rgba(255,191,71,.25), 0 30px 60px rgba(0,0,0,.6)';
+$('sub').style.display = 'none'; $('dot').style.transform = 'translate(310px, 590px)';
+$('trail').style.display = 'none';
+$('stage').insertAdjacentHTML('beforeend', `<div style="position:absolute; left:30px; top:1300px; width:1020px; height:560px; background:#111; border:3px solid rgba(255,191,71,.5); border-radius:40px; z-index:70">
+  <img src="dur_card.png" style="position:absolute; left:26px; top:26px; width:406px; height:508px; border-radius:26px">
+  <div style="position:absolute; left:440px; top:40px; width:560px; text-align:center; font-weight:700; font-size:140px; color:var(--gold); line-height:1.2">٤٦</div>
+  <div style="position:absolute; left:440px; top:215px; width:560px; text-align:center; font-weight:700; font-size:58px; white-space:nowrap">ستيكر نباتي فنتج</div>
+  <div style="position:absolute; left:440px; top:310px; width:560px; text-align:center; font-size:44px; color:var(--sub); white-space:nowrap">ملف PDF يتطبع في البيت</div>
+  <div style="position:absolute; left:440px; top:410px; width:560px; text-align:center; font-weight:700; font-size:58px; white-space:nowrap">متوفرة في متجر <span class="g">دُر</span></div>
+</div>`);
+</script>
+</body></html>
