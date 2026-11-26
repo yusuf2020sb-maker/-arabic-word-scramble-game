@@ -83,15 +83,15 @@
   <!-- B6: end -->
   <div class="beat" id="b6">
     <div class="title" style="top:180px; font-size:80px">ستيكرات خريفية <span class="g">فنتج</span></div>
-    <div class="card" id="qrc" style="left:270px; top:400px; width:540px; height:600px; border-color:var(--gold)">
-      <div class="abs" style="left:50px; top:50px; width:440px; height:440px; background:#fff; border-radius:22px; padding:16px"><img src="qr_store.png" style="width:100%; height:100%; display:block"></div>
-      <div class="lab" style="top:508px; color:var(--gold)">امسح الكود</div>
+    <div class="abs" id="qrc" style="left:220px; top:310px; width:640px; height:800px">
+      <img src="dur_card.png" style="width:640px; height:800px; display:block; border-radius:34px; box-shadow:0 0 0 3px rgba(255,191,71,.55), 0 30px 70px rgba(0,0,0,.7)">
+      <img class="st" src="autumn/b38.png" style="width:140px; transform:translate(495px,650px) rotate(10deg)">
     </div>
     <img class="st" id="e0" src="autumn/b38.png" style="width:220px">
     <img class="st" id="e1" src="autumn/b29.png" style="width:230px">
-    <div class="abs" id="avail" style="left:0; top:1060px; width:1080px; text-align:center; font-size:64px; color:var(--sub)">متوفرة في</div>
-    <div class="abs" id="storeN" style="left:0; top:1150px; width:1080px; text-align:center; font-size:150px; font-weight:700; line-height:1.2">متجر <span class="g">دُر</span></div>
-    <div class="abs" id="url" style="left:0; top:1380px; width:1080px; text-align:center; font-size:44px; color:#8d8d8d; direction:ltr">planme.zaher.io</div>
+    <div class="abs" id="avail" style="left:0; top:1150px; width:1080px; text-align:center; font-size:60px; color:var(--sub)">متوفرة في</div>
+    <div class="abs" id="storeN" style="left:0; top:1225px; width:1080px; text-align:center; font-size:130px; font-weight:700; line-height:1.2">متجر <span class="g">دُر</span></div>
+    <div class="abs" id="url" style="left:0; top:1420px; width:1080px; text-align:center; font-size:40px; color:#8d8d8d; direction:ltr">planme.zaher.io</div>
   </div>
 
   <div id="sub"></div>
@@ -140,7 +140,7 @@ const KEYS = () => [
   [T.count, 120, 500], [T.count + 1.2, 960, 1400], [T.u0 - 0.3, 540, 1440],
   [T.u0, 860, 580], [T.u1, 540, 580], [T.u2, 220, 580], [T.print - 0.3, 220, 580],
   [T.print, 730, 520], [T.print2 - 0.2, 540, 1240], [T.print2 + 0.6, 540, 1240], [T.brand - 0.3, 540, 1240],
-  [T.brand, 810, 400], [T.store - 0.2, 810, 1000], [T.store2, 540, 1390], [99, 540, 1390],
+  [T.brand, 860, 330], [T.store - 0.2, 870, 1120], [T.store2, 540, 1460], [99, 540, 1460],
 ];
 const dotAt = (t) => {
   const K = KEYS(); let i = 0; while (i < K.length - 2 && t >= K[i + 1][0]) i++;
@@ -189,7 +189,7 @@ window.render = (t) => {
   $('loop').style.display = 'none'; // the stack and title carry the idea; keep the frame clean
   // B6 end
   const qk = p(t, T.brand - 0.1, T.brand + 0.4); $('qrc').style.transform = `scale(${0.85 + 0.15 * eo(qk)})`;
-  $('e0').style.transform = `translate(${170 - 110}px, ${380 + Math.sin(t * 1.5) * 8}px) rotate(-12deg)`; $('e1').style.transform = `translate(${930 - 115}px, ${560 + Math.sin(t * 1.5 + 2) * 8}px) rotate(9deg)`;
+  $('e0').style.transform = `translate(${120 - 110}px, ${300 + Math.sin(t * 1.5) * 8}px) rotate(-12deg)`; $('e1').style.transform = `translate(${960 - 115}px, ${420 + Math.sin(t * 1.5 + 2) * 8}px) rotate(9deg)`;
   $('e0').style.opacity = $('e1').style.opacity = p(t, T.brand + 0.2, T.brand + 0.5);
   $('avail').style.opacity = p(t, T.store - 0.1, T.store + 0.15); $('storeN').style.opacity = p(t, T.store2 - 0.15, T.store2 + 0.05);
   $('storeN').style.transform = `scale(${0.7 + 0.3 * eb(p(t, T.store2 - 0.15, T.store2 + 0.3))})`; $('url').style.opacity = p(t, T.store2 + 0.3, T.store2 + 0.6);

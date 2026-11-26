@@ -113,13 +113,9 @@
     <div class="tiles"></div>
     <div class="counter" style="top:1500px; height:420px"></div>
     <div class="ov" id="brandT" style="top:110px; font-size:92px; color:var(--cream); -webkit-text-stroke:12px var(--choc); paint-order:stroke fill; filter:drop-shadow(0 7px 0 #8a4a1c)">ستيكرات قهوة وحلويات</div>
-    <div class="abs" id="bag" style="left:250px; top:330px; width:580px; height:880px">
-      <div class="abs" style="left:0; top:80px; width:580px; height:800px; background:linear-gradient(100deg, #b98a52, #d6aa70 40%, #c39258 70%, #a87a44); clip-path:polygon(4% 0, 96% 0, 100% 100%, 0 100%); box-shadow:0 40px 60px rgba(0,0,0,.45)"></div>
-      <div class="abs" style="left:22px; top:0; width:536px; height:120px; background:repeating-linear-gradient(90deg, #c99a5c 0 24px, #b5864c 24px 26px); clip-path:polygon(0 100%, 0 30%, 6% 0, 12% 30%, 18% 0, 24% 30%, 30% 0, 36% 30%, 42% 0, 48% 30%, 54% 0, 60% 30%, 66% 0, 72% 30%, 78% 0, 84% 30%, 90% 0, 96% 30%, 100% 0, 100% 100%)"></div>
-      <div class="abs" id="qrCard" style="left:90px; top:250px; width:400px; height:470px; background:var(--cream); border-radius:30px; box-shadow:0 10px 0 rgba(0,0,0,.08), 0 16px 26px rgba(60,25,5,.35); padding:30px">
-        <div style="width:340px; height:340px; background:#fff; padding:10px; border:5px solid var(--choc); border-radius:16px"><img src="qr_store.png" style="width:100%; height:100%; display:block"></div>
-        <div style="text-align:center; font-size:50px; color:var(--choc); margin-top:6px">امسح الكود</div>
-      </div>
+    <div class="abs" id="bag" style="left:190px; top:290px; width:700px; height:875px">
+      <img src="dur_card.png" style="width:700px; height:875px; display:block; border-radius:36px; box-shadow:0 30px 60px rgba(40,15,0,.45)">
+      <img class="st" src="sweets/b40.png" style="width:150px; transform:translate(545px,720px) rotate(8deg)">
     </div>
     <div class="abs" id="endSt"></div>
     <div class="ov" id="avail" style="top:1300px; font-size:80px; color:var(--cream); -webkit-text-stroke:11px var(--choc); paint-order:stroke fill">متوفرة في</div>
@@ -177,7 +173,7 @@ $('u2').innerHTML = `<div class="abs" style="left:150px; top:560px; width:780px;
 // print sheet: custom grid of baked goods
 const SH = ['b69', 'b40', 'b73', 'b67', 'b59', 'b65', 'b60', 'b63', 'b58', 'b61', 'b38', 'b48'];
 $('sheet').innerHTML = `<div style="position:absolute; left:0; top:24px; width:700px; text-align:center; font-family:Cairo; font-weight:800; font-size:34px; color:#a8431c">ستيكرات قهوة وحلويات</div>` + SH.map((n, i) => `<div style="position:absolute; left:${42 + (i % 3) * 210}px; top:${100 + Math.floor(i / 3) * 215}px; width:196px; height:196px; border:3px dashed rgba(0,0,0,.18); border-radius:26px"></div><img ${i === 0 ? 'id="slot0"' : ''} src="sweets/${n}.png" style="position:absolute; left:${52 + (i % 3) * 210}px; top:${110 + Math.floor(i / 3) * 215}px; width:176px; height:176px; object-fit:contain">`).join('');
-$('endSt').innerHTML = [['b71', 40, 1240, 230, -8], ['b69', 820, 1180, 220, 10], ['b40', 40, 300, 220, -12], ['b9', 840, 330, 200, 8]].map(([n, x, y, w, r], i) => `<img class="st" id="es${i}" src="sweets/${n}.png" style="width:${w}px; transform:translate(${x}px,${y}px) rotate(${r}deg)">`).join('');
+$('endSt').innerHTML = [['b71', 40, 1240, 230, -8], ['b69', 820, 1180, 220, 10]].map(([n, x, y, w, r], i) => `<img class="st" id="es${i}" src="sweets/${n}.png" style="width:${w}px; transform:translate(${x}px,${y}px) rotate(${r}deg)">`).join('');
 $('puff').innerHTML = Array.from({ length: 14 }, (_, i) => { const s = 500 + R(i + 3) * 500; return `<i style="left:${R(i) * 1080 - s / 2}px; top:${R(i + 20) * 1920 - s / 2}px; width:${s}px; height:${s}px"></i>`; }).join('');
 
 const LINES = () => [
@@ -291,7 +287,7 @@ window.render = (t) => {
     const a = T.brand - 0.25;
     $('brandT').style.opacity = p(t, T.brand - 0.1, T.brand + 0.1); $('brandT').style.transform = `scale(${0.6 + 0.4 * eb(p(t, T.brand - 0.1, T.brand + 0.35))})`;
     $('bag').style.transform = `translateY(${(1 - eo(p(t, a, a + 0.6))) * 900}px) rotate(${(1 - eo(p(t, a, a + 0.8))) * 6}deg)`;
-    [0, 1, 2, 3].forEach((i) => { const e = $(`es${i}`); const k = p(t, a + 0.4 + i * 0.12, a + 0.8 + i * 0.12); e.style.opacity = p(t, a + 0.4 + i * 0.12, a + 0.5 + i * 0.12); e.style.scale = 0.5 + 0.5 * eb(k); e.style.translate = `0 ${Math.sin(t * 2 + i) * 8}px`; });
+    [0, 1].forEach((i) => { const e = $(`es${i}`); const k = p(t, a + 0.4 + i * 0.12, a + 0.8 + i * 0.12); e.style.opacity = p(t, a + 0.4 + i * 0.12, a + 0.5 + i * 0.12); e.style.scale = 0.5 + 0.5 * eb(k); e.style.translate = `0 ${Math.sin(t * 2 + i) * 8}px`; });
     $('avail').style.opacity = p(t, T.store - 0.1, T.store + 0.05); $('avail').style.transform = `translateY(${(1 - eo(p(t, T.store - 0.1, T.store + 0.3))) * 40}px)`;
     $('storeN').style.opacity = p(t, T.store2 - 0.1, T.store2); $('storeN').style.transform = `scale(${0.5 + 0.5 * eb(p(t, T.store2 - 0.1, T.store2 + 0.35))})`;
     $('url').style.opacity = p(t, T.store2 + 0.3, T.store2 + 0.6);
