@@ -35,7 +35,7 @@ def ambient(d):
 def main(out_path):
     T = D; dur = T["end_all"]
     parts = [(0, 0.35 * ambient(dur)), (0.05, 0.4 * tap(990))]
-    parts += [(T["h2"] + 0.4, 0.5 * swish()), (T["h2"] + 1.2, 0.5 * swish())]
+    parts += [(T["h1"] + 0.35, 0.5 * swish()), (T["h1"] + 1.05, 0.5 * swish())]
     for i, k in enumerate((T["c1"], T["c2"], T["c3"])):
         parts += [(k - 0.1, 0.5 * tap([880, 1046, 1318][i]))]
     parts += [(T["count"] + 0.1 + i * 0.09, 0.18 * pop()) for i in range(12)]
