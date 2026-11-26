@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@600;800&display=swap" rel="stylesheet">
+<style>
+  :root { --ivory:#f6ead2; --gold:#d9b46a; --laser:#ff2a3d; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1080px; height:1920px; overflow:clip; background:#000; font-family:'Amiri',serif; color:var(--ivory); }
+  #stage { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:clip; background:#000; }
+  .abs { position:absolute; left:0; top:0; }
+  .sc { position:absolute; left:0; top:0; width:1080px; height:1920px; display:none; }
+  .floor { position:absolute; left:0; top:1480px; width:1080px; height:440px; background:linear-gradient(180deg, rgba(40,34,28,.0), rgba(40,34,28,.55) 30%, rgba(10,8,6,.9)); }
+  .beam { position:absolute; top:0; width:700px; height:1500px; margin-left:-350px; clip-path:polygon(42% 0, 58% 0, 100% 100%, 0 100%); background:linear-gradient(180deg, rgba(255,236,200,.28), rgba(255,236,200,.05) 80%, transparent); filter:blur(6px); }
+  .pool { position:absolute; width:620px; height:110px; margin-left:-310px; border-radius:50%; background:radial-gradient(ellipse, rgba(255,232,190,.35), transparent 70%); }
+  .plinth { position:absolute; width:420px; margin-left:-210px; height:420px; background:linear-gradient(90deg, #0e0e0e, #262626 45%, #121212); border-top:6px solid #3a3a3a; box-shadow:0 30px 60px #000; }
+  .glass { position:absolute; width:480px; margin-left:-240px; height:640px; border:3px solid rgba(255,255,255,.22); background:linear-gradient(120deg, rgba(255,255,255,.12), rgba(255,255,255,.02) 35%, rgba(255,255,255,0) 60%, rgba(255,255,255,.07)); box-shadow:inset 0 0 40px rgba(255,255,255,.05); }
+  .plaque { position:absolute; width:300px; margin-left:-150px; padding:10px 0 16px; text-align:center; background:linear-gradient(180deg, #e2c27f, #a9843f); color:#2a1d08; font-family:'Cairo'; font-weight:800; font-size:40px; border-radius:6px; box-shadow:0 8px 16px rgba(0,0,0,.6); }
+  .st { position:absolute; left:0; top:0; filter:drop-shadow(0 18px 22px rgba(0,0,0,.85)); }
+  .cap { position:absolute; left:0; top:140px; width:1080px; text-align:center; z-index:60; font-weight:700; font-size:118px; line-height:1.25; white-space:nowrap; text-shadow:0 0 30px rgba(217,180,106,.35), 0 6px 18px #000; }
+  .cap .w { display:inline-block; margin:0 10px; }
+  .cap .hl { color:var(--gold); }
+  #lasers { position:absolute; left:0; top:0; z-index:40; pointer-events:none; }
+  #flash { position:absolute; inset:0; z-index:55; background:radial-gradient(circle at 50% 50%, rgba(255,40,60,.25), transparent 70%); opacity:0; pointer-events:none; }
+  .frame { position:absolute; width:210px; height:290px; border:8px solid #6b5326; background:#0c0c0c; box-shadow:inset 0 0 0 3px #c9a35a, 0 14px 24px #000; }
+  .wlab { position:absolute; left:0; width:1080px; text-align:center; z-index:50; font-family:'Cairo'; font-weight:800; font-size:62px; color:var(--ivory); text-shadow:0 4px 14px #000; }
+</style></head><body>
+<div id="stage">
+  <!-- A: the museum piece -->
+  <div class="sc" id="sA">
+    <div class="floor"></div>
+    <div class="beam" style="left:540px"></div>
+    <div class="pool" style="left:540px; top:1440px"></div>
+    <div class="plinth" style="left:540px; top:1460px"></div>
+    <div id="backing" class="abs" style="left:325px; top:760px; width:430px; height:660px; border-radius:40px; background:#fbf7ef; opacity:0; box-shadow:0 20px 40px rgba(0,0,0,.6)"></div>
+    <img class="st" id="hero" src="vase/b6.png" style="width:430px; transform:translate(325px,760px)">
+    <svg class="abs" id="curl" width="1080" height="1920" style="z-index:5; opacity:0"><path id="curlP" fill="#f3ede2" stroke="rgba(0,0,0,.15)"/></svg>
+    <div class="glass" id="glassA" style="left:540px; top:780px; height:680px"></div>
+    <div class="plaque" id="plA" style="left:540px; top:1540px">قطعة رقم ٠٠٦</div>
+  </div>
+  <!-- B: gallery walk -->
+  <div class="sc" id="sB"><div class="floor"></div><div class="abs" id="track"></div></div>
+  <!-- C: the collection wall -->
+  <div class="sc" id="sC">
+    <div class="abs" id="wall"></div>
+    <div class="abs" id="cnt" style="left:0; top:300px; width:1080px; text-align:center; font-weight:700; font-size:260px; line-height:1; color:var(--gold); text-shadow:0 0 40px rgba(217,180,106,.45)">٠</div>
+    <div class="abs" id="shine" style="left:-400px; top:0; width:300px; height:1920px; background:linear-gradient(100deg, transparent, rgba(255,230,170,.35), transparent); mix-blend-mode:screen; opacity:0"></div>
+  </div>
+  <!-- D: uses on plinths -->
+  <div class="sc" id="sD"><div class="floor"></div><div class="abs" id="uses" style="top:-160px"></div></div>
+  <!-- E: the printed sheet on display -->
+  <div class="sc" id="sE">
+    <div class="floor"></div>
+    <div class="beam" style="left:540px; width:900px; margin-left:-450px"></div>
+    <img id="sheet" src="vase/sheet3.jpg" style="position:absolute; left:215px; top:560px; width:650px; border-radius:6px; box-shadow:0 30px 60px #000">
+    <div class="glass" id="glassE" style="left:540px; top:520px; width:720px; margin-left:-360px; height:1000px"></div>
+    <img class="st" id="peel" src="vase/b6.png" style="width:190px; opacity:0">
+  </div>
+  <!-- F: end card on display -->
+  <div class="sc" id="sF">
+    <div class="floor"></div>
+    <div class="beam" style="left:540px; width:900px; margin-left:-450px"></div>
+    <img id="card" src="dur_card.png" style="position:absolute; left:250px; top:430px; width:580px; height:725px; border-radius:30px; box-shadow:0 30px 60px #000">
+    <div class="glass" style="left:540px; top:400px; width:660px; margin-left:-330px; height:800px"></div>
+    <div class="plaque" style="left:540px; top:1240px; width:420px; margin-left:-210px">ستيكرات المزهريات</div>
+    <div class="abs" id="avail" style="left:0; top:1380px; width:1080px; text-align:center; font-size:72px">متوفرة في</div>
+    <div class="abs" id="storeN" style="left:0; top:1470px; width:1080px; text-align:center; font-family:Cairo; font-size:150px; font-weight:800; color:var(--gold); line-height:1.2; text-shadow:0 0 40px rgba(217,180,106,.4)">متجر دُر</div>
+  </div>
+  <canvas id="lasers" width="1080" height="1920"></canvas>
+  <div id="flash"></div>
+  <div class="wlab" id="wl"></div>
+  <div class="cap" id="capbox"></div>
+</div>
+<script src="reel69_timeline.js"></script>
+<script>
+const $ = (id) => document.getElementById(id);
+const p = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eio = (x) => (x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const eb = (x) => { const c = 1.7; return x <= 0 ? 0 : 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const R = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const lerp = (a, b, k) => a + (b - a) * k;
+const AR = (n) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]);
+
+const D = { h1: 0.3, h1b: 1.1, h2: 2.4, c1: 4.4, c2: 5.6, c3: 6.8, count: 8.4, n2: 9.8, u0: 11.4, u1: 12.6, u2: 13.8, print: 15.4, print2: 16.6, brand: 18.8, store: 20.4, store2: 21.2, end_all: 24.2 };
+const T = Object.assign({}, D, window.TL || {});
+
+// B: three vitrines in a row (RTL walk: the next piece sits to the left)
+const GAL = [['b6', 'أزرق هادي'], ['b8', 'وردي ناعم'], ['b12', 'أصفر مشمس']];
+$('track').innerHTML = GAL.map(([n, l], i) => { const x = 540 - i * 1080; return `<div class="beam" style="left:${x}px"></div><div class="pool" style="left:${x}px; top:1440px"></div><div class="plinth" style="left:${x}px; top:1460px"></div>
+  <img class="st" id="gv${i}" src="vase/${n}.png" style="width:400px; transform:translate(${x - 200}px,800px)"><div class="glass" style="left:${x}px; top:780px; height:680px"></div><div class="plaque" style="left:${x}px; top:1540px">${l}</div>`; }).join('');
+// C: 16 framed pieces, 4 x 4
+const ALL = ['b6', 'b7', 'b8', 'b9', 'b10', 'b11', 'b12', 'b13', 'b14', 'b15', 'b16', 'b17', 'b18', 'b19', 'b20', 'b21'];
+$('wall').innerHTML = ALL.map((n, i) => { const x = 805 - (i % 4) * 250, y = 640 + Math.floor(i / 4) * 320; return `<div class="abs" id="fl${i}" style="left:${x - 60}px; top:${y - 80}px; width:330px; height:460px; background:radial-gradient(ellipse at 50% 35%, rgba(255,232,190,.3), transparent 65%); opacity:0"></div>
+  <div class="frame" id="fr${i}" style="left:${x}px; top:${y}px"><img src="vase/${n}.png" style="position:absolute; left:14px; top:10px; width:166px; height:254px; object-fit:contain"></div>`; }).join('');
+// D: mug, phone, card on plinths
+const OBJ = [
+  [790, `<div class="abs" style="left:-130px; top:-300px; width:240px; height:280px; background:linear-gradient(90deg,#d9d3c8,#fffaf2 45%,#cfc8bc); border-radius:0 0 40px 40px"></div><div class="abs" style="left:100px; top:-250px; width:90px; height:150px; border:22px solid #e9e2d6; border-left:none; border-radius:0 70px 70px 0"></div><img src="vase/b9.png" style="position:absolute; left:-75px; top:-275px; width:130px">`, 'أكواب'],
+  [540, `<div class="abs" style="left:-110px; top:-430px; width:220px; height:420px; background:#1d1d1d; border-radius:36px; border:6px solid #333"></div><div class="abs" style="left:-90px; top:-412px; width:60px; height:60px; border-radius:16px; background:#2b2b2b"></div><img src="vase/b14.png" style="position:absolute; left:-80px; top:-330px; width:160px">`, 'جوال'],
+  [290, `<div class="abs" style="left:-140px; top:-330px; width:280px; height:320px; background:#f7efe1; border-radius:8px; rotate:-4deg; box-shadow:0 10px 20px #000"></div><img src="vase/b21.png" style="position:absolute; left:-70px; top:-310px; width:140px; rotate:-4deg">`, 'بطاقات']];
+$('uses').innerHTML = OBJ.map(([x, html, l], i) => `<div class="beam" id="ub${i}" style="left:${x}px; width:420px; margin-left:-210px"></div><div class="plinth" style="left:${x}px; top:1300px; width:260px; margin-left:-130px; height:620px"></div>
+  <div class="abs" id="uo${i}" style="left:${x}px; top:1300px">${html}</div><div class="plaque" id="up${i}" style="left:${x}px; top:1380px; width:220px; margin-left:-110px; font-size:38px">${l}</div>`).join('');
+
+const LINES = () => [
+  [T.h1, 'لا...', [0]], [T.h1b, 'تحفة متحف...', [0]], [T.h2, 'طلعت ستيكر!', [1]],
+  [T.c1, 'أزرق هادي،', [0]], [T.c2, 'وردي ناعم،', [0]], [T.c3, 'وأصفر مشمس!', [0]],
+  [T.count, '١٦ ستيكر', [0]], [T.n2, 'كل وحدة تحفة!', [2]],
+  [T.u0, 'للأكواب،', [0]], [T.u1, 'للجوال،', [0]], [T.u2, 'وللبطاقات.', [0]],
+  [T.print, 'ملف PDF', [1]], [T.print2, 'يتطبع... ويصير تحفتك!', [2]],
+  [T.brand, 'ستيكرات المزهريات الفنتج', [1]],
+];
+const ENDS = () => { const L = LINES(); return L.map((l, i) => (i === L.length - 1 ? T.store - 0.15 : i === 5 ? T.count - 0.3 : i === 7 ? T.u0 - 0.3 : i === 12 ? T.brand - 0.3 : L[i + 1][0] - 0.12)); };
+const lctx = $('lasers').getContext('2d');
+const LZ = [[-50, 620, 1130, 1350], [-50, 1500, 1130, 820], [-50, 1000, 1130, 1150], [200, -50, 900, 1970], [880, -50, 180, 1970]];
+
+window.render = (t) => {
+  $('stage').style.opacity = 1 - p(t, T.end_all - 0.5, T.end_all);
+  const sc = t < T.c1 - 0.35 ? 'A' : t < T.count - 0.3 ? 'B' : t < T.u0 - 0.3 ? 'C' : t < T.print - 0.3 ? 'D' : t < T.brand - 0.3 ? 'E' : 'F';
+  ['A', 'B', 'C', 'D', 'E', 'F'].forEach((k) => ($(`s${k}`).style.display = k === sc ? 'block' : 'none'));
+  // A: lasers guard the piece, then switch off when it turns out to be a sticker
+  lctx.clearRect(0, 0, 1080, 1920);
+  const off = p(t, T.h2 - 0.1, T.h2 + 0.3); const lon = sc === 'A' ? (off <= 0 ? 1 : off >= 1 ? 0 : [1, 0, 0.7, 0, 0.4, 0][Math.floor(off * 6)]) : 0;
+  if (lon > 0) LZ.forEach(([x0, y0, x1, y1], i) => { const sh = 0.75 + 0.25 * Math.sin(t * 9 + i * 2);
+    lctx.strokeStyle = `rgba(255,42,61,${0.25 * lon * sh})`; lctx.lineWidth = 14; lctx.beginPath(); lctx.moveTo(x0, y0); lctx.lineTo(x1, y1); lctx.stroke();
+    lctx.strokeStyle = `rgba(255,120,130,${0.95 * lon * sh})`; lctx.lineWidth = 3; lctx.stroke(); });
+  $('flash').style.opacity = sc === 'A' ? 0.6 * Math.sin(Math.PI * p(t, T.h2 - 0.1, T.h2 + 0.5)) : 0;
+  const gk = eio(p(t, T.h2 + 0.1, T.h2 + 0.7)); $('glassA').style.transform = `translateY(${-900 * gk}px)`; $('glassA').style.opacity = 1 - gk;
+  const lk = eo(p(t, T.h2 + 0.4, T.h2 + 1.1)); // the sticker lifts off and peels a corner
+  $('hero').style.transform = `translate(${325 - 40 * lk}px, ${760 - 90 * lk}px) rotate(${-4 * lk}deg) scale(${1 + 0.1 * lk})`;
+  const c = 150 * lk; $('hero').style.clipPath = lk > 0 ? `polygon(0 0, ${100 - c / 4.3}% 0, 100% ${c / 6.6}%, 100% 100%, 0 100%)` : 'none';
+  $('curl').style.opacity = lk > 0 ? 1 : 0; const hx = 325 - 40 * lk + 430 * (1 + 0.1 * lk), hy = 760 - 90 * lk;
+  $('curlP').setAttribute('d', `M${hx - c} ${hy} L${hx} ${hy + c} Q${hx - c * 0.35} ${hy + c * 0.35} ${hx - c} ${hy}Z`);
+  $('backing').style.opacity = 0;
+  $('plA').textContent = t > T.h2 + 0.3 ? 'ستيكر ✦' : 'قطعة رقم ٠٠٦';
+  // B: walk the gallery
+  if (sc === 'B') { const ks = [T.c1, T.c2, T.c3]; let x = 0; ks.forEach((k, i) => { if (i > 0) x += 1080 * eio(p(t, k - 0.35, k + 0.05)); });
+    $('track').style.transform = `translateX(${x + 60 * (1 - eo(p(t, T.c1 - 0.35, T.c1 + 0.2)))}px)`;
+    GAL.forEach((_, i) => { const k = ks[i]; $(`gv${i}`).style.scale = 1 + 0.06 * Math.sin(Math.PI * p(t, k, k + 0.6)); }); }
+  // C: frames light up one by one, then a gold shine
+  ALL.forEach((_, i) => { const a = T.count - 0.1 + i * 0.07; const k = p(t, a, a + 0.12); const fl = k >= 1 ? 1 : [0, 0.8, 0.2, 1][Math.floor(k * 4)];
+    $(`fl${i}`).style.opacity = fl; $(`fr${i}`).style.opacity = 0.25 + 0.75 * fl; });
+  $('cnt').textContent = AR(Math.round(16 * p(t, T.count - 0.1, T.count + 1.0))); $('cnt').style.opacity = 1 - p(t, T.n2 - 0.4, T.n2 - 0.15);
+  const sk = p(t, T.n2 - 0.1, T.n2 + 0.9); $('shine').style.opacity = sk > 0 && sk < 1 ? 1 : 0; $('shine').style.transform = `translateX(${1700 * eio(sk)}px) skewX(-12deg)`;
+  // D: each plinth's spotlight snaps on in turn
+  [T.u0, T.u1, T.u2].forEach((u, i) => { const k = p(t, u - 0.1, u + 0.05); const on = k >= 1 ? 1 : [0, 0.7, 0.1, 1][Math.floor(k * 4)];
+    $(`ub${i}`).style.opacity = on; $(`uo${i}`).style.filter = `brightness(${0.15 + 0.85 * on})`; $(`up${i}`).style.opacity = 0.2 + 0.8 * on;
+    $(`uo${i}`).style.transform = `translateY(${-14 * Math.sin(Math.PI * p(t, u, u + 0.5))}px)`; });
+  // E: glass lifts, a sticker comes off the sheet
+  const ge = eio(p(t, T.print2 - 0.2, T.print2 + 0.4)); $('glassE').style.transform = `translateY(${-1100 * ge}px)`; $('glassE').style.opacity = 1 - ge;
+  $('sheet').style.transform = `scale(${0.94 + 0.06 * eo(p(t, T.print - 0.3, T.print + 0.4))})`;
+  const pk = eo(p(t, T.print2 + 0.3, T.print2 + 1.0)); $('peel').style.opacity = pk > 0 ? 1 : 0;
+  $('peel').style.transform = `translate(${255 + 120 * pk}px, ${600 - 260 * pk}px) rotate(${-10 * pk}deg) scale(${1 + 0.4 * pk})`;
+  // F
+  $('card').style.transform = `scale(${0.92 + 0.08 * eo(p(t, T.brand - 0.3, T.brand + 0.4))})`;
+  $('avail').style.opacity = p(t, T.store - 0.1, T.store + 0.15); $('storeN').style.opacity = p(t, T.store2 - 0.1, T.store2 + 0.05);
+  $('storeN').style.transform = `scale(${0.75 + 0.25 * eb(p(t, T.store2 - 0.1, T.store2 + 0.3))})`;
+  $('wl').style.opacity = 0;
+  // captions: elegant fade-in with tracking settling
+  const L = LINES(), E = ENDS(); let html = '', cur = L[0];
+  L.forEach(([s, text, hl], i) => {
+    if (t < (i === 0 ? -1 : s - 0.1) || t >= E[i]) return; cur = L[i];
+    const ws = text.split(' '); const per = Math.min(0.2, 0.7 / ws.length);
+    html = ws.map((w, j) => { const st = i === 0 ? -1 : s - 0.1 + j * per; const k = eo(p(t, st, st + 0.35)); if (k <= 0) return '';
+      return `<span class="w${hl.includes(j) ? ' hl' : ''}" style="opacity:${k}; filter:blur(${(1 - k) * 8}px); transform:translateY(${(1 - k) * 24}px)">${w}</span>`; }).join(' ');
+  });
+  $('capbox').innerHTML = html; $('capbox').style.fontSize = Math.min(cur === L[0] ? 230 : 140, 2000 / cur[1].length) + 'px';
+};
+render(1.6);
+const cb = $('capbox'); cb.style.top = '110px'; cb.style.fontSize = '120px';
+cb.innerHTML = '<span class="w">لا...</span> <span class="w">تحفة</span> <span class="w">متحف؟</span><br><span class="w">طلعت</span> <span class="w hl">ستيكر!</span>';
+document.querySelector('#sA').style.transform = 'translateY(-40px)';
+$('stage').insertAdjacentHTML('beforeend', `<div style="position:absolute; left:30px; top:1400px; width:1020px; height:490px; background:#0a0908; border:3px solid rgba(217,180,106,.6); border-radius:36px; z-index:70; box-shadow:0 -10px 40px #000">
+  <img src="dur_card.png" style="position:absolute; left:24px; top:22px; width:356px; height:445px; border-radius:24px">
+  <div style="position:absolute; left:390px; top:10px; width:610px; text-align:center; font-weight:700; font-size:150px; color:var(--gold); line-height:1.2">١٦</div>
+  <div style="position:absolute; left:390px; top:190px; width:610px; text-align:center; font-family:Cairo; font-weight:800; font-size:54px; white-space:nowrap">ستيكر مزهريات فنتج</div>
+  <div style="position:absolute; left:390px; top:280px; width:610px; text-align:center; font-family:Cairo; font-weight:600; font-size:42px; color:#c9b994; white-space:nowrap">للأكواب والجوال والبطاقات</div>
+  <div style="position:absolute; left:390px; top:365px; width:610px; text-align:center; font-family:Cairo; font-weight:800; font-size:54px; white-space:nowrap">متوفرة في متجر <span style="color:var(--gold)">دُر</span></div>
+</div>`);
+</script>
+</body></html>
