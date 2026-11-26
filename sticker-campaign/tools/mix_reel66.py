@@ -1,0 +1,53 @@
+"""Reel 66 soundtrack with voiceover: glassy taps, pops and soft whooshes only in the gaps;
+chime, piano arpeggio and ambient pad after the last line.
+
+usage: python3 mix_reel66.py <voice_44k_mono.wav> <out.wav> <timeline.js>
+"""
+import json
+import sys
+import wave
+
+import numpy as np
+
+from mix_reel3 import SR, chime, mix, norm, pop, read_wav, whoosh
+from sfx_reel22 import pad, piano
+from sfx_reel66 import tap
+
+V = [(0.0, 2.16), (2.59, 4.10), (4.66, 5.28), (5.81, 6.40), (6.77, 7.37), (7.81, 9.21), (9.25, 10.22), (10.41, 11.47),
+     (11.63, 12.54), (12.62, 13.73), (13.85, 15.43), (15.53, 16.86), (17.13, 18.86), (19.09, 19.63), (19.80, 20.46)]
+NAMES = ["h1", "h2", "c1", "c2", "c3", "count", "n2", "u0", "u1", "u2", "print", "print2", "brand", "store", "store2"]
+SEG = dict(zip(NAMES, V))
+T = lambda f: tap(f, 0.3)
+FX = {
+    "h2": 0.4 * whoosh(0.3), "c1": T(880), "c2": T(1046), "c3": T(1318),
+    "count": mix((0, 0.3 * whoosh(0.3)), *[(0.15 + j * 0.03, 0.25 * pop()) for j in range(6)]),
+    "u0": T(1174), "u1": T(1318), "u2": T(1568), "print": mix((0, 0.3 * whoosh(0.3)), (0.2, T(1568))), "brand": 0.4 * whoosh(0.35),
+}
+PLAN = []
+for n in NAMES:
+    if n in FX:
+        PLAN.append(("fx", FX[n], {}))
+    PLAN.append(("vo", n, {n: 0}))
+PLAN.append(("fx", mix((0, 0.5 * chime(1.4)), (0.05, 0.6 * mix(*[(j * 0.12, piano(f)) for j, f in enumerate((523, 659, 784, 1046))])), (0.1, 0.35 * pad((130.8, 196, 261.6, 329.6), 3.0))), {}))
+
+
+def main(voice_path, out_path, tl_path):
+    voice = read_wav(voice_path); GAP = 0.05
+    out = [np.zeros(int(0.05 * SR))]; t = 0.05; tl = {}
+    for kind, item, keys in PLAN:
+        x = voice[int(SEG[item][0] * SR):int(SEG[item][1] * SR)] if kind == "vo" else norm(item, -12)
+        for k, off in keys.items():
+            tl[k] = round(t + off, 3)
+        out += [x, np.zeros(int(GAP * SR))]; t += len(x) / SR + GAP
+    tl["end_all"] = round(t + 0.2, 3)
+    y = np.clip(np.concatenate(out + [np.zeros(int(0.3 * SR))]), -1, 1)
+    with wave.open(out_path, "wb") as w:
+        w.setnchannels(1); w.setsampwidth(2); w.setframerate(SR)
+        w.writeframes((y * 32767).astype(np.int16).tobytes())
+    with open(tl_path, "w") as f:
+        f.write("window.TL = " + json.dumps(tl) + ";\n")
+    print(json.dumps(tl))
+
+
+if __name__ == "__main__":
+    main(*sys.argv[1:4])
