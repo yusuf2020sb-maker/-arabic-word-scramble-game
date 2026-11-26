@@ -11,7 +11,7 @@ import numpy as np
 from mix_reel3 import SR, chime, lowpass, mix, norm, pop, rng, whoosh
 from sfx_reel22 import pad, piano
 
-D = {"h1": 0.3, "h2": 2.2, "c1": 4.2, "c2": 5.0, "c3": 5.8, "count": 7.0, "n2": 8.6, "u0": 10.0, "u1": 11.0, "u2": 12.0,
+D = {"h1": 0.3, "h1b": 1.3, "h2": 2.6, "c1": 4.2, "c2": 5.0, "c3": 5.8, "count": 7.0, "n2": 8.6, "u0": 10.0, "u1": 11.0, "u2": 12.0,
      "print": 13.8, "print2": 15.0, "brand": 17.2, "store": 18.8, "store2": 19.6, "end_all": 22.8}
 
 
@@ -41,7 +41,8 @@ def ambient(d):
 def main(out_path):
     T = D; dur = T["end_all"]
     parts = [(0, 0.35 * ambient(dur)), (0.05, 0.4 * tap(990))]
-    parts += [(T["h1"] + 0.1, 0.5 * wilt()), (T["h1"] + 0.85, 0.3 * tap(2093, 0.3)), (T["h1"] + 1.15, 0.3 * tap(1760, 0.3)), (T["h2"] - 0.3, 0.5 * tap(1568))]
+    parts += [(T["h1"] + i * 0.33, 0.3 * tap(1760, 0.25)) for i in range(3)]
+    parts += [(T["h1b"] - 0.15, 0.5 * wilt()), (T["h1b"] + 0.4, 0.3 * tap(2093, 0.3)), (T["h1b"] + 0.6, 0.3 * tap(1760, 0.3)), (T["h2"] - 0.3, 0.5 * tap(1568))]
     for i, k in enumerate((T["c1"], T["c2"], T["c3"])):
         parts += [(k - 0.1, 0.5 * tap([880, 1046, 1318][i]))]
     parts += [(T["count"] + 0.1 + i * 0.09, 0.18 * pop()) for i in range(12)]
